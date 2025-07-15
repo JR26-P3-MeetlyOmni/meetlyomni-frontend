@@ -31,24 +31,5 @@ export default function RootLayout({
     </html>
   );
 }
-// The following RootLayout enables the Redux Provider globally. 
-// It is commented out for now. 
-// When you actually need Redux in your app, simply replace the RootLayout above with this version.
 
-/*
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>
-        <ReduxProvider>
-          {children}
-        </ReduxProvider>
-      </body>
-    </html>
-  );
-}
-*/
+
