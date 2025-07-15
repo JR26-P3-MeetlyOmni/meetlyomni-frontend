@@ -16,7 +16,6 @@ This project is a web application initialized with a modern frontend stack.
 | Husky              | For managing Git hooks easily.                                   |
 | Node.js v20 LTS    | The required runtime environment.                                |
 
-
 ## Getting Started
 
 First, install the dependencies:
