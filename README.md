@@ -30,6 +30,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+
 ## Available Scripts
 
 The following npm scripts are available for this project:
@@ -44,4 +45,3 @@ The following npm scripts are available for this project:
 | Storybook             | npm run storybook              | Starts Storybook for UI component development at port 6006.       |
 | Build Storybook       | npm run build-storybook         | Builds the Storybook static site.                                 |
 | Prepare Husky         | npm run prepare                | Installs Husky git hooks (run automatically after npm install).   |
-
