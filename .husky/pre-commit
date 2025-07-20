@@ -1,4 +1,4 @@
 
 npm run precommit
 npm run type-check
-npm run test:coverage
+npm run test
