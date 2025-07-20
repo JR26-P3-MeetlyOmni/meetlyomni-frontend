@@ -5,25 +5,15 @@
     "allowJs": true,
     "skipLibCheck": true,
 
-    // ===== 来自『基础编码原则与最佳实践』+ 『Typescript Best Practice』=====
-    // 开启所有严格模式
+
     "strict": true,
     "noUncheckedIndexedAccess": true,
-
-    // ===== 来自『P3 Code Review 指南』=====
-    // 禁止遗漏 any 类型（strict模式已包含noImplicitAny，这里显式声明）
     "noImplicitAny": true,
-
-    // ===== 来自『Typescript Best Practice』=====
-    // 精确区分"可能为 null/undefined"与"一定有值"
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
-    // ===== 其他严格类型检查规则 =====
     "noImplicitOverride": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
-
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -42,15 +32,13 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src"],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "build",
-    "src/stories/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.test.tsx",
-    "**/*.spec.tsx"
-  ]
+      "exclude": [
+      "node_modules",
+      ".next",
+      "dist",
+      "build",
+      "src/stories/**/*",             
+      "**/*.test.ts", "**/*.spec.ts", 
+      "**/*.test.tsx", "**/*.spec.tsx"
+    ]
 }

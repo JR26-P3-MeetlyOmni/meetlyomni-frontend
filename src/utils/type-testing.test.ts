@@ -1,7 +1,7 @@
-// 来自『P3 Code Review 指南』：必须使用类型测试 (@ts-expect-error)
-// 来自『Typescript Best Practice』：测试边界情况，期望类型错误
+// From 'P3 Code Review Guidelines': Must use type testing (@ts-expect-error)
+// From 'TypeScript Best Practice': Test boundary cases, expect type errors
 
-// 示例函数：只接受字符串参数
+// Example function: only accepts string parameters
 export const processString = (input: string): string => {
   return input.toUpperCase();
 };
