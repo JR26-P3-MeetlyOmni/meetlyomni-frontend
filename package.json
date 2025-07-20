@@ -62,7 +62,8 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "echo 'Files passed to command:' && echo"
     ],
     "*.{json,css,md}": [
       "prettier --write"
