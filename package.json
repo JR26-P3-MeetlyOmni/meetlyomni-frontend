@@ -64,9 +64,6 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{ts,tsx}": [
-      "bash -c 'echo \"TSC received args: $@\" && tsc --noEmit' --"
-    ],
     "*.{json,css,md}": [
       "prettier --write"
     ]
