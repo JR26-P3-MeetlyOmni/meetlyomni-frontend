@@ -62,8 +62,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix",
-      "echo 'Files passed to command:' && echo"
+      "eslint --fix"
+    ],
+    "*.{ts,tsx}": [
+      "bash -c 'echo \"TSC received args: $@\" && tsc --noEmit' --"
     ],
     "*.{json,css,md}": [
       "prettier --write"
