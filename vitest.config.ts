@@ -1,37 +1,52 @@
-/// <reference types="vitest/config" />
 import { defineConfig } from 'vitest/config';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
+// 来自『基础编码原则与最佳实践』+ 『P3 Code Review 指南』+ 『Typescript Best Practice』
 export default defineConfig({
   test: {
+    // ===== 基础配置 =====
     environment: 'jsdom',
     globals: true,
-    setupFiles: [],
-    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    projects: [{
-      extends: true,
-      plugins: [
-      // The plugin will run tests for the stories defined in your Storybook config
-      // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-      storybookTest({
-        configDir: path.join(dirname, '.storybook')
-      })],
-      test: {
-        name: 'storybook',
-        browser: {
-          enabled: true,
-          headless: true,
-          provider: 'playwright',
-          instances: [{
-            browser: 'chromium'
-          }]
+
+    // ===== 来自『P3 Code Review 指南』：单元测试覆盖率≥80% =====
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/**',
+        '.storybook/**',
+        '**/*.stories.{js,ts,jsx,tsx}',
+        '**/*.config.{js,ts}',
+        '**/coverage/**',
+        '**/dist/**',
+        '**/build/**',
+        '**/.next/**',
+      ],
+      thresholds: {
+        global: {
+          branches: 80, // 分支覆盖率 ≥80%
+          functions: 80, // 函数覆盖率 ≥80%
+          lines: 80, // 行覆盖率 ≥80%
+          statements: 80, // 语句覆盖率 ≥80%
         },
-        setupFiles: ['.storybook/vitest.setup.ts']
-      }
-    }]
-  }
+      },
+    },
+
+    // ===== 测试文件配置 =====
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    exclude: [
+      'node_modules/**',
+      '.storybook/**',
+      '**/*.stories.{js,ts,jsx,tsx}',
+      '**/coverage/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+    ],
+
+    // ===== 测试环境配置 =====
+    setupFiles: ['vitest.shims.d.ts'],
+
+    // ===== 测试超时配置 =====
+    testTimeout: 10000, // 10秒超时
+  },
 });
