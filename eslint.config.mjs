@@ -21,6 +21,7 @@ const eslintConfig = [
       "coverage/**/*",
       "dist/**/*",
       "build/**/*"
+      
     ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
