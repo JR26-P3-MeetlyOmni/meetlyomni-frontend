@@ -1,67 +1,101 @@
 'use client';
 
-import { Box, Container, Typography, Link } from '@mui/material';
+import Image from 'next/image';
+import type { ReactNode } from 'react';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import Image from 'next/image';
+import { Box, Container, Link, Typography } from '@mui/material';
 
 const LegalLinks = () => (
   <Box sx={{ display: 'flex', alignItems: 'center', mb: '20px' }}>
-    <Link href="#" color="inherit" sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+    <Link
+      href="#"
+      color="inherit"
+      sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+    >
       Privacy Policy
     </Link>
-    <Typography component="span" sx={{ mx: '12px', color: 'rgba(136, 142, 152, 1)', fontSize: '14px' }}>
+    <Typography
+      component="span"
+      sx={{ mx: '12px', color: 'rgba(136, 142, 152, 1)', fontSize: '14px' }}
+    >
       ｜
     </Typography>
-    <Link href="#" color="inherit" sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+    <Link
+      href="#"
+      color="inherit"
+      sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+    >
       Terms for Usage
     </Link>
   </Box>
 );
 
+type SocialIconProps = {
+  href: string;
+  label: string;
+  backgroundColor: string;
+  children: ReactNode;
+};
+
+const SocialIcon = ({ href, label, backgroundColor, children }: SocialIconProps) => (
+  <Link href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+    <Box
+      sx={{
+        width: 24,
+        height: 24,
+        borderRadius: '50%',
+        backgroundColor: backgroundColor,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '&:hover': { opacity: 0.8 },
+      }}
+    >
+      {children}
+    </Box>
+  </Link>
+);
+
+const socialLinks = [
+  {
+    href: 'https://www.linkedin.com',
+    label: 'LinkedIn',
+    backgroundColor: '#0077B5',
+    icon: <LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />,
+  },
+  {
+    href: 'https://www.twitter.com',
+    label: 'Twitter',
+    backgroundColor: '#1DA1F2',
+    icon: <TwitterIcon sx={{ color: 'white', width: 16, height: 16 }} />,
+  },
+];
+
 const SocialIcons = () => (
   <Box sx={{ display: 'flex', gap: '12px' }}>
-    <Link href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-      <Box
-        sx={{
-          width: 24,
-          height: 24,
-          borderRadius: '50%',
-          backgroundColor: '#0077B5',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          '&:hover': {
-            opacity: 0.8,
-          },
-        }}
+    {socialLinks.map(link => (
+      <SocialIcon
+        key={link.label}
+        href={link.href}
+        label={link.label}
+        backgroundColor={link.backgroundColor}
       >
-        <LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />
-      </Box>
-    </Link>
-    <Link href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-      <Box
-        sx={{
-          width: 24,
-          height: 24,
-          borderRadius: '50%',
-          backgroundColor: '#1DA1F2',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          '&:hover': {
-            opacity: 0.8,
-          },
-        }}
-      >
-        <TwitterIcon sx={{ color: 'white', width: 16, height: 16 }} />
-      </Box>
-    </Link>
+        {link.icon}
+      </SocialIcon>
+    ))}
   </Box>
 );
 
 const FooterLeft = () => (
-  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' } }}>
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: { xs: 'center', md: 'flex-start' },
+    }}
+  >
     <Box sx={{ mb: '55px' }}>
       <Image src="/images/footer/footer_logo.png" alt="Omni Logo" width={126} height={36} />
     </Box>
@@ -80,7 +114,14 @@ const QrCode = ({ label }: { label: string }) => (
 );
 
 const FooterRight = () => (
-  <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-end' }, gap: '44px', flexWrap: 'wrap' }}>
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: { xs: 'center', md: 'flex-end' },
+      gap: '44px',
+      flexWrap: 'wrap',
+    }}
+  >
     <QrCode label="Wechat" />
     <QrCode label="Contact Us" />
   </Box>
