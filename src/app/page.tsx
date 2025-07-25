@@ -1,11 +1,11 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { ScenariosSection } from '@/components/LandingPage/applicable-scenarios';
+import { SAMPLE_SCENARIOS } from '@/components/LandingPage/applicable-scenarios/data';
 
-export default function Placeholder() {
+export default function HomePage() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '100px' }}>
-      <h1>Coming Soon</h1>
-      <p>This page is under construction.</p>
-    </div>
+    <main>
+      {/* Scenarios Section */}
+      <ScenariosSection scenarios={SAMPLE_SCENARIOS} />
+    </main>
   );
 }
