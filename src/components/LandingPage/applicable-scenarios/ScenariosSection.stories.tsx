@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import '@storybook/testing-library';
 
 import type { ScenariosSectionProps } from './interface';
 import ScenariosSection from './ScenariosSection';
