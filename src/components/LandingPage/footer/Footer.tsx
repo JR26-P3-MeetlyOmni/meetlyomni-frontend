@@ -63,13 +63,13 @@ const socialLinks = [
     href: 'https://www.linkedin.com',
     label: 'LinkedIn',
     backgroundColor: '#0077B5',
-    icon: <LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />,
+    icon: () =><LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />,
   },
   {
     href: 'https://www.twitter.com',
     label: 'Twitter',
     backgroundColor: '#1DA1F2',
-    icon: <TwitterIcon sx={{ color: 'white', width: 16, height: 16 }} />,
+    icon: () => <TwitterIcon sx={{ color: 'white', width: 16, height: 16 }} />,
   },
 ];
 
@@ -82,7 +82,7 @@ const SocialIcons = () => (
         label={link.label}
         backgroundColor={link.backgroundColor}
       >
-        {link.icon}
+        {link.icon()}
       </SocialIcon>
     ))}
   </Box>
