@@ -63,7 +63,7 @@ const socialLinks = [
     href: 'https://www.linkedin.com',
     label: 'LinkedIn',
     backgroundColor: '#0077B5',
-    icon: () =><LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />,
+    icon: () => <LinkedInIcon sx={{ color: 'white', width: 16, height: 16 }} />,
   },
   {
     href: 'https://www.twitter.com',
