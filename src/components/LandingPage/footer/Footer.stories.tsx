@@ -1,5 +1,8 @@
+import type { ReactNode } from 'react';
+
+import { Box, createTheme, ThemeProvider } from '@mui/material';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Box, ThemeProvider, createTheme } from '@mui/material';
 
 import Footer from './Footer';
 
@@ -24,161 +27,113 @@ const meta: Meta<typeof Footer> = {
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    // Footer doesn't accept props, but we can document its features
-  },
+  argTypes: {},
 } satisfies Meta<typeof Footer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The complete Footer component with all elements: logo, legal links, social icons, QR codes, and copyright.',
+        story:
+          'The complete Footer component with all elements: logo, legal links, social icons, QR codes, and copyright.',
       },
     },
   },
 };
 
+const ScreenSizeLabel = ({ children }: { children: ReactNode }) => (
+  <Box
+    sx={{
+      fontSize: '18px',
+      fontWeight: 'bold',
+      mb: 2,
+      color: '#333',
+      textAlign: 'center',
+    }}
+  >
+    {children}
+  </Box>
+);
+
+const ScreenContainer = ({
+  width,
+  children,
+  forceMobileLayout = false,
+}: {
+  width: string;
+  children: ReactNode;
+  forceMobileLayout?: boolean;
+}) => (
+  <Box
+    sx={{
+      width,
+      border: '2px solid #ddd',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      margin: '0 auto',
+      ...(forceMobileLayout && {
+        '& footer': {
+          '& > div': {
+            '& > div:first-of-type': {
+              flexDirection: 'column !important',
+              alignItems: 'center !important',
+              gap: '32px !important',
+            },
+          },
+        },
+      }),
+    }}
+  >
+    {children}
+  </Box>
+);
+
+const desktopTheme = createTheme({
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 768, lg: 1200, xl: 1536 },
+  },
+});
+
+const mobileTheme = createTheme({
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 },
+  },
+});
 
 export const AllScreenSizes: Story = {
-  render: () => {
-    // Create custom themes that simulate different breakpoints
-    const desktopTheme = createTheme({
-      breakpoints: {
-        values: {
-          xs: 0,
-          sm: 600,
-          md: 768,
-          lg: 1200,
-          xl: 1536,
-        },
-      },
-    });
-
-    const tabletTheme = createTheme({
-      breakpoints: {
-        values: {
-          xs: 0,
-          sm: 600,
-          md: 900, // Force tablet to use mobile layout
-          lg: 1200,
-          xl: 1536,
-        },
-      },
-    });
-
-    const mobileTheme = createTheme({
-      breakpoints: {
-        values: {
-          xs: 0,
-          sm: 600,
-          md: 900, // Force mobile to use mobile layout
-          lg: 1200,
-          xl: 1536,
-        },
-      },
-    });
-
-    return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, p: 2 }}>
-        {/* Desktop View */}
-        <Box>
-          <Box sx={{ 
-            fontSize: '18px', 
-            fontWeight: 'bold', 
-            mb: 2, 
-            color: '#333',
-            textAlign: 'center' 
-          }}>
-            Desktop (1440px)
-          </Box>
-          <ThemeProvider theme={desktopTheme}>
-            <Box sx={{ 
-              width: '1440px', 
-              border: '2px solid #ddd',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              margin: '0 auto'
-            }}>
-              <Footer />
-            </Box>
-          </ThemeProvider>
-        </Box>
-
-        {/* Tablet View */}
-        <Box>
-          <Box sx={{ 
-            fontSize: '18px', 
-            fontWeight: 'bold', 
-            mb: 2, 
-            color: '#333',
-            textAlign: 'center' 
-          }}>
-            Tablet (768px)
-          </Box>
-          <ThemeProvider theme={tabletTheme}>
-            <Box sx={{ 
-              width: '768px', 
-              border: '2px solid #ddd',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              margin: '0 auto',
-              // Simulate tablet viewport
-              '& footer': {
-                '& > div': { // Container
-                  '& > div:first-of-type': { // Main content wrapper
-                    flexDirection: 'column !important',
-                    alignItems: 'center !important',
-                    gap: '32px !important',
-                  }
-                }
-              }
-            }}>
-              <Footer />
-            </Box>
-          </ThemeProvider>
-        </Box>
-
-        {/* Mobile View */}
-        <Box>
-          <Box sx={{ 
-            fontSize: '18px', 
-            fontWeight: 'bold', 
-            mb: 2, 
-            color: '#333',
-            textAlign: 'center' 
-          }}>
-            Mobile (375px)
-          </Box>
-          <ThemeProvider theme={mobileTheme}>
-            <Box sx={{ 
-              width: '375px', 
-              border: '2px solid #ddd',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              margin: '0 auto',
-              // Simulate mobile viewport
-              '& footer': {
-                '& > div': { // Container
-                  '& > div:first-of-type': { // Main content wrapper
-                    flexDirection: 'column !important',
-                    alignItems: 'center !important',
-                    gap: '32px !important',
-                  }
-                }
-              }
-            }}>
-              <Footer />
-            </Box>
-          </ThemeProvider>
-        </Box>
+  render: () => (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, p: 2 }}>
+      <Box>
+        <ScreenSizeLabel>Desktop (1440px)</ScreenSizeLabel>
+        <ThemeProvider theme={desktopTheme}>
+          <ScreenContainer width="1440px">
+            <Footer />
+          </ScreenContainer>
+        </ThemeProvider>
       </Box>
-    );
-  },
+
+      <Box>
+        <ScreenSizeLabel>Tablet (768px)</ScreenSizeLabel>
+        <ThemeProvider theme={mobileTheme}>
+          <ScreenContainer width="768px" forceMobileLayout>
+            <Footer />
+          </ScreenContainer>
+        </ThemeProvider>
+      </Box>
+
+      <Box>
+        <ScreenSizeLabel>Mobile (375px)</ScreenSizeLabel>
+        <ThemeProvider theme={mobileTheme}>
+          <ScreenContainer width="375px" forceMobileLayout>
+            <Footer />
+          </ScreenContainer>
+        </ThemeProvider>
+      </Box>
+    </Box>
+  ),
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -198,5 +153,3 @@ export const AllScreenSizes: Story = {
     },
   },
 };
-
- 
