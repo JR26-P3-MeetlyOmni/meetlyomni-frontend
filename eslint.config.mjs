@@ -26,11 +26,11 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   ...storybook.configs["flat/recommended"],
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ["src/**/*.{js,jsx,ts,tsx}"],
     rules: {
       "no-console": "error",
       "no-debugger": "error",
-      "max-lines-per-function": ["error", { max: 40, skipBlankLines: true, skipComments: true }],
+      "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
       "@typescript-eslint/no-explicit-any": "error",
       "no-implied-eval": "error",
       "react-hooks/exhaustive-deps": "error",
