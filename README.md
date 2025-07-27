@@ -40,8 +40,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 | **ESLint**     | 禁止any类型               | ✅ 已配置                    | `eslint.config.mjs`            | `@typescript-eslint/no-explicit-any: error`                     | P3指南, Typescript最佳实践       |
 | **ESLint**     | React.memo/useCallback    | ✅ 已配置                    | `eslint.config.mjs`            | `react/jsx-no-bind: error`, `react/jsx-no-leaked-render: error` | P3指南                           |
 | **ESLint**     | 禁止document.write        | ✅ 已配置                    | `eslint.config.mjs`            | `no-restricted-globals: error` (禁止 document)                  | Frontend Checklist               |
-| **ESLint**     | 减少选择器复杂度          | ❌ 未配置                    | -                              | 需要添加 CSS 相关规则                                           | 渲染性能优化                     |
-| **ESLint**     | 禁止强制布局计算          | ❌ 未配置                    | -                              | 需要添加性能相关规则                                            | 渲染性能优化                     |
 | **Prettier**   | 不接受纯格式化PR          | ✅ 已配置                    | `.prettierrc` + `package.json` | Prettier 自动格式化 + lint-staged                               | 基础编码原则, P3指南             |
 | **Prettier**   | import顺序                | ✅ 已配置                    | `.prettierrc`                  | `importOrder` 配置完整                                          | Typescript最佳实践               |
 | **TypeScript** | 严格模式开启              | ✅ 已配置                    | `tsconfig.json`                | `strict: true`                                                  | 基础编码原则, Typescript最佳实践 |
@@ -49,8 +47,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 | **TypeScript** | 接口命名一致              | ✅ 已配置                    | `eslint.config.mjs`            | `@typescript-eslint/naming-convention`                          | Typescript最佳实践               |
 | **TypeScript** | 避免枚举enum              | ✅ 已配置                    | `eslint.config.mjs`            | `@typescript-eslint/no-enum: error`                             | Typescript最佳实践               |
 | **单元测试**   | 覆盖率≥80%                | ✅ 已配置                    | `vitest.config.mjs`            | `thresholds: 80%`                                               | P3指南                           |
-| **单元测试**   | 使用纯函数设计            | ❌ 未配置                    | -                              | 需要添加函数式编程规则                                          | 基础编码原则                     |
-| **单元测试**   | 类型边界测试              | ❌ 未配置                    | -                              | 需要添加测试相关规则                                            | P3指南, Typescript最佳实践       |
 
 ## Getting Started
 
