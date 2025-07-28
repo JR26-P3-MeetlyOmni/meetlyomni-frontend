@@ -1,18 +1,21 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 export default async function LoginPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const t = await getTranslations('login');
+  const tCommon = await getTranslations('common');
   
   return (
     <div style={{ textAlign: 'center', marginTop: '100px' }}>
-      <h1>Login</h1>
-      <p>Welcome back to Meetly Omni</p>
+      <h1>{t('title')}</h1>
+      <p>{t('subtitle')}</p>
       
       <div style={{ marginTop: '30px' }}>
         <form style={{ display: 'inline-block', textAlign: 'left' }}>
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>
-              Email:
+              {tCommon('email')}:
             </label>
             <input 
               type="email" 
@@ -28,7 +31,7 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
           
           <div style={{ marginBottom: '20px' }}>
             <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>
-              Password:
+              {tCommon('password')}:
             </label>
             <input 
               type="password" 
@@ -54,17 +57,17 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
               cursor: 'pointer' 
             }}
           >
-            Login
+            {t('loginButton')}
           </button>
         </form>
       </div>
       
       <div style={{ marginTop: '20px' }}>
         <Link href={`/${locale}/signup`} style={{ marginRight: '20px' }}>
-          Don't have an account? Sign up
+          {t('noAccount')}
         </Link>
         <Link href={`/${locale}/`}>
-          Back to Home
+          {tCommon('backToHome')}
         </Link>
       </div>
     </div>

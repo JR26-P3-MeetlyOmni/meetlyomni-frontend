@@ -1,18 +1,21 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 export default async function ContactUsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const t = await getTranslations('contactUs');
+  const tCommon = await getTranslations('common');
   
   return (
     <div style={{ textAlign: 'center', marginTop: '100px' }}>
-      <h1>Contact Us</h1>
-      <p>Get in touch with our team</p>
-      <p>Email: contact@meetlyomni.com</p>
-      <p>Phone: +1 (555) 123-4567</p>
+      <h1>{t('title')}</h1>
+      <p>{t('subtitle')}</p>
+      <p>{t('email')}</p>
+      <p>{t('phone')}</p>
       
       <div style={{ marginTop: '30px' }}>
         <Link href={`/${locale}/`}>
-          Back to Home
+          {tCommon('backToHome')}
         </Link>
       </div>
     </div>

@@ -2,35 +2,40 @@
 
 import Image from 'next/image';
 import type { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Box, Container, Link, Typography } from '@mui/material';
 
-const LegalLinks = () => (
-  <Box sx={{ display: 'flex', alignItems: 'center', mb: '20px' }}>
-    <Link
-      href="#"
-      color="inherit"
-      sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-    >
-      Privacy Policy
-    </Link>
-    <Typography
-      component="span"
-      sx={{ mx: '12px', color: 'rgba(136, 142, 152, 1)', fontSize: '14px' }}
-    >
-      ｜
-    </Typography>
-    <Link
-      href="#"
-      color="inherit"
-      sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-    >
-      Terms for Usage
-    </Link>
-  </Box>
-);
+const LegalLinks = () => {
+  const t = useTranslations('common');
+  
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: '20px' }}>
+      <Link
+        href="#"
+        color="inherit"
+        sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+      >
+        {t('privacyPolicy')}
+      </Link>
+      <Typography
+        component="span"
+        sx={{ mx: '12px', color: 'rgba(136, 142, 152, 1)', fontSize: '14px' }}
+      >
+        ｜
+      </Typography>
+      <Link
+        href="#"
+        color="inherit"
+        sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+      >
+        {t('termsForUsage')}
+      </Link>
+    </Box>
+  );
+};
 
 type SocialIconProps = {
   href: string;
@@ -113,27 +118,35 @@ const QrCode = ({ label }: { label: string }) => (
   </Box>
 );
 
-const FooterRight = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: { xs: 'center', md: 'flex-end' },
-      gap: '44px',
-      flexWrap: 'wrap',
-    }}
-  >
-    <QrCode label="Wechat" />
-    <QrCode label="Contact Us" />
-  </Box>
-);
+const FooterRight = () => {
+  const t = useTranslations('common');
+  
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: { xs: 'center', md: 'flex-end' },
+        gap: '44px',
+        flexWrap: 'wrap',
+      }}
+    >
+      <QrCode label={t('wechat')} />
+      <QrCode label={t('contactUs')} />
+    </Box>
+  );
+};
 
-const FooterBottom = () => (
-  <Box sx={{ pt: '30px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-    <Typography sx={{ textAlign: 'center', fontSize: '12px', color: 'rgba(136, 142, 152, 1)' }}>
-      © 2025 Meetly Omni. All rights reserved.
-    </Typography>
-  </Box>
-);
+const FooterBottom = () => {
+  const t = useTranslations('common');
+  
+  return (
+    <Box sx={{ pt: '30px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+      <Typography sx={{ textAlign: 'center', fontSize: '12px', color: 'rgba(136, 142, 152, 1)' }}>
+        {t('copyright')}
+      </Typography>
+    </Box>
+  );
+};
 
 const Footer = () => {
   return (
