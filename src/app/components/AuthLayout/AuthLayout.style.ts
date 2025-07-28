@@ -1,5 +1,9 @@
 // src/app/components/AuthLayout/AuthLayout.style.ts
+'use client';
+
 import styled from '@emotion/styled';
+
+// src/app/components/AuthLayout/AuthLayout.style.ts
 
 export const Container = styled.div`
   display: flex;
