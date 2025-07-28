@@ -6,7 +6,6 @@
     "privacyPolicy": "隐私政策",
     "termsForUsage": "使用条款",
     "wechat": "微信",
-    "contactUs": "联系我们",
     "copyright": "© 2025 Meetly Omni. 保留所有权利。",
     "backToHome": "返回首页",
     "email": "邮箱",
@@ -18,23 +17,5 @@
     "title": "Meetly Omni 落地页",
     "underConstruction": "页面正在建设中。",
     "currentLocale": "当前语言: {locale}"
-  },
-  "contactUs": {
-    "title": "联系我们",
-    "subtitle": "与我们的团队取得联系",
-    "email": "邮箱: contact@meetlyomni.com",
-    "phone": "电话: +1 (555) 123-4567"
-  },
-  "login": {
-    "title": "登录",
-    "subtitle": "欢迎回到 Meetly Omni",
-    "loginButton": "登录",
-    "noAccount": "没有账户？注册"
-  },
-  "signup": {
-    "title": "注册",
-    "subtitle": "创建您的 Meetly Omni 账户",
-    "createAccountButton": "创建账户",
-    "hasAccount": "已有账户？登录"
   }
 }

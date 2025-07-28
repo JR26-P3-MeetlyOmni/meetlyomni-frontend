@@ -6,7 +6,6 @@
     "privacyPolicy": "Privacy Policy",
     "termsForUsage": "Terms for Usage",
     "wechat": "Wechat",
-    "contactUs": "Contact Us",
     "copyright": "© 2025 Meetly Omni. All rights reserved.",
     "backToHome": "Back to Home",
     "email": "Email",
@@ -18,23 +17,5 @@
     "title": "Meetly Omni Landing Page",
     "underConstruction": "The page is under construction.",
     "currentLocale": "Current locale: {locale}"
-  },
-  "contactUs": {
-    "title": "Contact Us",
-    "subtitle": "Get in touch with our team",
-    "email": "Email: contact@meetlyomni.com",
-    "phone": "Phone: +1 (555) 123-4567"
-  },
-  "login": {
-    "title": "Login",
-    "subtitle": "Welcome back to Meetly Omni",
-    "loginButton": "Login",
-    "noAccount": "Don't have an account? Sign up"
-  },
-  "signup": {
-    "title": "Sign Up",
-    "subtitle": "Create your Meetly Omni account",
-    "createAccountButton": "Create Account",
-    "hasAccount": "Already have an account? Login"
   }
 }
