@@ -75,4 +75,4 @@ describe('Footer Component', () => {
       expect(screen.getByText('Contact Us')).toBeInTheDocument();
     });
   });
-});
+}); 

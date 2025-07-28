@@ -11,7 +11,6 @@ const meta: Meta<typeof Footer> = {
   component: Footer,
   parameters: {
     layout: 'fullscreen',
-    // Add documentation
     docs: {
       description: {
         component: `
@@ -152,4 +151,4 @@ export const AllScreenSizes: Story = {
       },
     },
   },
-};
+}; 

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import { ReduxProvider } from '@/store/provider';
-import Footer from '@/components/LandingPage/footer/Footer';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -26,7 +25,6 @@ export default function RootLayout({
       <body className={roboto.variable}>
         <ReduxProvider>
           {children}
-          <Footer />
         </ReduxProvider>
       </body>
     </html>
