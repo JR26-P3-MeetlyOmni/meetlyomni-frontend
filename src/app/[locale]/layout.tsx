@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 export default async function LocaleLayout({ 
   children, 
@@ -8,10 +10,13 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const messages = await getMessages();
   
   return (
-    <div lang={locale}>
-      {children}
-    </div>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <div lang={locale}>
+        {children}
+      </div>
+    </NextIntlClientProvider>
   );
 }

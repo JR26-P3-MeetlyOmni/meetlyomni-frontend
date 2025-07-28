@@ -1,0 +1,21 @@
+{
+  "common": {
+    "contactUs": "联系我们",
+    "login": "登录",
+    "signUp": "注册",
+    "privacyPolicy": "隐私政策",
+    "termsForUsage": "使用条款",
+    "wechat": "微信",
+    "copyright": "© 2025 Meetly Omni. 保留所有权利。",
+    "backToHome": "返回首页",
+    "email": "邮箱",
+    "password": "密码",
+    "fullName": "姓名",
+    "confirmPassword": "确认密码"
+  },
+  "home": {
+    "title": "Meetly Omni 落地页",
+    "underConstruction": "页面正在建设中。",
+    "currentLocale": "当前语言: {locale}"
+  }
+}
