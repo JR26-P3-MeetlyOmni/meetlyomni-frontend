@@ -1,9 +1,11 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import styled from '@emotion/styled';
 
+import { getScenarioData } from './data';
 import { ScenariosSectionProps } from './interface';
 import ScenarioCard from './ScenarioCard';
 
@@ -51,15 +53,19 @@ const Grid = styled.div`
   }
 `;
 
-const ScenariosSection: React.FC<ScenariosSectionProps> = ({
-  scenarios,
-  title = 'Applicable Scenarios',
+const ScenariosSection: React.FC<Omit<ScenariosSectionProps, 'scenarios'>> = ({
+  title,
   className,
 }) => {
+  const t = useTranslations('LandingPage');
+
+  // 使用翻译函数获取场景数据
+  const scenarios = getScenarioData(t);
+
   return (
     <Container className={className}>
       <Content>
-        <Title>{title}</Title>
+        <Title>{title || t('scenarios.title')}</Title>
         <Grid>
           {scenarios.map(scenario => (
             <ScenarioCard key={scenario.id} scenario={scenario} />
