@@ -26,8 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReduxProvider>
-      <div className={`${geistSans.variable} ${geistMono.variable}`}>{children}</div>
-    </ReduxProvider>
+    <html lang="en">
+      <body>
+        <ReduxProvider>
+          <div className={`${geistSans.variable} ${geistMono.variable}`}>{children}</div>
+        </ReduxProvider>
+      </body>
+    </html>
   );
 }

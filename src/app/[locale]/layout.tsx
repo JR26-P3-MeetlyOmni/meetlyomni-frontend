@@ -1,6 +1,7 @@
 import { routing } from '@/i18n/routing';
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 export default async function LocaleLayout({
@@ -16,11 +17,8 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
-      </body>
-    </html>
-  );
+  // Load messages for the current locale
+  const messages = await getMessages();
+
+  return <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>;
 }
