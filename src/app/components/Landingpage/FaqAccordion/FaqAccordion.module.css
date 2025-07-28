@@ -6,21 +6,29 @@
 }
 
 .heading {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+  margin: 0 auto 80px;
   text-align: center;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: bold;
+  color: #14183b;
 }
 
 .faqItem {
-  border-bottom: 1px solid #ddd;
-  padding: 1rem 0;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  margin: 80px auto 30px;
+  padding: 40px;
+  border-radius: 16px;
+  background-color: #f7f8fa;
 }
 
 .faqQuestion {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-family: Roboto;
+  font-size: 20px;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
@@ -28,12 +36,13 @@
   text-align: left;
   cursor: pointer;
   padding: 0.5rem 0;
-  color: var(--foreground);
+  color: #14183b;
 }
 
 .faqAnswer {
   margin-top: 0.5rem;
-  font-size: 0.95rem;
+  font-family: Roboto;
+  font-size: 16px;
   color: #666;
   line-height: 1.5;
 }
