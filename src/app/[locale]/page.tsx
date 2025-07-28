@@ -1,13 +1,29 @@
-import { Link } from '@/i18n/navigation';
+import Link from 'next/link';
+import Footer from './(main)/components/Footer/Footer';
 
-import { useTranslations } from 'next-intl';
-
-export default function HomePage() {
-  const t = useTranslations('HomePage');
+export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  
   return (
-    <div>
-      <h1>{t('title')}</h1>
-      <Link href="/about">{t('about')}</Link>
-    </div>
+    <>
+      <div style={{ textAlign: 'center', marginTop: '100px' }}>
+        <h1>Meetly Omni Landing Page</h1>
+        <p>The page is under construction.</p>
+        <p>Current locale: {locale}</p>
+
+        <nav style={{ marginTop: '20px' }}>
+          <Link href={`/${locale}/contact-us`} style={{ marginRight: '20px' }}>
+            Contact Us
+          </Link>
+          <Link href={`/${locale}/login`} style={{ marginRight: '20px' }}>
+            Login
+          </Link>
+          <Link href={`/${locale}/signup`}>
+            Sign Up
+          </Link>
+        </nav>
+      </div>
+      <Footer />
+    </>
   );
 }
