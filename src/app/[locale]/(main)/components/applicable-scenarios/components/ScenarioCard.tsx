@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 import { ScenarioCardProps } from './interface';
 
@@ -42,39 +42,47 @@ const ScenarioCardImage: React.FC<{ image: string; imageAlt: string }> = ({ imag
   </Box>
 );
 
-const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
-  <Box
-    component="h3"
-    sx={{
-      fontSize: '20px',
-      fontWeight: 700,
-      margin: 0,
-      marginBottom: { xs: '16px', sm: '24px' },
-      lineHeight: 1.3,
-      color: '#fff',
-    }}
-  >
-    {title}
-  </Box>
-);
+const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      component="h3"
+      sx={{
+        fontSize: theme.typography.h3.fontSize,
+        fontWeight: theme.typography.h3.fontWeight,
+        margin: 0,
+        marginBottom: { xs: '16px', sm: '24px' },
+        lineHeight: theme.typography.h3.lineHeight,
+        color: theme.typography.h3.color,
+      }}
+    >
+      {title}
+    </Box>
+  );
+};
 
 const ScenarioCardDescription: React.FC<{ description: string; isLast: boolean }> = ({
   description,
   isLast,
-}) => (
-  <Box
-    component="li"
-    sx={{
-      fontSize: { xs: '13px', sm: '16px' },
-      lineHeight: 1.5,
-      color: '#b0b5bc',
-      opacity: 0.9,
-      marginBottom: isLast ? 0 : { xs: '6px', sm: '10px' },
-    }}
-  >
-    {description}
-  </Box>
-);
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      component="li"
+      sx={{
+        fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
+        lineHeight: theme.typography.body1.lineHeight,
+        color: theme.palette.text.secondary,
+        opacity: 0.9,
+        marginBottom: isLast ? 0 : { xs: '6px', sm: '10px' },
+      }}
+    >
+      {description}
+    </Box>
+  );
+};
 
 const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }> = ({
   scenario,
@@ -110,20 +118,24 @@ const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }>
   </Box>
 );
 
-const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => (
-  <Box
-    className={className}
-    sx={{
-      position: 'relative',
-      borderRadius: { xs: '8px', sm: '12px' },
-      overflow: 'hidden',
-      background: '#000',
-      cursor: 'pointer',
-    }}
-  >
-    <ScenarioCardImage image={scenario.image} imageAlt={scenario.imageAlt} />
-    <ScenarioCardContent scenario={scenario} />
-  </Box>
-);
+const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      className={className}
+      sx={{
+        position: 'relative',
+        borderRadius: { xs: '8px', sm: '12px' },
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+        cursor: 'pointer',
+      }}
+    >
+      <ScenarioCardImage image={scenario.image} imageAlt={scenario.imageAlt} />
+      <ScenarioCardContent scenario={scenario} />
+    </Box>
+  );
+};
 
 export default ScenarioCard;
