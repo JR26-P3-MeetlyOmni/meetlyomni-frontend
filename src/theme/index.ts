@@ -3,18 +3,18 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#14183b', // 主标题颜色
+      main: '#14183b', // main text color
     },
     secondary: {
-      main: '#b0b5bc', // 描述文字颜色
+      main: '#b0b5bc', // secondary text color
     },
     background: {
-      default: '#ffffff', // 页面背景色
-      paper: '#000000', // 卡片背景色
+      default: '#ffffff', // page background color
+      paper: '#000000', // card background color
     },
     text: {
-      primary: '#14183b', // 主标题颜色
-      secondary: '#b0b5bc', // 描述文字颜色
+      primary: '#14183b', // main text color
+      secondary: '#b0b5bc', // secondary text color
     },
   },
   typography: {
