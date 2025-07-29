@@ -20,7 +20,8 @@ const eslintConfig = [
       ".storybook/**/*",
       "coverage/**/*",
       "dist/**/*",
-      "build/**/*"
+      "build/**/*",
+      "src/stories/**/*"
     ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
