@@ -17,22 +17,22 @@ const AccordionItem = ({ question, answer, isOpen, onClick }: AccordionItemProps
 );
 
 export default function FaqAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
-  const handleClick = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+  const handleClick = (id: string) => {
+    setOpenId(openId === id ? null : id);
   };
 
   return (
     <section className={styles.faqContainer}>
       <h2 className={styles.heading}>Frequently Asked Questions</h2>
-      {faqData.map((faq, index) => (
+      {faqData.map(faq => (
         <AccordionItem
-          key={index}
+          key={faq.id}
           question={faq.question}
           answer={faq.answer}
-          isOpen={openIndex === index}
-          onClick={() => handleClick(index)}
+          isOpen={openId === faq.id}
+          onClick={() => handleClick(faq.id)}
         />
       ))}
     </section>
