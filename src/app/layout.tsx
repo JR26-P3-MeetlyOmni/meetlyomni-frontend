@@ -1,3 +1,5 @@
+import { ReduxProvider } from '@/store/provider';
+
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
@@ -25,7 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body>
+        <ReduxProvider>
+          <div className={`${geistSans.variable} ${geistMono.variable}`}>{children}</div>
+        </ReduxProvider>
+      </body>
     </html>
   );
 }

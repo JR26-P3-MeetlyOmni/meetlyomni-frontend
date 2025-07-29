@@ -13,7 +13,6 @@ const CardContainer = styled.div`
   overflow: hidden;
   background: #000;
   cursor: pointer;
-
   @media (max-width: 768px) {
     border-radius: 8px;
   }
@@ -23,7 +22,6 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 785 / 441.6;
-
   @media (max-width: 768px) {
     height: 220px;
     aspect-ratio: auto;
@@ -53,7 +51,6 @@ const ContentContainer = styled.div`
   padding: 24px;
   color: white;
   z-index: 2;
-
   @media (max-width: 768px) {
     padding: 16px;
   }
@@ -65,7 +62,6 @@ const Title = styled.h3`
   margin: 0 0 24px 0;
   line-height: 1.3;
   color: #fff;
-
   @media (max-width: 768px) {
     font-size: 20px;
     margin: 0 0 16px 0;
@@ -84,7 +80,6 @@ const DescriptionItem = styled.li<{ $isLast?: boolean }>`
   color: #b0b5bc;
   opacity: 0.9;
   margin-bottom: ${({ $isLast }) => ($isLast ? '0' : '10px')};
-
   @media (max-width: 768px) {
     font-size: 13px;
     margin-bottom: ${({ $isLast }) => ($isLast ? '0' : '6px')};

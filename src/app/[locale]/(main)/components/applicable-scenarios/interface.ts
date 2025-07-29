@@ -12,7 +12,7 @@ export interface ScenarioCardProps {
 }
 
 export interface ScenariosSectionProps {
-  scenarios: ScenarioData[];
+  scenarios?: ScenarioData[];
   title?: string;
   className?: string;
 }
