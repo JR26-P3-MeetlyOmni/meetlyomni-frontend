@@ -4,8 +4,8 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 // Import translation messages for different locales
-import enMessages from '../../../../../../messages/en.json';
-import zhMessages from '../../../../../../messages/zh.json';
+import enMessages from '../../../../../../../messages/en.json';
+import zhMessages from '../../../../../../../messages/zh.json';
 import type { ScenariosSectionProps } from './interface';
 import ScenariosSection from './ScenarioSection';
 
