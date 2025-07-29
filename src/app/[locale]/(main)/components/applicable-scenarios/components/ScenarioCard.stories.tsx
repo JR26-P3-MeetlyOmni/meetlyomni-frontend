@@ -16,7 +16,11 @@ type Story = StoryObj<typeof ScenarioCard>;
 const mockScenario: ScenarioCardProps['scenario'] = {
   id: '1',
   title: 'Annual meeting of the enterprise',
+<<<<<<< HEAD
   image: '/assets/images/scenarios/annual-meeting.png',
+=======
+  image: '/images/scenarios/annual-meeting.png',
+>>>>>>> 0bc462f (refactor:change all emotion style to mui style)
   imageAlt: 'Annual meeting photo',
   descriptions: [
     'Interactive quiz & Lucky draw to enhance team cohesion!',

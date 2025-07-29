@@ -7,6 +7,8 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
   const t = await getTranslations('home');
   const _tCommon = await getTranslations('common');
 
+import { ScenariosSection } from './(main)/components/applicable-scenarios';
+
 export default function HomePage() {
   return (
       <div style={{ textAlign: 'center', marginTop: '100px' }}>
