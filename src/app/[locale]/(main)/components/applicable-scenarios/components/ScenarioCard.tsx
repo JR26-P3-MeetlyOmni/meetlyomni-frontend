@@ -146,6 +146,25 @@ const ScenarioCardImage: React.FC<{ image: string; imageAlt: string }> = ({ imag
   </Box>
 );
 
+const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      component="h3"
+      sx={{
+        fontSize: theme.typography.h3.fontSize,
+        fontWeight: theme.typography.h3.fontWeight,
+        margin: 0,
+        marginBottom: { xs: '16px', sm: '24px' },
+        lineHeight: theme.typography.h3.lineHeight,
+        color: theme.typography.h3.color,
+      }}
+    >
+      {title}
+    </Box>
+  );
+};
 const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
   <Box
     component="h3"
@@ -166,6 +185,24 @@ const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
 const ScenarioCardDescription: React.FC<{ description: string; isLast: boolean }> = ({
   description,
   isLast,
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      component="li"
+      sx={{
+        fontSize: { xs: theme.typography.body2.fontSize, sm: theme.typography.body1.fontSize },
+        lineHeight: theme.typography.body1.lineHeight,
+        color: theme.palette.text.secondary,
+        opacity: 0.9,
+        marginBottom: isLast ? 0 : { xs: '6px', sm: '10px' },
+      }}
+    >
+      {description}
+    </Box>
+  );
+};
 }) => (
 <<<<<<< HEAD
   <StyledDescription style={{ marginBottom: isLast ? 0 : undefined }}>
@@ -238,6 +275,25 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => (
   </Box>
 );
 
+const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      className={className}
+      sx={{
+        position: 'relative',
+        borderRadius: { xs: '8px', sm: '12px' },
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+        cursor: 'pointer',
+      }}
+    >
+      <ScenarioCardImage image={scenario.image} imageAlt={scenario.imageAlt} />
+      <ScenarioCardContent scenario={scenario} />
+    </Box>
+  );
+};
 const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => (
   <Box
     className={className}

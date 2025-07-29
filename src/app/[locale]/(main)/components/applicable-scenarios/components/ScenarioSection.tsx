@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
+import { Box, useTheme } from '@mui/material';
 <<<<<<< HEAD
 import { Box, styled } from '@mui/material';
 =======
@@ -13,6 +14,26 @@ import { getScenarioData } from './data';
 import { ScenariosSectionProps } from './interface';
 import ScenarioCard from './ScenarioCard';
 
+const ScenariosSectionTitle: React.FC<{ title: string }> = ({ title }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      component="h2"
+      sx={{
+        margin: { xs: '0 0 40px 0', sm: '0 auto 80px auto' },
+        fontFamily: theme.typography.fontFamily,
+        fontSize: { xs: '28px', sm: theme.typography.h2.fontSize },
+        fontWeight: theme.typography.h2.fontWeight,
+        lineHeight: theme.typography.h2.lineHeight,
+        color: theme.palette.text.primary,
+        textAlign: 'center',
+      }}
+    >
+      {title}
+    </Box>
+  );
+};
 <<<<<<< HEAD
 const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(5)} 0`,
@@ -109,6 +130,7 @@ const ScenariosSectionGrid: React.FC<{ scenarios: ScenariosSectionProps['scenari
 
 const ScenariosSection: React.FC<ScenariosSectionProps> = ({ title, scenarios, className }) => {
   const t = useTranslations('LandingPage');
+  const theme = useTheme();
   const displayScenarios = scenarios || getScenarioData(t);
   const displayTitle = title || t('scenarios.title');
 
@@ -126,7 +148,7 @@ const ScenariosSection: React.FC<ScenariosSectionProps> = ({ title, scenarios, c
       className={className}
       sx={{
         padding: { xs: '60px 0', sm: '122px 0 160px' },
-        background: '#fff',
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Box
