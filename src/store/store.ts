@@ -16,6 +16,7 @@ const appSlice = createSlice({
 export const store = configureStore({
   reducer: {
     app: appSlice.reducer,
+    placeholder: (state = {}, _action) => state,
   },
 });
 

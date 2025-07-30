@@ -112,11 +112,7 @@ OR
 mv .husky/pre-commit .husky/pre-commit.disabled
 ```
 
-<<<<<<< HEAD
 **Warning**: This should only be used in critical situations and the issues should be addressed immediately in the next commit.
-=======
-⚠️ **Warning**: This should only be used in critical situations and the issues should be addressed immediately in the next commit.
->>>>>>> 3f6a8c5 (update eslint max-line rule & adding husky instruction to readme)
 
 ## Development Guidelines
 

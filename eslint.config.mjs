@@ -33,6 +33,7 @@ const eslintConfig = [
         "error",
         {
           "selector": "interface",
+
           "format": ["PascalCase"]
         }
       ],
