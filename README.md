@@ -43,7 +43,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 | **Prettier**   | No pure formatting PRs                | Configured                   | `.prettierrc` + `package.json` | Prettier auto-formatting + lint-staged                          | Basic Coding Principles, P3 Guidelines             |
 | **Prettier**   | Import order                          | Configured                   | `.prettierrc`                  | `importOrder` complete configuration                            | TypeScript Best Practices                          |
 | **TypeScript** | Strict mode enabled                   | Configured                   | `tsconfig.json`                | `strict: true`                                                  | Basic Coding Principles, TypeScript Best Practices |
-| **TypeScript** | No primitive wrapper objects          | Configured                   | `eslint.config.mjs`            | `@typescript-eslint/no-new-wrappers: error`                     | TypeScript Best Practices                          |
 | **Unit Tests** | Coverage ≥ 80%                        | Configured                   | `vitest.config.mjs`            | `thresholds: 80%`                                               | P3 Guidelines                                      |
 
 ## Getting Started
