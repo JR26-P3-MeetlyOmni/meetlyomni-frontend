@@ -1,11 +1,18 @@
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 
 export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules/**', '.storybook/**', '**/*.stories.{js,ts,jsx,tsx}'],
+    exclude: [
+      'node_modules/**', 
+      '.storybook/**', 
+      '**/*.stories.{js,ts,jsx,tsx}',
+      '**/index.ts',
+      '**/index.tsx'
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -17,7 +24,9 @@ export default defineConfig({
         '**/coverage/**',
         '**/dist/**',
         '**/build/**',
-        '**/.next/**'
+        '**/.next/**',
+        '**/index.ts',
+        '**/index.tsx'
       ],
       thresholds: {
         global: {
@@ -27,6 +36,11 @@ export default defineConfig({
           statements: 80
         }
       }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
     }
   }
 }); 
