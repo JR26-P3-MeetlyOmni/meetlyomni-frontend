@@ -1,62 +1,202 @@
+// // ✅ AuthLayout.style.ts
+// 'use client';
+// import { styled } from '@mui/material/styles';
+
+// export const Container = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   width: '100%',
+//   minHeight: '100vh',
+//   overflow: 'hidden',
+
+//   [theme.breakpoints.down('sm')]: {
+//     display: 'grid',
+//     gridTemplateRows: '1fr 1fr', // ⬅️ 上下栏等高
+//   },
+// }));
+
+// export const FormWrapper = styled('div')(({ theme }) => ({
+//   width: '50%',
+//   maxWidth: theme.spacing(90), // 720px
+//   padding: theme.spacing(17, 11.25, 5, 7.5), // 上右下左：136px 90px 40px 60px
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   minWidth: 0,
+//   overflow: 'hidden',
+
+//   [theme.breakpoints.down('md')]: {
+//     width: '100%',
+//     maxWidth: 'none',
+//     padding: theme.spacing(12.5, 7.5, 5),
+//   },
+
+//   [theme.breakpoints.down('sm')]: {
+//     width: '100%',
+//     padding: theme.spacing(7.5, 2.5, 3.75),
+//     minHeight: 0,
+//     overflowY: 'auto', // ✅ 保证内容滚动不被截断
+//   },
+// }));
+
+// export const BrandingWrapper = styled('div')(({ theme }) => ({
+//   width: '50%',
+//   maxWidth: theme.spacing(90), // 720px
+//   padding: theme.spacing(17, 11.25, 5, 7.5),
+//   position: 'relative',
+//   backgroundColor: '#f9f9fb',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   minWidth: 0,
+//   overflow: 'hidden',
+
+//   [theme.breakpoints.down('md')]: {
+//     width: '100%',
+//     maxWidth: 'none',
+//     padding: theme.spacing(12.5, 7.5, 5),
+//     minHeight: 'auto',
+//   },
+
+//   [theme.breakpoints.down('sm')]: {
+//     width: '100%',
+//     padding: theme.spacing(7.5, 2.5, 3.75),
+//     minHeight: 0,
+//     height: 'auto',
+//     overflowY: 'auto', // ✅ 同样加滚动支持
+//   },
+// }));
 'use client';
 
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const Container = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden; // ✅ 彻底阻止子项撑破左右栏
+// // ✅ AuthLayout.style.ts
+// 'use client';
+// import { styled } from '@mui/material/styles';
 
-  @media (max-width: 767px) {
-    flex-direction: column;
-  }
-`;
+// export const Container = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   width: '100%',
+//   minHeight: '100vh',
+//   overflow: 'hidden',
 
-export const FormWrapper = styled.div`
-  width: 50%;
-  padding: 4rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0; // ✅ 防止内容撑破
-  overflow: hidden; // ✅ 额外保险，防滚动
+//   [theme.breakpoints.down('sm')]: {
+//     display: 'grid',
+//     gridTemplateRows: '1fr 1fr', // ⬅️ 上下栏等高
+//   },
+// }));
 
-  @media (max-width: 1023px) {
-    width: 100%;
-    padding: 3rem 1.5rem;
-  }
+// export const FormWrapper = styled('div')(({ theme }) => ({
+//   width: '50%',
+//   maxWidth: theme.spacing(90), // 720px
+//   padding: theme.spacing(17, 11.25, 5, 7.5), // 上右下左：136px 90px 40px 60px
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   minWidth: 0,
+//   overflow: 'hidden',
 
-  @media (max-width: 767px) {
-    padding: 2rem 1rem;
-    height: 50vh;
-  }
-`;
+//   [theme.breakpoints.down('md')]: {
+//     width: '100%',
+//     maxWidth: 'none',
+//     padding: theme.spacing(12.5, 7.5, 5),
+//   },
 
-export const BrandingWrapper = styled.div`
-  width: 50%;
-  max-width: 720px; // ✅ 关键！即使父容器再大，也不能超过这个宽度
-  position: relative;
-  background-color: #f9f9fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+//   [theme.breakpoints.down('sm')]: {
+//     width: '100%',
+//     padding: theme.spacing(7.5, 2.5, 3.75),
+//     minHeight: 0,
+//     overflowY: 'auto', // ✅ 保证内容滚动不被截断
+//   },
+// }));
 
-  padding: 136px 90px 40px 60px;
-  min-height: 900px;
-  min-width: 0;
-  overflow: hidden;
+// export const BrandingWrapper = styled('div')(({ theme }) => ({
+//   width: '50%',
+//   maxWidth: theme.spacing(90), // 720px
+//   padding: theme.spacing(17, 11.25, 5, 7.5),
+//   position: 'relative',
+//   backgroundColor: '#f9f9fb',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   minWidth: 0,
+//   overflow: 'hidden',
 
-  @media (max-width: 1023px) {
-    width: 100%;
-    max-width: none;
-    padding: 100px 60px 40px;
-    min-height: auto;
-  }
+//   [theme.breakpoints.down('md')]: {
+//     width: '100%',
+//     maxWidth: 'none',
+//     padding: theme.spacing(12.5, 7.5, 5),
+//     minHeight: 'auto',
+//   },
 
-  @media (max-width: 767px) {
-    padding: 60px 20px 30px;
-    min-height: auto;
-    height: auto;
-  }
-`;
+//   [theme.breakpoints.down('sm')]: {
+//     width: '100%',
+//     padding: theme.spacing(7.5, 2.5, 3.75),
+//     minHeight: 0,
+//     height: 'auto',
+//     overflowY: 'auto', // ✅ 同样加滚动支持
+//   },
+// }));
+
+export const Container = styled('div')(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  minHeight: '100vh',
+  overflow: 'hidden',
+
+  [theme.breakpoints.down('sm')]: {
+    display: 'grid',
+    gridTemplateRows: '1fr 1fr',
+  },
+}));
+
+export const FormWrapper = styled('div')(({ theme }) => ({
+  width: '50%',
+  maxWidth: theme.spacing(90),
+  padding: theme.spacing(17, 11.25, 5, 7.5),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minWidth: 0,
+  overflow: 'hidden',
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    maxWidth: 'none',
+    padding: theme.spacing(12.5, 7.5, 5),
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    padding: theme.spacing(7.5, 2.5, 3.75),
+    minHeight: 0,
+    overflowY: 'auto',
+  },
+}));
+
+export const BrandingWrapper = styled('div')(({ theme }) => ({
+  width: '50%',
+  maxWidth: theme.spacing(90),
+  padding: theme.spacing(17, 11.25, 5, 7.5),
+  position: 'relative',
+  backgroundColor: '#f9f9fb',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  minWidth: 0,
+  overflow: 'hidden',
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    maxWidth: 'none',
+    padding: theme.spacing(12.5, 7.5, 5),
+    minHeight: 'auto',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    padding: theme.spacing(7.5, 2.5, 3.75),
+    minHeight: 0,
+    height: 'auto',
+    overflowY: 'auto',
+  },
+}));
