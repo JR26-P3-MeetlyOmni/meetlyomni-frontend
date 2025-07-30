@@ -44,8 +44,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 | **Prettier**   | Import order                          | Configured                   | `.prettierrc`                  | `importOrder` complete configuration                            | TypeScript Best Practices                          |
 | **TypeScript** | Strict mode enabled                   | Configured                   | `tsconfig.json`                | `strict: true`                                                  | Basic Coding Principles, TypeScript Best Practices |
 | **TypeScript** | No primitive wrapper objects          | Configured                   | `eslint.config.mjs`            | `@typescript-eslint/no-new-wrappers: error`                     | TypeScript Best Practices                          |
-| **TypeScript** | Interface naming consistency          | Configured                   | `eslint.config.mjs`            | `@typescript-eslint/naming-convention`                          | TypeScript Best Practices                          |
-| **TypeScript** | Avoid enum                            | Configured                   | `eslint.config.mjs`            | `@typescript-eslint/no-enum: error`                             | TypeScript Best Practices                          |
 | **Unit Tests** | Coverage ≥ 80%                        | Configured                   | `vitest.config.mjs`            | `thresholds: 80%`                                               | P3 Guidelines                                      |
 
 ## Getting Started
