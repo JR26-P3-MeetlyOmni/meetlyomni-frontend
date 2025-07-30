@@ -1,31 +1,36 @@
-.:
-README.md
-eslint.config.mjs
-next.config.ts
-package-lock.json
-package.json
-project-structure.txt
-src
-tsconfig.json
-vitest.config.mjs
-vitest.shims.d.ts
-
-./src:
+src:
 app
 store
 stories
 types
 
-./src/app:
+src/app:
+components
 globals.css
 layout.tsx
+login
 page.tsx
 
-./src/store:
+src/app/components:
+AuthLayout
+
+src/app/components/AuthLayout:
+AuthLayout.style.ts
+AuthLayout.tsx
+Branding
+
+src/app/components/AuthLayout/Branding:
+Branding.style.ts
+Branding.tsx
+
+src/app/login:
+page.tsx
+
+src/store:
 provider.tsx
 store.ts
 
-./src/stories:
+src/stories:
 Button.stories.ts
 Button.tsx
 Configure.mdx
@@ -38,7 +43,7 @@ button.css
 header.css
 page.css
 
-./src/stories/assets:
+src/stories/assets:
 accessibility.png
 accessibility.svg
 addon-library.png
@@ -56,5 +61,5 @@ theming.png
 tutorials.svg
 youtube.svg
 
-./src/types:
+src/types:
 declarations.d.ts

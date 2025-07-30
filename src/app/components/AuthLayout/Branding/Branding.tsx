@@ -1,20 +1,32 @@
-// src/app/components/AuthLayout/Branding/Branding.tsx
 import React from 'react';
 
-import { Description, Heading, Highlight, Illustration, Wrapper } from './Branding.style';
+import {
+  ContentWrapper,
+  DecorationImage,
+  DescriptionLine1,
+  DescriptionLine2,
+  DescriptionLine3,
+  Heading,
+  Highlight,
+  Illustration,
+  Wrapper,
+} from './Branding.style';
 
 const Branding = () => {
   return (
     <Wrapper>
-      <div>
-        <Illustration src="/assets/branding-illustration.svg" alt="Meetly Illustration" />
+      <Illustration src="/assets/branding-illustration.svg" alt="Meetly Illustration" />
+      <ContentWrapper>
         <Heading>
-          Get started with <Highlight>Meetly</Highlight>!
+          Get started with <Highlight>Meetly!</Highlight>
         </Heading>
-        <Description>Find the perfect time for your meetings in seconds</Description>
-        <Description>Never miss a meeting with automated reminders</Description>
-        <Description>Say goodbye to scheduling conflicts with calendar synchronisation</Description>
-      </div>
+        <DescriptionLine1>Find the perfect time for your meetings in seconds</DescriptionLine1>
+        <DescriptionLine2>Never miss a meeting with automated reminders</DescriptionLine2>
+        <DescriptionLine3>
+          Say goodbye to scheduling conflicts with calendar synchronisation
+        </DescriptionLine3>
+      </ContentWrapper>
+      <DecorationImage src="/assets/8.svg" alt="Branding Decoration" />
     </Wrapper>
   );
 };
