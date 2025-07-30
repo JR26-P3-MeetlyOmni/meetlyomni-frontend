@@ -15,7 +15,7 @@ import {
 const Branding = () => {
   return (
     <Wrapper>
-      <Illustration src="/assets/branding-illustration.svg" alt="Meetly Illustration" />
+      <Illustration src="/assets/images/auth/branding-illustration.svg" alt="Meetly Illustration" />
       <ContentWrapper>
         <Heading>
           Get started with <Highlight>Meetly!</Highlight>
@@ -26,7 +26,10 @@ const Branding = () => {
           Say goodbye to scheduling conflicts with calendar synchronisation
         </DescriptionLine3>
       </ContentWrapper>
-      <DecorationImage src="/assets/8.svg" alt="Branding Decoration" />
+      <DecorationImage
+        src="/assets/images/auth/branding-decoration-bottom-left.svg"
+        alt="Branding Decoration"
+      />
     </Wrapper>
   );
 };

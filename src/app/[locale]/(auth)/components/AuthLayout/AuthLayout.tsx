@@ -1,8 +1,8 @@
 // src/app/components/AuthLayout/AuthLayout.tsx
 import React, { ReactNode } from 'react';
 
+import Branding from '../Branding/Branding';
 import { BrandingWrapper, Container, FormWrapper } from './AuthLayout.style';
-import Branding from './Branding/Branding';
 
 type AuthLayoutProps = {
   children: ReactNode;

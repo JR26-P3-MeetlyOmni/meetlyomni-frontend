@@ -49,6 +49,7 @@ export const BrandingWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   minWidth: 0,
   overflow: 'hidden',
+  boxSizing: 'border-box',
 
   [theme.breakpoints.down('md')]: {
     width: '100%',
@@ -63,5 +64,6 @@ export const BrandingWrapper = styled('div')(({ theme }) => ({
     minHeight: 0,
     height: 'auto',
     overflowY: 'auto',
+    boxSizing: 'border-box',
   },
 }));

@@ -37,9 +37,8 @@ const eslintConfig = [
           "prefix": ["I"]
         }
       ],
-      "@typescript-eslint/no-enum": "error",
       "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-new-wrappers": "error",
+      "no-new-wrappers": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"

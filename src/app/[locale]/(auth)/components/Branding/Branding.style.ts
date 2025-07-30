@@ -39,6 +39,7 @@ export const ContentWrapper = styled('div')(({ theme }) => ({
   flexShrink: 1,
   overflowWrap: 'break-word',
   wordBreak: 'break-word',
+  boxSizing: 'border-box',
 
   [theme.breakpoints.down('md')]: {
     padding: theme.spacing(0, 2.5),
