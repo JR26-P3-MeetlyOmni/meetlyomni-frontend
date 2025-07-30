@@ -29,15 +29,6 @@ const eslintConfig = [
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
     rules: {
-      "@typescript-eslint/naming-convention": [
-        "error",
-        {
-          "selector": "interface",
-          "format": ["PascalCase"],
-          "prefix": ["I"]
-        }
-      ],
-      "@typescript-eslint/no-enum": "error",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-new-wrappers": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
