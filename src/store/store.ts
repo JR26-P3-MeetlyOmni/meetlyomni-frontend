@@ -15,11 +15,7 @@ const appSlice = createSlice({
 
 export const store = configureStore({
   reducer: {
-<<<<<<< HEAD
     app: appSlice.reducer,
-=======
-    placeholder: (state = {}, _action) => state,
->>>>>>> a17400f (re-structure to app router structure & config i18n (#17))
   },
 });
 

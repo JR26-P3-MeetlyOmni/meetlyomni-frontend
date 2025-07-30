@@ -1,19 +1,11 @@
 import { NextIntlClientProvider } from 'next-intl';
 import React from 'react';
 
-<<<<<<< HEAD
 // Import translation messages for different locales
 import enMessages from '@messages/en.json';
 import zhMessages from '@messages/zh.json';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-=======
-import type { Meta, StoryObj } from '@storybook/nextjs';
-
-// Import translation messages for different locales
-import enMessages from '../../../../../../../messages/en.json';
-import zhMessages from '../../../../../../../messages/zh.json';
->>>>>>> 0bc462f (refactor:change all emotion style to mui style)
 import type { ScenariosSectionProps } from './interface';
 import ScenariosSection from './ScenarioSection';
 

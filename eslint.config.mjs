@@ -33,13 +33,10 @@ const eslintConfig = [
         "error",
         {
           "selector": "interface",
-          "format": ["PascalCase"],
-          "prefix": ["I"]
+          "format": ["PascalCase"]
         }
       ],
-      "@typescript-eslint/no-enum": "error",
       "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-new-wrappers": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"

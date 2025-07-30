@@ -35,10 +35,7 @@
         "imageAlt": "人们社交的社区聚会"
       }
     }
-  }
-}
-
-{
+  },
   "common": {
     "contactUs": "联系我们",
     "privacyPolicy": "隐私政策",
@@ -50,42 +47,5 @@
     "title": "Meetly Omni 落地页",
     "underConstruction": "页面正在建设中。",
     "currentLocale": "当前语言: {locale}"
-  },
-  "LandingPage": {
-    "scenarios": {
-      "title": "适用场景",
-      "annual-meeting": {
-        "title": "企业年会",
-        "descriptions": [
-          "互动问答和抽奖活动增强团队凝聚力！",
-          "让年会不再是被动观看，而是全员参与，嗨翻天！"
-        ],
-        "imageAlt": "大屏幕显示和观众的企业年会"
-      },
-      "product-launch": {
-        "title": "新产品发布会",
-        "descriptions": [
-          "游戏问答让学生更快吸收知识，提高培训效果！",
-          "现场抽奖增强互动，让客户记住您的品牌！"
-        ],
-        "imageAlt": "紫色灯光和观众的产品发布会"
-      },
-      "training-education": {
-        "title": "团队培训与教育",
-        "descriptions": [
-          "游戏化问答让学生更快吸收知识，提高培训效果！",
-          "适用于企业培训、学校课堂等！"
-        ],
-        "imageAlt": "教室中讲师和学生的培训课程"
-      },
-      "community-activities": {
-        "title": "社区活动",
-        "descriptions": [
-          "观众扫码参与互动问答和抽奖，提高直播留存率！",
-          "增强参与度，为您的社区创造难忘体验"
-        ],
-        "imageAlt": "人们社交的社区聚会"
-      }
-    }
   }
 }

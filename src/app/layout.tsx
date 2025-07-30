@@ -3,6 +3,7 @@ import { ReduxProvider } from '@/store/provider';
 
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 
 import './globals.css';
 
@@ -15,9 +16,6 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
-
-import { Roboto } from 'next/font/google';
-
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -38,15 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
-      <body>
+      <body className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable}`}>
         <ReduxProvider>
-          <ClientLayout className={`${geistSans.variable} ${geistMono.variable}`}>
-            {children}
-          </ClientLayout>
+          <ClientLayout>{children}</ClientLayout>
         </ReduxProvider>
-      <body className={roboto.variable}>
-        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );
