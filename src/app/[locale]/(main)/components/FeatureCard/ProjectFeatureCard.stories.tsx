@@ -1,11 +1,11 @@
 import _React from 'react';
 
+import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
+import DataAnalysisImage from '@assets/images/FeatureImages/data_analysis.webp';
+import GameInteractionImage from '@assets/images/FeatureImages/game_interaction.webp';
+import TeamManagerImage from '@assets/images/FeatureImages/team_ manager.webp';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import AiMatchmaking from '../../assets/images/FeatureImages/ai_matchmaking.webp';
-import DataAnalysisImage from '../../assets/images/FeatureImages/data_analysis.webp';
-import GameInteractionImage from '../../assets/images/FeatureImages/game_interaction.webp';
-import TeamManagerImage from '../../assets/images/FeatureImages/team_ manager.webp';
 import ProjectFeatures from './ProjectFeatureCard';
 
 const meta: Meta<typeof ProjectFeatures> = {

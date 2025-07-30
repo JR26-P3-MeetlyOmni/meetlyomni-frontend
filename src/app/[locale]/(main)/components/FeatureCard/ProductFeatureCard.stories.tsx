@@ -1,11 +1,12 @@
+import CrossPlatformImage from '@/assets/images/FeatureImages/cross_platform.webp';
+import CustomizableRulesImage from '@/assets/images/FeatureImages/customizable_rules.webp';
+import DataVisualization from '@/assets/images/FeatureImages/data_visualization.webp';
+import NoDownloadImage from '@/assets/images/FeatureImages/no_download.webp';
+
 import _React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import CrossPlatformImage from '../../assets/images/FeatureImages/cross_platform.webp';
-import CustomizableRulesImage from '../../assets/images/FeatureImages/customizable_rules.webp';
-import DataVisualization from '../../assets/images/FeatureImages/data_visualization.webp';
-import NoDownloadImage from '../../assets/images/FeatureImages/no_download.webp';
 import ProductFeatureCard from './ProductFeatureCard';
 
 const meta: Meta<typeof ProductFeatureCard> = {

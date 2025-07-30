@@ -1,12 +1,12 @@
 // /data/featuresData.ts
-import AiMatchmaking from '../assets/images/FeatureImages/ai_matchmaking.webp';
-import CrossPlatform from '../assets/images/FeatureImages/cross_platform.webp';
-import CustomizableRules from '../assets/images/FeatureImages/customizable_rules.webp';
-import DataAnalysis from '../assets/images/FeatureImages/data_analysis.webp';
-import DataVisualization from '../assets/images/FeatureImages/data_visualization.webp';
-import GameInteraction from '../assets/images/FeatureImages/game_interaction.webp';
-import NoDownload from '../assets/images/FeatureImages/no_download.webp';
-import TeamManager from '../assets/images/FeatureImages/team_ manager.webp';
+import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
+import CrossPlatform from '@assets/images/FeatureImages/cross_platform.webp';
+import CustomizableRules from '@assets/images/FeatureImages/customizable_rules.webp';
+import DataAnalysis from '@assets/images/FeatureImages/data_analysis.webp';
+import DataVisualization from '@assets/images/FeatureImages/data_visualization.webp';
+import GameInteraction from '@assets/images/FeatureImages/game_interaction.webp';
+import NoDownload from '@assets/images/FeatureImages/no_download.webp';
+import TeamManager from '@assets/images/FeatureImages/team_ manager.webp';
 
 export const projectFeatures = [
   {

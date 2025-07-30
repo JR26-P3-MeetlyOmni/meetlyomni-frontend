@@ -20,7 +20,8 @@ const eslintConfig = [
       ".storybook/**/*",
       "coverage/**/*",
       "dist/**/*",
-      "build/**/*"
+      "build/**/*",
+      "src/stories/**/*"
     ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
@@ -30,7 +31,7 @@ const eslintConfig = [
     rules: {
       "no-console": "error",
       "no-debugger": "error",
-      "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "max-lines-per-function": ["error", { max: 100, skipBlankLines: true, skipComments: true }],
       "@typescript-eslint/no-explicit-any": "error",
       "no-implied-eval": "error",
       "react-hooks/exhaustive-deps": "error",

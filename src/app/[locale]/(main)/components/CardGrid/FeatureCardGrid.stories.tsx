@@ -1,13 +1,13 @@
+import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
+import CrossPlatformImage from '@assets/images/FeatureImages/cross_platform.webp';
+import CustomizableRulesImage from '@assets/images/FeatureImages/customizable_rules.webp';
+import DataAnalysisImage from '@assets/images/FeatureImages/data_analysis.webp';
+import DataVisualization from '@assets/images/FeatureImages/data_visualization.webp';
+import GameInteractionImage from '@assets/images/FeatureImages/game_interaction.webp';
+import NoDownloadImage from '@assets/images/FeatureImages/no_download.webp';
+import TeamManagerImage from '@assets/images/FeatureImages/team_ manager.webp';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import AiMatchmaking from '../../assets/images/FeatureImages/ai_matchmaking.webp';
-import CrossPlatformImage from '../../assets/images/FeatureImages/cross_platform.webp';
-import CustomizableRulesImage from '../../assets/images/FeatureImages/customizable_rules.webp';
-import DataAnalysisImage from '../../assets/images/FeatureImages/data_analysis.webp';
-import DataVisualization from '../../assets/images/FeatureImages/data_visualization.webp';
-import GameInteractionImage from '../../assets/images/FeatureImages/game_interaction.webp';
-import NoDownloadImage from '../../assets/images/FeatureImages/no_download.webp';
-import TeamManagerImage from '../../assets/images/FeatureImages/team_ manager.webp';
 import FeatureCardGrid from './FeatureCardGrid';
 import { FeatureCardGridProps } from './FeatureCardGrid';
 
