@@ -21,18 +21,11 @@ const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
   return (
     <Box
       sx={{
-        width: {
-          xs: '100%',
-          sm: '300px',
-          md: '320px',
-        },
-        height: {
-          xs: 'auto',
-          md: '255px',
-        },
-        px: theme.spacing(2),
-        pt: theme.spacing(2),
-        pb: theme.spacing(7.5),
+        width: theme.spacing(48),
+        height: theme.spacing(32), //'255px'
+        pl: theme.spacing(5),
+        pt: theme.spacing(5),
+        pb: theme.spacing(5),
         borderRadius: Number(theme.shape.borderRadius),
         boxSizing: 'border-box',
         backgroundColor: theme.palette.background.paper,
@@ -45,13 +38,12 @@ const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        mx: 'auto',
       }}
     >
       <Box
         sx={{
-          width: '40px',
-          height: '40px',
+          width: theme.spacing(50),
+          height: theme.spacing(50),
           mb: theme.spacing(5),
           position: 'relative',
         }}
@@ -63,13 +55,11 @@ const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
         variant="h6"
         sx={{
           fontWeight: 500,
-          fontSize: {
-            xs: '1.125rem',
-            sm: '1.25rem',
-          },
-          color: '#14183b',
+          fontSize: theme.spacing(2.5), //'20px'
+          lineHeight: 'normal',
+          color: theme.palette.text.primary,
           textAlign: 'left',
-          mb: theme.spacing(1.5),
+          mb: theme.spacing(2),
         }}
       >
         {title}
@@ -78,12 +68,10 @@ const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
       <Typography
         variant="body2"
         sx={{
-          fontSize: {
-            xs: '0.875rem',
-            sm: '1rem',
-          },
+          height: theme.spacing(5),
+          fontSize: theme.spacing(2),
           lineHeight: 1.5,
-          color: '#888e98',
+          color: theme.palette.text.secondary,
           textAlign: 'left',
         }}
       >
@@ -92,61 +80,5 @@ const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
     </Box>
   );
 };
-
-// const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
-//   imageUrl,
-//   title,
-//   description,
-// }) => {
-//   return (
-//     <Box
-//       sx={{
-//         width: '377px',
-//         height: '255px',
-//         margin: '80px 30px 40px 0',
-//         padding: '40px',
-//         borderRadius: '16px',
-//         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-//         '&:hover': {
-//           transform: 'scale(1.03)',
-//           boxShadow: '0 12px 30px rgba(0, 0, 0, 0.1)',
-//           cursor: 'pointer',
-//         },
-//       }}
-//     >
-//       <Box sx={{ width: '40px', height: '40px', margin: '0 257px 56px 0' }}>
-//         <Image src={imageUrl} alt="feature image"></Image>
-//       </Box>
-//       <Typography
-//         sx={{
-//           width: '243px',
-//           height: '24px',
-//           margin: '56px 54px 15px 0',
-//           fontFamily: 'Roboto',
-//           fontSize: '20px',
-//           fontWeight: 500,
-//           color: '#14183b',
-//           textAlign: 'left',
-//         }}
-//       >
-//         {title}
-//       </Typography>
-//       <Typography
-//         sx={{
-//           width: '297px',
-//           height: '40px',
-//           margin: '15px 0 0',
-//           fontFamily: 'Roboto',
-//           fontSize: '16px',
-//           lineHeight: 1.25,
-//           color: '#888e98',
-//           textAlign: 'left',
-//         }}
-//       >
-//         {description}
-//       </Typography>
-//     </Box>
-//   );
-// };
 
 export default ProductFeatureCard;

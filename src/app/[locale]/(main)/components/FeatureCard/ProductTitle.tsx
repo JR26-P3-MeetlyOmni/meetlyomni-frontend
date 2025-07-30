@@ -6,9 +6,10 @@ export default function ProductTitle() {
   return (
     <Typography
       sx={theme => ({
-        width: theme.spacing(35),
-        height: theme.spacing(5.25),
-        mt: 10,
+        width: theme.spacing(35), //277px
+        height: theme.spacing(5.25), //42px
+        mt: 20,
+        mb: 10,
         mx: 'auto',
         fontFamily: 'Roboto',
         fontSize: theme.typography.h4.fontSize,
