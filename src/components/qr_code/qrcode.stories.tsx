@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import QRCodeComponent from './qrcode';
 
 const meta: Meta<typeof QRCodeComponent> = {

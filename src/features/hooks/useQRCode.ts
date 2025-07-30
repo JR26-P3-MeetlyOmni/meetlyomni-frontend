@@ -28,8 +28,7 @@ export const useQRCode = (url: string, size: number) => {
         
         setDataUrl(result);
         setStatus(QRStatus.SUCCESS);
-      } catch (error) {
-        console.error('Error generating QR code:', error);
+      } catch {
         setErrorMessage('Failed to generate QR code');
         setStatus(QRStatus.ERROR);
       }

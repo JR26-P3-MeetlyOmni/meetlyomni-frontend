@@ -1,4 +1,4 @@
-// Import the mocked QRCode
+/* eslint-disable no-restricted-globals */
 import QRCode from 'qrcode';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -84,7 +84,7 @@ describe('QRCodeComponent', () => {
     });
   });
 
-  // eslint-disable-next-line max-lines-per-function
+   
   describe('QR Code Generation', () => {
     it('should call QRCode.toDataURL with correct parameters', async () => {
       const mockDataUrl = 'data:image/png;base64,mock-qr-code-data';
@@ -137,7 +137,7 @@ describe('QRCodeComponent', () => {
     });
   });
 
-  // eslint-disable-next-line max-lines-per-function
+   
   describe('Error Handling', () => {
     it('should display error state when QR code generation fails', async () => {
       (QRCode.toDataURL as MockedQRCode['toDataURL']).mockRejectedValue(

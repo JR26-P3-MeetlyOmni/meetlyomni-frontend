@@ -9,9 +9,9 @@ import Alert from '@mui/material/Alert';
 import type { QRCodeProps } from './types';
 import { useQRCode, QRStatus } from '@/features/hooks';
 
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)({
   textAlign: 'center',
-}));
+});
 
 const Label = styled(Typography)(({ theme }) => ({
   ...theme.typography.caption,
@@ -68,7 +68,7 @@ const QRCodeComponent: React.FC<QRCodeProps> = ({
 
   return (
     <Container>
-      {label && <Label>{label}</Label>}
+      {label ? <Label>{label}</Label> : null}
       <QRWrapper>{contentByStatus[status]}</QRWrapper>
     </Container>
   );

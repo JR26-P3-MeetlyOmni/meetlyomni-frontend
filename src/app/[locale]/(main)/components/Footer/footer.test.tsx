@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { describe, expect, it } from 'vitest';
 import React from 'react';
 import '@testing-library/jest-dom';
