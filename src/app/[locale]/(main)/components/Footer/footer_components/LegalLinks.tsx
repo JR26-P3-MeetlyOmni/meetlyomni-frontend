@@ -1,18 +1,20 @@
 'use client';
 
+import { URL_CONFIG } from '@/config/footer_external_links';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import { urlConfig } from '@/config/footer_external_links';
-import type { LegalLinksProps, LegalLinkProps } from '../types';
+
+import type { LegalLinkProps, LegalLinksProps } from '../types';
 
 // LegalLink component
 function LegalLink({ href, children }: LegalLinkProps) {
   return (
-    <Link 
+    <Link
       component="a"
-      href={href} 
-      target="_blank" 
-      rel="noopener noreferrer" 
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="legal-link"
     >
       {children}
@@ -24,9 +26,9 @@ function LegalLink({ href, children }: LegalLinkProps) {
 export default function LegalLinks({ t }: LegalLinksProps) {
   return (
     <Box className="legal-links-container">
-      <LegalLink href={urlConfig.privacy}>{t('privacyPolicy')}</LegalLink>
+      <LegalLink href={URL_CONFIG.privacy}>{t('privacyPolicy')}</LegalLink>
       <span className="legal-link-separator">｜</span>
-      <LegalLink href={urlConfig.terms}>{t('termsForUsage')}</LegalLink>
+      <LegalLink href={URL_CONFIG.terms}>{t('termsForUsage')}</LegalLink>
     </Box>
   );
 }

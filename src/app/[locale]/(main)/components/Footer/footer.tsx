@@ -1,13 +1,15 @@
 'use client';
 
+import { URL_CONFIG } from '@/config/footer_external_links';
+
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+
 import { Box, Container, Typography } from '@mui/material';
 
+import ContactLink from './footer_components/ContactLink';
 import LegalLinks from './footer_components/LegalLinks';
 import SocialIcons from './footer_components/SocialIcons';
-import ContactLink from './footer_components/ContactLink';
-import { urlConfig } from '@/config/footer_external_links';
 import type { TranslationFunction } from './types';
 
 const FooterLeft = ({ t }: { t: TranslationFunction }) => (
@@ -23,8 +25,8 @@ const FooterLeft = ({ t }: { t: TranslationFunction }) => (
 const FooterRight = ({ t }: { t: TranslationFunction }) => {
   return (
     <Box className="footer-right">
-      <ContactLink href={urlConfig.wechat} label="wechat" t={t} />
-      <ContactLink href={urlConfig.contact} label="contactUs" t={t} />
+      <ContactLink href={URL_CONFIG.wechat} label="wechat" t={t} />
+      <ContactLink href={URL_CONFIG.contact} label="contactUs" t={t} />
     </Box>
   );
 };

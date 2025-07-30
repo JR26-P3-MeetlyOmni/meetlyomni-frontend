@@ -1,26 +1,19 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import { URL_CONFIG } from '@/config/footer_external_links';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { urlConfig } from '@/config/footer_external_links';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+
 import type { SocialIconProps, SocialLink } from '../types';
 
 // SocialIcon component
 function SocialIcon({ href, label, backgroundColor, children }: SocialIconProps) {
   return (
-    <Link 
-      component="a"
-      href={href} 
-      target="_blank" 
-      rel="noopener noreferrer" 
-      aria-label={label}
-    >
-      <Box 
-        className="social-icon-box"
-        style={{ backgroundColor }}
-      >
+    <Link component="a" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+      <Box className="social-icon-box" style={{ backgroundColor }}>
         {children}
       </Box>
     </Link>
@@ -29,13 +22,13 @@ function SocialIcon({ href, label, backgroundColor, children }: SocialIconProps)
 
 const socialLinks: SocialLink[] = [
   {
-    href: urlConfig.linkedin,
+    href: URL_CONFIG.linkedin,
     label: 'LinkedIn',
     backgroundColor: '#0077B5',
     icon: () => <LinkedInIcon style={{ color: 'white', width: 22, height: 22 }} />,
   },
   {
-    href: urlConfig.twitter,
+    href: URL_CONFIG.twitter,
     label: 'Twitter',
     backgroundColor: '#1DA1F2',
     icon: () => <TwitterIcon style={{ color: 'white', width: 22, height: 22 }} />,
