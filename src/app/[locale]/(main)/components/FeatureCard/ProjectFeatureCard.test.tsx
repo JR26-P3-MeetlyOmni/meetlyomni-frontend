@@ -21,7 +21,7 @@ describe('ProjectFeatureCard', () => {
     expect(screen.getByText('AI integration')).toBeInTheDocument();
     expect(screen.getByText('Enhance your workflow with smart AI tools')).toBeInTheDocument();
 
-    const image = screen.getByAltText('feature image');
+    const image = screen.getByAltText('AI integration feature illustration');
     expect(image).toBeInTheDocument();
   });
 });

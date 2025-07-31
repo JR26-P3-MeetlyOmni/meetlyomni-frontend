@@ -1,15 +1,9 @@
-import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
-import CrossPlatformImage from '@assets/images/FeatureImages/cross_platform.webp';
-import CustomizableRulesImage from '@assets/images/FeatureImages/customizable_rules.webp';
-import DataAnalysisImage from '@assets/images/FeatureImages/data_analysis.webp';
-import DataVisualization from '@assets/images/FeatureImages/data_visualization.webp';
-import GameInteractionImage from '@assets/images/FeatureImages/game_interaction.webp';
-import NoDownloadImage from '@assets/images/FeatureImages/no_download.webp';
-import TeamManagerImage from '@assets/images/FeatureImages/team_ manager.webp';
+import _React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
+import { FeatureCardGridConstants } from '../constants/FeatureCardGridConstants';
 import FeatureCardGrid from './FeatureCardGrid';
-import { FeatureCardGridProps } from './FeatureCardGrid';
 
 const meta: Meta<typeof FeatureCardGrid> = {
   title: 'Components/FeatureCardGrid',
@@ -24,62 +18,83 @@ export default meta;
 
 type Story = StoryObj<typeof FeatureCardGrid>;
 
-const projectFeature: FeatureCardGridProps = {
-  data: [
-    {
-      imageUrl: TeamManagerImage,
-      title: 'Activities & Team management',
-      desc: 'Easily create & organize events',
-    },
-    {
-      imageUrl: AiMatchmaking,
-      title: 'Intelligent Match',
-      desc: 'The AI recommends the best team/opponent',
-    },
-    {
-      imageUrl: GameInteractionImage,
-      title: 'Game Interaction',
-      desc: 'A variety of games, Q&A and sweepstakes',
-    },
-    {
-      imageUrl: DataAnalysisImage,
-      title: 'Data analysis',
-      desc: 'Real-time data statistics activities, participants',
-    },
-  ],
-  type: 'project',
+export const ProjectFeature: Story = {
+  name: 'Project',
+  args: {
+    data: [
+      FeatureCardGridConstants.TeamManager,
+      FeatureCardGridConstants.IntelligentMatch,
+      FeatureCardGridConstants.GameInteraction,
+      FeatureCardGridConstants.DataAnalysis,
+    ],
+    type: 'project',
+  },
+};
+export const ProductFeature: Story = {
+  name: 'Product',
+  args: {
+    data: [
+      FeatureCardGridConstants.DataVisualization,
+      FeatureCardGridConstants.CrossPlatform,
+      FeatureCardGridConstants.CustomizableRules,
+      FeatureCardGridConstants.NoDownload,
+    ],
+    type: 'product',
+  },
 };
 
-export const ProductType: Story = {
-  args: projectFeature,
-};
+// export const TeamManager: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.TeamManager],
+//     type: 'project',
+//   },
+// };
 
-const productFeature: FeatureCardGridProps = {
-  data: [
-    {
-      imageUrl: DataVisualization,
-      title: 'Dynamic data visualization',
-      desc: 'View activity data and interactions in real time',
-    },
-    {
-      imageUrl: CrossPlatformImage,
-      title: 'Cross platform support',
-      desc: 'Support computers, mobile phones and tablets',
-    },
-    {
-      imageUrl: CustomizableRulesImage,
-      title: 'High extensibility',
-      desc: 'Activities and rules can be customized',
-    },
-    {
-      imageUrl: NoDownloadImage,
-      title: 'No download required',
-      desc: 'Scan the code to join the interaction anytime and anywhere',
-    },
-  ],
-  type: 'product',
-};
+// export const IntelligentMatch: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.IntelligentMatch],
+//     type: 'project',
+//   },
+// };
 
-export const ProjectType: Story = {
-  args: productFeature,
-};
+// export const GameInteraction: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.GameInteraction],
+//     type: 'project',
+//   },
+// };
+
+// export const DataAnalysis: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.DataAnalysis],
+//     type: 'project',
+//   },
+// };
+
+// export const DataVisualization: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.DataVisualization],
+//     type: 'product',
+//   },
+// };
+
+// export const CrossPlatform: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.CrossPlatform],
+//     type: 'product',
+//   },
+// };
+
+// export const CustomizableRules: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.CustomizableRules],
+//     type: 'product',
+//   },
+// };
+
+// export const NoDownload: Story = {
+//   args: {
+//     data: [FeatureCardGridConstants.NoDownload],
+//     type: 'product',
+//   },
+// };

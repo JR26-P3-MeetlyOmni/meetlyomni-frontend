@@ -3,7 +3,7 @@
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 type ProjectFeatureCardProps = {
   imageUrl: StaticImageData;
@@ -16,11 +16,11 @@ const ProjectFeatureCard: React.FC<ProjectFeatureCardProps> = ({
   title,
   description,
 }) => {
-  const theme = useTheme();
+  //const theme = useTheme();
 
   return (
     <Box
-      sx={{
+      sx={theme => ({
         width: theme.spacing(48), //'377px'
         height: theme.spacing(50), //'404px'
         px: theme.spacing(1.5), //'12px'
@@ -30,7 +30,10 @@ const ProjectFeatureCard: React.FC<ProjectFeatureCardProps> = ({
         boxSizing: 'border-box',
         border: `1px solid ${theme.palette.divider}`,
         backgroundImage: `linear-gradient(to bottom, ${theme.palette.common.white}, rgba(239, 244, 254, 0.15) 50%, ${theme.palette.common.white})`,
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        transition: theme.transitions.create(['transform', 'box-shadow'], {
+          duration: theme.transitions.duration.standard,
+          easing: theme.transitions.easing.easeInOut,
+        }),
         '&:hover': {
           transform: 'scale(1.03)',
           boxShadow: theme.shadows[4],
@@ -39,22 +42,22 @@ const ProjectFeatureCard: React.FC<ProjectFeatureCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      }}
+      })}
     >
       <Box
-        sx={{
+        sx={theme => ({
           width: theme.spacing(44), //'353px'
           height: theme.spacing(29), //'232px'
           mb: theme.spacing(5),
           position: 'relative',
-        }}
+        })}
       >
-        <Image src={imageUrl} alt="feature image" layout="fill" objectFit="contain" />
+        <Image src={imageUrl} alt={`${title} feature illustration`} />
       </Box>
 
       <Typography
         variant="h6"
-        sx={{
+        sx={theme => ({
           fontWeight: 500,
           fontSize: theme.spacing(2.5), // 20px
           lineHeight: 'normal',
@@ -62,21 +65,21 @@ const ProjectFeatureCard: React.FC<ProjectFeatureCardProps> = ({
           textAlign: 'center',
           mb: theme.spacing(2),
           px: theme.spacing(1),
-        }}
+        })}
       >
         {title}
       </Typography>
 
       <Typography
         variant="body2"
-        sx={{
+        sx={theme => ({
           height: theme.spacing(5), //'40px'
           fontSize: theme.spacing(2), //16px
           lineHeight: 1.25,
           color: theme.palette.text.secondary,
           textAlign: 'center',
           px: theme.spacing(2),
-        }}
+        })}
       >
         {description}
       </Typography>

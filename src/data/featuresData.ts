@@ -6,50 +6,50 @@ import DataAnalysis from '@assets/images/FeatureImages/data_analysis.webp';
 import DataVisualization from '@assets/images/FeatureImages/data_visualization.webp';
 import GameInteraction from '@assets/images/FeatureImages/game_interaction.webp';
 import NoDownload from '@assets/images/FeatureImages/no_download.webp';
-import TeamManager from '@assets/images/FeatureImages/team_ manager.webp';
+import TeamManager from '@assets/images/FeatureImages/team_manager.webp';
 
-export const projectFeatures = [
+export const ProjectFeaturesData = [
   {
     imageUrl: TeamManager,
     title: 'Activities & Team management',
-    desc: 'Easily create & organize events',
+    description: 'Easily create & organize events',
   },
   {
     imageUrl: AiMatchmaking,
     title: 'Intelligent match',
-    desc: 'The AI recommends the best team/opponent',
+    description: 'The AI recommends the best team/opponent',
   },
   {
     imageUrl: GameInteraction,
     title: 'Game interaction',
-    desc: 'A variety of games, Q&A and sweepstakes',
+    description: 'A variety of games, Q&A and sweepstakes',
   },
   {
     imageUrl: DataAnalysis,
     title: 'Data analysis',
-    desc: 'Real-time data statistics activities, participants',
+    description: 'Real-time data statistics activities, participants',
   },
 ];
 
-export const productFeatures = [
+export const ProductFeaturesData = [
   {
     imageUrl: DataVisualization,
     title: 'Dynamic data visualization',
-    desc: 'View activity data and interactions in real time',
+    description: 'View activity data and interactions in real time',
   },
   {
     imageUrl: CrossPlatform,
     title: 'Cross platform support',
-    desc: 'Support computers, mobile phones and tablets',
+    description: 'Support computers, mobile phones and tablets',
   },
   {
     imageUrl: CustomizableRules,
     title: 'High extensibility',
-    desc: 'Activities and rules can be customized',
+    description: 'Activities and rules can be customized',
   },
   {
     imageUrl: NoDownload,
     title: 'No download required',
-    desc: 'Scan the code to join the interaction anytime and anywhere',
+    description: 'Scan the code to join the interaction anytime and anywhere',
   },
 ];

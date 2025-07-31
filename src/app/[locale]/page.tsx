@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-import { productFeatures, projectFeatures } from '../../data/featuresData';
+import { ProductFeaturesData, ProjectFeaturesData } from '../../data/featuresData';
 import ProductTitle from '../[locale]/(main)/components/FeatureCard/ProductTitle';
 import FeatureCardGrid from './(main)/components/CardGrid/FeatureCardGrid';
 
@@ -18,9 +18,9 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
       <p>{t('underConstruction')}</p>
       <p>{t('currentLocale', { locale })}</p>
 
-      <FeatureCardGrid data={projectFeatures} type="project" />
+      <FeatureCardGrid data={ProjectFeaturesData} type="project" />
       <ProductTitle />
-      <FeatureCardGrid data={productFeatures} type="product" />
+      <FeatureCardGrid data={ProductFeaturesData} type="product" />
     </Box>
   );
 }

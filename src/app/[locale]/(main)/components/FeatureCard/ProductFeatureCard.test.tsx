@@ -22,7 +22,7 @@ describe('ProductFeatureCard', () => {
 
     expect(screen.getByText('24/7 expert assistance for all your needs')).toBeInTheDocument();
 
-    const img = screen.getByAltText('feature image');
+    const img = screen.getByAltText('Fast Support feature illustration');
 
     expect(img).toBeInTheDocument();
   });
