@@ -1,9 +1,12 @@
-import type { ReactNode } from 'react';
-import { Box, createTheme, ThemeProvider, styled } from '@mui/material';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import Footer from './footer';
+import enMessages from '@/messages/en.json';
+
 import { NextIntlClientProvider } from 'next-intl';
-import enMessages from '@/messages/en.json'; 
+
+import { Box, createTheme, styled, ThemeProvider } from '@mui/material';
+
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+import Footer from './footer';
 
 const meta: Meta<typeof Footer> = {
   title: 'LandingPage/Footer',
@@ -27,7 +30,7 @@ const meta: Meta<typeof Footer> = {
   tags: ['autodocs'],
   argTypes: {},
   decorators: [
-    (Story) => (
+    Story => (
       <NextIntlClientProvider locale="en" messages={enMessages}>
         <Story />
       </NextIntlClientProvider>
@@ -59,8 +62,8 @@ const StyledScreenSizeLabel = styled(Box)({
 });
 
 const StyledScreenContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'forceMobileLayout',
-})<{ width: string; forceMobileLayout?: boolean }>(({ width, forceMobileLayout, theme }) => ({
+  shouldForwardProp: prop => prop !== 'forceMobileLayout',
+})<{ width: string; forceMobileLayout?: boolean }>(({ width, forceMobileLayout }) => ({
   width,
   border: '2px solid #ddd',
   borderRadius: '8px',
@@ -147,4 +150,4 @@ export const AllScreenSizes: Story = {
       },
     },
   },
-}; 
+};

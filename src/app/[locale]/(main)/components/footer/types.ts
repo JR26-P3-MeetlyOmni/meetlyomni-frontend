@@ -8,12 +8,12 @@ export type TranslationFunction = ReturnType<typeof useTranslations>;
 export interface ContactLinkProps {
   href: string;
   label: string;
-  t: any;
+  t: (key: string) => string;
 }
 
 // LegalLinks component props
 export interface LegalLinksProps {
-  t: any;
+  t: (key: string) => string;
 }
 
 // LegalLink component props
@@ -36,4 +36,4 @@ export interface SocialLink {
   label: string;
   backgroundColor: string;
   icon: () => ReactNode;
-} 
+}
