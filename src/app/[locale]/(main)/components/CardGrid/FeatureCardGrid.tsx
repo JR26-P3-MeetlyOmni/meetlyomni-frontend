@@ -14,23 +14,23 @@ const FeatureCardGrid: React.FC<FeatureCardGridProps> = ({ data, type }) => {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: { xs: '12px', sm: '16px', md: '24px' },
+          gap: { xs: 1.5, sm: 2, md: 3 },
           px: { xs: 1, sm: 2, md: 4 },
           maxWidth: '1920px',
           mx: 'auto',
         }}
       >
-        {data.map((item, index) =>
+        {data.map(item =>
           type === 'project' ? (
             <ProjectFeatureCard
-              key={index}
+              key={`project-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
               imageUrl={item.imageUrl}
               title={item.title}
               description={item.description}
             />
           ) : (
             <ProductFeatureCard
-              key={index}
+              key={`product-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
               imageUrl={item.imageUrl}
               title={item.title}
               description={item.description}
