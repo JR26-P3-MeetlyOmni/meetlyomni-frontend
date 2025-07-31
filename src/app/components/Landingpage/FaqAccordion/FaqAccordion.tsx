@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { faqData } from './FaqAccordion.data';
+import { FAQ_DATA } from './FaqAccordion.data';
 import styles from './FaqAccordion.module.css';
 import { AccordionItemProps } from './FaqAccordion.types';
 
@@ -26,7 +26,7 @@ export default function FaqAccordion() {
   return (
     <section className={styles.faqContainer}>
       <h2 className={styles.heading}>Frequently Asked Questions</h2>
-      {faqData.map(faq => (
+      {FAQ_DATA.map(faq => (
         <AccordionItem
           key={faq.id}
           question={faq.question}

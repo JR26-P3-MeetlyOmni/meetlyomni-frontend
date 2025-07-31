@@ -1,4 +1,4 @@
-export const faqData = [
+export const FAQ_DATA = [
   {
     id: 'faq-1',
     question: 'Is Meetly Omni free?',
