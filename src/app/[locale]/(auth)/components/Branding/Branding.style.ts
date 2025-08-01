@@ -53,7 +53,7 @@ export const Heading = styled('h2')(({ theme }) => ({
   ...theme.typography.h3,
   fontWeight: theme.typography.fontWeightBold,
   lineHeight: 1.2,
-  color: '#2d2e4c',
+  color: theme.palette.text.primary,
   marginBottom: theme.spacing(3),
   whiteSpace: 'normal',
   wordBreak: 'keep-all',
@@ -72,7 +72,7 @@ const descriptionBase = ({ theme }: { theme: Theme }) => ({
   ...theme.typography.body1,
   fontFamily: theme.typography.fontFamily,
   lineHeight: 1.6,
-  color: '#475567',
+  color: theme.palette.text.secondary,
   marginBottom: theme.spacing(2),
 
   [theme.breakpoints.down('md')]: {
