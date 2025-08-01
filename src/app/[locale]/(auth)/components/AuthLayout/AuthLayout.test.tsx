@@ -16,7 +16,6 @@ describe('AuthLayout', () => {
       </AuthLayout>,
     );
 
-    // ✅ 检查子元素是否渲染
     expect(screen.getByTestId('test-form')).toBeInTheDocument();
   });
 
@@ -27,7 +26,6 @@ describe('AuthLayout', () => {
       </AuthLayout>,
     );
 
-    // ✅ 检查 Branding 中的标题（Snapshot 替代）
     expect(screen.getByText(/get started with/i)).toBeInTheDocument();
     expect(screen.getByText(/find the perfect time/i)).toBeInTheDocument();
   });
