@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { Box, styled, useTheme } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 import { ScenarioCardProps } from './interface';
 
@@ -17,27 +18,18 @@ const StyledImageContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledOverlay = styled(Box)({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  background:
-    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 100%)',
-  zIndex: 1,
+const StyledImage = styled(Image)({
+  objectFit: 'cover',
 });
 
-const StyledTitle = styled('h3')(({ theme }) => ({
-  fontSize: theme.typography.h6.fontSize,
-  fontWeight: theme.typography.h6.fontWeight,
-  margin: 0,
-  marginBottom: theme.spacing(2),
-  lineHeight: theme.typography.h6.lineHeight,
-  color: theme.palette.common.white,
-  [theme.breakpoints.up('sm')]: {
-    marginBottom: theme.spacing(3),
-  },
+const StyledOverlay = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(180deg, transparent 0%, transparent 50%, ${alpha(
+    theme.palette.common.black,
+    0.6,
+  )} 100%)`,
+  zIndex: 1,
 }));
 
 const StyledDescription = styled('li')(({ theme }) => ({
@@ -84,26 +76,31 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ScenarioCardImage: React.FC<{ image: string; imageAlt: string }> = ({ image, imageAlt }) => {
-  const theme = useTheme();
-
-  return (
-    <StyledImageContainer>
-      <Image
-        src={image}
-        alt={imageAlt}
-        fill
-        style={{ objectFit: 'cover' }}
-        sizes={`(max-width: ${theme.breakpoints.values.sm}px) 100vw, (max-width: ${theme.breakpoints.values.lg}px) 50vw, 25vw`}
-        priority
-      />
-      <StyledOverlay />
-    </StyledImageContainer>
-  );
-};
+const ScenarioCardImage: React.FC<{ image: string; imageAlt: string }> = ({ image, imageAlt }) => (
+  <StyledImageContainer>
+    <StyledImage
+      src={image}
+      alt={imageAlt}
+      fill
+      sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 25vw"
+      priority
+    />
+    <StyledOverlay />
+  </StyledImageContainer>
+);
 
 const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
-  <StyledTitle>{title}</StyledTitle>
+  <Typography
+    component="h3"
+    variant="h6"
+    sx={{
+      margin: 0,
+      marginBottom: { xs: 2, sm: 3 },
+      color: 'common.white',
+    }}
+  >
+    {title}
+  </Typography>
 );
 
 const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }> = ({
@@ -112,13 +109,8 @@ const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }>
   <StyledContent>
     <ScenarioCardTitle title={scenario.title} />
     <StyledList>
-      {scenario.descriptions.map((desc, index) => (
-        <StyledDescription
-          key={index}
-          style={{ marginBottom: index === scenario.descriptions.length - 1 ? 0 : undefined }}
-        >
-          {desc}
-        </StyledDescription>
+      {scenario.descriptions.map(desc => (
+        <StyledDescription key={desc}>{desc}</StyledDescription>
       ))}
     </StyledList>
   </StyledContent>

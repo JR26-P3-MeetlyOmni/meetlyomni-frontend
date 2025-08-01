@@ -1,12 +1,11 @@
 import { getTranslations } from 'next-intl/server';
 
-import { ScenariosSection } from './(main)/components/applicable-scenarios';
+import { ScenariosSection } from './(main)/components/ScenariosSection';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations('home');
   const _tCommon = await getTranslations('common');
-
 
   return (
     <>
