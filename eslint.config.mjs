@@ -29,17 +29,7 @@ const eslintConfig = [
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
     rules: {
-      "@typescript-eslint/naming-convention": [
-        "error",
-        {
-          "selector": "interface",
-          "format": ["PascalCase"],
-          "prefix": ["I"]
-        }
-      ],
-      "@typescript-eslint/no-enum": "error",
       "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-new-wrappers": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"
@@ -47,6 +37,7 @@ const eslintConfig = [
       "complexity": ["error", { max: 10 }],
       "import/no-cycle": "error",
       "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "no-new-wrappers": "error",
       "no-console": "error",
       "no-debugger": "error",
       "no-duplicate-case": "error",
