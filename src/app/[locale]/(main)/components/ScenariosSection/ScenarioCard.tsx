@@ -66,61 +66,61 @@ const StyledList = styled('ul')({
   margin: 0,
 });
 
-const StyledCard = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.spacing(1),
-  overflow: 'hidden',
-  backgroundColor: theme.palette.background.paper,
-  [theme.breakpoints.up('sm')]: {
-    borderRadius: theme.spacing(1.5),
-  },
-}));
+const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => {
+  // inside style component
+  const StyledCard = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.spacing(1),
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.up('sm')]: {
+      borderRadius: theme.spacing(1.5),
+    },
+  }));
 
-const ScenarioCardImage: React.FC<{ image: string; imageAlt: string }> = ({ image, imageAlt }) => (
-  <StyledImageContainer>
-    <StyledImage
-      src={image}
-      alt={imageAlt}
-      fill
-      sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 25vw"
-      priority
-    />
-    <StyledOverlay />
-  </StyledImageContainer>
-);
+  const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
+    <Typography
+      component="h3"
+      variant="h6"
+      sx={{
+        margin: 0,
+        marginBottom: { xs: 2, sm: 3 },
+        color: 'common.white',
+      }}
+    >
+      {title}
+    </Typography>
+  );
 
-const ScenarioCardTitle: React.FC<{ title: string }> = ({ title }) => (
-  <Typography
-    component="h3"
-    variant="h6"
-    sx={{
-      margin: 0,
-      marginBottom: { xs: 2, sm: 3 },
-      color: 'common.white',
-    }}
-  >
-    {title}
-  </Typography>
-);
+  const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }> = ({
+    scenario,
+  }) => (
+    <StyledContent>
+      <ScenarioCardTitle title={scenario.title} />
+      <StyledList>
+        {scenario.descriptions.map(desc => (
+          <StyledDescription key={desc}>{desc}</StyledDescription>
+        ))}
+      </StyledList>
+    </StyledContent>
+  );
 
-const ScenarioCardContent: React.FC<{ scenario: ScenarioCardProps['scenario'] }> = ({
-  scenario,
-}) => (
-  <StyledContent>
-    <ScenarioCardTitle title={scenario.title} />
-    <StyledList>
-      {scenario.descriptions.map(desc => (
-        <StyledDescription key={desc}>{desc}</StyledDescription>
-      ))}
-    </StyledList>
-  </StyledContent>
-);
+  return (
+    <StyledCard className={className}>
+      <StyledImageContainer>
+        <StyledImage
+          src={scenario.image}
+          alt={scenario.imageAlt}
+          fill
+          sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          priority
+        />
+        <StyledOverlay />
+      </StyledImageContainer>
 
-const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, className }) => (
-  <StyledCard className={className}>
-    <ScenarioCardImage image={scenario.image} imageAlt={scenario.imageAlt} />
-    <ScenarioCardContent scenario={scenario} />
-  </StyledCard>
-);
+      <ScenarioCardContent scenario={scenario} />
+    </StyledCard>
+  );
+};
 
 export default ScenarioCard;
