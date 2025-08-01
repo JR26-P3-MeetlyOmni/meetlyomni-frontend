@@ -4,7 +4,7 @@ npm run precommit
 npm run type-check
 
 if find src -name "*.test.*" -o -name "*.spec.*" 2>/dev/null | grep -q .; then
-  npm run test
+  npm run test:coverage
 else
   echo "No test files found, skipping tests"
 fi

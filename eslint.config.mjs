@@ -27,23 +27,31 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   ...storybook.configs["flat/recommended"],
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ["src/**/*.{js,jsx,ts,tsx}"],
     rules: {
-      "no-console": "error",
-      "no-debugger": "error",
-      "max-lines-per-function": ["error", { max: 100, skipBlankLines: true, skipComments: true }],
       "@typescript-eslint/no-explicit-any": "error",
-      "no-implied-eval": "error",
-      "react-hooks/exhaustive-deps": "error",
-      "complexity": ["error", { max: 10 }],
-      "react/no-danger": "error",
-      "no-duplicate-case": "error",
-      "no-extra-boolean-cast": "error",
-      "no-unused-vars": "off", 
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"
-      }]
+      }],
+      "complexity": ["error", { max: 10 }],
+      "import/no-cycle": "error",
+      "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "no-new-wrappers": "error",
+      "no-console": "error",
+      "no-debugger": "error",
+      "no-duplicate-case": "error",
+      "no-extra-boolean-cast": "error",
+      "no-implied-eval": "error",
+      "no-restricted-globals": ["error", {
+        "name": "document",
+        "message": "Use React refs instead of direct DOM manipulation"
+      }],
+      "no-unused-vars": "off", 
+      "react-hooks/exhaustive-deps": "error",
+      "react/jsx-no-bind": "error",
+      "react/jsx-no-leaked-render": "error",
+      "react/no-danger": "error"
     }
   }
 ];
