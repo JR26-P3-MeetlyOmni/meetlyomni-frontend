@@ -1,20 +1,22 @@
- 
 import { describe, expect, it } from 'vitest';
+
+import { NextIntlClientProvider } from 'next-intl';
 import React from 'react';
+
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { NextIntlClientProvider } from 'next-intl';
+
 import Footer from './footer';
 
 // Mock messages for testing
 const messages = {
-  common: {
+  landing_page_footer: {
     privacyPolicy: 'Privacy Policy',
     termsForUsage: 'Terms for Usage',
     wechat: 'Wechat',
     contactUs: 'Contact Us',
-    copyright: '© 2025 Meetly Omni. All rights reserved.'
-  }
+    copyright: '© 2025 Meetly Omni. All rights reserved.',
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
