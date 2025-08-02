@@ -6,9 +6,7 @@ import { styled } from '@mui/material/styles';
 const StyledTitle = styled(Typography)(({ theme }) => ({
   width: theme.spacing(35), //277px
   height: theme.spacing(5.25), //42px
-  mt: 20,
-  mb: 10,
-  mx: 'auto',
+  margin: `${theme.spacing(20)} auto ${theme.spacing(10)}`,
   fontFamily: 'Roboto',
   fontSize: theme.typography.h4.fontSize,
   fontWeight: theme.typography.fontWeightBold,
@@ -17,9 +15,5 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 
 export default function ProductTitle() {
-  return (
-    <StyledTitle>
-      <Typography>Product Features</Typography>
-    </StyledTitle>
-  );
+  return <StyledTitle>Product Features</StyledTitle>;
 }
