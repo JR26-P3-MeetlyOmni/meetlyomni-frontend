@@ -7,6 +7,8 @@ import Image from 'next/image';
 
 import { Box, Container, Typography } from '@mui/material';
 
+import footerLogo from '@assets/images/footer/footer_logo.png';
+
 import ContactLink from './footer_components/ContactLink';
 import LegalLinks from './footer_components/LegalLinks';
 import SocialIcons from './footer_components/SocialIcons';
@@ -15,7 +17,7 @@ import type { TranslationFunction } from './types';
 const FooterLeft = ({ t }: { t: TranslationFunction }) => (
   <Box className="footer-left">
     <Box className="footer-logo-container">
-      <Image src="/assets/images/footer/footer_logo.png" alt="Omni Logo" width={126} height={36} />
+      <Image src={footerLogo} alt="Omni Logo" width={126} height={36} />
     </Box>
     <LegalLinks t={t} />
     <SocialIcons />
@@ -40,7 +42,7 @@ const FooterBottom = ({ t }: { t: TranslationFunction }) => {
 };
 
 const Footer = () => {
-  const t = useTranslations('common');
+  const t = useTranslations('landing_page_footer');
 
   return (
     <Box component="footer" className="footer">
