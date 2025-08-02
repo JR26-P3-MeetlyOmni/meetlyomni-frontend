@@ -1,23 +1,17 @@
 'use client';
 
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-type ProductFeatureCardProps = {
-  imageUrl: StaticImageData;
-  title: string;
-  description: string;
-};
+import { ProductFeatureCardProps } from './FeatureCard.types';
 
 const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
   width: theme.spacing(48),
   height: theme.spacing(32), //'255px'
-  pl: theme.spacing(5),
-  pt: theme.spacing(5),
-  pb: theme.spacing(5),
+  padding: theme.spacing(5),
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
   backgroundColor: theme.palette.background.paper,
@@ -32,22 +26,13 @@ const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
   },
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
 }));
 
 const ProductFeatureImageWrapper = styled(Box)(({ theme }) => ({
   width: theme.spacing(5), //40px
   height: theme.spacing(5),
-  mb: theme.spacing(5),
+  marginBottom: theme.spacing(5),
   position: 'relative',
-}));
-
-const StyledDescription = styled(Typography)(({ theme }) => ({
-  height: theme.spacing(5),
-  fontSize: theme.spacing(2),
-  lineHeight: 1.5,
-  color: theme.palette.text.secondary,
-  textAlign: 'left',
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
@@ -56,7 +41,15 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
   lineHeight: 'normal',
   color: theme.palette.text.primary,
   textAlign: 'left',
-  mb: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledDescription = styled(Typography)(({ theme }) => ({
+  height: theme.spacing(5),
+  fontSize: theme.spacing(2),
+  lineHeight: 1.5,
+  color: theme.palette.text.secondary,
+  textAlign: 'left',
 }));
 
 const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
