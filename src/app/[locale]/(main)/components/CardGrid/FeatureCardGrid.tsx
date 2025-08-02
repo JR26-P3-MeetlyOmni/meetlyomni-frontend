@@ -1,44 +1,63 @@
+'use client';
+
 import React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 import ProductFeatureCard from '../FeatureCard/ProductFeatureCard';
 import ProjectFeatureCard from '../FeatureCard/ProjectFeatureCard';
 import type { FeatureCardGridProps } from './FeatureCardGrid.types';
 
+const FeatureCardGridWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  gap: theme.spacing(1),
+
+  [theme.breakpoints.up('sm')]: {
+    paddingLeft: theme.spacing(1.5), //12px
+    paddingRight: theme.spacing(1.5),
+    gap: theme.spacing(1),
+  },
+
+  [theme.breakpoints.up('md')]: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    gap: theme.spacing(2),
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    gap: theme.spacing(3),
+    maxWidth: '1920px',
+  },
+}));
+
 const FeatureCardGrid: React.FC<FeatureCardGridProps> = ({ data, type }) => {
   return (
-    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: { xs: 1.5, sm: 2, md: 3 },
-          px: { xs: 1, sm: 2, md: 4 },
-          maxWidth: '1920px',
-          mx: 'auto',
-        }}
-      >
-        {data.map(item =>
-          type === 'project' ? (
-            <ProjectFeatureCard
-              key={`project-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              description={item.description}
-            />
-          ) : (
-            <ProductFeatureCard
-              key={`product-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              description={item.description}
-            />
-          ),
-        )}
-      </Box>
-    </Box>
+    <FeatureCardGridWrapper>
+      {data.map(item =>
+        type === 'project' ? (
+          <ProjectFeatureCard
+            key={`project-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
+            imageUrl={item.imageUrl}
+            title={item.title}
+            description={item.description}
+          />
+        ) : (
+          <ProductFeatureCard
+            key={`product-${item.title.replace(/\s+/g, '-').toLowerCase()}`}
+            imageUrl={item.imageUrl}
+            title={item.title}
+            description={item.description}
+          />
+        ),
+      )}
+    </FeatureCardGridWrapper>
   );
 };
 
