@@ -2,33 +2,78 @@
 
 import { URL_CONFIG } from '@/config/footer_external_links';
 
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 import type { LegalLinkProps, LegalLinksProps } from '../types';
 
-// LegalLink component
-function LegalLink({ href, children }: LegalLinkProps) {
-  return (
-    <Link
-      component="a"
+// Styled Components using MUI theme
+const LegalLinksContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: theme.spacing(2.5), // 20px
+}));
+
+const LegalLinkSeparator = styled('span')(({ theme }) => ({
+  margin: theme.spacing(0, 1.5), // 0 12px
+  color: 'rgba(255, 255, 255, 0.6)',
+  fontSize: '14px',
+}));
+
+const StyledLegalLink = styled(Link)(({ theme }) => ({
+  fontSize: '14px',
+  textDecoration: 'none',
+  color: 'white',
+
+  '&:hover': {
+    textDecoration: 'underline',
+    color: '#42a5f5',
+  },
+}));
+
+// Table-driven legal links mapping
+const legalLinks = {
+  privacy: {
+    href: URL_CONFIG.privacy,
+    key: 'privacyPolicy',
+  },
+  terms: {
+    href: URL_CONFIG.terms,
+    key: 'termsForUsage',
+  },
+};
+
+// Table-driven content mapping
+const legalLinksContent = {
+  link: ({ href, children }: LegalLinkProps) => (
+    <StyledLegalLink
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="legal-link"
     >
       {children}
-    </Link>
-  );
+    </StyledLegalLink>
+  ),
+  separator: () => <LegalLinkSeparator>｜</LegalLinkSeparator>,
+};
+
+// LegalLink component
+function LegalLink({ href, children }: LegalLinkProps) {
+  return legalLinksContent.link({ href, children });
 }
 
 // LegalLinks component
 export default function LegalLinks({ t }: LegalLinksProps) {
   return (
-    <Box className="legal-links-container">
-      <LegalLink href={URL_CONFIG.privacy}>{t('privacyPolicy')}</LegalLink>
-      <span className="legal-link-separator">｜</span>
-      <LegalLink href={URL_CONFIG.terms}>{t('termsForUsage')}</LegalLink>
-    </Box>
+    <LegalLinksContainer>
+      <LegalLink href={legalLinks.privacy.href}>
+        {t(legalLinks.privacy.key)}
+      </LegalLink>
+      {legalLinksContent.separator()}
+      <LegalLink href={legalLinks.terms.href}>
+        {t(legalLinks.terms.key)}
+      </LegalLink>
+    </LegalLinksContainer>
   );
 }
