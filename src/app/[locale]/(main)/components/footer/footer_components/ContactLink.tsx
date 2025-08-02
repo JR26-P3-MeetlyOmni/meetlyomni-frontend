@@ -1,13 +1,15 @@
 'use client';
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import QRCodeComponent from '@/components/qr_code/qrcode';
+
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+
 import type { ContactLinkProps } from '../types';
 
 // Styled Components using MUI theme
-const ContactLinkContainer = styled(Box)(({ theme }) => ({
+const ContactLinkContainer = styled(Box)(() => ({
   textAlign: 'center',
   display: 'flex',
   flexDirection: 'column',
@@ -23,7 +25,7 @@ const ContactLinkText = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
 }));
 
-const QRContainer = styled(Box)(({ theme }) => ({
+const QRContainer = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -31,7 +33,7 @@ const QRContainer = styled(Box)(({ theme }) => ({
 
 // Table-driven content mapping
 const contactLinkContent = {
-  text: ({ label, t }: { label: string; t: any }) => (
+  text: ({ label, t }: { label: string; t: (key: string) => string }) => (
     <ContactLinkText>{t(label)}</ContactLinkText>
   ),
   qr: ({ href }: { href: string }) => (

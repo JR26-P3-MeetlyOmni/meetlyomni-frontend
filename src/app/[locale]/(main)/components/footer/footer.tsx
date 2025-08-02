@@ -5,9 +5,9 @@ import { URL_CONFIG } from '@/config/footer_external_links';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import footerLogo from '@assets/images/footer/footer_logo.png';
@@ -39,7 +39,7 @@ const FooterContent = styled(Box)(({ theme }) => ({
   },
 }));
 
-const FooterLeft = styled(Box)(({ theme }) => ({
+const FooterLeft = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -66,7 +66,7 @@ const FooterBottom = styled(Box)(({ theme }) => ({
   borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
 }));
 
-const FooterCopyright = styled(Typography)(({ theme }) => ({
+const FooterCopyright = styled(Typography)(() => ({
   textAlign: 'center',
   fontSize: '12px',
   color: 'rgba(255, 255, 255, 0.7)',
@@ -100,7 +100,7 @@ const Footer = () => {
   const t = useTranslations('landing_page_footer');
 
   return (
-    <StyledFooter>
+    <StyledFooter as="footer">
       <Container maxWidth="lg">
         <FooterContent>
           {footerSections.left({ t })}

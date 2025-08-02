@@ -2,9 +2,9 @@
 
 import { URL_CONFIG } from '@/config/footer_external_links';
 
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
 
 import type { LegalLinkProps, LegalLinksProps } from '../types';
 
@@ -21,7 +21,7 @@ const LegalLinkSeparator = styled('span')(({ theme }) => ({
   fontSize: '14px',
 }));
 
-const StyledLegalLink = styled(Link)(({ theme }) => ({
+const StyledLegalLink = styled(Link)(() => ({
   fontSize: '14px',
   textDecoration: 'none',
   color: 'white',
@@ -47,11 +47,7 @@ const legalLinks = {
 // Table-driven content mapping
 const legalLinksContent = {
   link: ({ href, children }: LegalLinkProps) => (
-    <StyledLegalLink
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <StyledLegalLink href={href} target="_blank" rel="noopener noreferrer">
       {children}
     </StyledLegalLink>
   ),
@@ -67,13 +63,9 @@ function LegalLink({ href, children }: LegalLinkProps) {
 export default function LegalLinks({ t }: LegalLinksProps) {
   return (
     <LegalLinksContainer>
-      <LegalLink href={legalLinks.privacy.href}>
-        {t(legalLinks.privacy.key)}
-      </LegalLink>
+      <LegalLink href={legalLinks.privacy.href}>{t(legalLinks.privacy.key)}</LegalLink>
       {legalLinksContent.separator()}
-      <LegalLink href={legalLinks.terms.href}>
-        {t(legalLinks.terms.key)}
-      </LegalLink>
+      <LegalLink href={legalLinks.terms.href}>{t(legalLinks.terms.key)}</LegalLink>
     </LegalLinksContainer>
   );
 }
