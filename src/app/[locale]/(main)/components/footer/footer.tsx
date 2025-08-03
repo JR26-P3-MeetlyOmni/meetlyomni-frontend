@@ -13,9 +13,9 @@ import Typography from '@mui/material/Typography';
 
 import footerLogo from '@assets/images/footer/footer_logo.png';
 
-import ContactLink from './footer_components/ContactLink';
-import LegalLinks from './footer_components/LegalLinks';
-import SocialIcons from './footer_components/SocialIcons';
+import ContactLink from './components/ContactLink';
+import LegalLinks from './components/LegalLinks';
+import SocialIcons from './components/SocialIcons';
 import type { TranslationFunction } from './types';
 
 // Styled Components using MUI theme
