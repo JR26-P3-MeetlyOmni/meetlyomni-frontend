@@ -17,18 +17,18 @@ const LegalLinksContainer = styled(Box)(({ theme }) => ({
 
 const LegalLinkSeparator = styled('span')(({ theme }) => ({
   margin: theme.spacing(0, 1.5), // 0 12px
-  color: 'rgba(255, 255, 255, 0.6)',
-  fontSize: '14px',
+  color: theme.palette.common.white,
+  fontSize: theme.typography.body2.fontSize,
 }));
 
-const StyledLegalLink = styled(Link)(() => ({
-  fontSize: '14px',
+const StyledLegalLink = styled(Link)(({ theme }) => ({
+  fontSize: theme.typography.body2.fontSize,
   textDecoration: 'none',
-  color: 'white',
+  color: theme.palette.common.white,
 
   '&:hover': {
     textDecoration: 'underline',
-    color: '#42a5f5',
+    color: theme.palette.primary.main,
   },
 }));
 

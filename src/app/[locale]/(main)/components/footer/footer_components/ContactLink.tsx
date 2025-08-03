@@ -17,9 +17,9 @@ const ContactLinkContainer = styled(Box)(() => ({
 }));
 
 const ContactLinkText = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
+  fontSize: theme.typography.body2.fontSize,
   marginBottom: theme.spacing(1.5), // 12px
-  color: 'white',
+  color: theme.palette.common.white,
   textDecoration: 'none',
   display: 'block',
   textAlign: 'center',

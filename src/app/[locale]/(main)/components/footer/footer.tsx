@@ -1,6 +1,7 @@
 'use client';
 
 import { URL_CONFIG } from '@/config/footer_external_links';
+import theme from '@/theme';
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -19,10 +20,10 @@ import type { TranslationFunction } from './types';
 
 // Styled Components using MUI theme
 const StyledFooter = styled(Box)(({ theme }) => ({
-  backgroundColor: 'rgba(22, 23, 31, 1)',
-  color: 'white',
+  backgroundColor: theme.palette.grey[900],
+  color: theme.palette.common.white,
   padding: theme.spacing(7.5, 0), // 60px 0
-  fontFamily: 'var(--font-roboto), sans-serif',
+  fontFamily: theme.typography.fontFamily,
 }));
 
 const FooterContent = styled(Box)(({ theme }) => ({
@@ -63,13 +64,13 @@ const FooterRight = styled(Box)(({ theme }) => ({
 
 const FooterBottom = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(3.75), // 30px
-  borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
+  borderTop: `1px solid ${theme.palette.divider}`,
 }));
 
 const FooterCopyright = styled(Typography)(() => ({
   textAlign: 'center',
-  fontSize: '12px',
-  color: 'rgba(255, 255, 255, 0.7)',
+  fontSize: theme.typography.caption.fontSize,
+  color: theme.palette.common.white,
 }));
 
 // Table-driven component mapping

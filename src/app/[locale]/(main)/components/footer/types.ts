@@ -26,7 +26,6 @@ export interface LegalLinkProps {
 export interface SocialIconProps {
   href: string;
   label: string;
-  backgroundColor: string;
   children: ReactNode;
 }
 
@@ -34,6 +33,5 @@ export interface SocialIconProps {
 export interface SocialLink {
   href: string;
   label: string;
-  backgroundColor: string;
   icon: () => ReactNode;
 }

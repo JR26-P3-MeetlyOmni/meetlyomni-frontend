@@ -4,9 +4,9 @@ import { URL_CONFIG } from '@/config/footer_external_links';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
 
 import type { SocialIconProps, SocialLink } from '../types';
 
@@ -24,10 +24,24 @@ const SocialIconBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'opacity 0.2s ease',
+  backgroundColor: '#1DA1F2', // 统一背景色
 
   '&:hover': {
     opacity: 0.8,
   },
+}));
+
+// Styled Icons using MUI theme
+const StyledLinkedInIcon = styled(LinkedInIcon)(({ theme }) => ({
+  color: theme.palette.common.white,
+  width: theme.spacing(2.75), // 22px
+  height: theme.spacing(2.75), // 22px
+}));
+
+const StyledTwitterIcon = styled(TwitterIcon)(({ theme }) => ({
+  color: theme.palette.common.white,
+  width: theme.spacing(2.75), // 22px
+  height: theme.spacing(2.75), // 22px
 }));
 
 // Table-driven social links mapping
@@ -35,14 +49,12 @@ const socialLinks: SocialLink[] = [
   {
     href: URL_CONFIG.linkedin,
     label: 'LinkedIn',
-    backgroundColor: '#0077B5',
-    icon: () => <LinkedInIcon style={{ color: 'white', width: 22, height: 22 }} />,
+    icon: () => <StyledLinkedInIcon />,
   },
   {
     href: URL_CONFIG.twitter,
     label: 'Twitter',
-    backgroundColor: '#1DA1F2',
-    icon: () => <TwitterIcon style={{ color: 'white', width: 22, height: 22 }} />,
+    icon: () => <StyledTwitterIcon />,
   },
 ];
 
@@ -53,18 +65,12 @@ const socialIconContent = {
       {children}
     </Link>
   ),
-  box: ({ backgroundColor, children }: { backgroundColor: string; children: React.ReactNode }) => (
-    <SocialIconBox style={{ backgroundColor }}>
-      {children}
-    </SocialIconBox>
-  ),
+  box: ({ children }: { children: React.ReactNode }) => <SocialIconBox>{children}</SocialIconBox>,
 };
 
 // SocialIcon component
-function SocialIcon({ href, label, backgroundColor, children }: SocialIconProps) {
-  return socialIconContent.link({ href, label, children: 
-    socialIconContent.box({ backgroundColor, children })
-  });
+function SocialIcon({ href, label, children }: Omit<SocialIconProps, 'backgroundColor'>) {
+  return socialIconContent.link({ href, label, children: socialIconContent.box({ children }) });
 }
 
 // SocialIcons component
@@ -72,12 +78,7 @@ export default function SocialIcons() {
   return (
     <SocialIconsContainer>
       {socialLinks.map(link => (
-        <SocialIcon
-          key={link.label}
-          href={link.href}
-          label={link.label}
-          backgroundColor={link.backgroundColor}
-        >
+        <SocialIcon key={link.label} href={link.href} label={link.label}>
           {link.icon()}
         </SocialIcon>
       ))}
