@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import QRCodeComponent from './qrcode';
+
+import QRCodeComponent from './QRCode';
 
 const meta: Meta<typeof QRCodeComponent> = {
   title: 'Components/QRCode',
@@ -78,4 +79,4 @@ export const LongURL: Story = {
     size: 64,
     label: 'Long URL Example',
   },
-}; 
+};
