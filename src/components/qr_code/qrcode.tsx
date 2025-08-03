@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 
 import type { QRCodeProps } from './types';
 
-// Styled Components using MUI theme
 const QRContainer = styled(Box)(() => ({
   textAlign: 'center',
 }));
@@ -52,7 +51,6 @@ const StyledAlert = styled(Alert, { shouldForwardProp: prop => prop !== 'qrSize'
   ...theme.typography.caption,
 }));
 
-// Table-driven content mapping
 const qrContentByStatus = {
   [QRStatus.LOADING]: ({ size }: { size: number }) => (
     <Skeleton variant="rectangular" width={size} height={size} />
@@ -67,7 +65,6 @@ const qrContentByStatus = {
   ),
 };
 
-// Table-driven component mapping
 const qrComponents = {
   label: ({ label }: { label: string }) => <QRLabel>{label}</QRLabel>,
   wrapper: ({ children }: { children: React.ReactNode }) => <QRWrapper>{children}</QRWrapper>,

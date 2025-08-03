@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 
 import type { ContactLinkProps } from '../types';
 
-// Styled Components using MUI theme
 const ContactLinkContainer = styled(Box)(() => ({
   textAlign: 'center',
   display: 'flex',
@@ -31,7 +30,6 @@ const QRContainer = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-// Table-driven content mapping
 const contactLinkContent = {
   text: ({ label, t }: { label: string; t: (key: string) => string }) => (
     <ContactLinkText>{t(label)}</ContactLinkText>

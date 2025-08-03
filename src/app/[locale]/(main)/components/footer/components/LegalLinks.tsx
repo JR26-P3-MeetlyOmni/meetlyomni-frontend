@@ -8,7 +8,6 @@ import { styled } from '@mui/material/styles';
 
 import type { LegalLinkProps, LegalLinksProps } from '../types';
 
-// Styled Components using MUI theme
 const LegalLinksContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -32,7 +31,6 @@ const StyledLegalLink = styled(Link)(({ theme }) => ({
   },
 }));
 
-// Table-driven legal links mapping
 const legalLinks = {
   privacy: {
     href: URL_CONFIG.privacy,
@@ -44,7 +42,6 @@ const legalLinks = {
   },
 };
 
-// Table-driven content mapping
 const legalLinksContent = {
   link: ({ href, children }: LegalLinkProps) => (
     <StyledLegalLink href={href} target="_blank" rel="noopener noreferrer">
@@ -54,12 +51,10 @@ const legalLinksContent = {
   separator: () => <LegalLinkSeparator>｜</LegalLinkSeparator>,
 };
 
-// LegalLink component
 function LegalLink({ href, children }: LegalLinkProps) {
   return legalLinksContent.link({ href, children });
 }
 
-// LegalLinks component
 export default function LegalLinks({ t }: LegalLinksProps) {
   return (
     <LegalLinksContainer>

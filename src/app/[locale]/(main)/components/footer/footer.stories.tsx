@@ -52,7 +52,6 @@ export const Default: Story = {
   },
 };
 
-// Styled components for story layout
 const StyledScreenSizeLabel = styled(Box)({
   fontSize: '18px',
   fontWeight: 'bold',

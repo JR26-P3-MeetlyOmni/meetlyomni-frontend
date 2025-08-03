@@ -18,7 +18,6 @@ import LegalLinks from './components/LegalLinks';
 import SocialIcons from './components/SocialIcons';
 import type { TranslationFunction } from './types';
 
-// Styled Components using MUI theme
 const StyledFooter = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.grey[900],
   color: theme.palette.common.white,
@@ -73,7 +72,6 @@ const FooterCopyright = styled(Typography)(() => ({
   color: theme.palette.common.white,
 }));
 
-// Table-driven component mapping
 const footerSections = {
   left: ({ t }: { t: TranslationFunction }) => (
     <FooterLeft>

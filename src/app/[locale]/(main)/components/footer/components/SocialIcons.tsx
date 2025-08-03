@@ -10,7 +10,6 @@ import { styled } from '@mui/material/styles';
 
 import type { SocialIconProps, SocialLink } from '../types';
 
-// Styled Components using MUI theme
 const SocialIconsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(1.5), // 12px
@@ -24,14 +23,13 @@ const SocialIconBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'opacity 0.2s ease',
-  backgroundColor: '#1DA1F2', // 统一背景色
+  backgroundColor: '#1DA1F2',
 
   '&:hover': {
     opacity: 0.8,
   },
 }));
 
-// Styled Icons using MUI theme
 const StyledLinkedInIcon = styled(LinkedInIcon)(({ theme }) => ({
   color: theme.palette.common.white,
   width: theme.spacing(2.75), // 22px
@@ -44,7 +42,6 @@ const StyledTwitterIcon = styled(TwitterIcon)(({ theme }) => ({
   height: theme.spacing(2.75), // 22px
 }));
 
-// Table-driven social links mapping
 const socialLinks: SocialLink[] = [
   {
     href: URL_CONFIG.linkedin,
@@ -58,7 +55,6 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-// Table-driven content mapping
 const socialIconContent = {
   link: ({ href, label, children }: { href: string; label: string; children: React.ReactNode }) => (
     <Link component="a" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
@@ -68,12 +64,10 @@ const socialIconContent = {
   box: ({ children }: { children: React.ReactNode }) => <SocialIconBox>{children}</SocialIconBox>,
 };
 
-// SocialIcon component
 function SocialIcon({ href, label, children }: Omit<SocialIconProps, 'backgroundColor'>) {
   return socialIconContent.link({ href, label, children: socialIconContent.box({ children }) });
 }
 
-// SocialIcons component
 export default function SocialIcons() {
   return (
     <SocialIconsContainer>

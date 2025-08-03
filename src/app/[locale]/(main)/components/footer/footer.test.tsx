@@ -22,7 +22,6 @@ const messages = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (globalThis as any).React = React;
 
-// Wrapper component for testing with i18n context
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <NextIntlClientProvider messages={messages} locale="en">
     {children}
