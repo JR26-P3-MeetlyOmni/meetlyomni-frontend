@@ -5,9 +5,9 @@ import React from 'react';
 
 import { Box, styled } from '@mui/material';
 
+import ScenarioCard from './components/ScenarioCard';
 import { getScenarioData } from './data';
 import { ScenariosSectionProps } from './interface';
-import ScenarioCard from './ScenarioCard';
 
 const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(5)} 0`,
@@ -53,16 +53,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ScenariosSectionGrid: React.FC<{ scenarios: ScenariosSectionProps['scenarios'] }> = ({
-  scenarios,
-}) => (
-  <StyledGrid>
-    {scenarios?.map(scenario => (
-      <ScenarioCard key={scenario.id} scenario={scenario} />
-    ))}
-  </StyledGrid>
-);
-
 const ScenariosSection: React.FC<ScenariosSectionProps> = ({ title, scenarios, className }) => {
   const t = useTranslations('LandingPage');
   const displayScenarios = scenarios || getScenarioData(t);
@@ -72,7 +62,11 @@ const ScenariosSection: React.FC<ScenariosSectionProps> = ({ title, scenarios, c
     <StyledSection className={className}>
       <StyledContainer>
         <StyledTitle>{displayTitle}</StyledTitle>
-        <ScenariosSectionGrid scenarios={displayScenarios} />
+        <StyledGrid>
+          {displayScenarios?.map(scenario => (
+            <ScenarioCard key={scenario.id} scenario={scenario} />
+          ))}
+        </StyledGrid>
       </StyledContainer>
     </StyledSection>
   );

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { render, screen } from '@testing-library/react';
 
-import type { ScenarioCardProps } from './interface';
+import type { ScenarioCardProps } from '../interface';
 import ScenarioCard from './ScenarioCard';
 
 describe('ScenarioCard', () => {

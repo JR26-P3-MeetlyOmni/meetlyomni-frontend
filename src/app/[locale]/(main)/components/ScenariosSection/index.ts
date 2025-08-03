@@ -1,5 +1,5 @@
 // Re-export components
-export { default as ScenarioCard } from './ScenarioCard';
+export { default as ScenarioCard } from './components/ScenarioCard';
 export { default as ScenariosSection } from './ScenarioSection';
 
 // Re-export types and interfaces
