@@ -16,7 +16,6 @@ import footerLogo from '@assets/images/footer/footer_logo.png';
 import ContactLink from './components/ContactLink';
 import LegalLinks from './components/LegalLinks';
 import SocialIcons from './components/SocialIcons';
-import type { TranslationFunction } from './types';
 
 const StyledFooter = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.grey[900],
@@ -72,29 +71,6 @@ const FooterCopyright = styled(Typography)(() => ({
   color: theme.palette.common.white,
 }));
 
-const footerSections = {
-  left: ({ t }: { t: TranslationFunction }) => (
-    <FooterLeft>
-      <FooterLogoContainer>
-        <Image src={footerLogo} alt="Omni Logo" width={126} height={36} />
-      </FooterLogoContainer>
-      <LegalLinks t={t} />
-      <SocialIcons />
-    </FooterLeft>
-  ),
-  right: ({ t }: { t: TranslationFunction }) => (
-    <FooterRight>
-      <ContactLink href={URL_CONFIG.wechat} label="wechat" t={t} />
-      <ContactLink href={URL_CONFIG.contact} label="contactUs" t={t} />
-    </FooterRight>
-  ),
-  bottom: ({ t }: { t: TranslationFunction }) => (
-    <FooterBottom>
-      <FooterCopyright>{t('copyright')}</FooterCopyright>
-    </FooterBottom>
-  ),
-};
-
 const Footer = () => {
   const t = useTranslations('landing_page_footer');
 
@@ -102,10 +78,23 @@ const Footer = () => {
     <StyledFooter as="footer">
       <Container maxWidth="lg">
         <FooterContent>
-          {footerSections.left({ t })}
-          {footerSections.right({ t })}
+          <FooterLeft>
+            <FooterLogoContainer>
+              <Image src={footerLogo} alt="Omni Logo" width={126} height={36} />
+            </FooterLogoContainer>
+            <LegalLinks t={t} />
+            <SocialIcons />
+          </FooterLeft>
+
+          <FooterRight>
+            <ContactLink href={URL_CONFIG.wechat} label="wechat" t={t} />
+            <ContactLink href={URL_CONFIG.contact} label="contactUs" t={t} />
+          </FooterRight>
         </FooterContent>
-        {footerSections.bottom({ t })}
+
+        <FooterBottom>
+          <FooterCopyright>{t('copyright')}</FooterCopyright>
+        </FooterBottom>
       </Container>
     </StyledFooter>
   );

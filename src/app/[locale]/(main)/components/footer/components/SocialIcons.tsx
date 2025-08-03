@@ -55,17 +55,12 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-const socialIconContent = {
-  link: ({ href, label, children }: { href: string; label: string; children: React.ReactNode }) => (
-    <Link component="a" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-      {children}
-    </Link>
-  ),
-  box: ({ children }: { children: React.ReactNode }) => <SocialIconBox>{children}</SocialIconBox>,
-};
-
 function SocialIcon({ href, label, children }: Omit<SocialIconProps, 'backgroundColor'>) {
-  return socialIconContent.link({ href, label, children: socialIconContent.box({ children }) });
+  return (
+    <Link component="a" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+      <SocialIconBox>{children}</SocialIconBox>
+    </Link>
+  );
 }
 
 export default function SocialIcons() {

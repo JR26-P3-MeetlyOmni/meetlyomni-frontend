@@ -42,24 +42,19 @@ const legalLinks = {
   },
 };
 
-const legalLinksContent = {
-  link: ({ href, children }: LegalLinkProps) => (
+function LegalLink({ href, children }: LegalLinkProps) {
+  return (
     <StyledLegalLink href={href} target="_blank" rel="noopener noreferrer">
       {children}
     </StyledLegalLink>
-  ),
-  separator: () => <LegalLinkSeparator>｜</LegalLinkSeparator>,
-};
-
-function LegalLink({ href, children }: LegalLinkProps) {
-  return legalLinksContent.link({ href, children });
+  );
 }
 
 export default function LegalLinks({ t }: LegalLinksProps) {
   return (
     <LegalLinksContainer>
       <LegalLink href={legalLinks.privacy.href}>{t(legalLinks.privacy.key)}</LegalLink>
-      {legalLinksContent.separator()}
+      <LegalLinkSeparator>｜</LegalLinkSeparator>
       <LegalLink href={legalLinks.terms.href}>{t(legalLinks.terms.key)}</LegalLink>
     </LegalLinksContainer>
   );

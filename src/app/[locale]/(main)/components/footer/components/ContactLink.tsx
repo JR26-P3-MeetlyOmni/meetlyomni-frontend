@@ -30,22 +30,13 @@ const QRContainer = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const contactLinkContent = {
-  text: ({ label, t }: { label: string; t: (key: string) => string }) => (
-    <ContactLinkText>{t(label)}</ContactLinkText>
-  ),
-  qr: ({ href }: { href: string }) => (
-    <QRContainer>
-      <QRCodeComponent url={href} size={64} />
-    </QRContainer>
-  ),
-};
-
 export default function ContactLink({ href, label, t }: ContactLinkProps) {
   return (
     <ContactLinkContainer>
-      {contactLinkContent.text({ label, t })}
-      {contactLinkContent.qr({ href })}
+      <ContactLinkText>{t(label)}</ContactLinkText>
+      <QRContainer>
+        <QRCodeComponent url={href} size={64} />
+      </QRContainer>
     </ContactLinkContainer>
   );
 }
