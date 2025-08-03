@@ -45,6 +45,7 @@ const eslintConfig = [
       "complexity": ["error", { max: 10 }],
       "import/no-cycle": "error",
       "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "no-new-wrappers": "error",
       "no-console": "error",
       "no-debugger": "error",
       "no-duplicate-case": "error",
