@@ -1,4 +1,4 @@
-import ClientLayout from '@/components/ClientLayout';
+import { MUIProvider } from '@/components/providers/MUIProvider';
 import { ReduxProvider } from '@/store/provider';
 
 import type { Metadata } from 'next';
@@ -24,11 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={roboto.variable}>
-        <ReduxProvider>
-          <ClientLayout>{children}</ClientLayout>
-        </ReduxProvider>
+    <html lang="en" className={roboto.variable}>
+      <body>
+        <MUIProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </MUIProvider>
       </body>
     </html>
   );
