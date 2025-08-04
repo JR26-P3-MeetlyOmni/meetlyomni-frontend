@@ -6,7 +6,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import Footer from './footer';
+import Footer from './Footer';
 
 // Mock messages for testing
 const messages = {
