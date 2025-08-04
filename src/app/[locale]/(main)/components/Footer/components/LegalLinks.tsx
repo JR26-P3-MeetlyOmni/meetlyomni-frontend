@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
-import type { LegalLinkProps, LegalLinksProps } from '../types';
+import type { LegalLinksProps } from '../types';
 
 const LegalLinksContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -42,20 +42,18 @@ const legalLinks = {
   },
 };
 
-function LegalLink({ href, children }: LegalLinkProps) {
-  return (
-    <StyledLegalLink href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-    </StyledLegalLink>
-  );
-}
-
-export default function LegalLinks({ t }: LegalLinksProps) {
+const LegalLink = ({ t }: LegalLinksProps) => {
   return (
     <LegalLinksContainer>
-      <LegalLink href={legalLinks.privacy.href}>{t(legalLinks.privacy.key)}</LegalLink>
+      <StyledLegalLink href={legalLinks.privacy.href} target="_blank" rel="noopener noreferrer">
+        {t(legalLinks.privacy.key)}
+      </StyledLegalLink>
       <LegalLinkSeparator>｜</LegalLinkSeparator>
-      <LegalLink href={legalLinks.terms.href}>{t(legalLinks.terms.key)}</LegalLink>
+      <StyledLegalLink href={legalLinks.terms.href} target="_blank" rel="noopener noreferrer">
+        {t(legalLinks.terms.key)}
+      </StyledLegalLink>
     </LegalLinksContainer>
   );
-}
+};
+
+export default LegalLink;

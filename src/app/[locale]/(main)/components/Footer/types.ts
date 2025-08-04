@@ -13,17 +13,6 @@ export interface LegalLinksProps {
   t: (key: string) => string;
 }
 
-export interface LegalLinkProps {
-  href: string;
-  children: ReactNode;
-}
-
-export interface SocialIconProps {
-  href: string;
-  label: string;
-  children: ReactNode;
-}
-
 export interface SocialLink {
   href: string;
   label: string;

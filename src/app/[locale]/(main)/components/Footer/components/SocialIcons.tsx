@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
-import type { SocialIconProps, SocialLink } from '../types';
+import type { SocialLink } from '../types';
 
 const SocialIconsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -55,22 +55,23 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-function SocialIcon({ href, label, children }: Omit<SocialIconProps, 'backgroundColor'>) {
-  return (
-    <Link component="a" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-      <SocialIconBox>{children}</SocialIconBox>
-    </Link>
-  );
-}
-
-export default function SocialIcons() {
+const SocialIcons = () => {
   return (
     <SocialIconsContainer>
       {socialLinks.map(link => (
-        <SocialIcon key={link.label} href={link.href} label={link.label}>
-          {link.icon()}
-        </SocialIcon>
+        <Link
+          key={link.label}
+          component="a"
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={link.label}
+        >
+          <SocialIconBox>{link.icon()}</SocialIconBox>
+        </Link>
       ))}
     </SocialIconsContainer>
   );
-}
+};
+
+export default SocialIcons;

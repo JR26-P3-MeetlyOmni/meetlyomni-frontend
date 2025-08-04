@@ -30,7 +30,7 @@ const QRContainer = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-export default function ContactLink({ href, label, t }: ContactLinkProps) {
+const ContactLink = ({ href, label, t }: ContactLinkProps) => {
   return (
     <ContactLinkContainer>
       <ContactLinkText>{t(label)}</ContactLinkText>
@@ -39,4 +39,6 @@ export default function ContactLink({ href, label, t }: ContactLinkProps) {
       </QRContainer>
     </ContactLinkContainer>
   );
-}
+};
+
+export default ContactLink;
