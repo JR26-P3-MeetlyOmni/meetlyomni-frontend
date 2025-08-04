@@ -6,7 +6,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { ProjectFeatureCardProps } from './FeatureCard.types';
+import { FeatureListProps } from './FeatureCard.types';
 
 const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
   width: theme.spacing(48), //'377px'
@@ -38,7 +38,7 @@ const ProjectFeatureImageWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 500,
+  fontWeight: theme.typography.fontWeightMedium,
   fontSize: theme.spacing(2.5), // 20px
   lineHeight: 'normal',
   color: theme.palette.text.primary,
@@ -55,11 +55,7 @@ const StyledDescription = styled(Typography)(({ theme }) => ({
   px: theme.spacing(2),
 }));
 
-const ProjectFeatureCard: React.FC<ProjectFeatureCardProps> = ({
-  imageUrl,
-  title,
-  description,
-}) => (
+const ProjectFeatureCard: React.FC<FeatureListProps> = ({ imageUrl, title, description }) => (
   <ProjectFeatureCardWrapper>
     <ProjectFeatureImageWrapper>
       <Image src={imageUrl} alt={`${title} feature illustration`} width="353" height="232" />

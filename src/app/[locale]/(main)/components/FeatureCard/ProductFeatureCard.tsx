@@ -6,7 +6,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { ProductFeatureCardProps } from './FeatureCard.types';
+import { FeatureListProps } from './FeatureCard.types';
 
 const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
   width: theme.spacing(48),
@@ -36,7 +36,7 @@ const ProductFeatureImageWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 500,
+  fontWeight: theme.typography.fontWeightMedium,
   fontSize: theme.spacing(2.5), //'20px'
   lineHeight: 'normal',
   color: theme.palette.text.primary,
@@ -52,11 +52,7 @@ const StyledDescription = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
 }));
 
-const ProductFeatureCard: React.FC<ProductFeatureCardProps> = ({
-  imageUrl,
-  title,
-  description,
-}) => (
+const ProductFeatureCard: React.FC<FeatureListProps> = ({ imageUrl, title, description }) => (
   <ProductFeatureCardWrapper>
     <ProductFeatureImageWrapper>
       <Image src={imageUrl} alt={`${title} feature illustration`} width="40" height="40" />

@@ -2,7 +2,7 @@ import _React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { FeatureCardGridConstants } from '../constants/FeatureCardGridConstants';
+import { Feature_Card_Grid } from '../constants/FeatureCardGridConstants';
 import FeatureCardGrid from './FeatureCardGrid';
 
 const meta: Meta<typeof FeatureCardGrid> = {
@@ -22,10 +22,10 @@ export const ProjectFeature: Story = {
   name: 'Project',
   args: {
     data: [
-      FeatureCardGridConstants.TeamManager,
-      FeatureCardGridConstants.IntelligentMatch,
-      FeatureCardGridConstants.GameInteraction,
-      FeatureCardGridConstants.DataAnalysis,
+      Feature_Card_Grid.TeamManager,
+      Feature_Card_Grid.IntelligentMatch,
+      Feature_Card_Grid.GameInteraction,
+      Feature_Card_Grid.DataAnalysis,
     ],
     type: 'project',
   },
@@ -34,10 +34,10 @@ export const ProductFeature: Story = {
   name: 'Product',
   args: {
     data: [
-      FeatureCardGridConstants.DataVisualization,
-      FeatureCardGridConstants.CrossPlatform,
-      FeatureCardGridConstants.CustomizableRules,
-      FeatureCardGridConstants.NoDownload,
+      Feature_Card_Grid.DataVisualization,
+      Feature_Card_Grid.CrossPlatform,
+      Feature_Card_Grid.CustomizableRules,
+      Feature_Card_Grid.NoDownload,
     ],
     type: 'product',
   },

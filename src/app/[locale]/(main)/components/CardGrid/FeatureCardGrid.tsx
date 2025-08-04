@@ -15,7 +15,10 @@ const FeatureCardGridWrapper = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   marginLeft: 'auto',
   marginRight: 'auto',
-  gap: theme.spacing(1),
+  //default = lg
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
+  gap: theme.spacing(3),
 
   [theme.breakpoints.up('sm')]: {
     paddingLeft: theme.spacing(1.5), //12px
@@ -27,13 +30,6 @@ const FeatureCardGridWrapper = styled(Box)(({ theme }) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     gap: theme.spacing(2),
-  },
-
-  [theme.breakpoints.up('lg')]: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
-    gap: theme.spacing(3),
-    maxWidth: '1920px',
   },
 }));
 

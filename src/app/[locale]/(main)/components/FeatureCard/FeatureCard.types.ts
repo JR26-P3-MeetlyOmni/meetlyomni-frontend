@@ -1,12 +1,6 @@
 import { StaticImageData } from 'next/image';
 
-export type ProductFeatureCardProps = {
-  imageUrl: StaticImageData;
-  title: string;
-  description: string;
-};
-
-export type ProjectFeatureCardProps = {
+export type FeatureListProps = {
   imageUrl: StaticImageData;
   title: string;
   description: string;

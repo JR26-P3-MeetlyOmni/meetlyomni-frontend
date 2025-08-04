@@ -7,7 +7,7 @@ import GameInteractionImage from '@assets/images/FeatureImages/game_interaction.
 import NoDownloadImage from '@assets/images/FeatureImages/no_download.webp';
 import TeamManagerImage from '@assets/images/FeatureImages/team_manager.webp';
 
-export const FeatureCardGridConstants = {
+export const Feature_Card_Grid = {
   TeamManager: {
     imageUrl: TeamManagerImage,
     title: 'Activities & Team management',
