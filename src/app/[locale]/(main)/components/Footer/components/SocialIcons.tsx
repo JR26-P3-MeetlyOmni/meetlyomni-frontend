@@ -1,6 +1,6 @@
 'use client';
 
-import { URL_CONFIG } from '@/config/footer_external_links';
+import { URL_CONFIG } from '@/constant/footer_external_links';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
