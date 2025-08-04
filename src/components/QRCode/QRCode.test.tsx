@@ -84,7 +84,6 @@ describe('QRCodeComponent', () => {
     });
   });
 
-   
   describe('QR Code Generation', () => {
     it('should call QRCode.toDataURL with correct parameters', async () => {
       const mockDataUrl = 'data:image/png;base64,mock-qr-code-data';
@@ -123,7 +122,7 @@ describe('QRCodeComponent', () => {
 
     it('should show loading skeleton initially', async () => {
       (QRCode.toDataURL as MockedQRCode['toDataURL']).mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve('data:image/png;base64,mock'), 100))
+        () => new Promise(resolve => setTimeout(() => resolve('data:image/png;base64,mock'), 100)),
       );
 
       await act(async () => {
@@ -131,17 +130,17 @@ describe('QRCodeComponent', () => {
       });
 
       // Should show loading skeleton initially
-      const skeleton = document.querySelector('[data-testid="skeleton"]') || 
-                      document.querySelector('.MuiSkeleton-root');
+      const skeleton =
+        document.querySelector('[data-testid="skeleton"]') ||
+        document.querySelector('.MuiSkeleton-root');
       expect(skeleton).toBeInTheDocument();
     });
   });
 
-   
   describe('Error Handling', () => {
     it('should display error state when QR code generation fails', async () => {
       (QRCode.toDataURL as MockedQRCode['toDataURL']).mockRejectedValue(
-        new Error('Generation failed')
+        new Error('Generation failed'),
       );
 
       await act(async () => {
@@ -181,4 +180,4 @@ describe('QRCodeComponent', () => {
       expect(screen.queryByText('Failed to generate QR code')).not.toBeInTheDocument();
     });
   });
-}); 
+});

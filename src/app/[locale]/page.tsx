@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import Footer from './(main)/components/footer/Footer';
+import Footer from './(main)/components/Footer/Footer';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
