@@ -2,10 +2,10 @@
 
 import { URL_CONFIG } from '@/constant/footer_external_links';
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import { styled } from '@mui/material/styles';
 import NextLink from 'next/link';
+
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 import type { LegalLinksProps } from '../types';
 
