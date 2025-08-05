@@ -5,6 +5,7 @@ import { URL_CONFIG } from '@/constant/footer_external_links';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
+import NextLink from 'next/link';
 
 import type { LegalLinksProps } from '../types';
 
@@ -20,11 +21,10 @@ const LegalLinkSeparator = styled('span')(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
 }));
 
-const StyledLegalLink = styled(Link)(({ theme }) => ({
+const StyledLegalLink = styled(NextLink)(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
   textDecoration: 'none',
   color: theme.palette.common.white,
-
   '&:hover': {
     textDecoration: 'underline',
     color: theme.palette.primary.main,
