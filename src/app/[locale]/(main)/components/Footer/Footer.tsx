@@ -65,7 +65,7 @@ const FooterBottom = styled(Box)(({ theme }) => ({
   borderTop: `1px solid ${theme.palette.divider}`,
 }));
 
-const FooterCopyright = styled(Typography)(() => ({
+const FooterCopyright = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
   fontSize: theme.typography.caption.fontSize,
   color: theme.palette.common.white,
