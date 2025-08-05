@@ -5,7 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import { ProductFeaturesData, ProjectFeaturesData } from '../../../../../data/featuresData';
+import { ProductFeaturesData, ProjectFeaturesData } from '../../../../../../constants/FeaturesData';
 import FeatureCardGrid from './FeatureCardGrid';
 
 describe('FeatureCardGrid', () => {

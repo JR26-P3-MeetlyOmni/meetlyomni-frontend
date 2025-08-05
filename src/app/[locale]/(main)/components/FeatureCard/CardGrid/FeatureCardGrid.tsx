@@ -5,8 +5,8 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import ProductFeatureCard from '../FeatureCard/ProductFeatureCard';
-import ProjectFeatureCard from '../FeatureCard/ProjectFeatureCard';
+import ProductFeatureCard from '../ProductFeatureCard';
+import ProjectFeatureCard from '../ProjectFeatureCard';
 import type { FeatureCardGridProps } from './FeatureCardGrid.types';
 
 const FeatureCardGridWrapper = styled(Box)(({ theme }) => ({

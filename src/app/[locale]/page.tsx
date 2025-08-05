@@ -3,9 +3,9 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-import { ProductFeaturesData, ProjectFeaturesData } from '../../data/featuresData';
+import { ProductFeaturesData, ProjectFeaturesData } from '../../constants/FeaturesData';
+import FeatureCardGrid from '../[locale]/(main)/components/FeatureCard/CardGrid/FeatureCardGrid';
 import ProductTitle from '../[locale]/(main)/components/FeatureCard/ProductTitle';
-import FeatureCardGrid from './(main)/components/CardGrid/FeatureCardGrid';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

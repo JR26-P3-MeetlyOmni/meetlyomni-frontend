@@ -1,4 +1,3 @@
-// /data/featuresData.ts
 import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
 import CrossPlatform from '@assets/images/FeatureImages/cross_platform.webp';
 import CustomizableRules from '@assets/images/FeatureImages/customizable_rules.webp';

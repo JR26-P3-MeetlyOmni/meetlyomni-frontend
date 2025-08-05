@@ -2,7 +2,7 @@ import _React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Feature_Card_Grid } from '../constants/FeatureCardGridConstants';
+import { Feature_Card_Grid } from './constants/FeatureCardGridConstants';
 import FeatureCardGrid from './FeatureCardGrid';
 
 const meta: Meta<typeof FeatureCardGrid> = {
