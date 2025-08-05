@@ -1,3 +1,4 @@
+import MUIProvider from '@/components/Providers/MUIProvider';
 import { ReduxProvider } from '@/store/provider';
 
 import type { Metadata } from 'next';
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.variable}>
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <MUIProvider>{children}</MUIProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

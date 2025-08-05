@@ -10,5 +10,28 @@
     "title": "Meetly Omni Landing Page",
     "underConstruction": "The page is under construction.",
     "currentLocale": "Current locale: {locale}"
+  },
+  "LandingPage": {
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "free": {
+          "question": "Is Meetly Omni free?",
+          "answer": "We offer a free trial, with more advanced features available in the enterprise edition."
+        },
+        "create-activity": {
+          "question": "How to create an activity?",
+          "answer": "Register and create a user first, and then enter the activity centre to create the corresponding activity."
+        },
+        "download-app": {
+          "question": "Is it necessary to download the application?",
+          "answer": "There is no need to download, and the audience can participate by simply scanning the code or entering the activity code."
+        },
+        "supported-devices": {
+          "question": "What devices are supported?",
+          "answer": "It can be used on computers, mobile phones and tablets, compatible with major browsers."
+        }
+      }
+    }
   }
 }
