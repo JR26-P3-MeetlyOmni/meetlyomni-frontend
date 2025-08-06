@@ -2,10 +2,11 @@
 
 import { URL_CONFIG } from '@/constant/footer_external_links';
 
+import NextLink from 'next/link';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
 import type { SocialLink } from '../types';
@@ -59,16 +60,15 @@ const SocialIcons = () => {
   return (
     <SocialIconsContainer>
       {socialLinks.map(link => (
-        <Link
+        <NextLink
           key={link.label}
-          component="a"
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={link.label}
         >
           <SocialIconBox>{link.icon()}</SocialIconBox>
-        </Link>
+        </NextLink>
       ))}
     </SocialIconsContainer>
   );
