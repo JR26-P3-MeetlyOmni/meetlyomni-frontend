@@ -1,4 +1,4 @@
-import { MUIProvider } from '@/components/Providers/MUIProvider';
+import { MUIProvider } from '@/components/providers/MUIProvider';
 import { ReduxProvider } from '@/store/provider';
 
 import type { Metadata } from 'next';
