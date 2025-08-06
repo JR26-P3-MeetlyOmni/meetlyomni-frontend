@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
 import path from 'path';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -7,11 +7,11 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     exclude: [
-      'node_modules/**', 
-      '.storybook/**', 
+      'node_modules/**',
+      '.storybook/**',
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
-      '**/index.tsx'
+      '**/index.tsx',
     ],
     coverage: {
       provider: 'v8',
@@ -26,22 +26,22 @@ export default defineConfig({
         '**/build/**',
         '**/.next/**',
         '**/index.ts',
-        '**/index.tsx'
+        '**/index.tsx',
       ],
       thresholds: {
         global: {
           branches: 80,
           functions: 80,
           lines: 80,
-          statements: 80
-        }
-      }
-    }
+          statements: 80,
+        },
+      },
+    },
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@assets': path.resolve(__dirname, './public/assets') 
-    }
-  }
-}); 
+      '@assets': path.resolve(__dirname, './public/assets'),
+    },
+  },
+});
