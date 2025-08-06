@@ -38,6 +38,7 @@ const StyledDescription = styled('li')(({ theme }) => ({
   color: theme.palette.common.white,
   opacity: 0.9,
   marginBottom: theme.spacing(0.75),
+  fontFamily: 'var(--font-roboto)',
   [theme.breakpoints.up('sm')]: {
     fontSize: theme.typography.body2.fontSize,
     marginBottom: theme.spacing(1.25),
@@ -83,6 +84,7 @@ const StyledTitle = styled('h3')(({ theme }) => ({
   fontSize: theme.typography.h6.fontSize,
   fontWeight: theme.typography.h6.fontWeight,
   lineHeight: theme.typography.h6.lineHeight,
+  fontFamily: 'var(--font-roboto)',
   [theme.breakpoints.up('sm')]: {
     marginBottom: theme.spacing(3),
   },
