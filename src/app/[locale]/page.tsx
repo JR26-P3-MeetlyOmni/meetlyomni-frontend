@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import { ProductFeaturesData, ProjectFeaturesData } from '../../constants/FeaturesData';
 import FeatureCardGrid from '../[locale]/(main)/components/FeatureCard/CardGrid/FeatureCardGrid';
 import ProductTitle from '../[locale]/(main)/components/FeatureCard/ProductTitle';
+import { ScenariosSection } from './(main)/components/ScenariosSection';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -21,6 +22,7 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
       <FeatureCardGrid data={ProjectFeaturesData} type="project" />
       <ProductTitle />
       <FeatureCardGrid data={ProductFeaturesData} type="product" />
+      <ScenariosSection />
     </Box>
   );
 }
