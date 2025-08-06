@@ -8,20 +8,20 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#3f51b5', // 更深的蓝色
+      main: '#3f51b5',
     },
     secondary: {
-      main: '#f50057', // 粉色
+      main: '#f50057',
     },
     background: {
-      default: '#ffffff', // 纯白色背景
+      default: '#ffffff',
       paper: '#ffffff',
     },
     text: {
-      primary: '#1a1a1a', // 更深的黑色文字
-      secondary: '#666666', // 中灰色次要文字
+      primary: '#1a1a1a',
+      secondary: '#666666',
     },
-    divider: '#e0e0e0', // 浅灰色分割线
+    divider: '#e0e0e0',
   },
   typography: {
     fontFamily: 'var(--font-roboto), Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -63,9 +63,9 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 6, // 稍微圆润的边角
+    borderRadius: 6,
   },
-  spacing: 8, // 基础间距单位
+  spacing: 8,
 });
 
 interface MUIProviderProps {

@@ -17,7 +17,6 @@ import {
 import { getFaqData } from './data';
 import { FaqAccordionProps } from './interface';
 
-// Styled component for the main title of the FAQ section
 const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(6)} 0`,
   fontFamily: theme.typography.fontFamily,
@@ -32,19 +31,18 @@ const StyledTitle = styled('h2')(({ theme }) => ({
   },
 }));
 
-// Styled component for individual accordion items
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   borderRadius: 8,
   boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   border: 'none',
-  backgroundColor: '#f5f5f5', // Gray background for cards
+  backgroundColor: '#f5f5f5',
   '&:before': {
-    display: 'none', // Remove default border
+    display: 'none',
   },
   '&.Mui-expanded': {
     margin: theme.spacing(0, 0, 2, 0),
-    backgroundColor: '#f5f5f5', // Maintain gray background when expanded
+    backgroundColor: '#f5f5f5',
   },
   [theme.breakpoints.up('sm')]: {
     marginBottom: theme.spacing(3),
@@ -54,14 +52,13 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
   },
 }));
 
-// Styled component for the accordion summary (question area)
 const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
   padding: theme.spacing(3, 4),
   '& .MuiAccordionSummary-content': {
-    margin: 0, // Remove default margin
+    margin: 0,
   },
   '& .MuiAccordionSummary-expandIconWrapper': {
-    color: '#666666', // Light black color for icons
+    color: '#666666',
     transition: 'all 0.2s ease-in-out',
     fontSize: '1.25rem',
   },
@@ -70,25 +67,21 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
   },
 }));
 
-// Styled component for accordion details (answer area)
 const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
   padding: theme.spacing(0, 4, 4),
-  // Removed border line between question and answer
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(0, 5, 5),
   },
 }));
 
-// Styled component for the main section container
 const StyledSection = styled('section')(({ theme }) => ({
   padding: `${theme.spacing(8)} 0`,
-  backgroundColor: '#ffffff', // White background for the section
+  backgroundColor: '#ffffff',
   [theme.breakpoints.up('sm')]: {
     padding: `${theme.spacing(16)} 0 ${theme.spacing(20)}`,
   },
 }));
 
-// Styled component for the content container with max width
 const StyledContainer = styled(Box)(({ theme }) => ({
   maxWidth: '900px',
   margin: '0 auto',
@@ -98,7 +91,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-// Styled component for question text
 const StyledQuestion = styled(Typography)(({ theme }) => ({
   fontSize: '1.125rem',
   fontWeight: 600,
@@ -109,7 +101,6 @@ const StyledQuestion = styled(Typography)(({ theme }) => ({
   },
 }));
 
-// Styled component for answer text
 const StyledAnswer = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   fontWeight: 400,
@@ -120,21 +111,15 @@ const StyledAnswer = styled(Typography)(({ theme }) => ({
   },
 }));
 
-// Main FAQ Accordion component
 const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className }) => {
-  // Hook for internationalization
   const t = useTranslations('LandingPage');
 
-  // State to track which accordion item is expanded
   const [expanded, setExpanded] = useState<string | false>(false);
 
-  // Get FAQ data from props or use default data from translations
   const displayFaqItems = faqItems || getFaqData(t);
 
-  // Get title from props or use default title from translations
   const displayTitle = title || t('faq.title');
 
-  // Handler for accordion expansion/collapse
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -146,7 +131,6 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className 
 
         <Box>
           {displayFaqItems?.map(item => {
-            // Question area with expand/collapse icon
             return (
               <StyledAccordion
                 key={item.id}
