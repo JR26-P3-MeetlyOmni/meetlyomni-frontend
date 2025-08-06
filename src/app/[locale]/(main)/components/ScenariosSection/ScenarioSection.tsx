@@ -7,7 +7,7 @@ import { Box, styled } from '@mui/material';
 
 import ScenarioCard from './components/ScenarioCard';
 import { getScenarioData } from './data';
-import { ScenariosSectionProps } from './interface';
+import { ScenariosSectionProps } from './types';
 
 const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(5)} 0`,

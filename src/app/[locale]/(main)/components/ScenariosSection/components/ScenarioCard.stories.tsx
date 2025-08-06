@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { ScenarioCardProps } from '../interface';
+import { ScenarioCardProps } from '../types';
 import ScenarioCard from './ScenarioCard';
 
 const meta: Meta<typeof ScenarioCard> = {

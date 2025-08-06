@@ -1,4 +1,4 @@
-import { ScenarioData } from './interface';
+import { ScenarioData } from './types';
 
 // define the configuration for each scenario
 export const SCENARIO_CONFIGS = [

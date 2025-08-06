@@ -6,7 +6,7 @@ import React from 'react';
 import { Box, styled } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
-import { ScenarioCardProps } from '../interface';
+import { ScenarioCardProps } from '../types';
 
 const StyledImageContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
