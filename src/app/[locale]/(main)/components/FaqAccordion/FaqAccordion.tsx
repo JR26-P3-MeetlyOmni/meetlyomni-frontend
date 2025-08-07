@@ -17,32 +17,31 @@ import {
 import { getFaqData } from './data';
 import { FaqAccordionProps } from './interface';
 
-const StyledTitle = styled('h2')(({ theme }) => ({
+const StyledTitle = styled(Typography)(({ theme }) => ({
   margin: `0 0 ${theme.spacing(6)} 0`,
-  fontFamily: theme.typography.fontFamily,
-  fontSize: '2rem',
-  fontWeight: 700,
-  lineHeight: 1.2,
-  color: '#1a1a1a',
+  fontSize: theme.typography.h2.fontSize,
+  fontWeight: theme.typography.h2.fontWeight,
+  lineHeight: theme.typography.h2.lineHeight,
+  color: theme.typography.h2.color,
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
     margin: `0 auto ${theme.spacing(12)} auto`,
-    fontSize: '2.5rem',
+    fontSize: theme.typography.h2.fontSize,
   },
 }));
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   marginBottom: theme.spacing(2),
-  borderRadius: 8,
+  borderRadius: theme.shape.borderRadius,
   boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   border: 'none',
-  backgroundColor: '#f5f5f5',
+  backgroundColor: theme.palette.grey[100],
   '&:before': {
     display: 'none',
   },
   '&.Mui-expanded': {
     margin: theme.spacing(0, 0, 2, 0),
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.palette.grey[100],
   },
   [theme.breakpoints.up('sm')]: {
     marginBottom: theme.spacing(3),
@@ -76,7 +75,7 @@ const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
 
 const StyledSection = styled('section')(({ theme }) => ({
   padding: `${theme.spacing(8)} 0`,
-  backgroundColor: '#ffffff',
+  backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up('sm')]: {
     padding: `${theme.spacing(16)} 0 ${theme.spacing(20)}`,
   },
@@ -95,7 +94,7 @@ const StyledQuestion = styled(Typography)(({ theme }) => ({
   fontSize: '1.125rem',
   fontWeight: 600,
   lineHeight: 1.4,
-  color: '#1a1a1a',
+  color: theme.palette.text.primary,
   [theme.breakpoints.up('sm')]: {
     fontSize: '1.25rem',
   },
@@ -127,7 +126,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className 
   return (
     <StyledSection className={className}>
       <StyledContainer>
-        <StyledTitle>{displayTitle}</StyledTitle>
+        <StyledTitle variant="h2">{displayTitle}</StyledTitle>
 
         <Box>
           {displayFaqItems?.map(item => {
