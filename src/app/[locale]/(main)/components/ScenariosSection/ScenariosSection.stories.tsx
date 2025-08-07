@@ -6,8 +6,8 @@ import enMessages from '@messages/en.json';
 import zhMessages from '@messages/zh.json';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import type { ScenariosSectionProps } from './interface';
 import ScenariosSection from './ScenarioSection';
+import type { ScenariosSectionProps } from './types';
 
 // Create a decorator to provide translations based on locale
 const createTranslationDecorator = (locale: 'en' | 'zh' = 'en') => {

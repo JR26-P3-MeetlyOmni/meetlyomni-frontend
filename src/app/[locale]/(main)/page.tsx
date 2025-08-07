@@ -1,17 +1,15 @@
 import { getTranslations } from 'next-intl/server';
-import React from 'react';
 
 import { Box } from '@mui/material';
 
-import { ProductFeaturesData, ProjectFeaturesData } from '../../constants/FeaturesData';
-import FeatureCardGrid from '../[locale]/(main)/components/FeatureCard/CardGrid/FeatureCardGrid';
-import ProductTitle from '../[locale]/(main)/components/FeatureCard/ProductTitle';
-import { ScenariosSection } from './(main)/components/ScenariosSection';
+import { ProductFeaturesData, ProjectFeaturesData } from '../../../constants/FeaturesData';
+import FeatureCardGrid from './components/FeatureCard/CardGrid/FeatureCardGrid';
+import ProductTitle from './components/FeatureCard/ProductTitle';
+import { ScenariosSection } from './components/ScenariosSection';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations('home');
-  const _tCommon = await getTranslations('common');
 
   return (
     <Box sx={{ textAlign: 'center', mt: 12 }}>

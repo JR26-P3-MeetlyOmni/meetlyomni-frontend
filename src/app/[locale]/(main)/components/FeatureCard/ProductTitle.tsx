@@ -7,7 +7,7 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
   width: theme.spacing(35), //277px
   height: theme.spacing(5.25), //42px
   margin: `${theme.spacing(20)} auto ${theme.spacing(10)}`,
-  fontFamily: 'Roboto',
+  fontFamily: 'var(--font-roboto)',
   fontSize: theme.typography.h4.fontSize,
   fontWeight: theme.typography.fontWeightBold,
   color: theme.palette.text.primary,
