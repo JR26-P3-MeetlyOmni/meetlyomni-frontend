@@ -29,6 +29,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@theme*": ["./src/theme/*"],
       "@assets/*": ["public/assets/*"],
       "@messages/*": ["./src/messages/*"]
     }
@@ -43,7 +44,6 @@
     "**/*.test.ts",
     "**/*.spec.ts",
     "**/*.test.tsx",
-    "**/*.spec.tsx",
-    "messages"
+    "**/*.spec.tsx"
   ]
 }

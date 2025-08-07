@@ -1,6 +1,6 @@
 'use client';
 
-import { URL_CONFIG } from '@/constant/footer_external_links';
+import { URL_CONFIG } from '@/constants/footer_external_links';
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';

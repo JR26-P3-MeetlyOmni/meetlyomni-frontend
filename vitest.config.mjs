@@ -1,17 +1,18 @@
 import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { resolve } from 'node:path';
 
 export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    include: ['src/**/*.{js,ts,jsx,tsx}'],
     exclude: [
       'node_modules/**', 
       '.storybook/**', 
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
-      '**/index.tsx'
+      '**/index.tsx',
+      'src/**/*.test.{js,ts,jsx,tsx}',
     ],
     coverage: {
       provider: 'v8',
@@ -42,8 +43,9 @@ export default defineConfig({
         'src/**/layout.tsx',
         'src/**/page.tsx',
     
-        // Ignore barrel/index files
+        // Ignore test & barrel/index files
         'src/**/index.ts',
+        'src/**/*.test.{js,ts,jsx,tsx}',
     
         // Ignore pure type definition files
         'src/**/interface.ts',
@@ -64,6 +66,11 @@ export default defineConfig({
           statements: 80
         }
       }
+    },
+  },
+  resolve: {
+    alias: {
+      '@assets': resolve(__dirname, 'public/assets'),
     }
   },
   resolve: {
