@@ -1,8 +1,7 @@
 'use client';
 
+import ExternalLink from '@/components/Link';
 import { URL_CONFIG } from '@/constants/footer_external_links';
-
-import NextLink from 'next/link';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -60,15 +59,9 @@ const SocialIcons = () => {
   return (
     <SocialIconsContainer>
       {socialLinks.map(link => (
-        <NextLink
-          key={link.label}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.label}
-        >
+        <ExternalLink key={link.label} href={link.href} ariaLabel={link.label}>
           <SocialIconBox>{link.icon()}</SocialIconBox>
-        </NextLink>
+        </ExternalLink>
       ))}
     </SocialIconsContainer>
   );

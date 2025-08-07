@@ -5,14 +5,13 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    include: ['src/**/*.{js,ts,jsx,tsx}'],
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     exclude: [
       'node_modules/**', 
       '.storybook/**', 
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
-      'src/**/*.test.{js,ts,jsx,tsx}',
     ],
     coverage: {
       provider: 'v8',
@@ -43,9 +42,8 @@ export default defineConfig({
         'src/**/layout.tsx',
         'src/**/page.tsx',
     
-        // Ignore test & barrel/index files
+        // Ignore barrel/index files
         'src/**/index.ts',
-        'src/**/*.test.{js,ts,jsx,tsx}',
     
         // Ignore pure type definition files
         'src/**/interface.ts',
@@ -70,13 +68,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@assets': resolve(__dirname, 'public/assets'),
-    }
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@assets': path.resolve(__dirname, './public/assets') 
+      '@': resolve(__dirname, './src'),
+      '@assets': resolve(__dirname, './public/assets') 
     }
   }
 }); 

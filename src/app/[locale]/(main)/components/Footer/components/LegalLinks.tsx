@@ -1,8 +1,7 @@
 'use client';
 
+import ExternalLink from '@/components/Link';
 import { URL_CONFIG } from '@/constants/footer_external_links';
-
-import NextLink from 'next/link';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
@@ -21,7 +20,7 @@ const LegalLinkSeparator = styled('span')(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
 }));
 
-const StyledLegalLink = styled(NextLink)(({ theme }) => ({
+const StyledLegalLink = styled(ExternalLink)(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
   textDecoration: 'none',
   color: theme.palette.common.white,
@@ -45,13 +44,11 @@ const legalLinks = {
 const LegalLink = ({ t }: LegalLinksProps) => {
   return (
     <LegalLinksContainer>
-      <StyledLegalLink href={legalLinks.privacy.href} target="_blank" rel="noopener noreferrer">
-        {t(legalLinks.privacy.key)}
-      </StyledLegalLink>
+      <StyledLegalLink href={legalLinks.privacy.href}>{t(legalLinks.privacy.key)}</StyledLegalLink>
+
       <LegalLinkSeparator>｜</LegalLinkSeparator>
-      <StyledLegalLink href={legalLinks.terms.href} target="_blank" rel="noopener noreferrer">
-        {t(legalLinks.terms.key)}
-      </StyledLegalLink>
+
+      <StyledLegalLink href={legalLinks.terms.href}>{t(legalLinks.terms.key)}</StyledLegalLink>
     </LegalLinksContainer>
   );
 };
