@@ -13,6 +13,8 @@ export default defineConfig({
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
+      'src/app/(auth)/login/*.ts',
+      'src/app/(auth)/login/*.tsx',
     ],
     coverage: {
       provider: 'v8',
