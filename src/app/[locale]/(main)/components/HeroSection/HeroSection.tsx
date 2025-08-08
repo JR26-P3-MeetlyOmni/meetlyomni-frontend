@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
-
 import { Box, Button, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
+
+import { LeftDecoration, RightDecoration } from './components/HeroPics';
 
 const HeroSectionWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -14,6 +14,19 @@ const HeroSectionWrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
+  position: 'relative',
+  overflow: 'hidden',
+}));
+
+const ContentWrapper = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  zIndex: 1,
+  maxWidth: theme.breakpoints.values.md,
+  width: '100%',
+  textAlign: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 }));
 
 const HeroTitle = styled(Typography)(({ theme }) => ({
@@ -25,7 +38,10 @@ const HeroTitle = styled(Typography)(({ theme }) => ({
   lineHeight: 1.29,
   color: theme.palette.text.primary,
   marginBottom: theme.spacing(4),
-  // 小屏幕
+  [theme.breakpoints.down('md')]: {
+    fontSize: theme.spacing(5),
+    width: '100%',
+  }, // 小屏幕
 }));
 
 const HeroDescription = styled(Typography)(({ theme }) => ({
@@ -36,7 +52,10 @@ const HeroDescription = styled(Typography)(({ theme }) => ({
   lineHeight: 1.2,
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(10),
-  // 小屏幕
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    fontSize: theme.spacing(2),
+  }, // 小屏幕
 }));
 
 // 2 buttons
@@ -45,13 +64,18 @@ const HeroCTAWrapper = styled(Box)(({ theme }) => ({
   gap: theme.spacing(3.75),
   flexWrap: 'wrap',
   justifyContent: 'center',
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(10),
+  },
 }));
 
 const CTAButton = styled(Button)(({ theme }) => ({
+  textTransform: 'none',
+  fontSize: theme.spacing(2.5),
   width: theme.spacing(23),
   height: theme.spacing(7),
   padding: theme.spacing(3, 2.5),
-  borderRadius: theme.spacing(2),
+  borderRadius: theme.spacing(1),
   letterSpacing: 0.5,
   marginBottom: theme.spacing(21),
   transition: theme.transitions.create(['transform', 'box-shadow'], {
@@ -81,16 +105,21 @@ const CTAButton = styled(Button)(({ theme }) => ({
 const HeroSection: React.FC = () => {
   return (
     <HeroSectionWrapper>
-      <HeroTitle>Enhance Each Activity To Be More Intelligent, Enjoyable, And Productive</HeroTitle>
-      <HeroDescription>
-        Meetly Omni is an interactive platform for corporate events, launches, training sessions and
-        community gatherings to make your audience more engaged, interactive and fun!
-      </HeroDescription>
-
-      <HeroCTAWrapper>
-        <CTAButton variant="contained">Create Activity</CTAButton>
-        <CTAButton variant="outlined">Join the Game</CTAButton>
-      </HeroCTAWrapper>
+      <LeftDecoration />
+      <ContentWrapper>
+        <HeroTitle>
+          Enhance Each Activity To Be More Intelligent, Enjoyable, And Productive
+        </HeroTitle>
+        <HeroDescription>
+          Meetly Omni is an interactive platform for corporate events, launches, training sessions
+          and community gatherings to make your audience more engaged, interactive and fun!
+        </HeroDescription>
+        <HeroCTAWrapper>
+          <CTAButton variant="contained">Create Activity</CTAButton>
+          <CTAButton variant="outlined">Join the Game</CTAButton>
+        </HeroCTAWrapper>
+      </ContentWrapper>
+      <RightDecoration />
     </HeroSectionWrapper>
   );
 };
