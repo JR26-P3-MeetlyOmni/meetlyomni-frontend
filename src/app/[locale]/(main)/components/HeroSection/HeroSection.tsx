@@ -14,8 +14,6 @@ const HeroSectionWrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  position: 'relative',
-  overflow: 'hidden',
 }));
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
