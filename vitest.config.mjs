@@ -1,60 +1,23 @@
 import { defineConfig } from 'vitest/config';
-import { resolve } from 'node:path';
 
 export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: [
-      'node_modules/**', 
-      '.storybook/**', 
-      '**/*.stories.{js,ts,jsx,tsx}',
-      '**/index.ts',
-      '**/index.tsx',
-    ],
+    exclude: ['node_modules/**', '.storybook/**', '**/*.stories.{js,ts,jsx,tsx}'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
-        // Ignore build and system folders
         'node_modules/**',
+        '.storybook/**',
+        '**/*.stories.{js,ts,jsx,tsx}',
+        '**/*.config.{js,ts}',
         '**/coverage/**',
         '**/dist/**',
         '**/build/**',
-        '**/.next/**',
-    
-        // Ignore config, declaration, and environment files
-        '.storybook/**',
-        '**/*.config.{js,ts,mjs}',
-        '**/*.d.ts',
-        'next-env.d.ts',
-    
-        // Ignore storybook and story files
-        '**/*.stories.{js,ts,jsx,tsx}',
-        'src/stories/**',
-    
-        // Ignore styling, theming, and internationalization
-        'src/theme/**',
-        'src/i18n/**',
-    
-        // Ignore page layouts and routing shells
-        'src/**/layout.tsx',
-        'src/**/page.tsx',
-    
-        // Ignore barrel/index files
-        'src/**/index.ts',
-    
-        // Ignore pure type definition files
-        'src/**/interface.ts',
-        'src/types/**',
-    
-        // Ignore state management setup files
-        'src/store/store.ts',
-        'src/store/provider.tsx',
-    
-        // Ignore Next.js middleware (usually logic-less)
-        'middleware.ts',
+        '**/.next/**'
       ],
       thresholds: {
         global: {
@@ -64,12 +27,6 @@ export default defineConfig({
           statements: 80
         }
       }
-    },
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
-      '@assets': resolve(__dirname, './public/assets') 
     }
   }
 }); 

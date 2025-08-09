@@ -1,4 +1,4 @@
-import { MUIProvider } from '@/components/Providers/MUIProvider';
+import MUIProvider from '@/components/Providers/MUIProvider';
 import { ReduxProvider } from '@/store/provider';
 
 import type { Metadata } from 'next';
@@ -24,11 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.variable}>
-      <body>
-        <MUIProvider>
-          <ReduxProvider>{children}</ReduxProvider>
-        </MUIProvider>
+    <html lang="en">
+      <body className={roboto.variable}>
+        <ReduxProvider>
+          <MUIProvider>{children}</MUIProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

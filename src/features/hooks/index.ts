@@ -1,1 +1,0 @@
-export { useQRCode, QRStatus } from './useQRCode';
