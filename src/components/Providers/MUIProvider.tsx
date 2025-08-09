@@ -1,23 +1,16 @@
 'use client';
 
-import React from 'react';
+import theme from '@/theme';
 
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
-const defaultTheme = createTheme();
-
-interface MUIProviderProps {
-  children: React.ReactNode;
-}
-
-const MUIProvider: React.FC<MUIProviderProps> = ({ children }) => {
-  return (
-    <ThemeProvider theme={defaultTheme}>
+export const MUIProvider = ({ children }: { children: React.ReactNode }) => (
+  <AppRouterCacheProvider>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       {children}
     </ThemeProvider>
-  );
-};
-
-export default MUIProvider;
+  </AppRouterCacheProvider>
+);
