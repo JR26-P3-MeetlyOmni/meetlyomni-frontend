@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { Box, Button, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
@@ -39,7 +41,13 @@ const HeroTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     fontSize: theme.spacing(5),
     width: '100%',
-  }, // 小屏幕
+    marginBottom: theme.spacing(2),
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: theme.spacing(3),
+    width: '100%',
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const HeroDescription = styled(Typography)(({ theme }) => ({
@@ -53,7 +61,11 @@ const HeroDescription = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     width: '100%',
     fontSize: theme.spacing(2),
-  }, // 小屏幕
+    marginBottom: theme.spacing(4),
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 // 2 buttons
@@ -64,6 +76,10 @@ const HeroCTAWrapper = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   [theme.breakpoints.down('md')]: {
     marginBottom: theme.spacing(10),
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(6),
+    gap: theme.spacing(2),
   },
 }));
 
