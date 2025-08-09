@@ -15,7 +15,22 @@ import {
 } from '@mui/material';
 
 import { getFaqData } from './data';
-import { FaqAccordionProps } from './interface';
+import { FaqAccordionProps, FaqItem, FeatureData } from './interface';
+
+/**
+ * Convert FeatureData to FaqItem format
+ */
+const convertFeatureDataToFaqItems = (
+  data: FeatureData[],
+  type: string,
+  t: (key: string) => string,
+): FaqItem[] => {
+  return data.map((feature, index) => ({
+    id: `${type}-feature-${index}`,
+    question: `${t('faq.questions.feature.what')} ${feature.title}?`,
+    answer: feature.description,
+  }));
+};
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   margin: `0 0 ${theme.spacing(6)} 0`,
@@ -110,12 +125,20 @@ const StyledAnswer = styled(Typography)(({ theme }) => ({
   },
 }));
 
-const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className }) => {
+const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className, data, type }) => {
   const t = useTranslations('LandingPage');
 
   const [expanded, setExpanded] = useState<string | false>(false);
 
-  const displayFaqItems = faqItems || getFaqData(t);
+  // Determine which FAQ items to display
+  let displayFaqItems: FaqItem[];
+  if (faqItems) {
+    displayFaqItems = faqItems;
+  } else if (data && type) {
+    displayFaqItems = convertFeatureDataToFaqItems(data, type, t);
+  } else {
+    displayFaqItems = getFaqData(t);
+  }
 
   const displayTitle = title || t('faq.title');
 
@@ -129,7 +152,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ title, faqItems, className 
         <StyledTitle variant="h2">{displayTitle}</StyledTitle>
 
         <Box>
-          {displayFaqItems?.map(item => {
+          {displayFaqItems.map(item => {
             return (
               <StyledAccordion
                 key={item.id}
