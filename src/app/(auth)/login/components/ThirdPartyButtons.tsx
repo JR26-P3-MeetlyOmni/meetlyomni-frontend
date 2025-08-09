@@ -1,8 +1,18 @@
+// 说明：此组件负责第三方登录按钮（目前实现 Google）。
+// 点击 Google 按钮后，会在前端生成 PKCE（Proof Key for Code Exchange，pksiː）
+// 的 code_verifier 与 code_challenge，并携带 state/nonce 重定向到 Google 授权页。
+// 授权成功后，Google 会把授权码（authorization code）带回到我们配置的 redirect_uri。
+//
+// 学习点（Learning Point）：
+// - PKCE：前端生成 code_verifier（保存在浏览器）与 code_challenge（发送给 Google），
+//   后端用授权码 + code_verifier 向 Google 换取令牌，防止授权码被拦截后滥用。
+// - state/nonce：防 CSRF 与重放攻击（Replay Attack，rɪˈpleɪ）。
 import React, { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import { createRandomString, generateCodeChallenge, generateCodeVerifier } from '@/utils/pkce';
 
 const ThirdPartyButton = styled(Button)(({ theme }) => ({
   width: '100%',
@@ -28,7 +38,44 @@ const ThirdPartyIcon = styled(Box)(({ theme }) => ({
 
 export const ThirdPartyButtons: React.FC = () => {
   const handleGoogleLogin = useCallback(() => {
-    // Implement Google OAuth
+    (async () => {
+      // 从环境变量读取 Google OAuth2.0 客户端配置
+      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
+      const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI as string;
+      const scope = 'openid email profile';
+
+      // 生成 state 与 nonce（用于请求关联与防重放）
+      const state = createRandomString(32);
+      const nonce = createRandomString(32);
+      // 生成 PKCE 的 code_verifier 与 code_challenge（S256 方法）
+      const codeVerifier = await generateCodeVerifier(128);
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+      // 将 code_verifier/state/nonce 暂存到当前会话（只在当前标签页有效）
+      sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+      sessionStorage.setItem('oauth_state', state);
+      sessionStorage.setItem('oauth_nonce', nonce);
+
+      // 组装 Google 授权请求参数
+      // access_type=offline + prompt=consent：首次同意时可获取 refresh_token
+      // 如需让用户切换账号，可将 prompt 设置为 'select_account'（不会自动授予上一次账号）
+      const params = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: 'code',
+        scope,
+        state,
+        nonce,
+        code_challenge: codeChallenge,
+        code_challenge_method: 'S256',
+        access_type: 'offline',
+        prompt: 'consent',
+      });
+
+      // 跳转到 Google 授权页
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+      window.location.href = authUrl;
+    })();
   }, []);
 
   const handleMicrosoftLogin = useCallback(() => {

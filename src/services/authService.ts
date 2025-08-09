@@ -1,8 +1,15 @@
 import { setAuthToken } from '@/utils/cookieUtils';
 
+// 说明：前端认证服务封装
+// - login：用户名/密码登录（与 Google OAuth 分离，供将来可能的本地登录使用）
+// - exchangeGoogleCode：将 Google 授权码 + PKCE code_verifier 发送到后端交换令牌
+// - refreshIdToken：调用后端使用 Cookie 中的 refresh_token 刷新 id_token
+
 // API endpoint configuration
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 const LOGIN_ENDPOINT = `${API_BASE_URL}/api/auth/login`;
+const GOOGLE_EXCHANGE_ENDPOINT = `${API_BASE_URL}/api/auth/google/exchange`;
+const REFRESH_ENDPOINT = `${API_BASE_URL}/api/auth/refresh`;
 
 // Types for API requests and responses
 export interface LoginRequest {
@@ -101,4 +108,48 @@ export const logout = async (): Promise<void> => {
   // In the future, this could also make an API call to invalidate the token
   const { removeAuthToken } = await import('@/utils/cookieUtils');
   removeAuthToken();
+};
+
+export interface GoogleExchangeRequest {
+  code: string;
+  codeVerifier: string;
+}
+
+export interface GoogleExchangeResponse {
+  success: boolean;
+  idToken?: string;
+  message?: string;
+}
+
+export const exchangeGoogleCode = async (
+  payload: GoogleExchangeRequest,
+): Promise<GoogleExchangeResponse> => {
+  // 将前端保存的 code_verifier 与回调中的授权码，一并交给后端。
+  // 后端会使用授权码 + code_verifier 向 Google 的 token 端点交换 id_token/refresh_token。
+  const resp = await fetch(GOOGLE_EXCHANGE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(payload),
+  });
+  if (!resp.ok) {
+    throw new AuthServiceError('Google exchange failed', 'server');
+  }
+  return resp.json();
+};
+
+export const refreshIdToken = async (): Promise<string> => {
+  // 刷新流程：后端从 HttpOnly Cookie 读取 refresh_token，去 Google 刷新 id_token。
+  const resp = await fetch(REFRESH_ENDPOINT, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!resp.ok) {
+    throw new AuthServiceError('Token refresh failed', 'server');
+  }
+  const data = (await resp.json()) as { success: boolean; idToken?: string };
+  if (!data.success || !data.idToken) {
+    throw new AuthServiceError('Token refresh failed', 'server');
+  }
+  return data.idToken;
 };
