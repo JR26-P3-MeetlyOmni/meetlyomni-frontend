@@ -24,11 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={roboto.variable}>
-        <ReduxProvider>
-          <MUIProvider>{children}</MUIProvider>
-        </ReduxProvider>
+    <html lang="en" className={roboto.variable}>
+      <body>
+        <MUIProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </MUIProvider>
       </body>
     </html>
   );
