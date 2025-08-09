@@ -33,20 +33,7 @@
         ],
         "imageAlt": "Community gathering with people socializing"
       }
-    }
-  },
-  "landing_page_footer": {
-    "contactUs": "Contact Us",
-    "privacyPolicy": "Privacy Policy",
-    "termsForUsage": "Terms for Usage",
-    "wechat": "Wechat",
-    "copyright": "© 2025 Meetly Omni. All rights reserved."
-  },
-  "home": {
-    "title": "Meetly Omni Landing Page",
-    "underConstruction": "The page is under construction.",
-    "currentLocale": "Current locale: {locale}"
-  },
+    },
     "faq": {
       "title": "Frequently Asked Questions",
       "questions": {
@@ -68,4 +55,17 @@
         }
       }
     }
+  },
+  "landing_page_footer": {
+    "contactUs": "Contact Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsForUsage": "Terms for Usage",
+    "wechat": "Wechat",
+    "copyright": "© 2025 Meetly Omni. All rights reserved."
+  },
+  "home": {
+    "title": "Meetly Omni Landing Page",
+    "underConstruction": "The page is under construction.",
+    "currentLocale": "Current locale: {locale}"
+  }
 }
