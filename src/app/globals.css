@@ -40,3 +40,36 @@ a {
     color-scheme: dark;
   }
 }
+
+/* 响应式设计 - 大屏幕显示右侧面板 */
+@media (min-width: 1024px) {
+  .signup-right-panel {
+    display: flex !important;
+  }
+}
+
+/* 邮箱输入框焦点样式 */
+.email-input:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* 按钮悬停效果 */
+.btn-primary:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.btn-back:hover {
+  border-color: #9ca3af !important;
+}
+
+/* 错误状态样式 */
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+/* 禁用状态样式 */
+.btn-disabled {
+  background-color: #9ca3af !important;
+  cursor: not-allowed !important;
+}
