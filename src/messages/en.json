@@ -35,6 +35,10 @@
       }
     }
   },
+  "testimonials-section": {
+    "title": "What do our users say?",
+    "subtitle": "Discover firsthand experiences shared by our valued customers. Hear their stories, and feedback that shed light on their journey with us"
+  },
   "landing_page_footer": {
     "contactUs": "Contact Us",
     "privacyPolicy": "Privacy Policy",

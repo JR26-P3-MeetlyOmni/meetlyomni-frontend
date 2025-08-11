@@ -6,6 +6,8 @@ import { ProductFeaturesData, ProjectFeaturesData } from '../../../constants/Fea
 import FeatureCardGrid from './components/FeatureCard/CardGrid/FeatureCardGrid';
 import ProductTitle from './components/FeatureCard/ProductTitle';
 import { ScenariosSection } from './components/ScenariosSection';
+import { TestimonialsSection } from './components/TestimonialsSection';
+import { SAMPLE_TESTIMONIALS } from './components/TestimonialsSection/data';
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -21,6 +23,7 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
       <ProductTitle />
       <FeatureCardGrid data={ProductFeaturesData} type="product" />
       <ScenariosSection />
+      <TestimonialsSection data={SAMPLE_TESTIMONIALS} />
     </Box>
   );
 }

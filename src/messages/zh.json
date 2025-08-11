@@ -33,6 +33,10 @@
       }
     }
   },
+  "testimonials-section": {
+    "title": "看看我们的用户怎么评价?",
+    "subtitle": "了解我们尊贵客户的第一手体验。聆听他们的故事和反馈，深入了解他们与我们的合作历程"
+  },
   "landing_page_footer": {
     "contactUs": "联系我们",
     "privacyPolicy": "隐私政策",
