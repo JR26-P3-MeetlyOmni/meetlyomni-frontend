@@ -8,7 +8,7 @@ export async function generateCodeVerifier(length = 128): Promise<string> {
   const array = new Uint32Array(length);
   crypto.getRandomValues(array);
   for (let i = 0; i < length; i++) {
-    verifier += possible[array[i] % possible.length];
+    verifier += possible[array[i]! % possible.length];
   }
   return verifier;
 }
@@ -29,9 +29,9 @@ export function createRandomString(length = 32): string {
   const array = new Uint32Array(length);
   crypto.getRandomValues(array);
   for (let i = 0; i < length; i++) {
-    result += chars[array[i] % chars.length];
+    if (typeof array[i] !== 'undefined') {
+      result += chars[array[i]! % chars.length];
+    }
   }
   return result;
 }
-
-

@@ -1,4 +1,5 @@
-import { AuthServiceError, login } from '@/services/authService';
+import { login } from '@/app/api/signin-api';
+import { AuthServiceError } from '@/services/authService';
 
 import { useCallback } from 'react';
 
@@ -26,17 +27,15 @@ export const useSubmitHandler = (
       });
 
       try {
-        const response = await login({
+        await login({
           email: formData.email,
           password: formData.password,
         });
 
-        if (response.success) {
-          setLoginState({
-            status: LoginStatus.SUCCESS,
-            error: null,
-          });
-        }
+        setLoginState({
+          status: LoginStatus.SUCCESS,
+          error: null,
+        });
       } catch (error) {
         const errorMessage =
           error instanceof AuthServiceError ? error.message : '登录失败，请稍后重试';
