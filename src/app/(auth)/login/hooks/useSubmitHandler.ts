@@ -2,6 +2,7 @@ import { login } from '@/app/api/signin-api';
 import { AuthServiceError } from '@/services/authService';
 
 import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { LoginStatus } from '../types';
 import type { FormData, LoginState } from '../types';
@@ -12,6 +13,7 @@ export const useSubmitHandler = (
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setLoginState: React.Dispatch<React.SetStateAction<LoginState>>,
 ) => {
+  const router = useRouter();
   return useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -27,15 +29,11 @@ export const useSubmitHandler = (
       });
 
       try {
-        await login({
-          email: formData.email,
-          password: formData.password,
-        });
+        await login({ email: formData.email, password: formData.password });
 
-        setLoginState({
-          status: LoginStatus.SUCCESS,
-          error: null,
-        });
+        setLoginState({ status: LoginStatus.SUCCESS, error: null });
+        // Redirect to /me after successful login
+        router.replace('/me');
       } catch (error) {
         const errorMessage =
           error instanceof AuthServiceError ? error.message : '登录失败，请稍后重试';

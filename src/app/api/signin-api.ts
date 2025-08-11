@@ -6,17 +6,15 @@ interface LoginRequest {
 }
 
 export const login = async ({ email, password }: LoginRequest) => {
-  const { data } = await apiClient.post('/auth/login', { email, password });
-
-  const { accessToken, expiresAt, tokenType } = data; // ← 和后端字段一致
-  if (!accessToken) throw new Error('Login succeeded but accessToken missing');
-
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(
-      'user',
-      JSON.stringify({ token: accessToken, expiresAt, tokenType }), // ← 统一存成 token
-    );
+  // Prefer calling our Next.js route which ensures cookie is set on app domain
+  const resp = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ email, password }),
+  });
+  if (!resp.ok) {
+    throw new Error('Login failed');
   }
-
-  return { token: accessToken, expiresAt, tokenType };
+  return resp.json();
 };
