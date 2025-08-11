@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useCallback, useState } from 'react';
 
 import { Typography } from '@mui/material';
