@@ -2,48 +2,48 @@
 
 import { useState } from 'react';
 
-export default function LocalePage() {
+export default function EmailPage() {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // 邮箱格式验证
+  // Email format validation
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email.trim());
   };
 
-  // 处理邮箱输入变化
+  // Handle email input change
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
 
-    // 清除之前的错误
+    // Clear previous errors
     if (errors.length > 0) {
       setErrors([]);
     }
   };
 
-  // 处理表单提交
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 清除之前的错误
+    // Clear previous errors
     setErrors([]);
 
-    // 验证邮箱是否为空
+    // Validate email is not empty
     if (!email.trim()) {
       setErrors(['Email address is required.']);
       return;
     }
 
-    // 验证邮箱格式
+    // Validate email format
     if (!validateEmail(email)) {
       setErrors(['Please enter a valid email address.']);
       return;
     }
 
-    // 验证邮箱中是否包含空格
+    // Validate email doesn't contain spaces
     if (email.includes(' ')) {
       setErrors(['Email address cannot contain spaces.']);
       return;
@@ -52,21 +52,21 @@ export default function LocalePage() {
     setIsSubmitting(true);
 
     try {
-      // 这里应该调用API检查邮箱是否已存在
-      // 模拟API调用
+      // Here should call API to check if email already exists
+      // Simulating API call
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // 模拟检查邮箱是否已存在（这里应该调用真实的API）
-      const isEmailExists = false; // 这里应该是API调用的结果
+      // Simulate checking if email exists (this should be real API call result)
+      const isEmailExists = false; // This should be API call result
 
       if (isEmailExists) {
         setErrors(['This email address is already in use. Please use a different one or log in.']);
         return;
       }
 
-      // 邮箱验证通过，继续下一步
+      // Email validation passed, continue to next step
       console.log('Email validated:', email.toLowerCase());
-      // 这里可以跳转到下一步或发送验证邮件
+      // Here can navigate to next step or send verification email
     } catch {
       setErrors(['An error occurred. Please try again.']);
     } finally {
@@ -74,9 +74,9 @@ export default function LocalePage() {
     }
   };
 
-  // 处理返回按钮
+  // Handle back button
   const handleBack = () => {
-    // 这里可以导航到登录页面
+    // Here can navigate to login page
     console.log('Navigate to login page');
   };
 
@@ -88,7 +88,7 @@ export default function LocalePage() {
         display: 'flex',
       }}
     >
-      {/* 左侧主要内容区域 */}
+      {/* Left main content area */}
       <div
         style={{
           flex: 1,
@@ -99,7 +99,7 @@ export default function LocalePage() {
           padding: '48px 32px',
         }}
       >
-        {/* 头部 */}
+        {/* Header */}
         <div
           style={{
             width: '100%',
@@ -154,7 +154,7 @@ export default function LocalePage() {
               </span>
             </div>
 
-            {/* 登录按钮 */}
+            {/* Sign in button */}
             <button
               onClick={handleBack}
               style={{
@@ -175,7 +175,7 @@ export default function LocalePage() {
             </button>
           </div>
 
-          {/* 主要内容 */}
+          {/* Main content */}
           <div
             style={{
               textAlign: 'center',
@@ -201,7 +201,7 @@ export default function LocalePage() {
             </p>
           </div>
 
-          {/* 邮箱输入表单 */}
+          {/* Email input form */}
           <form onSubmit={handleSubmit} style={{ marginBottom: '24px' }}>
             <div style={{ marginBottom: '24px' }}>
               <label
@@ -246,7 +246,7 @@ export default function LocalePage() {
                 autoFocus
               />
 
-              {/* 错误信息显示 */}
+              {/* Error message display */}
               {errors.length > 0 && (
                 <div
                   id="email-errors"
@@ -265,7 +265,7 @@ export default function LocalePage() {
               )}
             </div>
 
-            {/* 按钮组 */}
+            {/* Button group */}
             <div
               style={{
                 display: 'flex',
@@ -328,7 +328,7 @@ export default function LocalePage() {
         </div>
       </div>
 
-      {/* 右侧信息面板 */}
+      {/* Right info panel */}
       <div
         className="signup-right-panel"
         style={{
@@ -349,7 +349,7 @@ export default function LocalePage() {
             maxWidth: '320px',
           }}
         >
-          {/* 表情符号 */}
+          {/* Emoji */}
           <div
             style={{
               fontSize: '64px',
@@ -359,7 +359,7 @@ export default function LocalePage() {
             😊
           </div>
 
-          {/* 标题 */}
+          {/* Title */}
           <h3
             style={{
               fontSize: '20px',
@@ -379,7 +379,7 @@ export default function LocalePage() {
             Omni@gmail.com
           </p>
 
-          {/* 占位内容 */}
+          {/* Placeholder content */}
           <div style={{ marginBottom: '24px' }}>
             <div
               style={{
@@ -409,7 +409,7 @@ export default function LocalePage() {
             ></div>
           </div>
 
-          {/* 状态指示器 */}
+          {/* Status indicator */}
           <div
             style={{
               marginTop: '24px',
@@ -431,7 +431,7 @@ export default function LocalePage() {
         </div>
       </div>
 
-      {/* 底部进度指示器 */}
+      {/* Bottom progress indicator */}
       <div
         style={{
           position: 'fixed',
