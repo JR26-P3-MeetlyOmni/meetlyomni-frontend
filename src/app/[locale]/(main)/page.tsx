@@ -1,5 +1,3 @@
-import { getTranslations } from 'next-intl/server';
-
 import { Box } from '@mui/material';
 
 import HeroSection from '../(main)/components/HeroSection/HeroSection';
@@ -8,15 +6,9 @@ import FeatureCardGrid from './components/FeatureCard/CardGrid/FeatureCardGrid';
 import ProductTitle from './components/FeatureCard/ProductTitle';
 import { ScenariosSection } from './components/ScenariosSection';
 
-export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  const t = await getTranslations('home');
-
+export default async function LocalePage() {
   return (
-    <Box sx={{ textAlign: 'center', mt: 12 }}>
-      <h1>{t('title')}</h1>
-      <p>{t('underConstruction')}</p>
-      <p>{t('currentLocale', { locale })}</p>
+    <Box>
       <HeroSection />
       <FeatureCardGrid data={ProjectFeaturesData} type="project" />
       <ProductTitle />
