@@ -1,4 +1,4 @@
-import apiClient from './apiClient';
+// apiClient is not needed here; we call our own Next route
 
 interface LoginRequest {
   email: string;

@@ -32,8 +32,8 @@ export const useSubmitHandler = (
         await login({ email: formData.email, password: formData.password });
 
         setLoginState({ status: LoginStatus.SUCCESS, error: null });
-        // Redirect to /me after successful login
-        router.replace('/me');
+        // Redirect to after login success page
+        router.replace('/login/after_login_success_page');
       } catch (error) {
         const errorMessage =
           error instanceof AuthServiceError ? error.message : '登录失败，请稍后重试';
@@ -46,6 +46,6 @@ export const useSubmitHandler = (
         setIsLoading(false);
       }
     },
-    [formData, validateForm, setIsLoading, setLoginState],
+    [formData, validateForm, setIsLoading, setLoginState, router],
   );
 };

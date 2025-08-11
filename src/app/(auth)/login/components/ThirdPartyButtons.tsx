@@ -39,10 +39,25 @@ const ThirdPartyIcon = styled(Box)(({ theme }) => ({
 export const ThirdPartyButtons: React.FC = () => {
   const handleGoogleLogin = useCallback(() => {
     (async () => {
-      // 从环境变量读取 Google OAuth2.0 客户端配置
-      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
-      const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI as string;
+      // Read Google OAuth 2.0 client configuration from environment variables
+      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string | undefined;
+      // Prefer explicit env; otherwise fall back to a predictable route in this app
+      const redirectUri = (typeof window !== 'undefined'
+        ? (process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || `${window.location.origin}/auth/google/callback`)
+        : process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI) as string | undefined;
       const scope = 'openid email profile';
+
+      if (!clientId) {
+        // Fail fast with a clear message if client id is missing
+        console.error('Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID. Set it in .env.local.');
+        alert('Google login is not configured. Please set NEXT_PUBLIC_GOOGLE_CLIENT_ID.');
+        return;
+      }
+      if (!redirectUri) {
+        console.error('Missing redirect URI. Computation failed.');
+        alert('Google login redirect URI is not configured.');
+        return;
+      }
 
       // 生成 state 与 nonce（用于请求关联与防重放）
       const state = createRandomString(32);

@@ -50,7 +50,7 @@ export default function GoogleCallbackPage() {
           sessionStorage.removeItem('oauth_state');
           sessionStorage.removeItem('oauth_nonce');
           setMessage('Signed in. Redirecting...');
-          window.location.replace('/');
+          window.location.replace('/login/after_login_success_page');
         } else {
           setMessage('Sign-in failed: invalid server response');
         }
