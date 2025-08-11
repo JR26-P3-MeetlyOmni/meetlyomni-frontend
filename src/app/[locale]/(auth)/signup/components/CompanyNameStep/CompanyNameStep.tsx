@@ -56,10 +56,6 @@ export default function CompanyNameStep({ onNext }: Props) {
             onBlur={handleBlur}
             variant="outlined"
             autoFocus
-            inputProps={{
-              'aria-invalid': showError || undefined,
-              'aria-describedby': errorId,
-            }}
           />
 
           {showError ? (
