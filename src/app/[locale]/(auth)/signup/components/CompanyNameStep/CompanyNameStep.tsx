@@ -13,8 +13,10 @@ export default function CompanyNameStep({ onNext }: Props) {
   const [value, setValue] = useState('');
   const [touched, setTouched] = useState(false);
 
-  const isValid = value.trim().length > 0;
+  const trimmed = value.trim();
+  const isValid = trimmed.length > 0;
   const showError = touched && !isValid;
+  const errorId = showError ? 'companyName-error' : undefined;
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -28,11 +30,10 @@ export default function CompanyNameStep({ onNext }: Props) {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setTouched(true);
-      const trimmed = value.trim();
       if (!trimmed) return;
       onNext(trimmed);
     },
-    [onNext, value],
+    [onNext, trimmed],
   );
 
   return (
@@ -48,15 +49,24 @@ export default function CompanyNameStep({ onNext }: Props) {
 
           <S.CompanyInput
             id="companyName"
+            name="companyName"
             placeholder="Google"
             value={value}
             onChange={handleChange}
             onBlur={handleBlur}
             variant="outlined"
             autoFocus
+            inputProps={{
+              'aria-invalid': showError || undefined,
+              'aria-describedby': errorId,
+            }}
           />
 
-          {showError ? <S.ErrorText role="alert">Company name is required</S.ErrorText> : null}
+          {showError ? (
+            <S.ErrorText id={errorId} role="alert">
+              Company name is required
+            </S.ErrorText>
+          ) : null}
         </S.FieldWrap>
 
         <S.NextButton type="submit" variant="contained" color="primary" disabled={!isValid}>

@@ -9,10 +9,8 @@ import userEvent from '@testing-library/user-event';
 import CompanyNameStep from './CompanyNameStep';
 
 describe('CompanyNameStep', () => {
-  // 顶层常量：稳定的空函数（no-op），满足必填的 onNext，不触发 jsx-no-bind
   const noop = (_: string) => {};
 
-  // 小工具：每个 it() 开始时都渲染一次组件，避免重复代码
   const renderComp = () => {
     render(<CompanyNameStep onNext={noop} />);
   };
@@ -42,7 +40,7 @@ describe('CompanyNameStep', () => {
     renderComp();
     const input = screen.getByRole('textbox', { name: /company name/i });
     await userEvent.click(input);
-    await userEvent.tab(); // 触发 blur
+    await userEvent.tab();
     expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 });

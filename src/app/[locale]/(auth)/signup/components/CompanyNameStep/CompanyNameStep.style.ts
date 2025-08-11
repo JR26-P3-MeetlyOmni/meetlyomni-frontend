@@ -1,16 +1,7 @@
-// src/app/[locale]/(auth)/signup/components/CompanyNameStep/CompanyNameStep.style.ts
 'use client';
 
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-// src/app/[locale]/(auth)/signup/components/CompanyNameStep/CompanyNameStep.style.ts
-
-// src/app/[locale]/(auth)/signup/components/CompanyNameStep/CompanyNameStep.style.ts
-
-// src/app/[locale]/(auth)/signup/components/CompanyNameStep/CompanyNameStep.style.ts
-
-// src/app/[locale]/(auth)/signup/components/CompanyNameStep/CompanyNameStep.style.ts
 
 export const Wrapper = styled('main')(({ theme }) => ({
   minHeight: '100vh',
@@ -53,7 +44,7 @@ export const FormWrap = styled('form')(({ theme }) => ({
 
 export const FieldWrap = styled('div')(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(90), // 720px
+  maxWidth: theme.spacing(90),
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
@@ -94,7 +85,7 @@ export const ErrorText = styled('div')(({ theme }) => ({
 }));
 
 export const NextButton = styled(Button)(({ theme }) => ({
-  minWidth: theme.spacing(30), // 240px
+  minWidth: theme.spacing(30),
   paddingBlock: theme.spacing(2),
   textTransform: 'none',
   borderRadius: theme.shape.borderRadius,
