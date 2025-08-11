@@ -63,6 +63,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@assets': resolve(__dirname, 'public/assets'),
+      '@': resolve(__dirname, 'src'),
     }
   }
 }); 

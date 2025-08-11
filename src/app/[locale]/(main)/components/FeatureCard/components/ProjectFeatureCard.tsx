@@ -6,10 +6,11 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { FeatureListProps } from './FeatureCard.types';
+import type { FeatureCardItem } from '../types';
 
 const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(48), //'377px'
+  width: '100%',
+  maxWidth: theme.spacing(48), //'377px'
   height: theme.spacing(50), //'404px'
   padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`, //'12px'
   borderRadius: Number(theme.shape.borderRadius),
@@ -31,7 +32,8 @@ const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ProjectFeatureImageWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(44), //'353px'
+  width: '100%',
+  maxWidth: theme.spacing(44), //'353px'
   height: theme.spacing(29), //'232px'
   marginBottom: theme.spacing(5),
   position: 'relative',
@@ -55,7 +57,7 @@ const StyledDescription = styled(Typography)(({ theme }) => ({
   px: theme.spacing(2),
 }));
 
-const ProjectFeatureCard: React.FC<FeatureListProps> = ({ imageUrl, title, description }) => (
+const ProjectFeatureCard: React.FC<FeatureCardItem> = ({ imageUrl, title, description }) => (
   <ProjectFeatureCardWrapper>
     <ProjectFeatureImageWrapper>
       <Image src={imageUrl} alt={`${title} feature illustration`} width="353" height="232" />
