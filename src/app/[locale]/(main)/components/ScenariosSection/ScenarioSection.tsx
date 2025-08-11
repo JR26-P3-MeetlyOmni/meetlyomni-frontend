@@ -7,19 +7,18 @@ import { Box, styled } from '@mui/material';
 
 import ScenarioCard from './components/ScenarioCard';
 import { getScenarioData } from './data';
-import { ScenariosSectionProps } from './interface';
+import { ScenariosSectionProps } from './types';
 
 const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(5)} 0`,
-  fontFamily: theme.typography.fontFamily,
+  fontFamily: 'var(--font-roboto)',
   fontSize: theme.typography.h4.fontSize,
-  fontWeight: theme.typography.h3.fontWeight,
-  lineHeight: theme.typography.h3.lineHeight,
+  fontWeight: theme.typography.fontWeightBold,
   color: theme.palette.text.primary,
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
     margin: `0 auto ${theme.spacing(10)} auto`,
-    fontSize: theme.typography.h3.fontSize,
+    fontSize: theme.typography.h4.fontSize,
   },
 }));
 

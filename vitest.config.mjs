@@ -6,7 +6,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules/**', '.storybook/**', '**/*.stories.{js,ts,jsx,tsx}'],
+    exclude: [
+      'node_modules/**', 
+      '.storybook/**', 
+      '**/*.stories.{js,ts,jsx,tsx}',
+      '**/index.ts',
+      '**/index.tsx',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

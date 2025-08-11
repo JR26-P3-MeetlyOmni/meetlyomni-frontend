@@ -1,3 +1,9 @@
+export interface ScenarioConfig {
+  id: string;
+  image: string;
+  descriptionCount: number;
+}
+
 export interface ScenarioData {
   id: string;
   title: string;

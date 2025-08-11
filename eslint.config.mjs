@@ -21,7 +21,8 @@ const eslintConfig = [
       "coverage/**/*",
       "dist/**/*",
       "build/**/*",
-      "src/stories/**/*"
+      "src/stories/**/*",
+      "src/**/*.test.*"
     ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
@@ -29,14 +30,6 @@ const eslintConfig = [
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
     rules: {
-      "@typescript-eslint/naming-convention": [
-        "error",
-        {
-          "selector": "interface",
-
-          "format": ["PascalCase"]
-        }
-      ],
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",

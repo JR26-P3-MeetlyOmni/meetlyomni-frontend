@@ -29,8 +29,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@theme*": ["./src/theme/*"],
       "@assets/*": ["public/assets/*"],
-      "@messages/*": ["./messages/*"]
+      "@messages/*": ["./src/messages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src"],
