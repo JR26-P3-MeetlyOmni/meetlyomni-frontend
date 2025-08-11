@@ -19,14 +19,14 @@ import { FaqAccordionProps } from './interface';
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   margin: `0 0 ${theme.spacing(6)} 0`,
-  fontSize: theme.typography.h2.fontSize,
-  fontWeight: theme.typography.h2.fontWeight,
-  lineHeight: theme.typography.h2.lineHeight,
-  color: theme.typography.h2.color,
+  fontSize: '36px',
+  fontWeight: 'bold',
+  lineHeight: 'normal',
+  color: '#14183b',
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
     margin: `0 auto ${theme.spacing(12)} auto`,
-    fontSize: theme.typography.h2.fontSize,
+    fontSize: '36px',
   },
 }));
 
@@ -57,9 +57,17 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
     margin: 0,
   },
   '& .MuiAccordionSummary-expandIconWrapper': {
-    color: '#666666',
+    color: '#5f6369',
     transition: 'all 0.2s ease-in-out',
-    fontSize: '1.25rem',
+    fontSize: theme.typography.body1.fontSize,
+    '& svg': {
+      width: '16px',
+      height: '16px',
+    },
+    '& .MuiSvgIcon-root': {
+      width: '16px',
+      height: '16px',
+    },
   },
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4, 5),
@@ -91,22 +99,22 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 const StyledQuestion = styled(Typography)(({ theme }) => ({
-  fontSize: '1.125rem',
-  fontWeight: 600,
-  lineHeight: 1.4,
-  color: theme.palette.text.primary,
+  fontSize: '20px',
+  fontWeight: 500,
+  lineHeight: 'normal',
+  color: '#14183b',
   [theme.breakpoints.up('sm')]: {
-    fontSize: '1.25rem',
+    fontSize: '20px',
   },
 }));
 
 const StyledAnswer = styled(Typography)(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: 400,
-  lineHeight: 1.6,
-  color: '#666666',
+  fontSize: '16px',
+  fontWeight: 'normal',
+  lineHeight: 1.25,
+  color: '#888e98',
   [theme.breakpoints.up('sm')]: {
-    fontSize: '1rem',
+    fontSize: '16px',
   },
 }));
 
