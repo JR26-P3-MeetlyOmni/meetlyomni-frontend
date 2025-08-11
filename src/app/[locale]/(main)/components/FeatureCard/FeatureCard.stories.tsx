@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import FeatureCard from './FeatureCard';
 
 const meta: Meta<typeof FeatureCard> = {
-  title: 'Sections/FeatureCard',
+  title: 'LandingPage/FeatureCard',
   component: FeatureCard,
   parameters: {
     layout: 'fullscreen',
