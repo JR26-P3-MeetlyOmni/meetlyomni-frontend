@@ -9,10 +9,12 @@ export default function SignupPage() {
   const router = useRouter();
   const { locale } = useParams<{ locale: string }>();
 
-  const nextStep = useCallback(() => {
-    const loc = locale ?? '';
-    router.push(`/${loc}/(auth)/signup/email`);
-  }, [router, locale]);
+  const nextStep = useCallback(
+    (_companyName: string) => {
+      router.push(`/${locale}/signup/email`);
+    },
+    [router, locale],
+  );
 
   return <CompanyNameStep onNext={nextStep} />;
 }
