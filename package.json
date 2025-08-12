@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NEXT_TELEMETRY_DISABLED=1 NEXT_TRACE_DISABLED=1 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -18,10 +18,12 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
+    "@mui/material-nextjs": "^7.2.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@types/qrcode": "^1.5.5",
     "lucide-react": "^0.539.0",

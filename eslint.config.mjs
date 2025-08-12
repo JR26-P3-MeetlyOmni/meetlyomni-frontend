@@ -21,7 +21,8 @@ const eslintConfig = [
       "coverage/**/*",
       "dist/**/*",
       "build/**/*",
-      "src/stories/**/*"
+      "src/stories/**/*",
+      "src/**/*.test.*"
     ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
@@ -37,17 +38,15 @@ const eslintConfig = [
           "prefix": ["I"]
         }
       ],
-      // "@typescript-eslint/no-enum": "error", // 此规则在新版本中已不存在
       "@typescript-eslint/no-explicit-any": "error",
-      // "@typescript-eslint/no-new-wrappers": "error", // 此规则在新版本中已不存在
       "@typescript-eslint/no-unused-vars": ["error", { 
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"
       }],
       "complexity": ["error", { max: 10 }],
       "import/no-cycle": "error",
-      "max-lines-per-function": ["warn", { max: 100, skipBlankLines: true, skipComments: true }],
-      "no-console": "warn",
+      "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "no-console": "error",
       "no-debugger": "error",
       "no-duplicate-case": "error",
       "no-extra-boolean-cast": "error",
