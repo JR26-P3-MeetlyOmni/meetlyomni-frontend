@@ -5,12 +5,13 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import type { TestimonialCardProps } from '../types';
-import TestimonialCard from './TestimonialCard';
+import type { AnimatedTestimonialCardProps } from '../types';
+import AnimatedTestimonialCard from './AnimatedTestimonialCard';
 
 describe('TestimonialCard', () => {
-  const props: TestimonialCardProps = {
-    testimonial: {
+  const props: AnimatedTestimonialCardProps = {
+    animatedTestimonial: {
+      position: 'center',
       id: 1,
       name: 'Alex W.',
       role: 'Event Manager, Amazon',
@@ -20,20 +21,20 @@ describe('TestimonialCard', () => {
   };
 
   it('renders content correctly', () => {
-    render(<TestimonialCard {...props} />);
+    render(<AnimatedTestimonialCard {...props} />);
     expect(screen.getByText('This is a great product!')).toBeInTheDocument();
   });
 
   it('renders name and role correctly', () => {
-    render(<TestimonialCard {...props} />);
+    render(<AnimatedTestimonialCard {...props} />);
     expect(screen.getByText('Alex W.')).toBeInTheDocument();
     expect(screen.getByText('Event Manager, Amazon')).toBeInTheDocument();
   });
 
   it('renders avatar with correct src and alt', () => {
-    render(<TestimonialCard {...props} />);
+    render(<AnimatedTestimonialCard {...props} />);
     const avatar = screen.getByRole('img');
-    expect(avatar).toHaveAttribute('src', props.testimonial.avatarUrl);
-    expect(avatar).toHaveAttribute('alt', props.testimonial.name);
+    expect(avatar).toHaveAttribute('src', props.animatedTestimonial.avatarUrl);
+    expect(avatar).toHaveAttribute('alt', props.animatedTestimonial.name);
   });
 });

@@ -6,8 +6,12 @@ export interface TestimonialData {
   avatarUrl?: string;
 }
 
-export interface TestimonialCardProps {
-  testimonial: TestimonialData;
+export interface AnimatedTestimonialData extends TestimonialData {
+  position: 'left' | 'center' | 'right';
+}
+
+export interface AnimatedTestimonialCardProps {
+  animatedTestimonial: AnimatedTestimonialData;
 }
 
 export interface TestimonialsSectionProps {

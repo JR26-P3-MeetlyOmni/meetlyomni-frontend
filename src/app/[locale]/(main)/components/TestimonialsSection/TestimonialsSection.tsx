@@ -1,16 +1,15 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, styled, Typography } from '@mui/material';
 
-import TestimonialCard from './components/TestimonialCard';
-import type { TestimonialsSectionProps } from './types';
+import AnimatedTestimonialCard from './components/AnimatedTestimonialCard';
+import type { AnimatedTestimonialData, TestimonialsSectionProps } from './types';
 
 const StyledSection = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(7.5)} ${theme.spacing(4)}`,
-  backgroundColor: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -22,28 +21,6 @@ const StyledSection = styled(Box)(({ theme }) => ({
 const StyledGrid = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(2.5),
-  '& > *:nth-child(1)': {
-    position: 'relative',
-    maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))',
-    maskRepeat: 'no-repeat',
-    maskSize: 'cover',
-    color: theme.palette.text.secondary,
-  },
-  '& > *:nth-child(2)': {
-    backgroundColor: '#2269f0',
-    color: theme.palette.common.white,
-
-    '& > div > div > p:nth-child(2)': {
-      color: '#acc8fd',
-    },
-  },
-  '& > *:nth-child(3)': {
-    position: 'relative',
-    maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))',
-    maskRepeat: 'no-repeat',
-    maskSize: 'cover',
-    color: theme.palette.text.secondary,
-  },
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
@@ -70,14 +47,36 @@ const StyledSubtitle = styled(Typography)(({ theme }) => ({
 
 export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ data }) => {
   const t = useTranslations('testimonials-section');
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    if (!data?.length) return;
+    const timer = setInterval(() => {
+      setActiveIdx(prev => (prev + 1) % data.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [data]);
+
+  // Only show 3 cards: previous, current, next (circular)
+  const getVisibleCards = () => {
+    if (!data?.length) return [];
+    const prevIdx = (activeIdx - 1 + data.length) % data.length;
+    const nextIdx = (activeIdx + 1) % data.length;
+    return [
+      { ...data[prevIdx], position: 'left' } as AnimatedTestimonialData,
+      { ...data[activeIdx], position: 'center' } as AnimatedTestimonialData,
+      { ...data[nextIdx], position: 'right' } as AnimatedTestimonialData,
+    ];
+  };
+
   return (
     <StyledSection>
       <StyledTitle>{t('title')}</StyledTitle>
       <StyledSubtitle>{t('subtitle')}</StyledSubtitle>
       <StyledGrid>
-        {data?.map(testimonial => (
-          <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-        ))}
+        {getVisibleCards().map(card => {
+          return <AnimatedTestimonialCard key={card.id} animatedTestimonial={card} />;
+        })}
       </StyledGrid>
     </StyledSection>
   );
