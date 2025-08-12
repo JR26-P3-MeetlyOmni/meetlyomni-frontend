@@ -1,6 +1,10 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { resetEmailState, setEmail, validateEmailAsync } from '@/store/features/emailSlice';
+import { AppDispatch, RootState } from '@/store/store';
+
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Email input component
 function EmailInput({
@@ -470,9 +474,8 @@ function MainContent({
 }
 
 export default function EmailPage() {
-  const [email, setEmail] = useState('');
-  const [errors, setErrors] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { email, errors, isSubmitting } = useSelector((state: RootState) => state.email);
 
   // Email format validation
   const validateEmail = useCallback((email: string): boolean => {
@@ -484,14 +487,9 @@ export default function EmailPage() {
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      setEmail(value);
-
-      // Clear previous errors
-      if (errors.length > 0) {
-        setErrors([]);
-      }
+      dispatch(setEmail(value));
     },
-    [errors.length],
+    [dispatch],
   );
 
   // Handle form submission
@@ -499,59 +497,35 @@ export default function EmailPage() {
     async (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Clear previous errors
-      setErrors([]);
-
       // Validate email is not empty
       if (!email.trim()) {
-        setErrors(['Email address is required.']);
+        dispatch(setEmail(''));
         return;
       }
 
       // Validate email format
       if (!validateEmail(email)) {
-        setErrors(['Please enter a valid email address.']);
+        dispatch(setEmail(email));
         return;
       }
 
       // Validate email doesn't contain spaces
       if (email.includes(' ')) {
-        setErrors(['Email address cannot contain spaces.']);
+        dispatch(setEmail(email));
         return;
       }
 
-      setIsSubmitting(true);
-
-      try {
-        // Here should call API to check if email already exists
-        // Simulating API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Simulate checking if email exists (this should be real API call result)
-        const isEmailExists = false; // This should be API call result
-
-        if (isEmailExists) {
-          setErrors([
-            'This email address is already in use. Please use a different one or log in.',
-          ]);
-          return;
-        }
-
-        // Email validation passed, continue to next step
-        // Here can navigate to next step or send verification email
-      } catch {
-        setErrors(['An error occurred. Please try again.']);
-      } finally {
-        setIsSubmitting(false);
-      }
+      // 使用Redux异步action验证邮箱
+      dispatch(validateEmailAsync(email));
     },
-    [email, validateEmail],
+    [email, validateEmail, dispatch],
   );
 
   // Handle back button
   const handleBack = useCallback(() => {
-    // Here can navigate to login page
-  }, []);
+    // 重置邮箱状态
+    dispatch(resetEmailState());
+  }, [dispatch]);
 
   // Handle input focus
   const handleFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
@@ -567,6 +541,13 @@ export default function EmailPage() {
     },
     [errors.length],
   );
+
+  // 组件卸载时清理状态
+  useEffect(() => {
+    return () => {
+      dispatch(resetEmailState());
+    };
+  }, [dispatch]);
 
   return (
     <div
