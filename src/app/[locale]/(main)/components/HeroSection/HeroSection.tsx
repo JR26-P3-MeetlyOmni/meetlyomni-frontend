@@ -35,7 +35,7 @@ const HeroTitle = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
   fontFamily: 'var(--font-roboto)',
   fontSize: theme.spacing(8.5),
-  lineHeight: 1.29,
+  lineHeight: theme.typography.h1.lineHeight,
   color: theme.palette.text.primary,
   marginBottom: theme.spacing(4),
   [theme.breakpoints.down('md')]: {
@@ -55,7 +55,7 @@ const HeroDescription = styled(Typography)(({ theme }) => ({
   height: theme.spacing(6),
   fontFamily: 'var(--font-roboto)',
   fontSize: theme.spacing(2.5),
-  lineHeight: 1.2,
+  lineHeight: theme.typography.h2.lineHeight,
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(10),
   [theme.breakpoints.down('md')]: {

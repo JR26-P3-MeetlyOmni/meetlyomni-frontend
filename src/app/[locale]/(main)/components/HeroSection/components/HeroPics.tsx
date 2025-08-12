@@ -5,50 +5,43 @@ import React from 'react';
 
 import { Box, styled } from '@mui/material';
 
-import { HeroSectionDecorLeft, HeroSectionDecorRight } from './HeroSectionPics';
+import heroSectionLeftPic from '@assets/images/HeroSection/hero_section_left.png';
+import heroSectionRitePic from '@assets/images/HeroSection/hero_section_right.png';
 
-const LeftPicture = styled(Box)(({ theme }) => ({
+const Pictures = styled(Box)(({ theme }) => ({
   position: 'absolute',
+  zIndex: 0,
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
+
+const LeftPicture = styled(Pictures)(({ theme }) => ({
   left: 0,
-  top: theme.spacing(10), // 上移
-  zIndex: 0,
-  width: theme.spacing(30), // 宽度固定
-  height: `calc(${theme.spacing(30)} * 2.71)`, // 根据比例计算高度
-  [theme.breakpoints.down('md')]: {
-    display: 'none',
-  },
+  top: theme.spacing(10),
+  width: theme.spacing(30),
+  height: `calc(${theme.spacing(30)} * 2.71)`,
 }));
 
-const RightPicture = styled(Box)(({ theme }) => ({
-  position: 'absolute',
+const RightPicture = styled(Pictures)(({ theme }) => ({
   right: 0,
-  bottom: theme.spacing(14), // 下移
-  zIndex: 0,
-  width: theme.spacing(71), // 宽度固定
-  height: `calc(${theme.spacing(71)} * 1.12)`, // 根据比例计算高度
-  [theme.breakpoints.down('md')]: {
-    display: 'none',
-  },
+  bottom: theme.spacing(14),
+  width: theme.spacing(71),
+  height: `calc(${theme.spacing(71)} * 1.12)`,
 }));
+
+const StyledImage = styled(Image)({
+  objectFit: 'contain',
+});
 
 export const LeftDecoration = () => (
   <LeftPicture>
-    <Image
-      src={HeroSectionDecorLeft.imageUrl}
-      alt="Hero section left decoration"
-      fill
-      style={{ objectFit: 'contain' }}
-    />
+    <StyledImage src={heroSectionLeftPic} alt="Hero section left decoration" fill />
   </LeftPicture>
 );
 
 export const RightDecoration = () => (
   <RightPicture>
-    <Image
-      src={HeroSectionDecorRight.imageUrl}
-      alt="Hero section right decoration"
-      fill
-      style={{ objectFit: 'contain' }}
-    />
+    <StyledImage src={heroSectionRitePic} alt="Hero section right decoration" fill />
   </RightPicture>
 );
