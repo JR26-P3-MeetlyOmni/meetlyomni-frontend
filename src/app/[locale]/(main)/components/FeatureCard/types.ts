@@ -1,12 +1,12 @@
 import { StaticImageData } from 'next/image';
 
-export interface FeatureCardData {
+export interface FeatureCardItem {
   imageUrl: StaticImageData;
   title: string;
   description: string;
 }
 
 export interface FeatureCardGridProps {
-  data: FeatureCardData[];
+  data: FeatureCardItem[];
   type: 'project' | 'product';
 }

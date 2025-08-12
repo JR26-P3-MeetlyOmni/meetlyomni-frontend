@@ -1,1 +1,1 @@
-export { useQRCode, QRStatus } from './useQRCode'; 
+export { useQRCode, QRStatus } from './useQRCode';
