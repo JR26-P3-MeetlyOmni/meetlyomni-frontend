@@ -2,7 +2,6 @@
 
 import { URL_CONFIG } from '@/constants/footer_external_links';
 
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import Box from '@mui/material/Box';
@@ -71,7 +70,6 @@ const FooterCopyright = styled(Typography)(({ theme }) => ({
 }));
 
 const Footer = () => {
-  const t = useTranslations('landing_page_footer');
 
   return (
     <StyledFooter as="footer">
@@ -81,18 +79,18 @@ const Footer = () => {
             <FooterLogoContainer>
               <Image src={footerLogo} alt="Omni Logo" width={126} height={36} />
             </FooterLogoContainer>
-            <LegalLinks t={t} />
+            <LegalLinks />
             <SocialIcons />
           </FooterLeft>
 
           <FooterRight>
-            <ContactLink href={URL_CONFIG.wechat} label="wechat" t={t} />
-            <ContactLink href={URL_CONFIG.contact} label="contactUs" t={t} />
+            <ContactLink href={URL_CONFIG.wechat} label="Wechat" />
+            <ContactLink href={URL_CONFIG.contact} label="Contact Us" />
           </FooterRight>
         </FooterContent>
 
         <FooterBottom>
-          <FooterCopyright>{t('copyright')}</FooterCopyright>
+          <FooterCopyright>© 2025 Meetly Omni. All rights reserved.</FooterCopyright>
         </FooterBottom>
       </Container>
     </StyledFooter>

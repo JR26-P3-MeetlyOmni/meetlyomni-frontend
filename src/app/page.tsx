@@ -1,5 +1,15 @@
-import { redirect } from 'next/navigation';
+import React from 'react';
 
-export default function RootPage() {
-  redirect('/en');
+import { Box } from '@mui/material';
+
+import { FeatureCard } from './components/FeatureCard';
+import { ScenariosSection } from './components/ScenariosSection';
+
+export default async function RootPage() {
+  return (
+    <Box>
+      <FeatureCard />
+      <ScenariosSection />
+    </Box>
+  );
 }

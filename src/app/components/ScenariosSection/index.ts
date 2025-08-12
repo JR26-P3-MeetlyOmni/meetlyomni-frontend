@@ -6,4 +6,4 @@ export { default as ScenariosSection } from './ScenarioSection';
 export type { ScenarioCardProps, ScenariosSectionProps, ScenarioData } from './types';
 
 // Re-export data and utilities
-export { getScenarioData, SCENARIO_CONFIGS } from './data';
+export { getScenarioData, SCENARIO_DATA } from './data';

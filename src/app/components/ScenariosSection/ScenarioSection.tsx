@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Box, styled } from '@mui/material';
@@ -53,9 +52,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 const ScenariosSection: React.FC<ScenariosSectionProps> = ({ title, scenarios, className }) => {
-  const t = useTranslations('LandingPage');
-  const displayScenarios = scenarios || getScenarioData(t);
-  const displayTitle = title || t('scenarios.title');
+  const displayScenarios = scenarios || getScenarioData();
+  const displayTitle = title || 'Applicable Scenarios';
 
   return (
     <StyledSection className={className}>

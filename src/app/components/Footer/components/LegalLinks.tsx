@@ -33,22 +33,22 @@ const StyledLegalLink = styled(ExternalLink)(({ theme }) => ({
 const legalLinks = {
   privacy: {
     href: URL_CONFIG.privacy,
-    key: 'privacyPolicy',
+    label: 'Privacy Policy',
   },
   terms: {
     href: URL_CONFIG.terms,
-    key: 'termsForUsage',
+    label: 'Terms for Usage',
   },
 };
 
-const LegalLink = ({ t }: LegalLinksProps) => {
+const LegalLink = ({}: LegalLinksProps) => {
   return (
     <LegalLinksContainer>
-      <StyledLegalLink href={legalLinks.privacy.href}>{t(legalLinks.privacy.key)}</StyledLegalLink>
+      <StyledLegalLink href={legalLinks.privacy.href}>{legalLinks.privacy.label}</StyledLegalLink>
 
       <LegalLinkSeparator>｜</LegalLinkSeparator>
 
-      <StyledLegalLink href={legalLinks.terms.href}>{t(legalLinks.terms.key)}</StyledLegalLink>
+      <StyledLegalLink href={legalLinks.terms.href}>{legalLinks.terms.label}</StyledLegalLink>
     </LegalLinksContainer>
   );
 };

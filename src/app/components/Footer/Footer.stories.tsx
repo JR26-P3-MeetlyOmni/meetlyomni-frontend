@@ -1,6 +1,3 @@
-import enMessages from '@/messages/en.json';
-
-import { NextIntlClientProvider } from 'next-intl';
 
 import { Box, createTheme, styled, ThemeProvider } from '@mui/material';
 
@@ -29,13 +26,7 @@ const meta: Meta<typeof Footer> = {
   },
   tags: ['autodocs'],
   argTypes: {},
-  decorators: [
-    Story => (
-      <NextIntlClientProvider locale="en" messages={enMessages}>
-        <Story />
-      </NextIntlClientProvider>
-    ),
-  ],
+  decorators: [],
 } satisfies Meta<typeof Footer>;
 
 export default meta;

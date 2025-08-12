@@ -26,7 +26,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTitle = styled('h2')(({ theme }) => ({
-  fontFamily: theme.typography.fontFamily,
+  fontFamily: 'var(--font-roboto)',
   color: theme.palette.text.primary,
   textAlign: 'center',
   margin: `${theme.spacing(8)} auto ${theme.spacing(6)}`,

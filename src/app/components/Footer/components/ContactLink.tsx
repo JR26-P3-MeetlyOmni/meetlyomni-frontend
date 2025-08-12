@@ -30,10 +30,10 @@ const QRContainer = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const ContactLink = ({ href, label, t }: ContactLinkProps) => {
+const ContactLink = ({ href, label }: ContactLinkProps) => {
   return (
     <ContactLinkContainer>
-      <ContactLinkText>{t(label)}</ContactLinkText>
+      <ContactLinkText>{label}</ContactLinkText>
       <QRContainer>
         <QRCodeComponent url={href} size={64} />
       </QRContainer>
