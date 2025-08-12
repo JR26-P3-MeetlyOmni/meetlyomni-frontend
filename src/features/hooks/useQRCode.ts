@@ -1,4 +1,5 @@
 import QRCode from 'qrcode';
+
 import { useEffect, useState } from 'react';
 
 export enum QRStatus {
@@ -17,7 +18,7 @@ export const useQRCode = (url: string, size: number) => {
       try {
         setStatus(QRStatus.LOADING);
         setErrorMessage('');
-        
+
         const result = await QRCode.toDataURL(url, {
           width: size,
           margin: 1,
@@ -25,7 +26,7 @@ export const useQRCode = (url: string, size: number) => {
             dark: '#000000',
           },
         });
-        
+
         setDataUrl(result);
         setStatus(QRStatus.SUCCESS);
       } catch {
@@ -38,4 +39,4 @@ export const useQRCode = (url: string, size: number) => {
   }, [url, size]);
 
   return { dataUrl, status, errorMessage };
-}; 
+};
