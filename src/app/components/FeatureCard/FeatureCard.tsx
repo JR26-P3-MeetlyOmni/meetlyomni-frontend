@@ -30,7 +30,7 @@ const StyledTitle = styled('h2')(({ theme }) => ({
   color: theme.palette.text.primary,
   textAlign: 'center',
   margin: `${theme.spacing(8)} auto ${theme.spacing(6)}`,
-  fontSize: theme.typography.h5.fontSize,
+  fontSize: theme.typography.h4.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
   lineHeight: theme.typography.h5.lineHeight,
   letterSpacing: 0,

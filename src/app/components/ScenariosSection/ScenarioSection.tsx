@@ -12,7 +12,7 @@ const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `0 0 ${theme.spacing(5)} 0`,
   fontFamily: 'var(--font-roboto)',
   fontSize: theme.typography.h4.fontSize,
-  fontWeight: theme.typography.fontWeightBold,
+  fontWeight: theme.typography.fontWeightMedium,
   color: theme.palette.text.primary,
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
