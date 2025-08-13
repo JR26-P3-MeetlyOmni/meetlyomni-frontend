@@ -37,6 +37,7 @@ const NavBar: React.FC = () => {
   }, []);
 
   const handleSignInClick = useCallback(() => {
+    //TODO: Implement real Sign In flow with form validation and backend API
     setIsLoggedIn(true);
     setUser({ username: 'Alex Li', avatar: DefaultAvatar });
   }, []);
@@ -44,7 +45,7 @@ const NavBar: React.FC = () => {
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>
       <LogoWrapper>
-        <Image src={Logo} alt="Omni Logo" />
+        <Image src={Logo} alt="Omni Logo" width={64} height={18} />
       </LogoWrapper>
 
       <NavLinksWrapper>
