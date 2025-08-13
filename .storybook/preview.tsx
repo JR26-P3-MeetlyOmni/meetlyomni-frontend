@@ -11,7 +11,7 @@ const theme = createTheme();
 
 export const decorators = [
   Story => (
-    <ThemeProvider theme={createTheme()}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Story />
     </ThemeProvider>
