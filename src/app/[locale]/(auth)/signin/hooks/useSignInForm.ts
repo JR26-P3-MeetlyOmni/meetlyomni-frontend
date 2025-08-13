@@ -1,5 +1,19 @@
 import { useState, useMemo } from 'react';
-import { validateEmail, validatePassword } from '../utils/validation';
+
+// Validation functions
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password: string) => {
+  const minLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  
+  return minLength && hasUpperCase && hasLowerCase && hasNumber;
+};
 
 export const useSignInForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
