@@ -16,7 +16,6 @@ export const StickyNavbarWrapper = styled(Box)(({ theme }) => ({
   }),
   '&.scrolled': {
     backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[1],
   },
 }));
 
