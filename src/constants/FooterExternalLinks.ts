@@ -1,4 +1,6 @@
-export const URL_CONFIG = {
+import type { FooterLinksConfig } from '@/app/(main)/components/Footer/types';
+
+export const URL_CONFIG: Readonly<FooterLinksConfig> = {
   privacy: process.env.NEXT_PUBLIC_PRIVACY_URL || 'https://jiangren.com.au/privacy-policy',
   terms: process.env.NEXT_PUBLIC_TERMS_URL || 'https://jiangren.com.au/terms-and-conditions',
   contact: process.env.NEXT_PUBLIC_CONTACT_URL || 'https://jiangren.com.au/contact',

@@ -25,7 +25,6 @@ const meta: Meta<typeof Footer> = {
   },
   tags: ['autodocs'],
   argTypes: {},
-  decorators: [],
 } satisfies Meta<typeof Footer>;
 
 export default meta;

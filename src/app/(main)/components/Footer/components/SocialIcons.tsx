@@ -1,7 +1,7 @@
 'use client';
 
 import ExternalLink from '@/components/Link';
-import { URL_CONFIG } from '@/constants/footer_external_links';
+import { URL_CONFIG } from '@/constants/FooterExternalLinks';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';

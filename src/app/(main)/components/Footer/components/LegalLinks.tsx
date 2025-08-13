@@ -1,7 +1,7 @@
 'use client';
 
 import ExternalLink from '@/components/Link';
-import { URL_CONFIG } from '@/constants/footer_external_links';
+import { URL_CONFIG } from '@/constants/FooterExternalLinks';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';

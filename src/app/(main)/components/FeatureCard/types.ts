@@ -7,6 +7,6 @@ export interface FeatureCardItem {
 }
 
 export interface FeatureCardGridProps {
-  data: FeatureCardItem[];
+  data: ReadonlyArray<FeatureCardItem>;
   type: 'project' | 'product';
 }

@@ -1,8 +1,9 @@
+import { SCENARIO_DATA } from '@/constants/ScenariosData';
 import { describe, expect, it } from 'vitest';
 
 import React from 'react';
 
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 
 import ScenariosSection from './ScenarioSection';
@@ -26,32 +27,18 @@ describe('ScenariosSection', () => {
 
   it('renders all scenario cards', () => {
     render(<ScenariosSection {...mockProps} />);
-    expect(screen.getByText('Annual meeting of the enterprise')).toBeInTheDocument();
-    expect(screen.getByText('New product launch event')).toBeInTheDocument();
-    expect(screen.getByText('Team training & Education')).toBeInTheDocument();
-    expect(screen.getByText('Community activities')).toBeInTheDocument();
+    SCENARIO_DATA.forEach(scenario => {
+      expect(screen.getByText(scenario.title)).toBeInTheDocument();
+    });
   });
 
   it('renders descriptions inside each card', () => {
     render(<ScenariosSection {...mockProps} />);
-    expect(
-      screen.getByText('Interactive quiz & Lucky draw to enhance team cohesion!'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Live sweepstakes create memorable experiences that help customers remember your brand!',
-      ),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Gamified Q&A allows students to absorb knowledge faster and improve the training effect!',
-      ),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Viewers scan the code to enter the interactive Q&A & Sweepstakes to improve live stream retention!',
-      ),
-    ).toBeInTheDocument();
+    SCENARIO_DATA.forEach(scenario => {
+      scenario.descriptions.forEach(description => {
+        expect(screen.getByText(description)).toBeInTheDocument();
+      });
+    });
   });
 
   it('renders with custom scenarios data', () => {

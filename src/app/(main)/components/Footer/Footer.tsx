@@ -1,6 +1,6 @@
 'use client';
 
-import { URL_CONFIG } from '@/constants/footer_external_links';
+import { URL_CONFIG } from '@/constants/FooterExternalLinks';
 
 import Image from 'next/image';
 
@@ -83,7 +83,7 @@ const Footer = () => {
           </FooterLeft>
 
           <FooterRight>
-            <ContactLink href={URL_CONFIG.wechat} label="Wechat" />
+            <ContactLink href={URL_CONFIG.wechat} label="WeChat" />
             <ContactLink href={URL_CONFIG.contact} label="Contact Us" />
           </FooterRight>
         </FooterContent>

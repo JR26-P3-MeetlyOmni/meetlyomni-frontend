@@ -1,4 +1,6 @@
-export const SCENARIO_DATA = [
+import type { ScenarioData } from '@/app/(main)/components/ScenariosSection/types';
+
+export const SCENARIO_DATA: readonly ScenarioData[] = [
   {
     id: 'annual-meeting',
     title: 'Annual meeting of the enterprise',

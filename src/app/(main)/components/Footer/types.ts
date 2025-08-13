@@ -10,3 +10,12 @@ export interface SocialLink {
   label: string;
   icon: ElementType;
 }
+
+export interface FooterLinksConfig {
+  readonly privacy: string;
+  readonly terms: string;
+  readonly contact: string;
+  readonly wechat: string;
+  readonly linkedin: string;
+  readonly twitter: string;
+}

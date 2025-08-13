@@ -74,7 +74,7 @@ describe('Footer Component', () => {
   describe('QR Codes', () => {
     it('should display QR code labels', () => {
       render(<Footer />);
-      expect(screen.getByText('Wechat')).toBeInTheDocument();
+      expect(screen.getByText('WeChat')).toBeInTheDocument();
       expect(screen.getByText('Contact Us')).toBeInTheDocument();
     });
   });

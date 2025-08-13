@@ -1,14 +1,18 @@
 import React from 'react';
 
+import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import type { Preview } from '@storybook/nextjs';
+import type { Preview } from '@storybook/react';
 
 import '../src/app/globals.css';
+
+const theme = createTheme();
 
 export const decorators = [
   Story => (
     <ThemeProvider theme={createTheme()}>
+      <CssBaseline />
       <Story />
     </ThemeProvider>
   ),

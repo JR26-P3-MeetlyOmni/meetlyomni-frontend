@@ -32,7 +32,7 @@ const StyledTitle = styled('h2')(({ theme }) => ({
   margin: `${theme.spacing(8)} auto ${theme.spacing(6)}`,
   fontSize: theme.typography.h4.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
-  lineHeight: theme.typography.h5.lineHeight,
+  lineHeight: theme.typography.h4.lineHeight,
   letterSpacing: 0,
   [theme.breakpoints.up('sm')]: {
     margin: `${theme.spacing(12)} auto ${theme.spacing(8)}`,
