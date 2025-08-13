@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vitest", "@vitest/browser/providers/playwright"],
     "allowJs": true,
     "skipLibCheck": true,
 
@@ -30,8 +31,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@theme*": ["./src/theme/*"],
-      "@assets/*": ["public/assets/*"],
-      "@messages/*": ["./src/messages/*"]
+      "@assets/*": ["public/assets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src"],
