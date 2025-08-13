@@ -39,7 +39,7 @@ describe('ScenariosSection', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Live sweepstakes enhance interaction and let customers remember your brand!',
+        'Live sweepstakes create memorable experiences that help customers remember your brand!',
       ),
     ).toBeInTheDocument();
     expect(
