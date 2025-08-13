@@ -12,16 +12,15 @@ const StickyNavbarWrapper = styled(Box)(({ theme }) => ({
   top: 0,
   width: '100%',
   padding: theme.spacing(2, 4),
+  backgroundColor: theme.palette.background.default,
+  zIndex: theme.zIndex.appBar,
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: theme.palette.background.default,
   boxSizing: 'border-box',
   marginBottom: theme.spacing(10),
-  zIndex: theme.zIndex.appBar,
   transition: theme.transitions.create(['background-color', 'box-shadow'], {
     duration: theme.transitions.duration.short,
   }),
-  //todo
   '&.scrolled': {
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[1],
