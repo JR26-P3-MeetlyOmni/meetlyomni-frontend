@@ -28,22 +28,7 @@ const eslintConfig = [
   ...storybook.configs["flat/recommended"],
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: __dirname,
-      }
-    },
-    settings: {
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-        },
-        node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx']
-        }
-      }
-    },
+    
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 
