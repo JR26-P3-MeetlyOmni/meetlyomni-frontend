@@ -6,8 +6,6 @@ import { URL_CONFIG } from '@/constants/footer_external_links';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-import type { LegalLinksProps } from '../types';
-
 const LegalLinksContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -41,7 +39,7 @@ const legalLinks = {
   },
 };
 
-const LegalLink = ({}: LegalLinksProps) => {
+const LegalLink: React.FC = () => {
   return (
     <LegalLinksContainer>
       <StyledLegalLink href={legalLinks.privacy.href}>{legalLinks.privacy.label}</StyledLegalLink>
