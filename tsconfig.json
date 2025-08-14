@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["node", "vitest", "@vitest/browser/providers/playwright"],
+    "types": ["node", "vitest"],
     "allowJs": true,
     "skipLibCheck": true,
 
