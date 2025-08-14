@@ -185,14 +185,14 @@ export const SignInForm: React.FC<SignInFormProps> = ({
       </Typography>
     )}
 
-    <Box sx={{ textAlign: 'left', mb: 3 }}>
+    <Box sx={{ textAlign: 'left', mb: 2 }}>
       <Link
         href="/forgot-password"
         variant="body2"
         sx={{
           width: '114px',
           height: '14px',
-          margin: '8px 298px 40px 0',
+          margin: '8px 298px 0 0',
           fontFamily: 'Roboto',
           fontSize: '14px',
           fontWeight: 500,
@@ -212,11 +212,11 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     <Button
       type="submit"
       variant="contained"
-      disabled={!isFormValid || isSubmitting}
+      disabled={isSubmitting}
       sx={{
         width: '412px',
         height: '38px',
-        margin: '40px 0 24px',
+        margin: '16px 0 24px',
         padding: '12px 183px 12px 182px',
         borderRadius: '6px',
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',

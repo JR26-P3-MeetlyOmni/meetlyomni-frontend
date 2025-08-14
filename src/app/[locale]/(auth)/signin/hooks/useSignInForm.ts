@@ -53,8 +53,7 @@ export const useSignInForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
+    
     const newErrors = { email: '', password: '' };
 
     if (!formData.email) {
@@ -71,14 +70,22 @@ export const useSignInForm = () => {
 
     setErrors(newErrors);
 
+    // Only proceed with submission if there are no errors
     if (!newErrors.email && !newErrors.password) {
-      console.log('Sign in successful:', formData);
-      // TODO: Add navigation to next page or API call here
-      alert('Sign in successful! Redirecting to dashboard...');
-      // Example: router.push('/dashboard');
+      setIsSubmitting(true);
+      
+      try {
+        console.log('Sign in successful:', formData);
+        // TODO: Add navigation to next page or API call here
+        alert('Sign in successful! Redirecting to dashboard...');
+        // Example: router.push('/dashboard');
+      } catch (error) {
+        console.error('Sign in failed:', error);
+        // Handle error case if needed
+      } finally {
+        setIsSubmitting(false);
+      }
     }
-
-    setIsSubmitting(false);
   };
 
   const isFormValid = useMemo((): boolean => {
