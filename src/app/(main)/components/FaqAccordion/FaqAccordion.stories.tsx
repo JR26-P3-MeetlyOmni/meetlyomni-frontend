@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import FaqAccordion from './FaqAccordion';
-import { FaqItem } from './interface';
+import { FaqItem } from './types';
 
 // Meta configuration for the component
 const meta: Meta<typeof FaqAccordion> = {

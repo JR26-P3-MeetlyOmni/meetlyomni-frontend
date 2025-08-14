@@ -9,7 +9,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import FaqAccordion from './FaqAccordion';
-import type { FaqItem } from './interface';
+import type { FaqItem } from './types';
 
 // Create a minimal theme for testing
 const theme = createTheme();

@@ -1,10 +1,10 @@
-import { FaqItem } from './interface';
+import { FaqItem } from '../app/(main)/components/FaqAccordion/types';
 
 /**
  * Static FAQ data
  * @returns Array of FAQ items with static content
  */
-export const getFaqData = (): FaqItem[] => [
+export const getFaqData = (): readonly FaqItem[] => [
   {
     id: 'free',
     question: 'Is Meetly Omni free?',

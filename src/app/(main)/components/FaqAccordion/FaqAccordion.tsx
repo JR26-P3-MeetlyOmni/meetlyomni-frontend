@@ -13,26 +13,26 @@ import {
   Typography,
 } from '@mui/material';
 
-import { getFaqData } from './data';
-import { FaqAccordionProps } from './interface';
+import { getFaqData } from '../../../../constants/FaqData';
+import { FaqAccordionProps } from './types';
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   margin: `0 0 ${theme.spacing(6)} 0`,
-  fontSize: '36px',
-  fontWeight: 'bold',
-  lineHeight: 'normal',
-  color: '#14183b',
+  fontSize: theme.typography.pxToRem(36), // Replace'36px'
+  fontWeight: theme.typography.fontWeightBold, // Replace 'bold'
+  lineHeight: theme.typography.body1.lineHeight, // Replace 'normal'
+  color: theme.palette.text.primary, // Replace '#14183b'
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
     margin: `0 auto ${theme.spacing(12)} auto`,
-    fontSize: '36px',
+    fontSize: theme.typography.pxToRem(36), // Keep font size consistent using pxToRem
   },
 }));
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   borderRadius: theme.shape.borderRadius,
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  boxShadow: theme.shadows[1],
   border: 'none',
   backgroundColor: theme.palette.grey[100],
   '&:before': {
@@ -56,16 +56,16 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
     margin: 0,
   },
   '& .MuiAccordionSummary-expandIconWrapper': {
-    color: '#5f6369',
-    transition: 'all 0.2s ease-in-out',
+    color: theme.palette.text.secondary, // Replace '#5f6369'
+    transition: theme.transitions.create('all', {
+      // Replace 'all 0.2s ease-in-out'
+      duration: theme.transitions.duration.short,
+      easing: theme.transitions.easing.easeInOut,
+    }),
     fontSize: theme.typography.body1.fontSize,
-    '& svg': {
-      width: '16px',
-      height: '16px',
-    },
-    '& .MuiSvgIcon-root': {
-      width: '16px',
-      height: '16px',
+    '& svg, & .MuiSvgIcon-root': {
+      width: theme.typography.pxToRem(16), // Replace '16px'
+      height: theme.typography.pxToRem(16),
     },
   },
   [theme.breakpoints.up('sm')]: {
@@ -73,6 +73,7 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
   },
 }));
 
+// AccordionDetails
 const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
   padding: theme.spacing(0, 4, 4),
   [theme.breakpoints.up('sm')]: {
@@ -80,6 +81,7 @@ const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
   },
 }));
 
+// Section
 const StyledSection = styled('section')(({ theme }) => ({
   padding: `${theme.spacing(8)} 0`,
   backgroundColor: theme.palette.background.default,
@@ -88,8 +90,9 @@ const StyledSection = styled('section')(({ theme }) => ({
   },
 }));
 
+// Container
 const StyledContainer = styled(Box)(({ theme }) => ({
-  maxWidth: '900px',
+  maxWidth: theme.breakpoints.values.md,
   margin: '0 auto',
   padding: `0 ${theme.spacing(2)}`,
   [theme.breakpoints.up('sm')]: {
@@ -97,23 +100,25 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
+// Question
 const StyledQuestion = styled(Typography)(({ theme }) => ({
-  fontSize: '20px',
-  fontWeight: 500,
-  lineHeight: 'normal',
-  color: '#14183b',
+  fontSize: theme.typography.pxToRem(20), // Replace 20px
+  fontWeight: theme.typography.fontWeightMedium, // Replace 500
+  lineHeight: theme.typography.body1.lineHeight, // Replace 1.5
+  color: theme.palette.text.primary, // Replace '#14183b'
   [theme.breakpoints.up('sm')]: {
-    fontSize: '20px',
+    fontSize: theme.typography.pxToRem(20),
   },
 }));
 
+// Answer
 const StyledAnswer = styled(Typography)(({ theme }) => ({
-  fontSize: '16px',
-  fontWeight: 'normal',
-  lineHeight: 1.25,
-  color: '#888e98',
+  fontSize: theme.typography.pxToRem(16), // Replace16px
+  fontWeight: theme.typography.fontWeightRegular, // Replace 'normal'
+  lineHeight: theme.typography.body2.lineHeight, // Replace 1.25
+  color: theme.palette.text.secondary, // replace '#888e98'
   [theme.breakpoints.up('sm')]: {
-    fontSize: '16px',
+    fontSize: theme.typography.pxToRem(16),
   },
 }));
 
