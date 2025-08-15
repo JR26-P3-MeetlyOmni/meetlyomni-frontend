@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 export const StickyNavbarWrapper = styled(Box)(({ theme }) => ({
@@ -52,7 +52,7 @@ export const NavLinksWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const NavLink = styled(Typography)(({ theme }) => ({
-  fontSize: theme.spacing(2),
+  fontSize: theme.typography.subtitle1.fontSize,
   fontFamily: 'var(--font-roboto)',
   fontWeight: theme.typography.fontWeightBold,
   color: theme.palette.text.primary,
@@ -86,7 +86,7 @@ export const ButtonGroupWrapper = styled(Box)(({ theme }) => ({
 
 export const CTAButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
-  fontSize: theme.spacing(1.75),
+  fontSize: theme.typography.subtitle2.fontSize,
   fontFamily: 'var(--font-roboto)',
   fontWeight: theme.typography.fontWeightRegular,
   width: theme.spacing(13),
@@ -116,9 +116,4 @@ export const CTAButton = styled(Button)(({ theme }) => ({
       borderWidth: 1,
     },
   },
-}));
-
-export const UserAvatar = styled(Avatar)(({ theme }) => ({
-  width: theme.spacing(5),
-  height: theme.spacing(5),
 }));

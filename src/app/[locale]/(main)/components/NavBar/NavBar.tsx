@@ -3,11 +3,10 @@
 import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Typography } from '@mui/material';
-
 import Logo from '@assets/images/navbar/nav_bar_logo.png';
 import DefaultAvatar from '@assets/images/navbar/user_avatar.png';
 
+import { UserMenu } from './components/UserMenu';
 import {
   ButtonGroupWrapper,
   CTAButton,
@@ -15,7 +14,6 @@ import {
   NavLink,
   NavLinksWrapper,
   StickyNavbarWrapper,
-  UserAvatar,
 } from './NavBar.styles';
 import { NavLinkItem, UserInfo } from './type';
 
@@ -45,7 +43,7 @@ const NavBar: React.FC = () => {
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>
       <LogoWrapper>
-        <Image src={Logo} alt="Omni Logo" width={64} height={18} />
+        <Image src={Logo} alt="Omni Logo" width={0} height={0} />
       </LogoWrapper>
 
       <NavLinksWrapper>
@@ -64,8 +62,7 @@ const NavBar: React.FC = () => {
           </>
         ) : (
           <>
-            <UserAvatar src={DefaultAvatar.src} alt={user?.username || ''} />
-            <Typography fontWeight="bold">{user?.username}</Typography>
+            <UserMenu user={user!} />
           </>
         )}
       </ButtonGroupWrapper>
