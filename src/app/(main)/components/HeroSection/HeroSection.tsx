@@ -1,5 +1,7 @@
 'use client';
 
+import { HeroSectionData } from '@/constants/HeroSectionData';
+
 import React from 'react';
 
 import { LeftDecoration, RightDecoration } from './components/HeroPics';
@@ -17,16 +19,14 @@ const HeroSection: React.FC = () => {
     <HeroSectionWrapper>
       <LeftDecoration />
       <ContentWrapper>
-        <HeroTitle>
-          Enhance Each Activity To Be More Intelligent, Enjoyable, And Productive
-        </HeroTitle>
-        <HeroDescription>
-          Meetly Omni is an interactive platform for corporate events, launches, training sessions
-          and community gatherings to make your audience more engaged, interactive and fun!
-        </HeroDescription>
+        <HeroTitle>{HeroSectionData.title}</HeroTitle>
+        <HeroDescription>{HeroSectionData.description}</HeroDescription>
         <HeroCTAWrapper>
-          <CTAButton variant="contained">Create Activity</CTAButton>
-          <CTAButton variant="outlined">Join the Game</CTAButton>
+          {HeroSectionData.buttons.map((btn, idx) => (
+            <CTAButton key={idx} variant={btn.variant}>
+              {btn.label}
+            </CTAButton>
+          ))}
         </HeroCTAWrapper>
       </ContentWrapper>
       <RightDecoration />
