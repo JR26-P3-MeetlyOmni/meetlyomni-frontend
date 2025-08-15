@@ -9,10 +9,9 @@ import { styled } from '@mui/material/styles';
 import type { FeatureCardItem } from '../types';
 
 const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
-  width: '100%',
-  maxWidth: theme.spacing(48), //'377px'
-  height: theme.spacing(50), //'404px'
-  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`, //'12px'
+  width: theme.spacing(48),
+  height: theme.spacing(50),
+  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`,
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
   border: `1px solid ${theme.palette.divider}`,
@@ -33,15 +32,15 @@ const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
 
 const ProjectFeatureImageWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(44), //'353px'
-  height: theme.spacing(29), //'232px'
+  maxWidth: theme.spacing(44),
+  height: theme.spacing(29),
   marginBottom: theme.spacing(5),
   position: 'relative',
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightMedium,
-  fontSize: theme.spacing(2.5), // 20px
+  fontSize: theme.typography.h6.fontSize,
   lineHeight: 'normal',
   color: theme.palette.text.primary,
   textAlign: 'center',
@@ -49,8 +48,8 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledDescription = styled(Typography)(({ theme }) => ({
-  height: theme.spacing(5), //'40px'
-  fontSize: theme.spacing(2), //16px
+  height: theme.spacing(5),
+  fontSize: theme.typography.subtitle1.fontSize,
   lineHeight: 1.25,
   color: theme.palette.text.secondary,
   textAlign: 'center',
