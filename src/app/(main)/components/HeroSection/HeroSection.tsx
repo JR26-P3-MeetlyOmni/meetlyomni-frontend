@@ -10,7 +10,7 @@ import {
   HeroDescription,
   HeroSectionWrapper,
   HeroTitle,
-} from './Hero Section.style';
+} from './HeroSection.style';
 
 const HeroSection: React.FC = () => {
   return (
