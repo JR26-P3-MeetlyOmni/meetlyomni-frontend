@@ -21,7 +21,6 @@ const eslintConfig = [
       "coverage/**/*",
       "dist/**/*",
       "build/**/*",
-      "src/stories/**/*",
       "src/**/*.test.*"
     ]
   },
@@ -29,6 +28,7 @@ const eslintConfig = [
   ...storybook.configs["flat/recommended"],
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
+    
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": ["error", { 

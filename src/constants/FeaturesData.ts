@@ -1,3 +1,5 @@
+import type { FeatureCardItem } from '@/app/(main)/components/FeatureCard/types';
+
 import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
 import CrossPlatform from '@assets/images/FeatureImages/cross_platform.webp';
 import CustomizableRules from '@assets/images/FeatureImages/customizable_rules.webp';
@@ -7,7 +9,7 @@ import GameInteraction from '@assets/images/FeatureImages/game_interaction.webp'
 import NoDownload from '@assets/images/FeatureImages/no_download.webp';
 import TeamManager from '@assets/images/FeatureImages/team_manager.webp';
 
-export const ProjectFeaturesData = [
+export const ProjectFeaturesData: readonly FeatureCardItem[] = [
   {
     imageUrl: TeamManager,
     title: 'Activities & Team management',
@@ -30,7 +32,7 @@ export const ProjectFeaturesData = [
   },
 ];
 
-export const ProductFeaturesData = [
+export const ProductFeaturesData: readonly FeatureCardItem[] = [
   {
     imageUrl: DataVisualization,
     title: 'Dynamic data visualization',
