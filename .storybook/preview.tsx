@@ -1,19 +1,19 @@
-import { NextIntlClientProvider } from 'next-intl';
 import React from 'react';
 
+import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import type { Preview } from '@storybook/nextjs-vite';
+import type { Preview } from '@storybook/react';
 
 import '../src/app/globals.css';
-import enMessages from '../src/messages/en.json';
+
+const theme = createTheme();
 
 export const decorators = [
   Story => (
-    <ThemeProvider theme={createTheme()}>
-      <NextIntlClientProvider locale="en" messages={enMessages}>
-        <Story />
-      </NextIntlClientProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Story />
     </ThemeProvider>
   ),
 ];
