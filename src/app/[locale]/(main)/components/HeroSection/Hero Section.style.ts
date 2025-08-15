@@ -24,41 +24,39 @@ export const ContentWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const HeroTitle = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(125),
-  height: theme.spacing(34),
+  maxWidth: '100%',
   fontWeight: theme.typography.fontWeightBold,
   fontFamily: 'var(--font-roboto)',
-  fontSize: theme.spacing(8.5),
-  lineHeight: theme.typography.h1.lineHeight,
+  fontSize: theme.typography.h2.fontSize,
+  lineHeight: theme.typography.h2.lineHeight,
   color: theme.palette.text.primary,
   marginBottom: theme.spacing(4),
   [theme.breakpoints.down('md')]: {
-    fontSize: theme.spacing(5),
+    fontSize: theme.typography.h3.fontSize,
     width: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   [theme.breakpoints.down('sm')]: {
-    fontSize: theme.spacing(3),
+    fontSize: theme.typography.h3.fontSize,
     width: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
 }));
 
 export const HeroDescription = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(104),
-  height: theme.spacing(6),
+  maxWidth: theme.spacing(90),
   fontFamily: 'var(--font-roboto)',
-  fontSize: theme.spacing(2.5),
+  fontSize: theme.typography.subtitle1.fontSize,
   lineHeight: theme.typography.h2.lineHeight,
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(10),
   [theme.breakpoints.down('md')]: {
     width: '100%',
-    fontSize: theme.spacing(2),
-    marginBottom: theme.spacing(4),
+    fontSize: theme.typography.body1.fontSize,
+    marginBottom: theme.spacing(6),
   },
   [theme.breakpoints.down('sm')]: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(4),
   },
 }));
 
@@ -78,13 +76,12 @@ export const HeroCTAWrapper = styled(Box)(({ theme }) => ({
 
 export const CTAButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
-  fontSize: theme.spacing(2.5),
+  fontSize: theme.typography.h6.fontSize,
   width: theme.spacing(23),
   height: theme.spacing(7),
   padding: theme.spacing(3, 2.5),
   borderRadius: theme.spacing(1),
   letterSpacing: 0.5,
-  marginBottom: theme.spacing(21),
   transition: theme.transitions.create(['transform', 'box-shadow'], {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,

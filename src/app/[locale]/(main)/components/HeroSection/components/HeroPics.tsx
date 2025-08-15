@@ -18,15 +18,15 @@ const Pictures = styled(Box)(({ theme }) => ({
 
 const LeftPicture = styled(Pictures)(({ theme }) => ({
   left: 0,
-  top: theme.spacing(10),
+  top: theme.spacing(2),
   width: theme.spacing(30),
   height: `calc(${theme.spacing(30)} * 2.71)`,
 }));
 
 const RightPicture = styled(Pictures)(({ theme }) => ({
   right: 0,
-  bottom: theme.spacing(14),
-  width: theme.spacing(71),
+  bottom: theme.spacing(20),
+  width: theme.spacing(67),
   height: `calc(${theme.spacing(71)} * 1.12)`,
 }));
 
