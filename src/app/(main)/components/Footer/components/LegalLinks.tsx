@@ -1,6 +1,6 @@
 'use client';
 
-import ExternalLink from '@/components/Link';
+import { ExternalLink } from '@/components/Link/Link';
 import { URL_CONFIG } from '@/constants/FooterExternalLinks';
 
 import Box from '@mui/material/Box';

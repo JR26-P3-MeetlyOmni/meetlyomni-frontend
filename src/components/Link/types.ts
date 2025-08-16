@@ -8,3 +8,10 @@ export interface ExternalLinkProps {
   ariaLabel?: string;
   className?: string;
 }
+
+export interface InternalLinkProps {
+  href: string;
+  children: ReactNode;
+  className?: string;
+  variant?: 'body1' | 'body2' | 'caption';
+}

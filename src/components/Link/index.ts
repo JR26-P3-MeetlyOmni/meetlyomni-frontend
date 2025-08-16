@@ -1,2 +1,2 @@
-export { default } from './ExternalLink';
+export  { ExternalLink, InternalLink } from './Link';
 export * from './types';
