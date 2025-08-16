@@ -6,14 +6,16 @@ export interface TestimonialData {
   avatarUrl?: string;
 }
 
-export interface AnimatedTestimonialData extends TestimonialData {
-  position: 'left' | 'center' | 'right';
+export type CardPosition = 'left' | 'center' | 'right';
+
+export interface TestimonialCardData extends TestimonialData {
+  position: CardPosition;
 }
 
-export interface AnimatedTestimonialCardProps {
-  animatedTestimonial: AnimatedTestimonialData;
+export interface TestimonialCardProps {
+  data: TestimonialCardData;
 }
 
-export interface AnimatedTestimonialCardGridProps {
-  data?: TestimonialData[];
+export interface TestimonialCardGridProps {
+  data?: readonly TestimonialData[];
 }

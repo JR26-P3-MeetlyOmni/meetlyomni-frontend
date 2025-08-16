@@ -1,5 +1,3 @@
-import { SAMPLE_TESTIMONIALS } from '@/constants/TestimonialsData';
-
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import TestimonialsSection from './TestimonialsSection';
@@ -14,8 +12,4 @@ export default meta;
 
 type Story = StoryObj<typeof TestimonialsSection>;
 
-export const Default: Story = {
-  args: {
-    data: SAMPLE_TESTIMONIALS,
-  },
-};
+export const Default: Story = {};

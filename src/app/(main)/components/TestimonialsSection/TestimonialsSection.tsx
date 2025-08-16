@@ -1,12 +1,12 @@
 'use client';
 
-import { SAMPLE_TESTIMONIALS } from '@/constants/TestimonialsData';
+import { SAMPLE_TESTIMONIALS } from '@/constants/TestimonialSection';
 
 import React from 'react';
 
 import { Box, styled, Typography } from '@mui/material';
 
-import AnimatedTestimonialCardGrid from './components/AnimatedTestimonialCardGrid';
+import TestimonialCardGrid from './components/TestimonialCardGrid';
 
 const StyledSection = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(7.5)} ${theme.spacing(4)}`,
@@ -19,8 +19,7 @@ const StyledSection = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(65),
-  height: theme.spacing(5),
+  maxWidth: theme.spacing(65),
   margin: `0 ${theme.spacing(5)} ${theme.spacing(2)} 0`,
   fontFamily: 'var(--font-roboto)',
   fontSize: theme.typography.h4.fontSize,
@@ -30,11 +29,10 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledSubtitle = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(65),
-  height: theme.spacing(5),
+  maxWidth: theme.spacing(65),
   margin: `${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(5)} ${theme.spacing(3)}`,
   fontFamily: 'var(--font-roboto)',
-  fontSize: theme.spacing(1.6),
+  fontSize: theme.typography.body1.fontSize,
   fontWeight: theme.typography.fontWeightRegular,
   lineHeight: theme.typography.body1.lineHeight,
   color: theme.palette.text.secondary,
@@ -50,7 +48,7 @@ export const TestimonialsSection: React.FC = () => {
           'Discover firsthand experiences shared by our valued customers. Hear their stories, and feedback that shed light on their journey with us.'
         }
       </StyledSubtitle>
-      <AnimatedTestimonialCardGrid data={SAMPLE_TESTIMONIALS} />
+      <TestimonialCardGrid data={SAMPLE_TESTIMONIALS} />
     </StyledSection>
   );
 };

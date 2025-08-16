@@ -27,3 +27,5 @@ export const SAMPLE_TESTIMONIALS: TestimonialData[] = [
   },
 ];
 export const TESTIMONIALS_DATA: Readonly<TestimonialData[]> = SAMPLE_TESTIMONIALS;
+
+export const CARD_POSITIONS = ['left', 'center', 'right'] as const;

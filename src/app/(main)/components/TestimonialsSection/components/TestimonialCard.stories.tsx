@@ -1,19 +1,19 @@
 import { Meta, StoryObj } from '@storybook/nextjs';
 
-import type { AnimatedTestimonialCardProps } from '../types';
-import AnimatedTestimonialCard from './AnimatedTestimonialCard';
+import type { TestimonialCardProps } from '../types';
+import TestimonialCard from './TestimonialCard';
 
-const meta: Meta<AnimatedTestimonialCardProps> = {
-  title: 'LandingPage/AnimatedTestimonialCard',
-  component: AnimatedTestimonialCard,
+const meta: Meta<typeof TestimonialCard> = {
+  title: 'LandingPage/TestimonialCard',
+  component: TestimonialCard,
   tags: ['autodocs'],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof AnimatedTestimonialCard>;
+type Story = StoryObj<typeof TestimonialCard>;
 
-const mockTestimonial: AnimatedTestimonialCardProps['animatedTestimonial'] = {
+const mockTestimonial: TestimonialCardProps['data'] = {
   position: 'center',
   id: 1,
   name: 'Alex W',
@@ -25,6 +25,6 @@ const mockTestimonial: AnimatedTestimonialCardProps['animatedTestimonial'] = {
 
 export const Default: Story = {
   args: {
-    animatedTestimonial: mockTestimonial,
+    data: mockTestimonial,
   },
 };
