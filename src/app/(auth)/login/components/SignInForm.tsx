@@ -1,14 +1,12 @@
+import { InternalLink } from '@/components/Link/Link';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { SignInFormProps, EmailFieldProps, PasswordFieldProps } from '../types';
-import { InternalLink } from '@/components/Link/Link';
+import { EmailFieldProps, PasswordFieldProps, SignInFormProps } from '../types';
 
 const FormRoot = styled('form')(() => ({
   maxWidth: 412,
@@ -61,12 +59,12 @@ const PrimaryButton = styled(Button)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(14),
   fontWeight: 500,
   color: theme.palette.common.white,
-  '&:hover': { 
+  '&:hover': {
     backgroundColor: '#0f1228',
   },
-  '&:disabled': { 
-    backgroundColor: theme.palette.action.disabledBackground, 
-    color: theme.palette.action.disabled 
+  '&:disabled': {
+    backgroundColor: theme.palette.action.disabledBackground,
+    color: theme.palette.action.disabled,
   },
 }));
 
@@ -81,7 +79,7 @@ const BottomText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   whiteSpace: 'nowrap',
   fontfamily: 'var(--font-roboto)',
-  fontSize: theme.typography.pxToRem(14),  
+  fontSize: theme.typography.pxToRem(14),
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -101,143 +99,89 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-const EmailField: React.FC<EmailFieldProps> = ({ value, error, onChange, onBlur }) => {
-  const inputLabelProps = {
-    shrink: false,
-  };
+const EmailField: React.FC<EmailFieldProps> = ({ value, error, showError, onChange, onBlur }) => (
+  <>
+    <FieldLabel>Email</FieldLabel>
+    <StyledTextField
+      required
+      fullWidth
+      id="email"
+      name="email"
+      autoComplete="email"
+      autoFocus
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={showError ? Boolean(error) : false}
+      placeholder="Email Address"
+      InputLabelProps={{ shrink: false }}
+    />
+    {showError && Boolean(error) ? <HelperText>{error}</HelperText> : null}
+  </>
+);
 
-  return (
-    <>
-      <FieldLabel variant="body2">Email</FieldLabel>
-      <StyledTextField
-        required
-        fullWidth
-        id="email"
-        name="email"
-        autoComplete="email"
-        autoFocus
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        error={!!error}
-        placeholder="Email Address"
-        InputLabelProps={inputLabelProps}
-      />
-      {error ? <HelperText variant="body2">{error}</HelperText> : null}
-    </>
-  );
-};
-
-const PasswordField: React.FC<PasswordFieldProps> = ({ 
-  value, 
-  error, 
-  showPassword, 
-  onChange, 
-  onBlur, 
-  onToggleVisibility 
-}) => {
-  const renderEndAdornment = () => (
-    <InputAdornment position="end">
-      <IconButton
-        aria-label="toggle password visibility"
-        onClick={onToggleVisibility}
-        edge="end"
-        color="default"
-      >
-        {showPassword ? <VisibilityOff /> : <Visibility />}
-      </IconButton>
-    </InputAdornment>
-  );
-
-  const inputProps = {
-    endAdornment: renderEndAdornment(),
-  };
-
-  const inputLabelProps = {
-    shrink: false,
-  };
-
-  return (
-    <>
-      <FieldLabel variant="body2">Password</FieldLabel>
-      <StyledTextField
-        required
-        fullWidth
-        name="password"
-        type={showPassword ? 'text' : 'password'}
-        id="password"
-        autoComplete="current-password"
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        error={!!error}
-        placeholder="Password"
-        InputProps={inputProps}
-        InputLabelProps={inputLabelProps}
-      />
-      {error ? <HelperText variant="body2">{error}</HelperText> : null}
-    </>
-  );
-};
+const PasswordField: React.FC<PasswordFieldProps> = ({
+  value,
+  error,
+  showError,
+  onChange,
+  onBlur,
+}) => (
+  <>
+    <FieldLabel variant="body2">Password</FieldLabel>
+    <StyledTextField
+      required
+      fullWidth
+      name="password"
+      type="password"
+      id="password"
+      autoComplete="current-password"
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={showError ? Boolean(error) : false}
+      placeholder="Password"
+      InputLabelProps={{ shrink: false }}
+    />
+    {showError && Boolean(error) ? <HelperText variant="body2">{error}</HelperText> : null}
+  </>
+);
 
 export const SignInForm: React.FC<SignInFormProps> = ({
   formData,
   errors,
-  showPassword,
   isSubmitting,
-  isFormValid,
+  hasSubmitted,
   handleInputChange,
   handleInputBlur,
   handleSubmit,
-  setShowPassword,
 }) => {
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleInputChange('email', e.target.value);
-  };
-
-  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    handleInputBlur('email', e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleInputChange('password', e.target.value);
-  };
-
-  const handlePasswordBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    handleInputBlur('password', e.target.value);
-  };
-
-  const handleTogglePassword = () => {
-    setShowPassword((prev: boolean) => !prev);
-  };
-
-  const emailFieldProps = {
-    value: formData.email,
-    error: errors.email,
-    onChange: handleEmailChange,
-    onBlur: handleEmailBlur,
-  };
-
-  const passwordFieldProps = {
-    value: formData.password,
-    error: errors.password,
-    showPassword,
-    onChange: handlePasswordChange,
-    onBlur: handlePasswordBlur,
-    onToggleVisibility: handleTogglePassword,
-  };
+  const createFieldHandler = (field: string) => ({
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(field, e.target.value),
+    onBlur: (e: React.FocusEvent<HTMLInputElement>) => handleInputBlur(field, e.target.value),
+  });
 
   return (
     <FormRoot onSubmit={handleSubmit}>
-      {errors.auth && (
+      {hasSubmitted && Boolean(errors.auth) ? (
         <HelperText variant="body2" style={{ marginBottom: '16px' }}>
           {errors.auth}
         </HelperText>
-      )}
-      
-      <EmailField {...emailFieldProps} />
+      ) : null}
 
-      <PasswordField {...passwordFieldProps} />
+      <EmailField
+        value={formData.email}
+        error={errors.email}
+        showError={hasSubmitted}
+        {...createFieldHandler('email')}
+      />
+
+      <PasswordField
+        value={formData.password}
+        error={errors.password}
+        showError={hasSubmitted}
+        {...createFieldHandler('password')}
+      />
 
       <ForgotWrapper>
         <InternalLink href="/PasswordReset" className="password-reset">
@@ -245,7 +189,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         </InternalLink>
       </ForgotWrapper>
 
-      <PrimaryButton type="submit" variant="contained" disabled={!isFormValid || isSubmitting}>
+      <PrimaryButton type="submit" variant="contained" disabled={isSubmitting}>
         {isSubmitting ? 'Signing in...' : 'Sign in'}
       </PrimaryButton>
 

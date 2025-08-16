@@ -1,35 +1,33 @@
-import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { 
-  loginAsync, 
-  logout, 
-  clearError, 
-  initializeAuthAsync 
-} from '../store/authSlice';
+import { clearError, initializeAuthAsync, loginAsync, logout } from '../store/authSlice';
 import { LoginCredentials } from '../types';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  
-  const authState = useAppSelector((state) => state.auth);
 
-  const login = useCallback(async (credentials: LoginCredentials): Promise<boolean> => {
-    try {
-      const result = await dispatch(loginAsync(credentials));
-      
-      if (loginAsync.fulfilled.match(result)) {
-        router.push('/dashboard');
-        return true;
+  const authState = useAppSelector(state => state.auth);
+
+  const login = useCallback(
+    async (credentials: LoginCredentials): Promise<boolean> => {
+      try {
+        const result = await dispatch(loginAsync(credentials));
+
+        if (loginAsync.fulfilled.match(result)) {
+          router.push('/dashboard');
+          return true;
+        }
+
+        return false;
+      } catch {
+        return false;
       }
-      
-      return false;
-    } catch (error) {
-      console.error('Login error:', error);
-      return false;
-    }
-  }, [dispatch, router]);
+    },
+    [dispatch, router],
+  );
 
   const signOut = useCallback(() => {
     dispatch(logout());

@@ -1,14 +1,15 @@
 'use client';
 
+import { AuthGuard } from '@/features/auth';
+import { useSignInForm } from '@/features/auth/hooks/useSignInForm';
+
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 import { DecorativeElements } from './components/DecorativeElements';
 import { SignInForm } from './components/SignInForm';
-import { useSignInForm } from '@/features/auth/hooks/useSignInForm';
-import { AuthGuard } from '@/features/auth';
 
 const CenteredContainer = styled(Container)(({ theme }) => ({
   position: 'relative',
@@ -67,44 +68,35 @@ export default function LoginPage() {
   const {
     formData,
     errors,
-    showPassword,
     isSubmitting,
-    isFormValid,
+    hasSubmitted,
     handleInputChange,
     handleInputBlur,
     handleSubmit,
-    setShowPassword,
   } = useSignInForm();
 
   return (
     <AuthGuard requireAuth={false}>
-        <DecorativeElements />
+      <DecorativeElements />
 
-        <CenteredContainer maxWidth="lg">
-          <TitleWrapper>
-            <TitleRow>
-              <TitleBadge variant="h4">
-                Welcome to Omni !
-              </TitleBadge>
-              <TitleText variant="h5">
-                Let&apos;s Sign in Your Profile
-              </TitleText>
-            </TitleRow>
-          </TitleWrapper>
+      <CenteredContainer maxWidth="lg">
+        <TitleWrapper>
+          <TitleRow>
+            <TitleBadge variant="h4">Welcome to Omni !</TitleBadge>
+            <TitleText variant="h5">Let&apos;s Sign in Your Profile</TitleText>
+          </TitleRow>
+        </TitleWrapper>
 
-          <SignInForm
-            formData={formData}
-            errors={errors}
-            showPassword={showPassword}
-            isSubmitting={isSubmitting}
-            isFormValid={isFormValid}
-            handleInputChange={handleInputChange}
-            handleInputBlur={handleInputBlur}
-            handleSubmit={handleSubmit}
-            setShowPassword={setShowPassword}
-          />
-        </CenteredContainer>
+        <SignInForm
+          formData={formData}
+          errors={errors}
+          isSubmitting={isSubmitting}
+          hasSubmitted={hasSubmitted}
+          handleInputChange={handleInputChange}
+          handleInputBlur={handleInputBlur}
+          handleSubmit={handleSubmit}
+        />
+      </CenteredContainer>
     </AuthGuard>
   );
 }
-  

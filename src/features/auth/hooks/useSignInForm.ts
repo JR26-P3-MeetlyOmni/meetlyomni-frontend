@@ -1,105 +1,103 @@
-import { useState, useMemo } from 'react';
+import { useCallback, useState } from 'react';
+
 import { useAuth } from './useAuth';
 
-// Validation functions
-const validateEmail = (email: string) => {
+const validateEmail = (email: string): string => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  if (!emailRegex.test(email)) {
+    return 'Please enter a valid email address';
+  }
+  if (!email) {
+    return 'Email is required';
+  }
+
+  return '';
 };
 
-const validatePassword = (password: string) => {
+const validatePassword = (password: string): string => {
   const minLength = password.length >= 8;
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  
-  return minLength && hasUpperCase && hasLowerCase && hasNumber;
+
+  if (!minLength || !hasUpperCase || !hasLowerCase || !hasNumber) {
+    return 'Password must be at least 8 characters with uppercase, lowercase, and number';
+  }
+  if (!password) {
+    return 'Password is required';
+  }
+
+  return '';
 };
 
 const validateField = (field: string, value: string): string => {
-  if (field === 'email') {
-    if (!value) {
-      return 'Email is required';
-    }
-    if (!validateEmail(value)) {
-      return 'Please enter a valid email address';
-    }
-  } else if (field === 'password') {
-    if (!value) {
-      return 'Password is required';
-    }
-    if (!validatePassword(value)) {
-      return 'Password must be at least 8 characters with uppercase, lowercase, and number';
-    }
+  switch (field) {
+    case 'email':
+      return validateEmail(value);
+    case 'password':
+      return validatePassword(value);
+    default:
+      return '';
   }
-  return '';
 };
 
 export const useSignInForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const [showPassword, setShowPassword] = useState(false);
-  
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   const { login, isLoading, error, clearError } = useAuth();
-  const isSubmitting = isLoading;
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
-    // Clear form error when user starts typing
-    if (errors[field as keyof typeof errors]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
-    }
-    
-    // Clear auth error when user starts typing
-    if (error) {
-      clearError();
-    }
-  };
+  const handleInputChange = useCallback(
+    (field: string, value: string) => {
+      setFormData(prev => ({ ...prev, [field]: value }));
 
-  const handleInputBlur = (field: string, value: string) => {
-    const newError = validateField(field, value);
-    setErrors(prev => ({ ...prev, [field]: newError }));
-  };
+      if (errors[field as keyof typeof errors]) {
+        setErrors(prev => ({ ...prev, [field]: '' }));
+      }
 
-  const validateForm = () => {
-    const newErrors = {
-      email: validateField('email', formData.email),
-      password: validateField('password', formData.password),
-    };
-    setErrors(newErrors);
-    return !newErrors.email && !newErrors.password;
-  };
+      if (error) {
+        clearError();
+      }
+    },
+    [errors, error, clearError],
+  );
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleInputBlur = useCallback((field: string, value: string) => {
+    const fieldError = validateField(field, value);
+    setErrors(prev => ({ ...prev, [field]: fieldError }));
+  }, []);
 
-    const isValid = validateForm();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setHasSubmitted(true);
 
-    if (isValid) {
-      await login({
-        email: formData.email,
-        password: formData.password,
-      });
-    }
-  };
+      const newErrors = {
+        email: validateField('email', formData.email),
+        password: validateField('password', formData.password),
+      };
+      setErrors(newErrors);
 
-  const isFormValid = useMemo((): boolean => {
-    return formData.email.length > 0 && 
-      formData.password.length > 0 && 
-      validateEmail(formData.email) && 
-      validatePassword(formData.password);
-  }, [formData.email, formData.password]);
+      const isValid = !newErrors.email && !newErrors.password;
+
+      if (isValid) {
+        await login({
+          email: formData.email,
+          password: formData.password,
+        });
+      }
+    },
+    [formData, login],
+  );
 
   return {
     formData,
     errors: { ...errors, auth: error },
-    showPassword,
-    isSubmitting,
-    isFormValid,
+    isSubmitting: isLoading,
+    hasSubmitted,
     handleInputChange,
     handleInputBlur,
     handleSubmit,
-    setShowPassword,
   };
 };

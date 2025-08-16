@@ -1,13 +1,14 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { authApi } from '../api/authApi';
-import { AuthState, LoginCredentials, User, AuthError } from '../types';
+import { AuthError, AuthState, LoginCredentials, User } from '../types';
 
 const STORAGE_KEY = 'auth_token';
 
 // Load token from localStorage
 const loadTokenFromStorage = (): string | null => {
   if (typeof window === 'undefined') return null;
-  
+
   try {
     return localStorage.getItem(STORAGE_KEY);
   } catch {
@@ -18,7 +19,7 @@ const loadTokenFromStorage = (): string | null => {
 // Save token to localStorage
 const saveTokenToStorage = (token: string): void => {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem(STORAGE_KEY, token);
   } catch {
@@ -29,7 +30,7 @@ const saveTokenToStorage = (token: string): void => {
 // Remove token from localStorage
 const removeTokenFromStorage = (): void => {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch {
@@ -62,7 +63,7 @@ export const loginAsync = createAsyncThunk<
   try {
     const response = await authApi.login(credentials);
     saveTokenToStorage(response.accessToken);
-    
+
     return {
       user: response.user,
       token: response.accessToken,
@@ -71,78 +72,75 @@ export const loginAsync = createAsyncThunk<
     if (error instanceof Error) {
       return rejectWithValue({
         message: error.message,
-        status: 'status' in error ? error.status as number : undefined,
+        status: 'status' in error ? (error.status as number) : undefined,
       });
     }
     return rejectWithValue({ message: 'An unexpected error occurred' });
   }
 });
 
-export const getCurrentUserAsync = createAsyncThunk<
-  User,
-  string,
-  { rejectValue: AuthError }
->('auth/getCurrentUser', async (token, { rejectWithValue }) => {
-  try {
-    return await authApi.getCurrentUser(token);
-  } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue({
-        message: error.message,
-        status: 'status' in error ? error.status as number : undefined,
-      });
+export const getCurrentUserAsync = createAsyncThunk<User, string, { rejectValue: AuthError }>(
+  'auth/getCurrentUser',
+  async (token, { rejectWithValue }) => {
+    try {
+      return await authApi.getCurrentUser(token);
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue({
+          message: error.message,
+          status: 'status' in error ? (error.status as number) : undefined,
+        });
+      }
+      return rejectWithValue({ message: 'Failed to get user information' });
     }
-    return rejectWithValue({ message: 'Failed to get user information' });
-  }
-});
+  },
+);
 
-export const initializeAuthAsync = createAsyncThunk<
-  User | null,
-  void,
-  { rejectValue: AuthError }
->('auth/initialize', async (_, { getState, rejectWithValue }) => {
-  const state = getState() as { auth: AuthState };
-  
-  // Skip if already initialized or currently loading
-  if (state.auth.user !== null || state.auth.isLoading) {
-    return state.auth.user;
-  }
+export const initializeAuthAsync = createAsyncThunk<User | null, void, { rejectValue: AuthError }>(
+  'auth/initialize',
+  async (_, { getState }) => {
+    const state = getState() as { auth: AuthState };
 
-  const token = loadTokenFromStorage();
-  
-  if (!token) {
-    return null;
-  }
+    // Skip if already initialized or currently loading
+    if (state.auth.user !== null || state.auth.isLoading) {
+      return state.auth.user;
+    }
 
-  try {
-    return await authApi.getCurrentUser(token);
-  } catch (error) {
-    // If token is invalid, remove it from storage
-    removeTokenFromStorage();
-    return null;
-  }
-});
+    const token = loadTokenFromStorage();
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      return await authApi.getCurrentUser(token);
+    } catch {
+      removeTokenFromStorage();
+      return null;
+    }
+  },
+);
 
 // Auth slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
+    logout: state => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
       removeTokenFromStorage();
     },
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       // Login
-      .addCase(loginAsync.pending, (state) => {
+      .addCase(loginAsync.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
@@ -161,7 +159,7 @@ const authSlice = createSlice({
         state.error = action.payload?.message || 'Login failed';
       })
       // Get current user
-      .addCase(getCurrentUserAsync.pending, (state) => {
+      .addCase(getCurrentUserAsync.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
@@ -180,7 +178,7 @@ const authSlice = createSlice({
         removeTokenFromStorage();
       })
       // Initialize auth
-      .addCase(initializeAuthAsync.pending, (state) => {
+      .addCase(initializeAuthAsync.pending, state => {
         state.isLoading = true;
       })
       .addCase(initializeAuthAsync.fulfilled, (state, action) => {
@@ -190,7 +188,7 @@ const authSlice = createSlice({
           state.isAuthenticated = true;
         }
       })
-      .addCase(initializeAuthAsync.rejected, (state) => {
+      .addCase(initializeAuthAsync.rejected, state => {
         state.isLoading = false;
         state.isAuthenticated = false;
       });
