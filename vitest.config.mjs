@@ -36,7 +36,6 @@ export default defineConfig({
     
         // Ignore styling, theming, and internationalization
         'src/theme/**',
-        'src/i18n/**',
     
         // Ignore page layouts and routing shells
         'src/**/layout.tsx',
