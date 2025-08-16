@@ -1,7 +1,6 @@
 'use client';
 
-import { AuthGuard } from '@/features/auth';
-import { useSignInForm } from '@/features/auth/hooks/useSignInForm';
+import { AuthGuard, useSignInForm } from '@/features/auth';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';

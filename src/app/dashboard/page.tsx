@@ -1,13 +1,15 @@
 'use client';
 
-import { AuthGuard, useAuth } from '@/features/auth';
+import { AuthGuard, useAuth, useLogout } from '@/features/auth';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { logout } = useLogout();
 
   return (
     <AuthGuard requireAuth={true}>
@@ -16,8 +18,8 @@ export default function DashboardPage() {
           <Typography variant="h4" component="h1" gutterBottom>
             Dashboard
           </Typography>
-          
-          {user && (
+
+          {user ? (
             <Box sx={{ mt: 2, mb: 4 }}>
               <Typography variant="h6" gutterBottom>
                 Welcome, {user.fullName}!
@@ -32,13 +34,9 @@ export default function DashboardPage() {
                 Organization: {user.organizationCode}
               </Typography>
             </Box>
-          )}
-          
-          <Button 
-            variant="contained" 
-            color="primary" 
-            onClick={logout}
-          >
+          ) : null}
+
+          <Button variant="contained" color="primary" onClick={logout}>
             Logout
           </Button>
         </Box>
@@ -46,4 +44,3 @@ export default function DashboardPage() {
     </AuthGuard>
   );
 }
-  

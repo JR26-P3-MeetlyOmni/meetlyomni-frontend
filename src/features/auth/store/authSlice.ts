@@ -1,137 +1,33 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { authApi } from '../api/authApi';
-import { AuthError, AuthState, LoginCredentials, User } from '../types';
-
-const STORAGE_KEY = 'auth_token';
-
-// Load token from localStorage
-const loadTokenFromStorage = (): string | null => {
-  if (typeof window === 'undefined') return null;
-
-  try {
-    return localStorage.getItem(STORAGE_KEY);
-  } catch {
-    return null;
-  }
-};
-
-// Save token to localStorage
-const saveTokenToStorage = (token: string): void => {
-  if (typeof window === 'undefined') return;
-
-  try {
-    localStorage.setItem(STORAGE_KEY, token);
-  } catch {
-    // Handle storage errors silently
-  }
-};
-
-// Remove token from localStorage
-const removeTokenFromStorage = (): void => {
-  if (typeof window === 'undefined') return;
-
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch {
-    // Handle storage errors silently
-  }
-};
+import { tokenStorage } from '../services/tokenStorage';
+import { AuthState } from '../types';
+import { getCurrentUserAsync, initializeAuthAsync, loginAsync } from './authThunks';
 
 // Initial state
-const getInitialToken = (): string | null => {
-  if (typeof window === 'undefined') return null;
-  return loadTokenFromStorage();
+const getInitialState = (): AuthState => {
+  const initialToken = tokenStorage.load();
+
+  return {
+    user: null,
+    token: initialToken,
+    isAuthenticated: !!initialToken,
+    isLoading: !!initialToken,
+    error: null,
+  };
 };
-
-const initialToken = getInitialToken();
-
-const initialState: AuthState = {
-  user: null,
-  token: initialToken,
-  isAuthenticated: !!initialToken,
-  isLoading: !!initialToken, // If we have a token, we're loading to verify it
-  error: null,
-};
-
-// Async thunks
-export const loginAsync = createAsyncThunk<
-  { user: User; token: string },
-  LoginCredentials,
-  { rejectValue: AuthError }
->('auth/login', async (credentials, { rejectWithValue }) => {
-  try {
-    const response = await authApi.login(credentials);
-    saveTokenToStorage(response.accessToken);
-
-    return {
-      user: response.user,
-      token: response.accessToken,
-    };
-  } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue({
-        message: error.message,
-        status: 'status' in error ? (error.status as number) : undefined,
-      });
-    }
-    return rejectWithValue({ message: 'An unexpected error occurred' });
-  }
-});
-
-export const getCurrentUserAsync = createAsyncThunk<User, string, { rejectValue: AuthError }>(
-  'auth/getCurrentUser',
-  async (token, { rejectWithValue }) => {
-    try {
-      return await authApi.getCurrentUser(token);
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue({
-          message: error.message,
-          status: 'status' in error ? (error.status as number) : undefined,
-        });
-      }
-      return rejectWithValue({ message: 'Failed to get user information' });
-    }
-  },
-);
-
-export const initializeAuthAsync = createAsyncThunk<User | null, void, { rejectValue: AuthError }>(
-  'auth/initialize',
-  async (_, { getState }) => {
-    const state = getState() as { auth: AuthState };
-
-    // Skip if already initialized or currently loading
-    if (state.auth.user !== null || state.auth.isLoading) {
-      return state.auth.user;
-    }
-
-    const token = loadTokenFromStorage();
-
-    if (!token) {
-      return null;
-    }
-
-    try {
-      return await authApi.getCurrentUser(token);
-    } catch {
-      removeTokenFromStorage();
-      return null;
-    }
-  },
-);
 
 // Auth slice
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: getInitialState(),
   reducers: {
     logout: state => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
-      removeTokenFromStorage();
+      tokenStorage.remove();
     },
     clearError: state => {
       state.error = null;
@@ -175,7 +71,7 @@ const authSlice = createSlice({
         state.token = null;
         state.isAuthenticated = false;
         state.error = action.payload?.message || 'Failed to get user information';
-        removeTokenFromStorage();
+        tokenStorage.remove();
       })
       // Initialize auth
       .addCase(initializeAuthAsync.pending, state => {
