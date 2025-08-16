@@ -5,7 +5,7 @@ export const NAME_PLACEHOLDER = 'Alex Li';
 export const PHONE_PLACEHOLDER = '0XXXXXXXXX or XXXXXXXXX';
 export type NextPayload = { name: string; phone: string };
 
-const LOCAL_PHONE_REGEX = /^(0\d{9}|\d{9})$/;
+const LOCAL_PHONE_REGEX = /^(0\d{9}|[1-9]\d{8})$/;
 
 export function useContactInfoForm(onNext: (p: NextPayload) => void, onBack: () => void) {
   const [name, setName] = useState('');
