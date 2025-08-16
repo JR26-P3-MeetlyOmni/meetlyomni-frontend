@@ -5,8 +5,10 @@ import { Box, Typography, Container } from '@mui/material';
 import { DecorativeElements } from './components/DecorativeElements';
 import { SignInForm } from './components/SignInForm';
 import { useSignInForm } from './hooks/useSignInForm';
+import { useTheme } from '@mui/material/styles';
 
 export default function SigninPage() {
+  const theme = useTheme();
   const {
     formData,
     errors,
@@ -23,7 +25,7 @@ export default function SigninPage() {
     <Box
       sx={{
         minHeight: '100vh',
-        background: '#ffffff',
+        background: theme.palette.background.default,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -36,15 +38,15 @@ export default function SigninPage() {
       <Container maxWidth="sm" sx={{ 
         position: 'relative', 
         zIndex: 3,
-        marginTop: { xs: '100px', sm: '150px', md: '200px', lg: '250px' }
+        marginTop: { xs: theme.spacing(12.5), sm: theme.spacing(18.75), md: theme.spacing(25), lg: theme.spacing(31.25) },
       }}>
         {/* Title with blue background for "Welcome to Omni!" */}
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Box sx={{ textAlign: 'center', mb: theme.spacing(4) }}>
           <Box sx={{ 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
-            gap: 2, 
+            gap: theme.spacing(2), 
             flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap', xl: 'nowrap' },
             flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}>
@@ -53,18 +55,13 @@ export default function SigninPage() {
               component="h1"
               sx={{
                 display: 'inline-block',
-                background: '#1976d2',
-                color: '#ffffff',
-                px: 2,
-                py: 0.5,
-                borderRadius: 1,
-                fontFamily: 'Roboto',
-                fontSize: '34px',
-                fontWeight: 'bold',
-                fontStretch: 'normal',
-                fontStyle: 'normal',
-                lineHeight: 1,
-                letterSpacing: 'normal',
+                background: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+                px: theme.spacing(2),
+                py: theme.spacing(0.5),
+                borderRadius: theme.shape.borderRadius,
+                ...theme.typography.h4,
+                fontWeight: theme.typography.fontWeightBold,
                 whiteSpace: 'nowrap',
               }}
             >
@@ -74,14 +71,9 @@ export default function SigninPage() {
               variant="h5"
               component="h2"
               sx={{
-                color: '#333333',
-                fontFamily: 'Roboto',
-                fontSize: '34px',
-                fontWeight: 'bold',
-                fontStretch: 'normal',
-                fontStyle: 'normal',
-                lineHeight: 1,
-                letterSpacing: 'normal',
+                color: theme.palette.text.primary,
+                ...theme.typography.h5,
+                fontWeight: theme.typography.fontWeightBold,
                 whiteSpace: 'nowrap',
               }}
             >

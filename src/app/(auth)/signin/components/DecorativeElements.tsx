@@ -1,155 +1,162 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import Image from 'next/image';
+import type { Theme } from '@mui/material/styles';
 
-export const DecorativeElements = () => (
-  <>
-    {/* Logo */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '40px', sm: '50px', md: '60px', lg: '35px' }, 
-      left: { xs: '20px', sm: '40px', md: '80px', lg: '80px' }, 
+const LogoElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: { xs: theme.spacing(5), sm: theme.spacing(6), md: theme.spacing(8), lg: theme.spacing(5) },
+      left: { xs: theme.spacing(3), sm: theme.spacing(5), md: theme.spacing(10), lg: theme.spacing(10) },
       zIndex: 10,
-      display: { xs: 'none', sm: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/logo.png" 
-        alt="Omni Logo" 
-        width={105} 
-        height={30} 
-        style={{ 
-          objectFit: 'contain'
-        }} 
-      />
-    </Box>
+      display: { xs: 'none', sm: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/logo.png"
+      alt="Omni Logo"
+      width={105}
+      height={30}
+      style={{ objectFit: 'contain' }}
+    />
+  </Box>
+);
 
-    {/* Abstract UI Sketch - Top Center */}
-    <Box sx={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
-      <Box
-        sx={{
-          width: 300,
-          height: 180,
-          backgroundColor: 'rgba(200, 200, 200, 0.3)',
-          borderRadius: 2,
-          opacity: 0.6,
-        }}
-      />
-    </Box>
-
-    {/* Magnifying Glass - Mid Left */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '10%', sm: '15%', md: '20%', lg: '300px' }, 
-      left: { xs: '5%', sm: '8%', md: '10%', lg: '178px' }, 
+const MagnifyingGlassElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: { xs: theme.spacing(10), sm: theme.spacing(15), md: theme.spacing(20), lg: theme.spacing(38) },
+      left: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(10), lg: theme.spacing(22) },
       zIndex: 1,
-      display: { xs: 'none', sm: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/glass.png" 
-        alt="Magnifying glass" 
-        width={84} 
-        height={84} 
-        style={{ 
-          opacity: 0.7,
-          margin: '23.4px 85.6px 13px 92px',
-          objectFit: 'contain'
-        }} 
-      />
-    </Box>
+      display: { xs: 'none', sm: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/glass.png"
+      alt="Magnifying glass"
+      width={84}
+      height={84}
+      style={{
+        opacity: 0.7,
+        objectFit: 'contain',
+        margin: `${theme.spacing(3)} ${theme.spacing(11)} ${theme.spacing(2)} ${theme.spacing(12)}`,
+      }}
+    />
+  </Box>
+);
 
+const RachelElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: { xs: theme.spacing(20), sm: theme.spacing(22), md: theme.spacing(24), lg: theme.spacing(15) },
+      right: { xs: theme.spacing(15), sm: theme.spacing(18), md: theme.spacing(20), lg: theme.spacing(25) },
+      zIndex: 2,
+      display: { xs: 'none', lg: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/rachel.png"
+      alt="Rachel"
+      width={209.3}
+      height={97.2}
+    />
+  </Box>
+);
 
+const MarkElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: { xs: theme.spacing(60), sm: theme.spacing(65), md: theme.spacing(70), lg: theme.spacing(75) },
+      left: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(12), lg: theme.spacing(22) },
+      zIndex: 2,
+      display: { xs: 'none', lg: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/mark.png"
+      alt="Mark"
+      width={209.3}
+      height={97.2}
+    />
+  </Box>
+);
 
-    {/* Rachel - Top Right (no speech bubble) */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '20%', sm: '22%', md: '24%', lg: '15%' }, 
-      right: { xs: '15%', sm: '18%', md: '20%', lg: 'calc(25% - 100px)' }, 
-      zIndex: 2, 
-      display: { xs: 'none', lg: 'block' } 
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/rachel.png" 
-        alt="Rachel" 
-        width={209.3} 
-        height={97.2}
-      />
-    </Box>
-
-    {/* Mark - Bottom Left (no speech bubble) */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '60%', sm: '65%', md: '70%', lg: '600px' }, 
-      left: { xs: '5%', sm: '8%', md: '12%', lg: '178px' }, 
-      zIndex: 2, 
-      display: { xs: 'none', lg: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/mark.png" 
-        alt="Mark" 
-        width={209.3} 
-        height={97.2} 
-      />
-    </Box>
-
-    {/* Looking For - Mid Right */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '45%', sm: '50%', md: '55%', lg: '45%' }, 
-      right: { xs: '15%', sm: '20%', md: '25%', lg: '15%' }, 
+const LookingForElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: { xs: theme.spacing(45), sm: theme.spacing(50), md: theme.spacing(55), lg: theme.spacing(45) },
+      right: { xs: theme.spacing(15), sm: theme.spacing(20), md: theme.spacing(25), lg: theme.spacing(15) },
       zIndex: 1,
-      display: { xs: 'none', sm: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/lookingFor.png" 
-        alt="Looking For" 
-        width={179} 
-        height={42} 
-        style={{ 
-          opacity: 0.8,
-          objectFit: 'contain'
-        }} 
-      />
-    </Box>
+      display: { xs: 'none', sm: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/lookingFor.png"
+      alt="Looking For"
+      width={179}
+      height={42}
+      style={{ opacity: 0.8, objectFit: 'contain' }}
+    />
+  </Box>
+);
 
-    {/* Form - Center */}
-    <Box sx={{ 
-      position: 'absolute', 
-      top: { xs: '70px', sm: '70px', md: '70px', lg: '70px' }, 
+const FormElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      top: theme.spacing(9),
       left: '50%',
       transform: 'translateX(-50%)',
       zIndex: 1,
-      display: { xs: 'none', sm: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/form.png" 
-        alt="Form" 
-        width={460} 
-        height={337} 
-        style={{ 
-          opacity: 0.8,
-          objectFit: 'contain'
-        }} 
-      />
-    </Box>
-
-    {/* Star - Bottom Right */}
-    <Box sx={{ 
-      position: 'absolute', 
-      bottom: { xs: '10%', sm: '8%', md: '5%', lg: '15%' }, 
-      right: { xs: '5%', sm: '8%', md: '12%', lg: '25%' }, 
-      zIndex: 1,
-      display: { xs: 'none', sm: 'block' }
-    }}>
-      <Image 
-        src="/assets/images/WelcomeToSignin/star.png" 
-        alt="Star" 
-        width={72} 
-        height={72} 
-        style={{ 
-          opacity: 0.8,
-          objectFit: 'contain'
-        }} 
-      />
-    </Box>
-  </>
+      display: { xs: 'none', sm: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/form.png"
+      alt="Form"
+      width={460}
+      height={337}
+      style={{ opacity: 0.8, objectFit: 'contain' }}
+    />
+  </Box>
 );
+
+const StarElement = ({ theme }: { theme: Theme }) => (
+  <Box
+    sx={{
+      position: 'absolute',
+      bottom: { xs: theme.spacing(10), sm: theme.spacing(8), md: theme.spacing(5), lg: theme.spacing(15) },
+      right: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(12), lg: theme.spacing(25) },
+      zIndex: 1,
+      display: { xs: 'none', sm: 'block' },
+    }}
+  >
+    <Image
+      src="/assets/images/WelcomeToSignin/star.png"
+      alt="Star"
+      width={72}
+      height={72}
+      style={{ opacity: 0.8, objectFit: 'contain' }}
+    />
+  </Box>
+);
+
+export const DecorativeElements = () => {
+  const theme = useTheme();
+  return (
+    <>
+      <LogoElement theme={theme} />
+      <MagnifyingGlassElement theme={theme} />
+      <RachelElement theme={theme} />
+      <MarkElement theme={theme} />
+      <LookingForElement theme={theme} />
+      <FormElement theme={theme} />
+      <StarElement theme={theme} />
+    </>
+  );
+};
