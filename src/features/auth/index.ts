@@ -14,10 +14,11 @@ export { useAuth } from './hooks/useAuth';
 export { useLogin } from './hooks/useLogin';
 export { useLogout } from './hooks/useLogout';
 export { useSignInForm } from './hooks/useSignInForm';
+export { useUserRole, type UserInfo } from './hooks/useUserRole';
 
 // Store
-export { default as authReducer, logout, clearError } from './store/authSlice';
-export { loginAsync, getCurrentUserAsync, initializeAuthAsync } from './store/authThunks';
+export { default as authReducer, clearError } from './store/authSlice';
+export { loginAsync, getCurrentUserAsync, initializeAuthAsync, logoutAsync } from './store/authThunks';
 
 // Selectors
 export {
@@ -28,8 +29,6 @@ export {
   selectIsLoading,
   selectAuthError,
   selectUserDisplayName,
-  selectUserRole,
-  selectIsAdmin,
   selectHasAuthError,
   selectIsInitialized,
 } from './store/selectors';

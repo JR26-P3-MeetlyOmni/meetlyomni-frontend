@@ -13,4 +13,5 @@ export const AUTH_MESSAGES = {
   // Success messages
   LOGIN_SUCCESS: 'Login successful',
   LOGOUT_SUCCESS: 'Logout successful',
+  LOGOUT_FAILED: 'Logout failed',
 } as const;

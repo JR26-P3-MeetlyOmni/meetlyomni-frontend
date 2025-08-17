@@ -14,10 +14,8 @@ export interface LoginCredentials {
 }
 
 export interface LoginResponse {
-  accessToken: string;
-  expiresAt: string;
-  tokenType: string;
   user: User;
+  message?: string;
 }
 
 export interface AuthState {
@@ -25,6 +23,7 @@ export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isInitialized: boolean;
   error: string | null;
 }
 

@@ -1,45 +1,80 @@
 'use client';
 
-import { AuthGuard, useAuth, useLogout } from '@/features/auth';
-
+import { useCallback } from 'react';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+
+import { AuthGuard, useAuth, useLogout, useUserRole } from '@/features/auth';
+
+const Container = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(3),
+  maxWidth: '800px',
+  margin: '0 auto',
+}));
+
+const InfoSection = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const InfoLabel = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+  fontWeight: 600,
+  color: theme.palette.text.secondary,
+  marginBottom: theme.spacing(0.5),
+}));
+
+const InfoValue = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body1,
+  color: theme.palette.text.primary,
+}));
+
+const SignOutContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(3),
+}));
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { userInfo } = useUserRole();
   const { logout } = useLogout();
+
+  const handleSignOut = useCallback(() => {
+    logout();
+  }, [logout]);
 
   return (
     <AuthGuard requireAuth={true}>
-      <Container maxWidth="md">
-        <Box sx={{ mt: 4, mb: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Dashboard
-          </Typography>
+      <Container>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Dashboard Page
+        </Typography>
 
-          {user ? (
-            <Box sx={{ mt: 2, mb: 4 }}>
-              <Typography variant="h6" gutterBottom>
-                Welcome, {user.fullName}!
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                Email: {user.email}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                Role: {user.role}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                Organization: {user.organizationCode}
-              </Typography>
-            </Box>
-          ) : null}
+        <InfoSection>
+          <InfoLabel>User:</InfoLabel>
+          <InfoValue>
+            {String(user?.fullName || userInfo?.name || 'Loading...')}
+          </InfoValue>
+        </InfoSection>
 
-          <Button variant="contained" color="primary" onClick={logout}>
-            Logout
+        <InfoSection>
+          <InfoLabel>Role:</InfoLabel>
+          <InfoValue>
+            {String(user?.role || userInfo?.role || 'Loading...')}
+          </InfoValue>
+        </InfoSection>
+
+        <SignOutContainer>
+          <Button 
+            variant="outlined" 
+            color="primary" 
+            onClick={handleSignOut}
+            size="medium"
+          >
+            Sign Out
           </Button>
-        </Box>
+        </SignOutContainer>
+
       </Container>
     </AuthGuard>
   );

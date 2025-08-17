@@ -17,9 +17,9 @@ export const authApi = {
     }
   },
 
-  async getCurrentUser(token: string): Promise<User> {
+  async getCurrentUser(): Promise<User> {
     try {
-      return await apiClient.get<User>('/auth/me', token);
+      return await apiClient.get<User>('/auth/me');
     } catch (error) {
       if (error instanceof AuthApiError && error.status === 401) {
         throw new AuthApiError(AUTH_MESSAGES.UNAUTHORIZED, 401);
@@ -28,6 +28,15 @@ export const authApi = {
         throw new AuthApiError(AUTH_MESSAGES.GET_USER_FAILED, error.status);
       }
       throw error;
+    }
+  },
+
+  async logout(): Promise<void> {
+    try {
+      await apiClient.post('/auth/logout', {});
+    } catch (error) {
+      // Logout errors are typically not critical
+      console.error('Logout API error:', error);
     }
   },
 };

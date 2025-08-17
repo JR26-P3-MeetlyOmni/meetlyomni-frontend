@@ -16,15 +16,24 @@ export class AuthApiError extends Error {
  * Unified fetch client for auth API calls with error handling
  */
 export const apiClient = {
-  async post<T>(endpoint: string, data: unknown, token?: string): Promise<T> {
+  async post<T>(endpoint: string, data: unknown, isRetry = false): Promise<T> {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
       },
+      credentials: 'include', // Include httpOnly cookies
       body: JSON.stringify(data),
     });
+
+    // Handle token refresh on 401 (only once to prevent infinite recursion)
+    if (response.status === 401 && !isRetry && endpoint !== '/auth/login' && endpoint !== '/auth/refresh') {
+      const refreshed = await this.tryRefreshToken();
+      if (refreshed) {
+        // Retry original request (mark as retry to prevent infinite loop)
+        return this.post(endpoint, data, true);
+      }
+    }
 
     if (!response.ok) {
       await this.handleError(response);
@@ -33,19 +42,37 @@ export const apiClient = {
     return await response.json();
   },
 
-  async get<T>(endpoint: string, token?: string): Promise<T> {
+  async get<T>(endpoint: string, isRetry = false): Promise<T> {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       headers: {
         'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
       },
+      credentials: 'include', // Include httpOnly cookies
     });
+
+    // Handle token refresh on 401 (only once to prevent infinite recursion)
+    if (response.status === 401 && !isRetry) {
+      const refreshed = await this.tryRefreshToken();
+      if (refreshed) {
+        // Retry original request (mark as retry to prevent infinite loop)
+        return this.get(endpoint, true);
+      }
+    }
 
     if (!response.ok) {
       await this.handleError(response);
     }
 
     return await response.json();
+  },
+
+  async tryRefreshToken(): Promise<boolean> {
+    try {
+      const { tokenStorage } = await import('../services/tokenStorage');
+      return await tokenStorage.refresh();
+    } catch {
+      return false;
+    }
   },
 
   async handleError(response: Response): Promise<never> {

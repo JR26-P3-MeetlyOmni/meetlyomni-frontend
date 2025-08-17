@@ -1,176 +1,146 @@
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import Image from 'next/image';
 
+// 基础绝对定位组件 - 遵循单一职责原则
 const AbsoluteBox = styled(Box)({
   position: 'absolute',
 });
 
-const LogoWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  top: theme.spacing(5),
-  left: theme.spacing(5),
-  zIndex: 10,
-  display: 'none',
-  [theme.breakpoints.up('sm')]: { display: 'block' },
+// 使用主题系统的装饰元素容器
+const DecorativeContainer = styled(AbsoluteBox)<{
+  zIndex?: number;
+  opacity?: number;
+}>(({ theme, zIndex = 1, opacity = 1 }) => ({
+  zIndex,
+  opacity,
+  display: 'block',
+}));
+
+// Logo 包装器 - 使用 theme.spacing() 替代硬编码
+const LogoWrapper = styled(DecorativeContainer)(({ theme }) => ({
+  top: theme.spacing(3), // 替代 '3vh'
+  left: theme.spacing(3), // 替代 '3vw'  
+  zIndex: theme.zIndex.drawer, // 使用主题 zIndex 系统
+  [theme.breakpoints.up('sm')]: {
+    top: theme.spacing(4),
+    left: theme.spacing(4),
+  },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(7.5),
-    left: theme.spacing(10),
+    top: theme.spacing(5),
+    left: theme.spacing(5),
   },
   [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(4.375),
-    left: theme.spacing(10),
+    top: theme.spacing(3.5),
+    left: theme.spacing(6),
   },
 }));
 
-const TopCenterSketch = styled(AbsoluteBox)(({ theme }) => ({
-  top: '10%',
+// 顶部中心草图 - 使用 theme.palette 和 alpha() 处理颜色
+const TopCenterSketch = styled(DecorativeContainer)(({ theme }) => ({
+  top: theme.spacing(8),
   left: '50%',
   transform: 'translateX(-50%)',
-  zIndex: 1,
-  width: 300,
-  height: 180,
-  backgroundColor: 'rgba(200, 200, 200, 0.3)',
+  width: 'min(300px, 25vw)',
+  height: 'min(180px, 15vh)',
+  // 使用主题颜色系统替代硬编码颜色
+  backgroundColor: alpha(theme.palette.grey[400], 0.3),
   borderRadius: theme.shape.borderRadius,
-  opacity: 0.6,
-}));
-
-const MagnifierWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  zIndex: 1,
-  display: 'block',
-  top: '10%',
-  left: '5%',
-  [theme.breakpoints.up('sm')]: {
-    top: '15%',
-    left: '8%',
-  },
+  opacity: theme.palette.action.disabledOpacity, // 使用主题透明度
   [theme.breakpoints.up('md')]: {
-    top: '20%',
-    left: '10%',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: 300,
-    left: 178,
-  },
-  opacity: 0.7,
-}));
-
-const RachelWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  zIndex: 2,
-  display: 'block',
-  top: '20%',
-  right: '15%',
-  [theme.breakpoints.up('sm')]: {
-    top: '22%',
-    right: '18%',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: '24%',
-    right: '20%',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: '15%',
-    right: 'calc(25% - 100px)',
+    width: 'min(350px, 28vw)',
+    height: 'min(210px, 17vh)',
   },
 }));
 
-const MarkWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  zIndex: 2,
-  display: 'block',
-  top: '60%',
-  left: '5%',
-  [theme.breakpoints.up('sm')]: {
-    top: '65%',
-    left: '8%',
+// 响应式图片包装器 - 抽象公共样式
+const ResponsiveImageWrapper = styled(DecorativeContainer)<{
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  imageWidth: string;
+  imageHeight?: string;
+  transform?: string;
+}>(({ theme, top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
+  ...(top && { top }),
+  ...(bottom && { bottom }),
+  ...(left && { left }),
+  ...(right && { right }),
+  ...(transform && { transform }),
+  '& img': {
+    width: imageWidth,
+    height: imageHeight,
   },
-  [theme.breakpoints.up('md')]: {
-    top: '70%',
-    left: '12%',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: 600,
-    left: 178,
-  },
-}));
-
-const LookingForWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  zIndex: 1,
-  display: 'block',
-  top: '45%',
-  right: '15%',
-  [theme.breakpoints.up('sm')]: {
-    top: '50%',
-    right: '20%',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: '55%',
-    right: '25%',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: '45%',
-    right: '15%',
-  },
-  opacity: 0.8,
-}));
-
-const FormWrapper = styled(AbsoluteBox)(() => ({
-  zIndex: 1,
-  display: 'block',
-  top: 70,
-  left: '50%',
-  transform: 'translateX(-50%)',
-  opacity: 0.8,
-}));
-
-const StarWrapper = styled(AbsoluteBox)(({ theme }) => ({
-  zIndex: 1,
-  display: 'block',
-  bottom: '10%',
-  right: '5%',
-  [theme.breakpoints.up('sm')]: {
-    bottom: '8%',
-    right: '8%',
-  },
-  [theme.breakpoints.up('md')]: {
-    bottom: '5%',
-    right: '12%',
-  },
-  [theme.breakpoints.up('lg')]: {
-    bottom: '15%',
-    right: '25%',
-  },
-  opacity: 0.8,
 }));
 
 export const DecorativeElements = () => (
   <>
-    <LogoWrapper>
+    <LogoWrapper zIndex={10}>
       <Image src="/assets/images/LogIn/logo.png" alt="Omni Logo" width={105} height={30} />
     </LogoWrapper>
 
-    <TopCenterSketch />
+    <TopCenterSketch zIndex={1} />
 
-    <MagnifierWrapper>
+    <ResponsiveImageWrapper
+      top="25vh" 
+      left="8vw"
+      zIndex={1}
+      opacity={0.7}
+      imageWidth="min(84px, 6vw)"
+      imageHeight="min(84px, 6vw)"
+    >
       <Image src="/assets/images/LogIn/glass.png" alt="Magnifying glass" width={84} height={84} />
-    </MagnifierWrapper>
+    </ResponsiveImageWrapper>
 
-    <RachelWrapper>
+    <ResponsiveImageWrapper
+      top="15vh"
+      right="8vw"
+      zIndex={2}
+      imageWidth="min(209px, 18vw)"
+    >
       <Image src="/assets/images/LogIn/rachel.png" alt="Rachel" width={209.3} height={97.2} />
-    </RachelWrapper>
+    </ResponsiveImageWrapper>
 
-    <MarkWrapper>
+    <ResponsiveImageWrapper
+      bottom="20vh"
+      left="8vw"
+      zIndex={2}
+      imageWidth="min(209px, 18vw)"
+    >
       <Image src="/assets/images/LogIn/mark.png" alt="Mark" width={209.3} height={97.2} />
-    </MarkWrapper>
+    </ResponsiveImageWrapper>
 
-    <LookingForWrapper>
+    <ResponsiveImageWrapper
+      top="50vh"
+      right="12vw"
+      zIndex={1}
+      opacity={0.8}
+      imageWidth="min(179px, 15vw)"
+    >
       <Image src="/assets/images/LogIn/lookingFor.png" alt="Looking For" width={179} height={42} />
-    </LookingForWrapper>
+    </ResponsiveImageWrapper>
 
-    <FormWrapper>
+    <ResponsiveImageWrapper
+      top="12vh"
+      left="50%"
+      zIndex={1}
+      opacity={0.8}
+      imageWidth="min(460px, 35vw)"
+      transform="translateX(-50%)"
+    >
       <Image src="/assets/images/LogIn/form.png" alt="Form" width={460} height={337} />
-    </FormWrapper>
+    </ResponsiveImageWrapper>
 
-    <StarWrapper>
+    <ResponsiveImageWrapper
+      bottom="8vh"
+      right="25vw"
+      zIndex={1}
+      opacity={0.8}
+      imageWidth="min(72px, 5vw)"
+      imageHeight="min(72px, 5vw)"
+    >
       <Image src="/assets/images/LogIn/star.png" alt="Star" width={72} height={72} />
-    </StarWrapper>
+    </ResponsiveImageWrapper>
   </>
 );

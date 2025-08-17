@@ -12,11 +12,12 @@ export const loginAsync = createAsyncThunk<
 >('auth/login', async (credentials, { rejectWithValue }) => {
   try {
     const response = await authApi.login(credentials);
-    tokenStorage.save(response.accessToken);
+    
+    tokenStorage.save();
 
     return {
       user: response.user,
-      token: response.accessToken,
+      token: 'authenticated', 
     };
   } catch (error) {
     if (error instanceof AuthApiError) {
@@ -29,11 +30,11 @@ export const loginAsync = createAsyncThunk<
   }
 });
 
-export const getCurrentUserAsync = createAsyncThunk<User, string, { rejectValue: AuthError }>(
+export const getCurrentUserAsync = createAsyncThunk<User, void, { rejectValue: AuthError }>(
   'auth/getCurrentUser',
-  async (token, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      return await authApi.getCurrentUser(token);
+      return await authApi.getCurrentUser();
     } catch (error) {
       if (error instanceof AuthApiError) {
         return rejectWithValue({
@@ -51,22 +52,42 @@ export const initializeAuthAsync = createAsyncThunk<User | null, void, { rejectV
   async (_, { getState }) => {
     const state = getState() as { auth: { user: User | null; isLoading: boolean } };
 
-    // Skip if already initialized or currently loading
-    if (state.auth.user !== null || state.auth.isLoading) {
+    if (state.auth.user !== null) {
       return state.auth.user;
     }
 
-    const token = tokenStorage.load();
-
-    if (!token) {
+    const authStatus = tokenStorage.load();
+    if (!authStatus) {
       return null;
     }
 
     try {
-      return await authApi.getCurrentUser(token);
+      const user = await authApi.getCurrentUser();
+      return user;
     } catch {
-      tokenStorage.remove();
+      await tokenStorage.remove();
       return null;
+    }
+  },
+);
+
+export const logoutAsync = createAsyncThunk<void, void, { rejectValue: AuthError }>(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await authApi.logout();
+      await tokenStorage.remove();
+      return; 
+    } catch (error) {
+      await tokenStorage.remove();
+      
+      if (error instanceof AuthApiError) {
+        return rejectWithValue({
+          message: error.message,
+          status: error.status,
+        });
+      }
+      return rejectWithValue({ message: AUTH_MESSAGES.LOGOUT_FAILED });
     }
   },
 );

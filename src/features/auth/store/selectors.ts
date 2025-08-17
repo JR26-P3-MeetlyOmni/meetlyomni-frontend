@@ -16,21 +16,9 @@ export const selectUserDisplayName = (state: RootState) => {
   return user?.fullName || user?.email || 'Unknown User';
 };
 
-export const selectUserRole = (state: RootState) => {
-  const user = selectUser(state);
-  return user?.role || 'guest';
-};
-
-export const selectIsAdmin = (state: RootState) => {
-  const role = selectUserRole(state);
-  return role === 'admin' || role === 'superadmin';
-};
 
 export const selectHasAuthError = (state: RootState) => {
   return !!selectAuthError(state);
 };
 
-export const selectIsInitialized = (state: RootState) => {
-  const { isLoading, user, token } = selectAuthState(state);
-  return !isLoading && (!!user || !token);
-};
+export const selectIsInitialized = (state: RootState) => state.auth.isInitialized;

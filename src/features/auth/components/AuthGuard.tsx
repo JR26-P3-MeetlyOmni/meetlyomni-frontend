@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -15,20 +15,28 @@ interface AuthGuardProps {
 }
 
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children, requireAuth = true }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isInitialized } = useAuth();
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // ✅ 防止 Hydration 错误：等待客户端挂载
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    // 🆕 只有在认证初始化完成后才进行路由跳转判断
+    if (isInitialized && !isLoading && isMounted) {
       if (requireAuth && !isAuthenticated) {
         router.push(AUTH_ROUTES.LOGIN);
       } else if (!requireAuth && isAuthenticated) {
         router.push(AUTH_ROUTES.DASHBOARD);
       }
     }
-  }, [isAuthenticated, isLoading, requireAuth, router]);
+  }, [isAuthenticated, isLoading, isInitialized, requireAuth, router, isMounted]);
 
-  if (isLoading) {
+  // ✅ 等待客户端挂载和认证初始化完成
+  if (!isMounted || !isInitialized || isLoading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <CircularProgress />
@@ -36,12 +44,13 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children, requireAuth = tr
     );
   }
 
+  // 🆕 只有在初始化完成后才检查认证状态
   if (requireAuth && !isAuthenticated) {
-    return null;
+    return null; // 将通过 useEffect 跳转到登录页
   }
 
   if (!requireAuth && isAuthenticated) {
-    return null;
+    return null; // 将通过 useEffect 跳转到 dashboard
   }
 
   return <>{children}</>;
