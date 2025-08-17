@@ -34,7 +34,6 @@ export const charactersConfig: ImageConfig[] = [
   },
 ];
 
-// Small elements configuration
 export const smallElementsConfig: ImageConfig[] = [
   {
     src: '/assets/images/LogIn/glass.png',
@@ -88,7 +87,6 @@ export const smallElementsConfig: ImageConfig[] = [
   },
 ];
 
-// Form background configuration
 export const formBackgroundConfig: ImageConfig = {
   src: '/assets/images/LogIn/form.png',
   alt: 'Form',
@@ -107,7 +105,6 @@ export const formBackgroundConfig: ImageConfig = {
   testId: 'form-wrapper',
 };
 
-// Theme-based constants for styled components
 export const DECORATIVE_SPACING = {
   LOGO_BASE: 3,
   LOGO_SM: 4,

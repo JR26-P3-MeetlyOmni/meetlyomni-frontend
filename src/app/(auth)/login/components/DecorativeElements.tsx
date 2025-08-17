@@ -13,7 +13,6 @@ import {
   smallElementsConfig,
 } from './decorativeElementsData';
 
-// Base styled components
 const AbsoluteBox = styled(Box)({
   position: 'absolute',
 });
@@ -89,7 +88,6 @@ const ResponsiveImageWrapper = styled(DecorativeContainer)<ResponsiveImageWrappe
   }),
 );
 
-// Data-driven image rendering component
 const ImageElement: React.FC<{ config: ImageConfig }> = ({ config }) => (
   <ResponsiveImageWrapper {...config.position} {...config.styles} data-testid={config.testId}>
     <Image src={config.src} alt={config.alt} width={config.width} height={config.height} />
@@ -105,7 +103,6 @@ const LogoAndSketch = () => (
   </>
 );
 
-// Data-driven element groups
 const CharacterElements = () => (
   <>
     {charactersConfig.map(config => (
