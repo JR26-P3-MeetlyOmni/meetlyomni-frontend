@@ -1,5 +1,6 @@
-import React from 'react';
 import { InternalLink } from '@/components/Link/Link';
+
+import React from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,24 +8,53 @@ import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import { EmailFieldProps, PasswordFieldProps, SignInFormProps } from '../types';
+import { FieldProps, SignInFormProps } from '../types';
 
-const FormRoot = styled('form')(() => ({
-  maxWidth: 412,
+const FormContainer = styled('form')(({ theme }) => ({
+  maxWidth: theme.spacing(51.5),
   marginLeft: 'auto',
   marginRight: 'auto',
 }));
 
+const FormField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+  '& .MuiOutlinedInput-root': {
+    borderRadius: Number(theme.shape.borderRadius) * 2,
+    backgroundColor: theme.palette.common.white,
+    '& fieldset': {
+      borderColor: theme.palette.divider,
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&.Mui-error fieldset': {
+      borderColor: theme.palette.error.main,
+    },
+    '&.Mui-error:hover fieldset': {
+      borderColor: theme.palette.error.main,
+    },
+    '&.Mui-error.Mui-focused fieldset': {
+      borderColor: theme.palette.error.main,
+    },
+  },
+  '& .MuiInputBase-input': {
+    fontSize: theme.typography.body2.fontSize,
+  },
+}));
+
 const FieldLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
-  fontWeight: 500,
+  fontWeight: theme.typography.fontWeightMedium,
   fontSize: theme.typography.pxToRem(14),
-  lineHeight: 1,
+  lineHeight: theme.typography.body1.lineHeight,
   textAlign: 'left',
   marginBottom: theme.spacing(0.75),
 }));
 
-const HelperText = styled(Typography)(({ theme }) => ({
+const ErrorText = styled(Typography)(({ theme }) => ({
   color: theme.palette.error.main,
   fontSize: theme.typography.pxToRem(12),
   marginTop: theme.spacing(0.5),
@@ -32,36 +62,21 @@ const HelperText = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
 }));
 
-const ForgotWrapper = styled(Box)(({ theme }) => ({
-  textAlign: 'left',
-  marginBottom: theme.spacing(2),
-  '& .password-reset': {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    cursor: 'pointer',
-    fontfamily: 'var(--font-roboto)',
-    fontSize: theme.typography.body2.fontSize,
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-}));
-
-const PrimaryButton = styled(Button)(({ theme }) => ({
-  width: 412,
-  height: 38,
+const SubmitButton = styled(Button)(({ theme }) => ({
+  width: theme.spacing(51.5),
+  height: theme.spacing(4.75),
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(3),
   padding: theme.spacing(1.5, 0),
-  borderRadius: 6,
-  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
-  backgroundColor: '#14183b',
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[1],
+  backgroundColor: theme.palette.primary.main,
   textTransform: 'none',
   fontSize: theme.typography.pxToRem(14),
-  fontWeight: 500,
+  fontWeight: theme.typography.fontWeightMedium,
   color: theme.palette.common.white,
   '&:hover': {
-    backgroundColor: '#0f1228',
+    backgroundColor: theme.palette.primary.dark,
   },
   '&:disabled': {
     backgroundColor: theme.palette.action.disabledBackground,
@@ -69,60 +84,38 @@ const PrimaryButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const BottomRow = styled(Box)(({ theme }) => ({
+const ActionRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   gap: theme.spacing(1),
-}));
-
-const BottomText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  whiteSpace: 'nowrap',
-  fontfamily: 'var(--font-roboto)',
-  fontSize: theme.typography.pxToRem(14),
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    borderRadius: 8,
-    backgroundColor: theme.palette.common.white,
-    '& fieldset': { borderColor: theme.palette.divider },
-    '&:hover fieldset': { borderColor: theme.palette.primary.main },
-    '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main },
-    '&.Mui-error fieldset': { borderColor: theme.palette.error.main },
-    '&.Mui-error:hover fieldset': { borderColor: theme.palette.error.main },
-    '&.Mui-error.Mui-focused fieldset': { borderColor: theme.palette.error.main },
+  marginBottom: theme.spacing(2),
+  '&.forgotPW-link': {
+    justifyContent: 'flex-start',
+    marginBottom: theme.spacing(2),
+    '& a': {
+      color: theme.palette.primary.main,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      fontFamily: 'var(--font-roboto)',
+      fontSize: theme.typography.body2.fontSize,
+      '&:hover': {
+        textDecoration: 'underline',
+      },
+    },
   },
-  '& .MuiInputBase-input': {
-    fontSize: '0.9rem',
+  '& .signup-text': {
+    color: theme.palette.text.secondary,
+    whiteSpace: 'nowrap',
+    fontFamily: 'var(--font-roboto)',
+    fontSize: theme.typography.pxToRem(14),
   },
-  marginBottom: theme.spacing(1),
 }));
 
-const EmailField: React.FC<EmailFieldProps> = ({ value, error, showError, onChange, onBlur }) => (
-  <>
-    <FieldLabel>Email</FieldLabel>
-    <StyledTextField
-      required
-      fullWidth
-      id="email"
-      name="email"
-      type="email"
-      autoComplete="email"
-      autoFocus
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={showError ? Boolean(error) : false}
-      placeholder="Email Address"
-      InputLabelProps={{ shrink: false }}
-    />
-    {showError && Boolean(error) ? <HelperText>{error}</HelperText> : null}
-  </>
-);
-
-const PasswordField: React.FC<PasswordFieldProps> = ({
+const Field: React.FC<FieldProps> = ({
+  type,
+  label,
+  placeholder,
   value,
   error,
   showError,
@@ -130,22 +123,23 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
   onBlur,
 }) => (
   <>
-    <FieldLabel variant="body2">Password</FieldLabel>
-    <StyledTextField
+    <FieldLabel>{label}</FieldLabel>
+    <FormField
       required
       fullWidth
-      name="password"
-      type="password"
-      id="password"
-      autoComplete="current-password"
+      id={type}
+      name={type}
+      type={type}
+      autoComplete={type === 'email' ? 'email' : 'current-password'}
+      autoFocus={type === 'email'}
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={showError ? Boolean(error) : false}
-      placeholder="Password"
+      placeholder={placeholder}
       InputLabelProps={{ shrink: false }}
     />
-    {showError && Boolean(error) ? <HelperText variant="body2">{error}</HelperText> : null}
+    {showError && Boolean(error) ? <ErrorText>{error}</ErrorText> : null}
   </>
 );
 
@@ -164,41 +158,43 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   });
 
   return (
-    <FormRoot onSubmit={handleSubmit}>
+    <FormContainer onSubmit={handleSubmit}>
       {hasSubmitted && Boolean(errors.auth) ? (
-        <HelperText variant="body2" style={{ marginBottom: '16px' }}>
-          {errors.auth}
-        </HelperText>
+        <ErrorText style={{ marginBottom: '16px' }}>{errors.auth}</ErrorText>
       ) : null}
 
-      <EmailField
+      <Field
+        type="email"
+        label="Email"
+        placeholder="Email Address"
         value={formData.email}
         error={errors.email}
         showError={hasSubmitted}
         {...createFieldHandler('email')}
       />
 
-      <PasswordField
+      <Field
+        type="password"
+        label="Password"
+        placeholder="Password"
         value={formData.password}
         error={errors.password}
         showError={hasSubmitted}
         {...createFieldHandler('password')}
       />
 
-      <ForgotWrapper>
-        <InternalLink href="/PasswordReset" className="password-reset">
-          Forgot Password ?
-        </InternalLink>
-      </ForgotWrapper>
+      <ActionRow className="forgotPW-link">
+        <InternalLink href="/PasswordReset">Forgot Password ?</InternalLink>
+      </ActionRow>
 
-      <PrimaryButton type="submit" variant="contained" disabled={isSubmitting}>
+      <SubmitButton type="submit" variant="contained" disabled={isSubmitting}>
         {isSubmitting ? 'Signing in...' : 'Sign in'}
-      </PrimaryButton>
+      </SubmitButton>
 
-      <BottomRow>
-        <BottomText variant="body2">Don&apos;t have an account?</BottomText>
+      <ActionRow>
+        <Typography className="signup-text">Don&apos;t have an account?</Typography>
         <InternalLink href="/signup"> Sign up</InternalLink>
-      </BottomRow>
-    </FormRoot>
+      </ActionRow>
+    </FormContainer>
   );
 };
