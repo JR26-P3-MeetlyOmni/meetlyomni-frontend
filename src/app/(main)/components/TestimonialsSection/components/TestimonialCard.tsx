@@ -1,4 +1,7 @@
+'use client';
+
 import { motion } from 'framer-motion';
+import type { HTMLMotionProps } from 'framer-motion';
 
 import React from 'react';
 
@@ -23,7 +26,10 @@ const getGradientOverlay = (position: string, theme: Theme) => {
   };
 };
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({ data, ...props }) => {
+const TestimonialCard: React.FC<TestimonialCardProps & HTMLMotionProps<'div'>> = ({
+  data,
+  ...props
+}) => {
   const { name, role, content, avatarUrl, position } = data;
   const theme = useTheme();
   return (
