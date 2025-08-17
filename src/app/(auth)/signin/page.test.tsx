@@ -14,7 +14,7 @@ vi.mock('next/image', () => ({
 
 // Mock Material-UI components to avoid complex rendering issues
 const filterDomProps = (props: any) => {
-  // 过滤掉非标准 DOM 属性
+  // filter out non-standard DOM props
   const { fullWidth, maxWidth, error, ...rest } = props;
   return rest;
 };
@@ -33,7 +33,7 @@ vi.mock('@mui/material', () => ({
   useTheme: () => ({
     palette: { mode: 'light' },
     spacing: (factor = 1) => `${8 * factor}px`, // MUI 默认 spacing
-    // 可根据需要添加更多 theme 属性
+    // can add more theme props as needed
   }),
 }));
 
@@ -46,7 +46,7 @@ describe('SigninPage', () => {
   it('renders the sign-in form with title', () => {
     render(<SigninPage />);
 
-    // 分别检查标题的两部分
+    // check both parts of the title
     expect(screen.getByText('Welcome to Omni!')).toBeInTheDocument();
     expect(screen.getByText("Let's Sign in Your Profile")).toBeInTheDocument();
   });
@@ -54,7 +54,7 @@ describe('SigninPage', () => {
   it('renders email and password inputs', () => {
     render(<SigninPage />);
 
-    // 用 placeholder 检查 input
+    // check with input with placeholder
     expect(screen.getByPlaceholderText('Email Address')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
   });
