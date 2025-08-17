@@ -136,3 +136,5 @@ npm run prepare
 ```
 
 This will reinstall all Husky git hooks.
+
+# Minor test change
