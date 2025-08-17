@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { AuthGuard, useSignInForm } from '@/features/auth';
 
 import Box from '@mui/material/Box';

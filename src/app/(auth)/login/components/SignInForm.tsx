@@ -1,3 +1,4 @@
+import React from 'react';
 import { InternalLink } from '@/components/Link/Link';
 
 import Box from '@mui/material/Box';
@@ -107,6 +108,7 @@ const EmailField: React.FC<EmailFieldProps> = ({ value, error, showError, onChan
       fullWidth
       id="email"
       name="email"
+      type="email"
       autoComplete="email"
       autoFocus
       value={value}

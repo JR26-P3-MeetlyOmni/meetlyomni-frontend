@@ -5,7 +5,7 @@ export const validateEmail = (email: string): string => {
     return AUTH_MESSAGES.EMAIL_REQUIRED;
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[^\s@.]+$/;
   if (!emailRegex.test(email)) {
     return AUTH_MESSAGES.EMAIL_INVALID;
   }
