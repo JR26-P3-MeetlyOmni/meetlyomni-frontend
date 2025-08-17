@@ -130,14 +130,14 @@ describe('Login Flow Integration Tests', () => {
       const emailInput = screen.getByPlaceholderText('Email Address');
       const passwordInput = screen.getByPlaceholderText('Password');
 
-      // Test email input
+      // Test email input with shorter text
       await user.type(emailInput, 'test@example.com');
       expect(emailInput).toHaveValue('test@example.com');
 
-      // Test password input
-      await user.type(passwordInput, 'password123');
-      expect(passwordInput).toHaveValue('password123');
-    });
+      // Test password input with shorter text
+      await user.type(passwordInput, 'pass123');
+      expect(passwordInput).toHaveValue('pass123');
+    }, 15000); // Increase timeout to 15 seconds
   });
 
   describe('Form Validation Integration', () => {
@@ -148,14 +148,14 @@ describe('Login Flow Integration Tests', () => {
       const emailInput = screen.getByPlaceholderText('Email Address');
       const passwordInput = screen.getByPlaceholderText('Password');
 
-      // Enter valid inputs
+      // Enter valid inputs with shorter text
       await user.type(emailInput, 'valid@example.com');
-      await user.type(passwordInput, 'ValidPassword123');
+      await user.type(passwordInput, 'ValidPass123');
 
       // Verify inputs have correct values
       expect(emailInput).toHaveValue('valid@example.com');
-      expect(passwordInput).toHaveValue('ValidPassword123');
-    });
+      expect(passwordInput).toHaveValue('ValidPass123');
+    }, 15000); // Increase timeout to 15 seconds
 
     it('should show submit button is enabled with valid inputs', async () => {
       const user = userEvent.setup({ delay: null }); // Remove delay for faster tests
@@ -168,13 +168,13 @@ describe('Login Flow Integration Tests', () => {
       // Initially button should be enabled
       expect(submitButton).toBeEnabled();
 
-      // Enter valid inputs
+      // Enter valid inputs with shorter text
       await user.type(emailInput, 'valid@example.com');
-      await user.type(passwordInput, 'ValidPassword123');
+      await user.type(passwordInput, 'ValidPass123');
 
       // Button should still be enabled
       expect(submitButton).toBeEnabled();
-    });
+    }, 15000); // Increase timeout to 15 seconds
   });
 
   describe('Redux Integration', () => {

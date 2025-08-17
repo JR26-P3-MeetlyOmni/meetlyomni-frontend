@@ -76,14 +76,44 @@ const ResponsiveImageWrapper = styled(DecorativeContainer)<{
   },
 }));
 
-export const DecorativeElements = () => (
+// Logo and sketch elements
+const LogoAndSketch = () => (
   <>
-    <LogoWrapper zIndex={10}>
+    <LogoWrapper zIndex={10} data-testid="logo-wrapper">
       <Image src="/assets/images/LogIn/logo.png" alt="Omni Logo" width={105} height={30} />
     </LogoWrapper>
+    <TopCenterSketch zIndex={1} data-testid="top-center-sketch" />
+  </>
+);
 
-    <TopCenterSketch zIndex={1} />
+// Character elements (Rachel and Mark)
+const CharacterElements = () => (
+  <>
+    <ResponsiveImageWrapper
+      top="15vh"
+      right="8vw"
+      zIndex={2}
+      imageWidth="min(209px, 18vw)"
+      data-testid="rachel-wrapper"
+    >
+      <Image src="/assets/images/LogIn/rachel.png" alt="Rachel" width={209.3} height={97.2} />
+    </ResponsiveImageWrapper>
 
+    <ResponsiveImageWrapper
+      bottom="20vh"
+      left="8vw"
+      zIndex={2}
+      imageWidth="min(209px, 18vw)"
+      data-testid="mark-wrapper"
+    >
+      <Image src="/assets/images/LogIn/mark.png" alt="Mark" width={209.3} height={97.2} />
+    </ResponsiveImageWrapper>
+  </>
+);
+
+// Small decorative elements
+const SmallElements = () => (
+  <>
     <ResponsiveImageWrapper
       top="25vh"
       left="8vw"
@@ -91,16 +121,9 @@ export const DecorativeElements = () => (
       opacity={0.7}
       imageWidth="min(84px, 6vw)"
       imageHeight="min(84px, 6vw)"
+      data-testid="glass-wrapper"
     >
       <Image src="/assets/images/LogIn/glass.png" alt="Magnifying glass" width={84} height={84} />
-    </ResponsiveImageWrapper>
-
-    <ResponsiveImageWrapper top="15vh" right="8vw" zIndex={2} imageWidth="min(209px, 18vw)">
-      <Image src="/assets/images/LogIn/rachel.png" alt="Rachel" width={209.3} height={97.2} />
-    </ResponsiveImageWrapper>
-
-    <ResponsiveImageWrapper bottom="20vh" left="8vw" zIndex={2} imageWidth="min(209px, 18vw)">
-      <Image src="/assets/images/LogIn/mark.png" alt="Mark" width={209.3} height={97.2} />
     </ResponsiveImageWrapper>
 
     <ResponsiveImageWrapper
@@ -109,19 +132,9 @@ export const DecorativeElements = () => (
       zIndex={1}
       opacity={0.8}
       imageWidth="min(179px, 15vw)"
+      data-testid="looking-for-wrapper"
     >
       <Image src="/assets/images/LogIn/lookingFor.png" alt="Looking For" width={179} height={42} />
-    </ResponsiveImageWrapper>
-
-    <ResponsiveImageWrapper
-      top="12vh"
-      left="50%"
-      zIndex={1}
-      opacity={0.8}
-      imageWidth="min(460px, 35vw)"
-      transform="translateX(-50%)"
-    >
-      <Image src="/assets/images/LogIn/form.png" alt="Form" width={460} height={337} />
     </ResponsiveImageWrapper>
 
     <ResponsiveImageWrapper
@@ -131,8 +144,33 @@ export const DecorativeElements = () => (
       opacity={0.8}
       imageWidth="min(72px, 5vw)"
       imageHeight="min(72px, 5vw)"
+      data-testid="star-wrapper"
     >
       <Image src="/assets/images/LogIn/star.png" alt="Star" width={72} height={72} />
     </ResponsiveImageWrapper>
+  </>
+);
+
+// Form background element
+const FormBackground = () => (
+  <ResponsiveImageWrapper
+    top="12vh"
+    left="50%"
+    zIndex={1}
+    opacity={0.8}
+    imageWidth="min(460px, 35vw)"
+    transform="translateX(-50%)"
+    data-testid="form-wrapper"
+  >
+    <Image src="/assets/images/LogIn/form.png" alt="Form" width={460} height={337} />
+  </ResponsiveImageWrapper>
+);
+
+export const DecorativeElements = () => (
+  <>
+    <LogoAndSketch />
+    <CharacterElements />
+    <SmallElements />
+    <FormBackground />
   </>
 );

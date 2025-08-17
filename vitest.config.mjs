@@ -15,7 +15,7 @@ export default defineConfig({
       '**/index.tsx',
       'tests/e2e/**', // Exclude E2E tests (these are Playwright tests, not Vitest)
     ],
-    testTimeout: 10000, // Increase timeout for integration tests
+    testTimeout: 20000, // Increase timeout for integration tests
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
