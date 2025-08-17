@@ -8,21 +8,7 @@ export interface SignInFormProps {
   handleSubmit: (e: React.FormEvent) => void;
 }
 
-export interface EmailFieldProps {
-  value: string;
-  error: string;
-  showError: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-}
-
-export interface PasswordFieldProps {
-  value: string;
-  error: string;
-  showError: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-}
+// EmailFieldProps and PasswordFieldProps merged into unified Field component
 
 export interface DecorativeContainerProps {
   zIndex?: number;
@@ -63,4 +49,15 @@ export interface ImageConfig {
   position: ImagePosition;
   styles: ImageStyles;
   testId: string;
+}
+
+export interface FieldProps {
+  type: 'email' | 'password';
+  label: string;
+  placeholder: string;
+  value: string;
+  error: string;
+  showError: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
