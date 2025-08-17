@@ -48,6 +48,9 @@ vi.mock('@/features/auth/api/apiClient', () => ({
   },
 }));
 
+// Mock fetch for API calls
+global.fetch = vi.fn();
+
 // Mock console methods to reduce noise in tests
 beforeAll(() => {
   vi.spyOn(console, 'warn').mockImplementation(() => {});

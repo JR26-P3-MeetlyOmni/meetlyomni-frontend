@@ -1,7 +1,8 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import { styled, alpha } from '@mui/material/styles';
 import Image from 'next/image';
+import React from 'react';
+
+import Box from '@mui/material/Box';
+import { alpha, styled } from '@mui/material/styles';
 
 // 基础绝对定位组件 - 遵循单一职责原则
 const AbsoluteBox = styled(Box)({
@@ -12,7 +13,7 @@ const AbsoluteBox = styled(Box)({
 const DecorativeContainer = styled(AbsoluteBox)<{
   zIndex?: number;
   opacity?: number;
-}>(({ theme, zIndex = 1, opacity = 1 }) => ({
+}>(({ zIndex = 1, opacity = 1 }) => ({
   zIndex,
   opacity,
   display: 'block',
@@ -21,7 +22,7 @@ const DecorativeContainer = styled(AbsoluteBox)<{
 // Logo 包装器 - 使用 theme.spacing() 替代硬编码
 const LogoWrapper = styled(DecorativeContainer)(({ theme }) => ({
   top: theme.spacing(3), // 替代 '3vh'
-  left: theme.spacing(3), // 替代 '3vw'  
+  left: theme.spacing(3), // 替代 '3vw'
   zIndex: theme.zIndex.drawer, // 使用主题 zIndex 系统
   [theme.breakpoints.up('sm')]: {
     top: theme.spacing(4),
@@ -63,7 +64,7 @@ const ResponsiveImageWrapper = styled(DecorativeContainer)<{
   imageWidth: string;
   imageHeight?: string;
   transform?: string;
-}>(({ theme, top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
+}>(({ top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
   ...(top && { top }),
   ...(bottom && { bottom }),
   ...(left && { left }),
@@ -84,7 +85,7 @@ export const DecorativeElements = () => (
     <TopCenterSketch zIndex={1} />
 
     <ResponsiveImageWrapper
-      top="25vh" 
+      top="25vh"
       left="8vw"
       zIndex={1}
       opacity={0.7}
@@ -94,21 +95,11 @@ export const DecorativeElements = () => (
       <Image src="/assets/images/LogIn/glass.png" alt="Magnifying glass" width={84} height={84} />
     </ResponsiveImageWrapper>
 
-    <ResponsiveImageWrapper
-      top="15vh"
-      right="8vw"
-      zIndex={2}
-      imageWidth="min(209px, 18vw)"
-    >
+    <ResponsiveImageWrapper top="15vh" right="8vw" zIndex={2} imageWidth="min(209px, 18vw)">
       <Image src="/assets/images/LogIn/rachel.png" alt="Rachel" width={209.3} height={97.2} />
     </ResponsiveImageWrapper>
 
-    <ResponsiveImageWrapper
-      bottom="20vh"
-      left="8vw"
-      zIndex={2}
-      imageWidth="min(209px, 18vw)"
-    >
+    <ResponsiveImageWrapper bottom="20vh" left="8vw" zIndex={2} imageWidth="min(209px, 18vw)">
       <Image src="/assets/images/LogIn/mark.png" alt="Mark" width={209.3} height={97.2} />
     </ResponsiveImageWrapper>
 

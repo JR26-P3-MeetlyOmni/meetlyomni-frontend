@@ -1,20 +1,26 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { action } from '@storybook/addon-actions';
-import { fn } from '@storybook/test';
 
-// Mock Internal Link component
-const MockInternalLink = ({ href, children, className, ...props }: any) => (
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+import { SignInForm } from './SignInForm';
+
+// Mock functions for Storybook actions
+const mockFn = () => {};
+
+// Define proper types for mock Link component
+interface MockInternalLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: unknown;
+}
+
+// Mock Internal Link component (unused in this story but available for potential future use)
+const _MockInternalLink = ({ href, children, className, ...props }: MockInternalLinkProps) => (
   <a href={href} className={className} data-testid="internal-link" {...props}>
     {children}
   </a>
 );
-
-// Apply mocks
-require('@/components/Link/Link').InternalLink = MockInternalLink;
-
-import { SignInForm } from './SignInForm';
-import { SignInFormProps } from '../types';
 
 const meta: Meta<typeof SignInForm> = {
   title: 'Components/Auth/SignInForm',
@@ -23,7 +29,8 @@ const meta: Meta<typeof SignInForm> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A comprehensive sign-in form component with email and password fields, validation error display, forgot password link, and sign-up navigation. Includes proper accessibility features and loading states.',
+        component:
+          'A comprehensive sign-in form component with email and password fields, validation error display, forgot password link, and sign-up navigation. Includes proper accessibility features and loading states.',
       },
     },
   },
@@ -59,17 +66,19 @@ const meta: Meta<typeof SignInForm> = {
     },
   },
   decorators: [
-    (Story) => (
-      <div style={{ 
-        padding: '20px', 
-        maxWidth: '500px', 
-        margin: '0 auto',
-        backgroundColor: '#f5f5f5',
-        minHeight: '400px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+    Story => (
+      <div
+        style={{
+          padding: '20px',
+          maxWidth: '500px',
+          margin: '0 auto',
+          backgroundColor: '#f5f5f5',
+          minHeight: '400px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -86,9 +95,9 @@ export const Default: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: false,
     hasSubmitted: false,
-    handleInputChange: fn(),
-    handleInputBlur: fn(),
-    handleSubmit: fn(),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
@@ -106,9 +115,9 @@ export const WithFormData: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: false,
     hasSubmitted: false,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
@@ -130,14 +139,15 @@ export const WithValidationErrors: Story = {
     },
     isSubmitting: false,
     hasSubmitted: true, // Errors only show after submission
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Form displaying field validation errors. Notice how errors appear only after hasSubmitted is true.',
+        story:
+          'Form displaying field validation errors. Notice how errors appear only after hasSubmitted is true.',
       },
     },
   },
@@ -154,9 +164,9 @@ export const WithAuthError: Story = {
     },
     isSubmitting: false,
     hasSubmitted: true,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
@@ -174,14 +184,15 @@ export const LoadingState: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: true,
     hasSubmitted: true,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Form in loading state during submission. Submit button is disabled and shows "Signing in..." text.',
+        story:
+          'Form in loading state during submission. Submit button is disabled and shows "Signing in..." text.',
       },
     },
   },
@@ -198,14 +209,15 @@ export const AllErrors: Story = {
     },
     isSubmitting: false,
     hasSubmitted: true,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Form showing all possible error states: field validation errors and authentication error.',
+        story:
+          'Form showing all possible error states: field validation errors and authentication error.',
       },
     },
   },
@@ -218,14 +230,15 @@ export const Interactive: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: false,
     hasSubmitted: false,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Interactive form where all user actions (typing, blurring, submitting) are logged to the Actions panel.',
+        story:
+          'Interactive form where all user actions (typing, blurring, submitting) are logged to the Actions panel.',
       },
     },
   },
@@ -242,12 +255,12 @@ export const FormStatesShowcase: Story = {
           errors={{ email: '', password: '', auth: null }}
           isSubmitting={false}
           hasSubmitted={false}
-          handleInputChange={fn()}
-          handleInputBlur={fn()}
-          handleSubmit={fn()}
+          handleInputChange={mockFn}
+          handleInputBlur={mockFn}
+          handleSubmit={mockFn}
         />
       </div>
-      
+
       <div>
         <h3>With Validation Errors</h3>
         <SignInForm
@@ -259,12 +272,12 @@ export const FormStatesShowcase: Story = {
           }}
           isSubmitting={false}
           hasSubmitted={true}
-          handleInputChange={fn()}
-          handleInputBlur={fn()}
-          handleSubmit={fn()}
+          handleInputChange={mockFn}
+          handleInputBlur={mockFn}
+          handleSubmit={mockFn}
         />
       </div>
-      
+
       <div>
         <h3>Loading State</h3>
         <SignInForm
@@ -272,9 +285,9 @@ export const FormStatesShowcase: Story = {
           errors={{ email: '', password: '', auth: null }}
           isSubmitting={true}
           hasSubmitted={true}
-          handleInputChange={fn()}
-          handleInputBlur={fn()}
-          handleSubmit={fn()}
+          handleInputChange={mockFn}
+          handleInputBlur={mockFn}
+          handleSubmit={mockFn}
         />
       </div>
     </div>
@@ -296,14 +309,15 @@ export const AccessibilityFocus: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: false,
     hasSubmitted: false,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Form with accessibility features highlighted. The email field should auto-focus when the form loads.',
+        story:
+          'Form with accessibility features highlighted. The email field should auto-focus when the form loads.',
       },
     },
   },
@@ -323,23 +337,25 @@ export const DarkMode: Story = {
     errors: { email: '', password: '', auth: null },
     isSubmitting: false,
     hasSubmitted: false,
-    handleInputChange: action('handleInputChange'),
-    handleInputBlur: action('handleInputBlur'),
-    handleSubmit: action('handleSubmit'),
+    handleInputChange: mockFn,
+    handleInputBlur: mockFn,
+    handleSubmit: mockFn,
   },
   decorators: [
-    (Story) => (
-      <div style={{ 
-        padding: '20px', 
-        maxWidth: '500px', 
-        margin: '0 auto',
-        backgroundColor: '#1e1e1e',
-        color: '#ffffff',
-        minHeight: '400px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+    Story => (
+      <div
+        style={{
+          padding: '20px',
+          maxWidth: '500px',
+          margin: '0 auto',
+          backgroundColor: '#1e1e1e',
+          color: '#ffffff',
+          minHeight: '400px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Story />
       </div>
     ),

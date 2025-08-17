@@ -1,6 +1,8 @@
 'use client';
 
 import NextLink from 'next/link';
+import React from 'react';
+
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
@@ -45,16 +47,10 @@ const StyledInternalLink = styled(Link)(({ theme }) => ({
 
 const InternalLink = ({ href, children, className, variant = 'body2' }: InternalLinkProps) => {
   return (
-    <StyledInternalLink
-      component={NextLink}
-      href={href}
-      className={className}
-      variant={variant}
-    >
+    <StyledInternalLink component={NextLink} href={href} className={className} variant={variant}>
       {children}
     </StyledInternalLink>
   );
 };
-
 
 export { ExternalLink, InternalLink };

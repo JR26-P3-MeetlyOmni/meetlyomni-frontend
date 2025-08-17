@@ -74,3 +74,8 @@ node_modules/
 # Environment variables
 .env
 CLAUDE.md
+
+# Playwright test outputs
+test-results/
+playwright-report/
+blob-report/

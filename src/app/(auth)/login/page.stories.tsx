@@ -1,23 +1,64 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { action } from '@storybook/addon-actions';
 
-// Mock AuthGuard component for Storybook
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+// Import the actual component with mocks applied
+import LoginPage from './page';
+
+// Mock functions for Storybook actions
+const mockFn = () => {};
+
+// Define proper types for Image component
+interface MockImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  style?: React.CSSProperties;
+  [key: string]: unknown;
+}
 
 // Mock Next.js Image component
-const MockImage = ({ src, alt, width, height, ...props }: any) => (
-  <img src={src} alt={alt} width={width} height={height} {...props} />
+const MockImage = ({ src, alt, width, height, style, ...props }: MockImageProps) => (
+  <div
+    style={{
+      width: `${width}px`,
+      height: `${height}px`,
+      backgroundImage: `url(${src})`,
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      display: 'block',
+      ...style,
+    }}
+    role="img"
+    aria-label={alt}
+    {...props}
+  />
 );
 
 // Mock components for isolated story rendering
-const MockAuthGuard = ({ children, requireAuth }: { children: React.ReactNode; requireAuth: boolean }) => (
+const MockAuthGuard = ({
+  children,
+  requireAuth,
+}: {
+  children: React.ReactNode;
+  requireAuth: boolean;
+}) => (
   <div data-testid="auth-guard" data-require-auth={requireAuth}>
     {children}
   </div>
 );
 
-const MockInternalLink = ({ href, children, className, ...props }: any) => (
+// Define proper types for Link component
+interface MockInternalLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const MockInternalLink = ({ href, children, className, ...props }: MockInternalLinkProps) => (
   <a href={href} className={className} data-testid="internal-link" {...props}>
     {children}
   </a>
@@ -29,16 +70,17 @@ const mockUseSignInForm = {
   errors: { email: '', password: '', auth: null },
   isSubmitting: false,
   hasSubmitted: false,
-  handleInputChange: fn(),
-  handleInputBlur: fn(),
-  handleSubmit: fn(),
+  handleInputChange: mockFn,
+  handleInputBlur: mockFn,
+  handleSubmit: mockFn,
 };
 
-// Mock modules for Storybook
-import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-
-// Import the actual component with mocks applied
-import LoginPage from './page';
+// Viewport configuration for Storybook 9+
+const INITIAL_VIEWPORTS = {
+  iphone6: { name: 'iPhone 6', styles: { width: '375px', height: '667px' } },
+  ipad: { name: 'iPad', styles: { width: '768px', height: '1024px' } },
+  desktop: { name: 'Desktop', styles: { width: '1200px', height: '800px' } },
+};
 
 const meta: Meta<typeof LoginPage> = {
   title: 'Pages/Auth/LoginPage',
@@ -50,19 +92,24 @@ const meta: Meta<typeof LoginPage> = {
     },
     docs: {
       description: {
-        component: 'The main login page component that includes decorative elements, title section, and the sign-in form. This page uses the AuthGuard to ensure users are not already authenticated.',
+        component:
+          'The main login page component that includes decorative elements, title section, and the sign-in form. This page uses the AuthGuard to ensure users are not already authenticated.',
       },
     },
   },
   tags: ['autodocs'],
   decorators: [
-    (Story) => {
+    Story => {
       // Mock the modules globally for this story
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('next/image').default = MockImage;
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').AuthGuard = MockAuthGuard;
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => mockUseSignInForm;
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/components/Link/Link').InternalLink = MockInternalLink;
-      
+
       return (
         <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
           <Story />
@@ -87,7 +134,8 @@ export const Default: Story = {
 
 export const WithFormData: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
         formData: { email: 'user@example.com', password: 'password123' },
@@ -106,7 +154,8 @@ export const WithFormData: Story = {
 
 export const WithFieldErrors: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
         formData: { email: 'invalid-email', password: '123' },
@@ -131,7 +180,8 @@ export const WithFieldErrors: Story = {
 
 export const WithAuthError: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
         formData: { email: 'user@example.com', password: 'wrongpassword' },
@@ -156,7 +206,8 @@ export const WithAuthError: Story = {
 
 export const LoadingState: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
         formData: { email: 'user@example.com', password: 'password123' },
@@ -169,7 +220,8 @@ export const LoadingState: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Login page in loading state during form submission, showing disabled button and loading text.',
+        story:
+          'Login page in loading state during form submission, showing disabled button and loading text.',
       },
     },
   },
@@ -177,7 +229,8 @@ export const LoadingState: Story = {
 
 export const AllErrors: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
         formData: { email: 'invalid', password: '' },
@@ -194,7 +247,8 @@ export const AllErrors: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Login page showing all possible error states: field validation errors and authentication error.',
+        story:
+          'Login page showing all possible error states: field validation errors and authentication error.',
       },
     },
   },
@@ -243,7 +297,7 @@ export const Desktop: Story = {
 // Accessibility story
 export const HighContrast: Story = {
   decorators: [
-    (Story) => (
+    Story => (
       <div style={{ filter: 'contrast(150%) brightness(120%)' }}>
         <Story />
       </div>
@@ -261,12 +315,13 @@ export const HighContrast: Story = {
 // Interactive story for testing form functionality
 export const Interactive: Story = {
   decorators: [
-    (Story) => {
+    Story => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('@/features/auth').useSignInForm = () => ({
         ...mockUseSignInForm,
-        handleInputChange: action('handleInputChange'),
-        handleInputBlur: action('handleInputBlur'),
-        handleSubmit: action('handleSubmit'),
+        handleInputChange: mockFn,
+        handleInputBlur: mockFn,
+        handleSubmit: mockFn,
       });
       return <Story />;
     },
@@ -274,7 +329,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive login page where form actions are logged to the Actions panel for testing.',
+        story:
+          'Interactive login page where form actions are logged to the Actions panel for testing.',
       },
     },
   },

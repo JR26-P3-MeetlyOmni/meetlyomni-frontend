@@ -6,14 +6,16 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['src/test-utils/setup.ts'],
-    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}', 'tests/integration/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     exclude: [
       'node_modules/**', 
       '.storybook/**', 
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
+      'tests/e2e/**', // Exclude E2E tests (these are Playwright tests, not Vitest)
     ],
+    testTimeout: 10000, // Increase timeout for integration tests
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

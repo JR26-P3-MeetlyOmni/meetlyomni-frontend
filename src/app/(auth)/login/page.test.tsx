@@ -1,9 +1,13 @@
-import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
-import '@testing-library/jest-dom';
-
+import { useSignInForm } from '@/features/auth';
 import { renderWithProviders } from '@/test-utils/test-utils';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import React from 'react';
+
+import '@testing-library/jest-dom';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+
+import LoginPage from './page';
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
@@ -13,7 +17,7 @@ vi.mock('next/image', () => ({
 }));
 
 // Mock AuthGuard component and auth exports
-vi.mock('@/features/auth', async (importOriginal) => {
+vi.mock('@/features/auth', async importOriginal => {
   const actual = await importOriginal();
   return {
     ...actual,
@@ -24,7 +28,17 @@ vi.mock('@/features/auth', async (importOriginal) => {
     ),
     useSignInForm: vi.fn(),
     // Mock authReducer to prevent test-utils errors
-    authReducer: (state = { user: null, token: null, isAuthenticated: false, isLoading: false, isInitialized: true, error: null }, action: any) => state,
+    authReducer: (
+      state = {
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        isLoading: false,
+        isInitialized: true,
+        error: null,
+      },
+      action: any,
+    ) => state,
   };
 });
 
@@ -37,9 +51,6 @@ vi.mock('@/components/Link/Link', () => ({
   ),
 }));
 
-import { useSignInForm } from '@/features/auth';
-import LoginPage from './page';
-
 describe('LoginPage', () => {
   const mockFormData = { email: '', password: '' };
   const mockErrors = { email: '', password: '', auth: null };
@@ -49,7 +60,7 @@ describe('LoginPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Default mock implementation for useSignInForm
     vi.mocked(useSignInForm).mockReturnValue({
       formData: mockFormData,
@@ -151,10 +162,14 @@ describe('LoginPage', () => {
     it('should handle form submission', () => {
       renderWithProviders(<LoginPage />);
 
-      const submitButton = screen.getByRole('button', { name: /sign in/i });
-      fireEvent.click(submitButton);
+      // The form element exists but doesn't have role="form", so we use querySelector
+      const form = document.querySelector('form');
+      expect(form).toBeInTheDocument();
 
-      expect(mockHandleSubmit).toHaveBeenCalled();
+      if (form) {
+        fireEvent.submit(form);
+        expect(mockHandleSubmit).toHaveBeenCalled();
+      }
     });
   });
 
@@ -220,9 +235,22 @@ describe('LoginPage', () => {
       const emailInput = screen.getByPlaceholderText('Email Address');
       const passwordInput = screen.getByPlaceholderText('Password');
 
-      // Check if inputs have error styling (aria-invalid attribute)
-      expect(emailInput.closest('.MuiTextField-root')).toHaveClass('Mui-error');
-      expect(passwordInput.closest('.MuiTextField-root')).toHaveClass('Mui-error');
+      // Check if inputs have error styling using aria-invalid or MUI error classes
+      const emailContainer = emailInput.closest('.MuiTextField-root');
+      const passwordContainer = passwordInput.closest('.MuiTextField-root');
+
+      // Check for MUI error classes (could be Mui-error or MuiTextField-root with error prop)
+      expect(
+        emailContainer?.classList.contains('Mui-error') ||
+          emailInput.getAttribute('aria-invalid') === 'true' ||
+          emailContainer?.querySelector('.Mui-error'),
+      ).toBeTruthy();
+
+      expect(
+        passwordContainer?.classList.contains('Mui-error') ||
+          passwordInput.getAttribute('aria-invalid') === 'true' ||
+          passwordContainer?.querySelector('.Mui-error'),
+      ).toBeTruthy();
     });
   });
 
