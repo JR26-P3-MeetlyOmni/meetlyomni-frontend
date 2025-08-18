@@ -1,6 +1,6 @@
 'use client';
 
-import { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
+import React, { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
 
 import { Typography } from '@mui/material';
 
