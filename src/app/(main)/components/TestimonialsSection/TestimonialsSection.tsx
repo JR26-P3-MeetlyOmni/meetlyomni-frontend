@@ -1,6 +1,6 @@
 'use client';
 
-import { SAMPLE_TESTIMONIALS } from '@/constants/TestimonialSection';
+import { SAMPLE_TESTIMONIALS, SUBTITLE, TITLE } from '@/constants/TestimonialSection';
 
 import React from 'react';
 
@@ -42,12 +42,8 @@ const StyledSubtitle = styled(Typography)(({ theme }) => ({
 export const TestimonialsSection: React.FC = () => {
   return (
     <StyledSection>
-      <StyledTitle>{'What do our users say?'}</StyledTitle>
-      <StyledSubtitle>
-        {
-          'Discover firsthand experiences shared by our valued customers. Hear their stories, and feedback that shed light on their journey with us.'
-        }
-      </StyledSubtitle>
+      <StyledTitle>{TITLE}</StyledTitle>
+      <StyledSubtitle>{SUBTITLE}</StyledSubtitle>
       <TestimonialCardGrid data={SAMPLE_TESTIMONIALS} />
     </StyledSection>
   );

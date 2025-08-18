@@ -29,3 +29,8 @@ export const SAMPLE_TESTIMONIALS: TestimonialData[] = [
 export const TESTIMONIALS_DATA: Readonly<TestimonialData[]> = SAMPLE_TESTIMONIALS;
 
 export const CARD_POSITIONS = ['left', 'center', 'right'] as const;
+
+export const TITLE = 'What do our users say?';
+
+export const SUBTITLE =
+  'Discover firsthand experiences shared by our valued customers. Hear their stories, and feedback that shed light on their journey with us.';

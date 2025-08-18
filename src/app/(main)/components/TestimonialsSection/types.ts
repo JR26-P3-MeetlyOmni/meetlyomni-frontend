@@ -12,6 +12,10 @@ export interface TestimonialCardData extends TestimonialData {
   position: CardPosition;
 }
 
+export interface StyledOverlayProps {
+  cardPosition: string;
+}
+
 export interface TestimonialCardProps {
   data: TestimonialCardData;
 }
