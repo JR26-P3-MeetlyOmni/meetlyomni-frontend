@@ -45,6 +45,11 @@ const StyledNameCard = styled(Box)(({ theme }) => ({
   marginLeft: theme.spacing(2),
 }));
 
+const StyledAvatar = styled(Avatar)(({ theme }) => ({
+  width: theme.spacing(5),
+  height: theme.spacing(5),
+}));
+
 const StyledName = styled(Typography)(({ theme }) => ({
   fontFamily: 'var(--font-roboto)',
   fontWeight: theme.typography.fontWeightMedium,
@@ -71,19 +76,22 @@ const TestimonialCard: React.FC<TestimonialCardProps & HTMLMotionProps<'div'>> =
         width: theme.spacing(55),
         minHeight: theme.spacing(29),
         borderRadius: 20,
-        boxShadow: position === 'center' ? '0 8px 32px #2563eb33' : '0 2px 8px #0001',
+        boxShadow:
+          position === 'center'
+            ? `0 ${theme.spacing(1)} ${theme.spacing(4)} ${theme.palette.primary.main}`
+            : `0 ${theme.spacing(0.25)} ${theme.spacing(4)} ${theme.palette.grey[300]}`,
         background:
           position === 'center' ? theme.palette.primary.main : theme.palette.background.paper,
         color:
           position === 'center'
             ? theme.palette.getContrastText(theme.palette.primary.main)
             : theme.palette.text.primary,
-        padding: 32,
+        padding: theme.spacing(4),
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'relative',
-        margin: '0 8px',
+        margin: `0 ${theme.spacing(1)}`,
       }}
       animate={{
         scale: position === 'center' ? 1.08 : 0.95,
@@ -95,11 +103,7 @@ const TestimonialCard: React.FC<TestimonialCardProps & HTMLMotionProps<'div'>> =
       <motion.div transition={{ duration: 0.7 }}>
         <StyledContent>{content}</StyledContent>
         <StyledPersonalInfo>
-          <Avatar
-            src={avatarUrl}
-            alt={name}
-            sx={{ width: theme.spacing(5), height: theme.spacing(5) }}
-          />
+          <StyledAvatar src={avatarUrl} alt={name} />
           <StyledNameCard>
             <StyledName>{name}</StyledName>
             <StyledRole>{role}</StyledRole>
