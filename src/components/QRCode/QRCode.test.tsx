@@ -7,7 +7,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 
-import QRCodeComponent from './QRCode';
+import QRCodeComponent from './qrcode';
 
 vi.mock('qrcode', () => ({
   default: {
