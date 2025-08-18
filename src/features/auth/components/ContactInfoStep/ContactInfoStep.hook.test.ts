@@ -1,14 +1,14 @@
 // src/features/auth/components/ContactInfoStep/ContactInfoStep.hook.test.ts
 import { describe, expect, it, vi } from 'vitest';
 
-import React from 'react';
+import React, { type ChangeEvent, type FormEvent } from 'react';
 
 import { act, renderHook } from '@testing-library/react';
 
 import { type NextPayload, useContactInfoForm } from './ContactInfoStep.hook';
 
 const changeEvent = (value: string) =>
-  ({ target: { value } }) as unknown as React.ChangeEvent<HTMLInputElement>;
+  ({ target: { value } }) as unknown as ChangeEvent<HTMLInputElement>;
 
 describe('useContactInfoForm', () => {
   it('returns invalid state initially', () => {
@@ -33,7 +33,7 @@ describe('useContactInfoForm', () => {
     act(() => {
       result.current.handleSubmit({
         preventDefault: () => undefined,
-      } as unknown as React.FormEvent);
+      } as unknown as FormEvent);
     });
 
     expect(onNext).toHaveBeenCalledTimes(1);

@@ -1,7 +1,7 @@
 // src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
 'use client';
 
-import React from 'react';
+import React, { type ChangeEvent } from 'react';
 
 import { Typography } from '@mui/material';
 
@@ -12,6 +12,10 @@ import {
   PHONE_PLACEHOLDER,
   useContactInfoForm,
 } from './ContactInfoStep.hook';
+
+// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
+
+// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
 
 // src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
 
@@ -31,7 +35,7 @@ type FieldProps = {
   label: string;
   placeholder: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur: () => void;
   error: boolean;
   errId: string;

@@ -1,5 +1,5 @@
 // src/features/auth/components/ContactInfoStep/ContactInfoStep.hook.ts
-import { useCallback, useMemo, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useCallback, useMemo, useState } from 'react';
 
 export const NAME_PLACEHOLDER = 'Alex Li';
 export const PHONE_PLACEHOLDER = '0XXXXXXXXX or XXXXXXXXX';
@@ -26,11 +26,11 @@ export function useContactInfoForm(onNext: (p: NextPayload) => void, onBack: () 
 
   const setTouchedField = (f: 'name' | 'phone') => setTouched(prev => ({ ...prev, [f]: true }));
 
-  const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   }, []);
 
-  const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhoneChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
     const digits = raw.replace(/\D/g, '');
     const withoutCc = digits.startsWith('61') ? digits.slice(2) : digits;
@@ -42,7 +42,7 @@ export function useContactInfoForm(onNext: (p: NextPayload) => void, onBack: () 
   const handlePhoneBlur = useCallback(() => setTouchedField('phone'), []);
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    (e: FormEvent) => {
       e.preventDefault();
       setTouched({ name: true, phone: true });
       if (!nameValid || !phoneValid) return;
