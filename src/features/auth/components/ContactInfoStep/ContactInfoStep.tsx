@@ -46,7 +46,7 @@ const Field = React.memo(function Field({
   errId,
   autoFocus,
   type,
-  inputProps,
+  inputProps = {},
 }: FieldProps) {
   return (
     <S.FieldWrap>
