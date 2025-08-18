@@ -8,9 +8,9 @@ const meta: Meta<typeof FaqAccordion> = {
   title: 'Components/FaqAccordion',
   component: FaqAccordion,
   parameters: {
-    layout: 'fullscreen', // Full screen layout for better visualization
+    layout: 'fullscreen',
   },
-  tags: ['autodocs'], // Enable automatic documentation generation
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -21,7 +21,6 @@ export const Default: Story = {
   args: {},
 };
 
-// Story with custom title
 export const WithCustomTitle: Story = {
   args: {
     title: 'Custom FAQ Title',
