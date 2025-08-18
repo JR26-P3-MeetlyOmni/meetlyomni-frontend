@@ -1,4 +1,3 @@
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
 'use client';
 
 import React, { type ChangeEvent } from 'react';
@@ -12,14 +11,6 @@ import {
   PHONE_PLACEHOLDER,
   useContactInfoForm,
 } from './ContactInfoStep.hook';
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.tsx
 
 type Props = { onNext: (p: NextPayload) => void; onBack: () => void };
 

@@ -1,12 +1,7 @@
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.style.ts
 'use client';
 
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.style.ts
-
-// src/features/auth/components/ContactInfoStep/ContactInfoStep.style.ts
 
 export const Wrapper = styled('main')(({ theme }) => ({
   minHeight: '100vh',
