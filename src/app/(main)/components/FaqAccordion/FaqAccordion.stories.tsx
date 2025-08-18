@@ -8,9 +8,9 @@ const meta: Meta<typeof FaqAccordion> = {
   title: 'Components/FaqAccordion',
   component: FaqAccordion,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'fullscreen', // Full screen layout for better visualization
   },
-  tags: ['autodocs'],
+  tags: ['autodocs'], // Enable automatic documentation generation
 };
 
 export default meta;
