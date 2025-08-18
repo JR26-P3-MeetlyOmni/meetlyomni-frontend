@@ -5,9 +5,8 @@ import type { HTMLMotionProps } from 'framer-motion';
 
 import React from 'react';
 
-import { styled } from '@mui/material';
 import { Avatar, Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 
 import type { StyledOverlayProps, TestimonialCardProps } from '../types';
 

@@ -30,7 +30,7 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 
 const StyledSubtitle = styled(Typography)(({ theme }) => ({
   maxWidth: theme.spacing(65),
-  margin: `${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(5)} ${theme.spacing(3)}`,
+  margin: `${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(10)} ${theme.spacing(3)}`,
   fontFamily: 'var(--font-roboto)',
   fontSize: theme.typography.body1.fontSize,
   fontWeight: theme.typography.fontWeightRegular,
