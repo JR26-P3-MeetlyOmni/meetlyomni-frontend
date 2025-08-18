@@ -1,15 +1,11 @@
 import { Box } from '@mui/material';
 
-import { FeatureCard } from './components/FeatureCard';
-import { ScenariosSection } from './components/ScenariosSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
+import FaqAccordion from './components/FaqAccordion';
 
 export default async function localPage() {
   return (
     <Box>
-      <FeatureCard />
-      <ScenariosSection />
-      <TestimonialsSection />
+      <FaqAccordion />
     </Box>
   );
 }
