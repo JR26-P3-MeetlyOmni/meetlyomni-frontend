@@ -1,4 +1,3 @@
-// src/features/auth/components/CompanyNameStep/CompanyNameStep.stories.tsx
 import { MUIProvider } from '@/components/Providers/MUIProvider';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
@@ -24,9 +23,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const onNextAction: (companyName: string) => void = () => {};
-
 export const Default: Story = {
   name: 'Default',
-  args: { onNext: onNextAction },
+  args: { onNext: () => {} },
 };

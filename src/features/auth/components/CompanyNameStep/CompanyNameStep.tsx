@@ -1,14 +1,10 @@
-// src/features/auth/components/CompanyNameStep/CompanyNameStep.tsx
 'use client';
 
-import React from 'react';
-import { useCallback, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
 
 import { Typography } from '@mui/material';
 
 import * as S from './CompanyNameStep.style';
-
-// src/features/auth/components/CompanyNameStep/CompanyNameStep.tsx
 
 type Props = { onNext: (companyName: string) => void };
 
@@ -16,11 +12,12 @@ export default function CompanyNameStep({ onNext }: Props) {
   const [value, setValue] = useState('');
   const [touched, setTouched] = useState(false);
 
-  const isValid = value.trim().length > 0;
+  const trimmed = value.trim();
+  const isValid = trimmed.length > 0;
   const showError = touched && !isValid;
   const errorId = showError ? 'companyName-error' : undefined;
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
 
@@ -29,20 +26,19 @@ export default function CompanyNameStep({ onNext }: Props) {
   }, []);
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setTouched(true);
-      const next = value.trim();
-      if (!next) return;
-      onNext(next);
+      if (!trimmed) return;
+      onNext(trimmed);
     },
-    [onNext, value],
+    [onNext, trimmed],
   );
 
   return (
     <S.Wrapper>
       <S.TitleRow>
-        <S.TitleHighlight>Welcome to Omni !</S.TitleHighlight>
+        <S.TitleHighlight>Welcome to Omni!</S.TitleHighlight>
         <S.TitleNormal>{"Let's Sign up Your Profile"}</S.TitleNormal>
       </S.TitleRow>
 

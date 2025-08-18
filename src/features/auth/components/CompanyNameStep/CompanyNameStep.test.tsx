@@ -9,6 +9,10 @@ import userEvent from '@testing-library/user-event';
 
 import CompanyNameStep from './CompanyNameStep';
 
+// 与仓库里 Footer/FaqAccordion 测试保持一致，兼容各种运行时
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(globalThis as any).React = React;
+
 describe('CompanyNameStep', () => {
   it("renders label and placeholder 'Google'", () => {
     render(<CompanyNameStep onNext={() => {}} />);

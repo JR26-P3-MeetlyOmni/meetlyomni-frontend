@@ -1,10 +1,7 @@
-// src/features/auth/components/CompanyNameStep/CompanyNameStep.style.ts
 'use client';
 
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-// src/features/auth/components/CompanyNameStep/CompanyNameStep.style.ts
 
 export const Wrapper = styled('main')(({ theme }) => ({
   minHeight: '100vh',
@@ -33,7 +30,7 @@ export const TitleHighlight = styled('span')(({ theme }) => ({
 
 export const TitleNormal = styled('span')(({ theme }) => ({
   ...theme.typography.h4,
-  fontWeight: theme.typography?.fontWeightBold ?? theme.typography.fontWeightBold,
+  fontWeight: theme.typography.fontWeightBold, // 修正：去掉可选链
   color: theme.palette.text.primary,
 }));
 
