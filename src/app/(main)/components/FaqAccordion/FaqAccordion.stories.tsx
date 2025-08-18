@@ -21,6 +21,7 @@ export const Default: Story = {
   args: {},
 };
 
+// Story with custom title
 export const WithCustomTitle: Story = {
   args: {
     title: 'Custom FAQ Title',
