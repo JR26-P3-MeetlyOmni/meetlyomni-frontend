@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { Box, Button, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
@@ -105,3 +107,29 @@ export const CTAButton = styled(Button)(({ theme }) => ({
     },
   },
 }));
+
+export const Pictures = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 0,
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
+
+export const LeftPicture = styled(Pictures)(({ theme }) => ({
+  left: 0,
+  top: theme.spacing(2),
+  width: theme.spacing(30),
+  height: `calc(${theme.spacing(30)} * 2.71)`,
+}));
+
+export const RightPicture = styled(Pictures)(({ theme }) => ({
+  right: 0,
+  bottom: theme.spacing(20),
+  width: theme.spacing(67),
+  height: `calc(${theme.spacing(71)} * 1.12)`,
+}));
+
+export const StyledImage = styled(Image)({
+  objectFit: 'contain',
+});

@@ -4,7 +4,9 @@ import { HeroSectionData } from '@/constants/HeroSectionData';
 
 import React from 'react';
 
-import { LeftDecoration, RightDecoration } from './components/HeroPics';
+import heroSectionLeftPic from '@assets/images/HeroSection/hero_section_left.png';
+import heroSectionRitePic from '@assets/images/HeroSection/hero_section_right.png';
+
 import {
   ContentWrapper,
   CTAButton,
@@ -12,12 +14,17 @@ import {
   HeroDescription,
   HeroSectionWrapper,
   HeroTitle,
+  LeftPicture,
+  RightPicture,
+  StyledImage,
 } from './HeroSection.style';
 
 const HeroSection: React.FC = () => {
   return (
     <HeroSectionWrapper>
-      <LeftDecoration />
+      <LeftPicture>
+        <StyledImage src={heroSectionLeftPic} alt="Hero section left decoration" fill />
+      </LeftPicture>
       <ContentWrapper>
         <HeroTitle>{HeroSectionData.title}</HeroTitle>
         <HeroDescription>{HeroSectionData.description}</HeroDescription>
@@ -29,7 +36,9 @@ const HeroSection: React.FC = () => {
           ))}
         </HeroCTAWrapper>
       </ContentWrapper>
-      <RightDecoration />
+      <RightPicture>
+        <StyledImage src={heroSectionRitePic} alt="Hero section right decoration" fill />
+      </RightPicture>
     </HeroSectionWrapper>
   );
 };
