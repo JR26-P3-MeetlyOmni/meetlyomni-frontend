@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
 
   const navLinks: NavLinkItem[] = [
     { label: 'Home', href: '/' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: 'Contact Us', href: '/contact-us' },
   ];
 
   const handleScroll = () => setScrolled(window.scrollY > 10);
