@@ -55,6 +55,7 @@ export default function CompanyNameStep({ onNext }: Props) {
             onBlur={handleBlur}
             variant="outlined"
             autoFocus
+            autoComplete="off"
             aria-describedby={errorId}
             aria-invalid={showError || undefined}
           />
