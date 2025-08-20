@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { selectError, selectIsLoading } from '@/features/auth/selectors';
 import { loginThunk } from '@/features/auth/thunks';
-import { selectIsLoading, selectError } from '@/features/auth/selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -15,30 +16,33 @@ export function LoginForm() {
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const emailTrim = email.trim();
-    const passwordTrim = password.trim();
-    console.log('[login] submit', { email: emailTrim, password: '***' });
-    try {
-      await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
-      router.replace('/dashboard');
-    } catch (err) {
-      console.log('[login] failed', err);
-    }
-  };
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const emailTrim = email.trim();
+      const passwordTrim = password.trim();
+
+      try {
+        await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
+        router.replace('/dashboard');
+      } catch {}
+    },
+    [dispatch, email, password, router],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <input id="email" type="email" value={email} onChange={handleEmailChange} required />
       </div>
 
       <div style={{ marginTop: 8 }}>
@@ -47,21 +51,18 @@ export function LoginForm() {
           id="password"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
           required
         />
       </div>
 
-      {error && (
-        <div style={{ color: 'red', marginTop: 8 }}>{error}</div>
-      )}
+      {error ? <div style={{ color: 'red', marginTop: 8 }}>{error}</div> : null}
 
       <button type="submit" disabled={isLoading} style={{ marginTop: 12 }}>
         {isLoading ? 'Loading...' : 'login'}
       </button>
 
-      <div style={{ marginTop: 8, fontSize: 12 }}>
-      </div>
+      <div style={{ marginTop: 8, fontSize: 12 }}></div>
     </form>
   );
 }

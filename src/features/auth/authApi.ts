@@ -11,17 +11,14 @@ export const loginApi = async (credentials: LoginCredentials): Promise<{ user: U
     },
     body: JSON.stringify(credentials),
   });
-  
+
   if (!response.ok) {
-    let message = `HTTP ${response.status}`;
     try {
       const err = await response.json();
-      message = err?.error || message;
+      throw new Error(err?.error || `HTTP ${response.status}`);
     } catch {
-      // ignore JSON parse errors, keep status message
+      throw new Error(`HTTP ${response.status}`);
     }
-    console.error('[loginApi] failed', response.status, message);
-    throw new Error(message);
   }
 
   return response.json();

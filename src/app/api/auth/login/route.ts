@@ -1,9 +1,10 @@
+// This is Mock API, will be desposed after ticket: #31 complete.
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
-    
+
     // Mock validation
     if (email === 'test@example.com' && password === 'password') {
       const response = NextResponse.json({
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest) {
           name: 'Test User',
         },
       });
-      
+
       // Set HTTP-only cookie
       response.cookies.set('auth-token', 'mock-jwt-token', {
         httpOnly: true,
@@ -21,18 +22,12 @@ export async function POST(request: NextRequest) {
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
-      
+
       return response;
     } else {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
