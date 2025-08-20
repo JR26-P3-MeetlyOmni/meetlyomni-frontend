@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Logo from '@assets/images/navbar/nav_bar_logo.png';
@@ -21,6 +22,7 @@ const NavBar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<UserInfo | null>(null);
+  //TODO: In the future the user info should be store in the redux
 
   const navLinks: NavLinkItem[] = [
     { label: 'Home', href: '/' },
@@ -35,7 +37,7 @@ const NavBar: React.FC = () => {
   }, []);
 
   const handleSignInClick = useCallback(() => {
-    //TODO: Implement real Sign In flow with form validation and backend API
+    //TODO: in the future we should store this state in the redux
     setIsLoggedIn(true);
     setUser({ username: 'Alex Li', avatar: DefaultAvatar });
   }, []);
@@ -48,7 +50,9 @@ const NavBar: React.FC = () => {
 
       <NavLinksWrapper>
         {navLinks.map(link => (
-          <NavLink key={link.href}>{link.label}</NavLink>
+          <Link key={link.href} href={link.href}>
+            <NavLink as="span">{link.label}</NavLink>
+          </Link>
         ))}
       </NavLinksWrapper>
 
