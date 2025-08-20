@@ -5,7 +5,7 @@ import { loginThunk } from '@/features/auth/thunks';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -16,16 +16,16 @@ export function LoginForm() {
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
 
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   }, []);
 
-  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   }, []);
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
+    async (e: FormEvent) => {
       e.preventDefault();
       const emailTrim = email.trim();
       const passwordTrim = password.trim();
