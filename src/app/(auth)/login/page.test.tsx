@@ -18,24 +18,43 @@ const filterDomProps = (props: any) => {
   const { fullWidth, maxWidth, error, ...rest } = props;
   return rest;
 };
-vi.mock('@mui/material', () => ({
-  Box: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-  TextField: ({ label, ...props }: any) => <input aria-label={label} {...filterDomProps(props)} />,
-  Button: ({ children, ...props }: any) => <button {...filterDomProps(props)}>{children}</button>,
-  Typography: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-  Link: ({ children, ...props }: any) => <a {...filterDomProps(props)}>{children}</a>,
-  Container: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-  Paper: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-  IconButton: ({ children, ...props }: any) => (
-    <button {...filterDomProps(props)}>{children}</button>
-  ),
-  InputAdornment: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-  useTheme: () => ({
-    palette: { mode: 'light' },
-    spacing: (factor = 1) => `${8 * factor}px`, // MUI 默认 spacing
-    // can add more theme props as needed
-  }),
-}));
+
+vi.mock('@mui/material', () => {
+  // Mock styled function
+  const styled = (component: any) => (styles: any) => {
+    return ({ children, ...props }: any) => {
+      const Component = component;
+      return <Component {...filterDomProps(props)}>{children}</Component>;
+    };
+  };
+
+  return {
+    Box: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    TextField: ({ label, ...props }: any) => (
+      <input aria-label={label} {...filterDomProps(props)} />
+    ),
+    Button: ({ children, ...props }: any) => <button {...filterDomProps(props)}>{children}</button>,
+    Typography: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    Link: ({ children, ...props }: any) => <a {...filterDomProps(props)}>{children}</a>,
+    Container: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    Paper: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    IconButton: ({ children, ...props }: any) => (
+      <button {...filterDomProps(props)}>{children}</button>
+    ),
+    InputAdornment: ({ children, ...props }: any) => (
+      <div {...filterDomProps(props)}>{children}</div>
+    ),
+    useTheme: () => ({
+      palette: { mode: 'light' },
+      spacing: (factor = 1) => `${8 * factor}px`, // MUI 默认 spacing
+      breakpoints: {
+        up: (breakpoint: string) => `@media (min-width: ${breakpoint})`,
+      },
+      // can add more theme props as needed
+    }),
+    styled,
+  };
+});
 
 vi.mock('@mui/icons-material', () => ({
   Visibility: () => <span>Visibility</span>,
