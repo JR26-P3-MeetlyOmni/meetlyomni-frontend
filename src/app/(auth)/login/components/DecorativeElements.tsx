@@ -1,14 +1,25 @@
-import React from 'react';
-import { Box, useTheme } from '@mui/material';
 import Image from 'next/image';
+import React from 'react';
+
+import { Box, useTheme } from '@mui/material';
 import type { Theme } from '@mui/material/styles';
 
 const LogoElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      top: { xs: theme.spacing(5), sm: theme.spacing(6), md: theme.spacing(8), lg: theme.spacing(5) },
-      left: { xs: theme.spacing(3), sm: theme.spacing(5), md: theme.spacing(10), lg: theme.spacing(10) },
+      top: {
+        xs: theme.spacing(5),
+        sm: theme.spacing(6),
+        md: theme.spacing(8),
+        lg: theme.spacing(5),
+      },
+      left: {
+        xs: theme.spacing(3),
+        sm: theme.spacing(5),
+        md: theme.spacing(10),
+        lg: theme.spacing(10),
+      },
       zIndex: 10,
       display: { xs: 'none', sm: 'block' },
     }}
@@ -27,8 +38,18 @@ const MagnifyingGlassElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      top: { xs: theme.spacing(10), sm: theme.spacing(15), md: theme.spacing(20), lg: theme.spacing(38) },
-      left: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(10), lg: theme.spacing(22) },
+      top: {
+        xs: theme.spacing(10),
+        sm: theme.spacing(15),
+        md: theme.spacing(20),
+        lg: theme.spacing(38),
+      },
+      left: {
+        xs: theme.spacing(5),
+        sm: theme.spacing(8),
+        md: theme.spacing(10),
+        lg: theme.spacing(22),
+      },
       zIndex: 1,
       display: { xs: 'none', sm: 'block' },
     }}
@@ -51,8 +72,18 @@ const RachelElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      top: { xs: theme.spacing(20), sm: theme.spacing(22), md: theme.spacing(24), lg: theme.spacing(15) },
-      right: { xs: theme.spacing(15), sm: theme.spacing(18), md: theme.spacing(20), lg: theme.spacing(25) },
+      top: {
+        xs: theme.spacing(20),
+        sm: theme.spacing(22),
+        md: theme.spacing(24),
+        lg: theme.spacing(15),
+      },
+      right: {
+        xs: theme.spacing(15),
+        sm: theme.spacing(18),
+        md: theme.spacing(20),
+        lg: theme.spacing(25),
+      },
       zIndex: 2,
       display: { xs: 'none', lg: 'block' },
     }}
@@ -70,18 +101,23 @@ const MarkElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      top: { xs: theme.spacing(60), sm: theme.spacing(65), md: theme.spacing(70), lg: theme.spacing(75) },
-      left: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(12), lg: theme.spacing(22) },
+      top: {
+        xs: theme.spacing(60),
+        sm: theme.spacing(65),
+        md: theme.spacing(70),
+        lg: theme.spacing(75),
+      },
+      left: {
+        xs: theme.spacing(5),
+        sm: theme.spacing(8),
+        md: theme.spacing(12),
+        lg: theme.spacing(22),
+      },
       zIndex: 2,
       display: { xs: 'none', lg: 'block' },
     }}
   >
-    <Image
-      src="/assets/images/WelcomeToSignin/mark.png"
-      alt="Mark"
-      width={209.3}
-      height={97.2}
-    />
+    <Image src="/assets/images/WelcomeToSignin/mark.png" alt="Mark" width={209.3} height={97.2} />
   </Box>
 );
 
@@ -89,8 +125,18 @@ const LookingForElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      top: { xs: theme.spacing(45), sm: theme.spacing(50), md: theme.spacing(55), lg: theme.spacing(45) },
-      right: { xs: theme.spacing(15), sm: theme.spacing(20), md: theme.spacing(25), lg: theme.spacing(15) },
+      top: {
+        xs: theme.spacing(45),
+        sm: theme.spacing(50),
+        md: theme.spacing(55),
+        lg: theme.spacing(45),
+      },
+      right: {
+        xs: theme.spacing(15),
+        sm: theme.spacing(20),
+        md: theme.spacing(25),
+        lg: theme.spacing(15),
+      },
       zIndex: 1,
       display: { xs: 'none', sm: 'block' },
     }}
@@ -130,8 +176,18 @@ const StarElement = ({ theme }: { theme: Theme }) => (
   <Box
     sx={{
       position: 'absolute',
-      bottom: { xs: theme.spacing(10), sm: theme.spacing(8), md: theme.spacing(5), lg: theme.spacing(15) },
-      right: { xs: theme.spacing(5), sm: theme.spacing(8), md: theme.spacing(12), lg: theme.spacing(25) },
+      bottom: {
+        xs: theme.spacing(10),
+        sm: theme.spacing(8),
+        md: theme.spacing(5),
+        lg: theme.spacing(15),
+      },
+      right: {
+        xs: theme.spacing(5),
+        sm: theme.spacing(8),
+        md: theme.spacing(12),
+        lg: theme.spacing(25),
+      },
       zIndex: 1,
       display: { xs: 'none', sm: 'block' },
     }}

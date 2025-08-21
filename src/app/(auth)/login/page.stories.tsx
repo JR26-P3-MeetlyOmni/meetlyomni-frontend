@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import SigninPage from './page';
 
 const meta: Meta<typeof SigninPage> = {
@@ -8,7 +9,8 @@ const meta: Meta<typeof SigninPage> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'A comprehensive sign-in page for the Omni platform with form validation, responsive design, and decorative elements.',
+        component:
+          'A comprehensive sign-in page for the Omni platform with form validation, responsive design, and decorative elements.',
       },
     },
   },
