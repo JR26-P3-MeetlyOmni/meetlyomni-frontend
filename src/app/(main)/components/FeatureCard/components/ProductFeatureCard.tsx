@@ -9,8 +9,8 @@ import { styled } from '@mui/material/styles';
 import type { FeatureCardItem } from '../types';
 
 const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(48),
-  height: theme.spacing(32),
+  width: '100%',
+  minHeight: theme.spacing(32),
   padding: theme.spacing(3),
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
@@ -29,11 +29,11 @@ const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ProductFeatureImageWrapper = styled(Box)(({ theme }) => ({
-  width: '100%',
-  maxwidth: theme.spacing(5),
+  width: theme.spacing(5),
   height: theme.spacing(5),
   marginBottom: theme.spacing(5),
   position: 'relative',
+  flexShrink: 0,
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({

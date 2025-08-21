@@ -10,7 +10,9 @@ import { styled, useTheme } from '@mui/material/styles';
 
 import type { StyledOverlayProps, TestimonialCardProps } from '../types';
 
-const StyledOverlay = styled(Box)<StyledOverlayProps>(({ cardPosition, theme }) => {
+const StyledOverlay = styled(Box, {
+  shouldForwardProp: prop => prop !== 'cardPosition',
+})<StyledOverlayProps>(({ cardPosition, theme }) => {
   if (cardPosition === 'center') return { display: 'none' };
   return {
     position: 'absolute',
