@@ -1,5 +1,7 @@
 'use client';
 
+import { useSignInForm } from '@/features/auth/hooks';
+
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
@@ -7,7 +9,6 @@ import { Theme, useTheme } from '@mui/material/styles';
 
 import { DecorativeElements } from './components/DecorativeElements';
 import { SignInForm } from './components/SignInForm';
-import { useSignInForm } from './hooks/useSignInForm';
 
 function SignInTitle({ theme }: { theme: Theme }) {
   return (

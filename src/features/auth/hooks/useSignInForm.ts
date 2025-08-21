@@ -54,6 +54,7 @@ export const useSignInForm = () => {
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -87,6 +88,7 @@ export const useSignInForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
     await validateAndSubmit(formData, setErrors, setIsSubmitting, handleSuccess);
   };
 
@@ -104,6 +106,7 @@ export const useSignInForm = () => {
     errors,
     showPassword,
     isSubmitting,
+    hasSubmitted,
     isFormValid,
     handleInputChange,
     handleInputBlur,
