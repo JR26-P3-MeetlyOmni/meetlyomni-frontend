@@ -9,8 +9,8 @@ import { styled } from '@mui/material/styles';
 import type { FeatureCardItem } from '../types';
 
 const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(48),
-  height: theme.spacing(50),
+  width: '100%',
+  minHeight: theme.spacing(50),
   padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`,
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
@@ -32,10 +32,12 @@ const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
 
 const ProjectFeatureImageWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(44),
-  height: theme.spacing(29),
+  maxWidth: '100%',
+  height: 'auto',
+  aspectRatio: '353/232',
   marginBottom: theme.spacing(5),
   position: 'relative',
+  overflow: 'hidden',
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
@@ -59,7 +61,12 @@ const StyledDescription = styled(Typography)(({ theme }) => ({
 const ProjectFeatureCard: React.FC<FeatureCardItem> = ({ imageUrl, title, description }) => (
   <ProjectFeatureCardWrapper>
     <ProjectFeatureImageWrapper>
-      <Image src={imageUrl} alt={`${title} feature illustration`} width="353" height="232" />
+      <Image
+        src={imageUrl}
+        alt={`${title} feature illustration`}
+        fill
+        style={{ objectFit: 'cover' }}
+      />
     </ProjectFeatureImageWrapper>
 
     <StyledTitle variant="h6">{title}</StyledTitle>

@@ -125,7 +125,7 @@ export const LeftPicture = styled(Pictures)(({ theme }) => ({
 
 export const RightPicture = styled(Pictures)(({ theme }) => ({
   right: 0,
-  bottom: theme.spacing(20),
+  bottom: theme.spacing(14),
   width: theme.spacing(67),
   height: `calc(${theme.spacing(71)} * 1.12)`,
 }));
