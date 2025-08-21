@@ -114,7 +114,7 @@ const PasswordInput = ({ value, hasError, onChange, onBlur, theme }: PasswordInp
       required
       fullWidth
       name="password"
-      type="text"
+      type="password"
       id="password"
       autoComplete="current-password"
       value={value}
