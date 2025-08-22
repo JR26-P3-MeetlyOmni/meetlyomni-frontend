@@ -30,7 +30,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;
-        state.error = action.error.message || 'Login failed';
+        state.error = action.payload?.message ?? action.error.message ?? 'Login failed';
       });
   },
 });

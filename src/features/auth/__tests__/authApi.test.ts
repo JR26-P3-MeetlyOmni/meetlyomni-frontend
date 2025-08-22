@@ -80,11 +80,11 @@ describe('authApi', () => {
       };
       mockFetch.mockResolvedValue(mockResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('HTTP 401');
+      await expect(loginApi(mockCredentials)).rejects.toThrow('Invalid credentials');
       expect(mockResponse.json).toHaveBeenCalledTimes(1);
     });
 
-    it('should throw error with status code when response has no error message', async () => {
+    it('should throw friendly message when response has no error message', async () => {
       const mockResponse = {
         ok: false,
         status: 500,
@@ -92,10 +92,12 @@ describe('authApi', () => {
       };
       mockFetch.mockResolvedValue(mockResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('HTTP 500');
+      await expect(loginApi(mockCredentials)).rejects.toThrow(
+        'Server error, please try again later',
+      );
     });
 
-    it('should throw error with status code when JSON parsing fails', async () => {
+    it('should throw friendly message when JSON parsing fails', async () => {
       const mockResponse = {
         ok: false,
         status: 400,
@@ -103,7 +105,7 @@ describe('authApi', () => {
       };
       mockFetch.mockResolvedValue(mockResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('HTTP 400');
+      await expect(loginApi(mockCredentials)).rejects.toThrow('Login failed (error code: 400)');
     });
 
     it('should handle network errors', async () => {
@@ -115,10 +117,10 @@ describe('authApi', () => {
 
     it('should handle different HTTP error codes', async () => {
       const testCases = [
-        { status: 400, expectedError: 'HTTP 400' },
-        { status: 403, expectedError: 'HTTP 403' },
-        { status: 404, expectedError: 'HTTP 404' },
-        { status: 500, expectedError: 'HTTP 500' },
+        { status: 400, expectedError: 'Login failed (error code: 400)' },
+        { status: 403, expectedError: 'Login failed (error code: 403)' },
+        { status: 404, expectedError: 'Login failed (error code: 404)' },
+        { status: 500, expectedError: 'Server error, please try again later' },
       ];
 
       for (const testCase of testCases) {

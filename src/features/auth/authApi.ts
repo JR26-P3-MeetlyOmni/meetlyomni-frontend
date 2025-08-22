@@ -13,13 +13,28 @@ export const loginApi = async (credentials: LoginCredentials): Promise<{ user: U
   });
 
   if (!response.ok) {
+    let errorMessage: string;
+
     try {
       const err = await response.json();
-      throw new Error(err?.error || `HTTP ${response.status}`);
+      errorMessage = err?.message || err?.error || getErrorMessageByStatus(response.status);
     } catch {
-      throw new Error(`HTTP ${response.status}`);
+      errorMessage = getErrorMessageByStatus(response.status);
     }
+
+    throw new Error(errorMessage);
   }
 
   return response.json();
 };
+
+function getErrorMessageByStatus(status: number): string {
+  switch (status) {
+    case 401:
+      return 'this is fronend 401';
+    case 500:
+      return 'Server error, please try again later';
+    default:
+      return `Login failed (error code: ${status})`;
+  }
+}
