@@ -1,3 +1,9 @@
+import EmailStep from './pages/EmailStep';
+
 export default function SignupPage() {
-  return <div></div>;
+  return (
+    <div>
+      <EmailStep />
+    </div>
+  );
 }
