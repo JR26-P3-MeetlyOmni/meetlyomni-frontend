@@ -20,7 +20,20 @@ export const loginApi = async (
     let errorMessage: string;
     try {
       const err = await response.json();
-      errorMessage = err?.message || err?.error || getErrorMessageByStatus(response.status);
+
+      //Harden JSON error extraction to avoid “[object Object]” messages
+      const msg = typeof err?.message === 'string' ? err.message : undefined;
+      const errStr = typeof err?.error === 'string' ? err.error : undefined;
+
+      const jsonStr = (() => {
+        try {
+          return JSON.stringify(err);
+        } catch {
+          return undefined;
+        }
+      })();
+
+      errorMessage = msg ?? errStr ?? jsonStr ?? getErrorMessageByStatus(response.status);
     } catch {
       errorMessage = getErrorMessageByStatus(response.status);
     }
@@ -33,7 +46,7 @@ export const loginApi = async (
 function getErrorMessageByStatus(status: number): string {
   switch (status) {
     case 401:
-      return 'this is fronend 401';
+      return 'Invalid username or password, please try again';
     case 500:
       return 'Server error, please try again later';
     default:
