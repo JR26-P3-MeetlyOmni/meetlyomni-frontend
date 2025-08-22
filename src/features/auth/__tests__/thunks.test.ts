@@ -44,8 +44,8 @@ describe('loginThunk', () => {
       // Dispatch the thunk
       const result = await store.dispatch(loginThunk(mockCredentials));
 
-      // Check that the API was called with correct credentials
-      expect(mockLoginApi).toHaveBeenCalledWith(mockCredentials);
+      // Check that the API was called with correct credentials and forwarded signal
+      expect(mockLoginApi).toHaveBeenCalledWith(mockCredentials, expect.anything());
       expect(mockLoginApi).toHaveBeenCalledTimes(1);
 
       // Check that the thunk fulfilled and returned the user
@@ -82,8 +82,8 @@ describe('loginThunk', () => {
       // Dispatch the thunk and expect it to be rejected
       const result = await store.dispatch(loginThunk(mockCredentials));
 
-      // Check that the API was called
-      expect(mockLoginApi).toHaveBeenCalledWith(mockCredentials);
+      // Check that the API was called with forwarded signal
+      expect(mockLoginApi).toHaveBeenCalledWith(mockCredentials, expect.anything());
       expect(mockLoginApi).toHaveBeenCalledTimes(1);
 
       // Check that the thunk rejected
@@ -143,6 +143,34 @@ describe('loginThunk', () => {
     });
   });
 
+  describe('concurrency prevention and abort handling', () => {
+    it('should not call API when condition blocks due to isLoading=true', async () => {
+      // Set loading state by dispatching pending action
+      store.dispatch(loginThunk.pending('requestId', mockCredentials));
+
+      await store.dispatch(loginThunk(mockCredentials));
+
+      // Should be blocked by condition and not call API
+      expect(mockLoginApi).not.toHaveBeenCalled();
+
+      // Optionally check that we got a rejected action with condition=true
+      // const result = await store.dispatch(loginThunk(mockCredentials));
+      // expect(result.type.endsWith('/rejected')).toBe(true);
+      // expect((result as any).meta?.condition).toBe(true);
+    });
+
+    it('should map AbortError to typed reject and set friendly error', async () => {
+      const abortError = new Error('Aborted');
+      (abortError as any).name = 'AbortError';
+      mockLoginApi.mockRejectedValueOnce(abortError);
+
+      await store.dispatch(loginThunk(mockCredentials));
+
+      const finalState = store.getState().auth;
+      expect(finalState.error).toBe('Request aborted');
+    });
+  });
+
   describe('integration with store', () => {
     it('should work with real store configuration', async () => {
       mockLoginApi.mockResolvedValue({ user: mockUser });
@@ -163,9 +191,6 @@ describe('loginThunk', () => {
     });
 
     it('should preserve other state properties', async () => {
-      // Set initial loading state by dispatching pending action
-      store.dispatch(loginThunk.pending('requestId', mockCredentials));
-
       mockLoginApi.mockResolvedValue({ user: mockUser });
 
       await store.dispatch(loginThunk(mockCredentials));

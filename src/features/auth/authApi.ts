@@ -2,7 +2,10 @@ import type { LoginCredentials, User } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
-export const loginApi = async (credentials: LoginCredentials): Promise<{ user: User }> => {
+export const loginApi = async (
+  credentials: LoginCredentials,
+  signal?: AbortSignal,
+): Promise<{ user: User }> => {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
     credentials: 'include',
@@ -10,18 +13,17 @@ export const loginApi = async (credentials: LoginCredentials): Promise<{ user: U
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(credentials),
+    signal,
   });
 
   if (!response.ok) {
     let errorMessage: string;
-
     try {
       const err = await response.json();
       errorMessage = err?.message || err?.error || getErrorMessageByStatus(response.status);
     } catch {
       errorMessage = getErrorMessageByStatus(response.status);
     }
-
     throw new Error(errorMessage);
   }
 
