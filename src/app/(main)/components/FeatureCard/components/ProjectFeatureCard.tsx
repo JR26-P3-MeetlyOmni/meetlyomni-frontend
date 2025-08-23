@@ -10,9 +10,8 @@ import type { FeatureCardItem } from '../types';
 
 const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(48), //'377px'
-  height: theme.spacing(50), //'404px'
-  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`, //'12px'
+  minHeight: theme.spacing(50),
+  padding: `${theme.spacing(1.5)} ${theme.spacing(1.5)} ${theme.spacing(5)}`,
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
   border: `1px solid ${theme.palette.divider}`,
@@ -33,15 +32,17 @@ const ProjectFeatureCardWrapper = styled(Box)(({ theme }) => ({
 
 const ProjectFeatureImageWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(44), //'353px'
-  height: theme.spacing(29), //'232px'
+  maxWidth: '100%',
+  height: 'auto',
+  aspectRatio: '353/232',
   marginBottom: theme.spacing(5),
   position: 'relative',
+  overflow: 'hidden',
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightMedium,
-  fontSize: theme.spacing(2.5), // 20px
+  fontSize: theme.typography.h6.fontSize,
   lineHeight: 'normal',
   color: theme.palette.text.primary,
   textAlign: 'center',
@@ -49,8 +50,8 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledDescription = styled(Typography)(({ theme }) => ({
-  height: theme.spacing(5), //'40px'
-  fontSize: theme.spacing(2), //16px
+  height: theme.spacing(5),
+  fontSize: theme.typography.subtitle1.fontSize,
   lineHeight: 1.25,
   color: theme.palette.text.secondary,
   textAlign: 'center',
@@ -60,7 +61,12 @@ const StyledDescription = styled(Typography)(({ theme }) => ({
 const ProjectFeatureCard: React.FC<FeatureCardItem> = ({ imageUrl, title, description }) => (
   <ProjectFeatureCardWrapper>
     <ProjectFeatureImageWrapper>
-      <Image src={imageUrl} alt={`${title} feature illustration`} width="353" height="232" />
+      <Image
+        src={imageUrl}
+        alt={`${title} feature illustration`}
+        fill
+        style={{ objectFit: 'cover' }}
+      />
     </ProjectFeatureImageWrapper>
 
     <StyledTitle variant="h6">{title}</StyledTitle>
