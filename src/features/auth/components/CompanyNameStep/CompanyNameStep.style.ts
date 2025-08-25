@@ -10,12 +10,18 @@ export const Wrapper = styled('main')(({ theme }) => ({
   alignItems: 'center',
   paddingTop: theme.spacing(10),
 }));
-
 export const TitleRow = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2),
   marginBottom: theme.spacing(8),
+  flexWrap: 'nowrap',
+  flexDirection: 'row',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: theme.spacing(1.5),
+  },
 }));
 
 export const TitleHighlight = styled('span')(({ theme }) => ({
@@ -26,12 +32,16 @@ export const TitleHighlight = styled('span')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   ...theme.typography.h6,
   fontWeight: theme.typography.fontWeightBold,
+  whiteSpace: 'nowrap',
+  wordBreak: 'keep-all',
 }));
 
 export const TitleNormal = styled('span')(({ theme }) => ({
   ...theme.typography.h4,
-  fontWeight: theme.typography.fontWeightBold, // 修正：去掉可选链
+  fontWeight: theme.typography.fontWeightBold,
   color: theme.palette.text.primary,
+  whiteSpace: 'nowrap',
+  wordBreak: 'keep-all',
 }));
 
 export const FormWrap = styled('form')(({ theme }) => ({
@@ -59,7 +69,7 @@ export const CompanyInput = styled(TextField)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-root': {
     ...theme.typography.h3,
-    fontWeight: theme.typography.fontWeightLight,
+    fontWeight: theme.typography?.fontWeightLight ?? theme.typography.fontWeightLight,
     paddingBlock: theme.spacing(1.5),
   },
   '& .MuiInputBase-input::placeholder': {
