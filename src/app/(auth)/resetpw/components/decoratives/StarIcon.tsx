@@ -1,5 +1,5 @@
-import type { ImageConfig } from '../../types';
 import { ImageElement } from './shared';
+import type { ImageConfig } from '../../types';
 
 const starConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/star.png',
@@ -19,6 +19,10 @@ const starConfig: ImageConfig = {
   testId: 'star-wrapper',
 };
 
-export const StarIcon = () => <ImageElement config={starConfig} />;
+export const StarIcon = () => (
+  <ImageElement config={starConfig} />
+);
 
 export default StarIcon;
+
+

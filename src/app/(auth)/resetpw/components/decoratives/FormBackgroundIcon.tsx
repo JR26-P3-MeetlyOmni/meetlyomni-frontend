@@ -1,5 +1,5 @@
-import type { ImageConfig } from '../../types';
 import { ImageElement } from './shared';
+import type { ImageConfig } from '../../types';
 
 const formBackgroundConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/form.png',
@@ -19,6 +19,10 @@ const formBackgroundConfig: ImageConfig = {
   testId: 'form-wrapper',
 };
 
-export const FormBackgroundIcon = () => <ImageElement config={formBackgroundConfig} />;
+export const FormBackgroundIcon = () => (
+  <ImageElement config={formBackgroundConfig} />
+);
 
 export default FormBackgroundIcon;
+
+

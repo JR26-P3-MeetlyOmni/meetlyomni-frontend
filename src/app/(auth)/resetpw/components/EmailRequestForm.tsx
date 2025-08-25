@@ -1,73 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Alert } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-const FormContainer = styled(Box)(({ theme }) => ({
-  maxWidth: 400,
-  width: '100%',
-  padding: theme.spacing(4),
-  backgroundColor: 'white',
-  borderRadius: theme.spacing(2),
-  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-  position: 'relative',
-  zIndex: 10,
-  margin: '0 auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: 460,
-    padding: theme.spacing(5),
-  },
-}));
-
-const FormTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '28px',
-  fontWeight: 600,
-  color: theme.palette.text.primary,
-  textAlign: 'center',
-  marginBottom: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '32px',
-  },
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    backgroundColor: theme.palette.grey[50],
-    borderRadius: theme.spacing(1),
-    '& fieldset': {
-      borderColor: theme.palette.grey[300],
-    },
-    '&:hover fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-  },
-  '& .MuiInputLabel-root': {
-    color: theme.palette.text.secondary,
-  },
-}));
-
-const SubmitButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#2C3E50',
-  color: 'white',
-  padding: theme.spacing(1.5),
-  borderRadius: theme.spacing(1),
-  textTransform: 'none',
-  fontSize: '16px',
-  fontWeight: 600,
-  '&:hover': {
-    backgroundColor: '#1A252F',
-  },
-  '&:disabled': {
-    backgroundColor: theme.palette.grey[300],
-  },
-}));
+import { Box, Alert } from '@mui/material';
+import { FormContainer, FormTitle, StyledTextField, SubmitButton, SectionLabel } from './forms/shared';
 
 import type { EmailRequestFormProps } from '../types';
 
@@ -136,24 +71,26 @@ const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
         </Alert>
       ) : (
         <Box component="form" onSubmit={handleSubmit}>
+          <SectionLabel sx={{ mb: 1 }}>Email</SectionLabel>
           <StyledTextField
             fullWidth
-            label="Email"
+            size="small"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={!!error}
             helperText={error}
             disabled={isSubmitting}
-            placeholder="Email Address"
+            placeholder="Input Your Email Address"
           />
           
           <SubmitButton
             type="submit"
             fullWidth
+            sx={{ mt: 2 }}
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Sending...' : 'Reset password'}
+            {isSubmitting ? 'Sending...' : 'Submit'}
           </SubmitButton>
         </Box>
       )}

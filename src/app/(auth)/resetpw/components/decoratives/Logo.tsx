@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import { LogoWrapper } from './shared';
 
 export const Logo = () => (
@@ -9,3 +8,5 @@ export const Logo = () => (
 );
 
 export default Logo;
+
+

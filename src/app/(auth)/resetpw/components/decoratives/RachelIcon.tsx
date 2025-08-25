@@ -1,5 +1,5 @@
-import type { ImageConfig } from '../../types';
 import { ImageElement } from './shared';
+import type { ImageConfig } from '../../types';
 
 const rachelConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/rachel.png',
@@ -17,6 +17,10 @@ const rachelConfig: ImageConfig = {
   testId: 'rachel-wrapper',
 };
 
-export const RachelIcon = () => <ImageElement config={rachelConfig} />;
+export const RachelIcon = () => (
+  <ImageElement config={rachelConfig} />
+);
 
 export default RachelIcon;
+
+

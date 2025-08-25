@@ -1,5 +1,5 @@
-import type { ImageConfig } from '../../types';
 import { ImageElement } from './shared';
+import type { ImageConfig } from '../../types';
 
 const markConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/mark.png',
@@ -17,6 +17,10 @@ const markConfig: ImageConfig = {
   testId: 'mark-wrapper',
 };
 
-export const MarkIcon = () => <ImageElement config={markConfig} />;
+export const MarkIcon = () => (
+  <ImageElement config={markConfig} />
+);
 
 export default MarkIcon;
+
+

@@ -1,74 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Alert, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Typography, Box, Alert, IconButton, InputAdornment, LinearProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { FormContainer, FormTitle, StyledTextField, SubmitButton, SectionLabel } from './forms/shared';
 
-const FormContainer = styled(Box)(({ theme }) => ({
-  maxWidth: 400,
-  width: '100%',
-  padding: theme.spacing(4),
-  backgroundColor: 'white',
-  borderRadius: theme.spacing(2),
-  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-  position: 'relative',
-  zIndex: 10,
-  margin: '0 auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: 460,
-    padding: theme.spacing(5),
-  },
-}));
-
-const FormTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '28px',
-  fontWeight: 600,
-  color: theme.palette.text.primary,
-  textAlign: 'center',
-  marginBottom: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '32px',
-  },
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    backgroundColor: theme.palette.grey[50],
-    borderRadius: theme.spacing(1),
-    '& fieldset': {
-      borderColor: theme.palette.grey[300],
-    },
-    '&:hover fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-  },
-  '& .MuiInputLabel-root': {
-    color: theme.palette.text.secondary,
-  },
-}));
-
-const SubmitButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#2C3E50',
-  color: 'white',
-  padding: theme.spacing(1.5),
-  borderRadius: theme.spacing(1),
-  textTransform: 'none',
-  fontSize: '16px',
-  fontWeight: 600,
-  '&:hover': {
-    backgroundColor: '#1A252F',
-  },
-  '&:disabled': {
-    backgroundColor: theme.palette.grey[300],
-  },
-}));
 
 const ValidationText = styled(Typography)(({ theme }) => ({
   fontSize: '14px',
@@ -100,6 +37,28 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
 
   const validation = validatePassword(password);
   const isValidPassword = Object.values(validation).every(v => v === true);
+  const isLengthOk = validation.minLength;
+  const isCaseOk = validation.hasUpper && validation.hasLower;
+  const isNumSpecialOk = validation.hasNumber && validation.hasSpecial;
+  const isStrong = isLengthOk && isCaseOk && isNumSpecialOk;
+  const hasInput = password.length > 0;
+
+  // Strength meter (shown when rules are hidden)
+  const strengthScore = [
+    validation.minLength,
+    validation.hasUpper,
+    validation.hasLower,
+    validation.hasNumber,
+    validation.hasSpecial,
+  ].filter(Boolean).length;
+
+  const strengthPercent = (strengthScore / 5) * 100;
+  const getStrengthMeta = (score: number): { label: string; color: 'error' | 'warning' | 'success' } => {
+    if (score <= 2) return { label: 'Weak', color: 'error' };
+    if (score <= 4) return { label: 'Medium', color: 'warning' };
+    return { label: 'Strong', color: 'success' };
+  };
+  const strengthMeta = getStrengthMeta(strengthScore);
 
   const getValidationColor = (isValid: boolean) => isValid ? 'success.main' : 'text.secondary';
 
@@ -161,9 +120,10 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
       <FormTitle>Reset your password</FormTitle>
       
       <Box component="form" onSubmit={handleSubmit}>
+        <SectionLabel sx={{ mb: 1 }}>Enter new password</SectionLabel>
         <StyledTextField
           fullWidth
-          label="Enter new password"
+          size="small"
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -183,28 +143,40 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
             ),
           }}
         />
-        
         <Box sx={{ mb: 2 }}>
-          <ValidationText sx={{ color: getValidationColor(validation.minLength) }}>
-            ✓ At least 12 characters
-          </ValidationText>
-          <ValidationText sx={{ color: getValidationColor(validation.hasUpper) }}>
-            ✓ At least 1 uppercase letter
-          </ValidationText>
-          <ValidationText sx={{ color: getValidationColor(validation.hasLower) }}>
-            ✓ At least 1 lowercase letter
-          </ValidationText>
-          <ValidationText sx={{ color: getValidationColor(validation.hasNumber) }}>
-            ✓ At least 1 number
-          </ValidationText>
-          <ValidationText sx={{ color: getValidationColor(validation.hasSpecial) }}>
-            ✓ At least 1 special character
-          </ValidationText>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+            <Typography variant="caption" color="text.secondary">Password strength</Typography>
+            <Typography variant="caption" sx={{ color: (theme) => theme.palette[strengthMeta.color].main }}>{strengthMeta.label}</Typography>
+          </Box>
+          <LinearProgress
+            variant="determinate"
+            value={strengthPercent}
+            color={strengthMeta.color}
+            sx={{
+              height: 8,
+              borderRadius: 4,
+              backgroundColor: (theme) => theme.palette.action.hover,
+            }}
+          />
+          {hasInput && !isStrong ? (
+            <Box sx={{ mt: 1.5 }}>
+              <ValidationText sx={{ color: getValidationColor(isLengthOk) }}>
+                ✓ At least 12 characters
+              </ValidationText>
+              <ValidationText sx={{ color: getValidationColor(isCaseOk) }}>
+                ✓ At least 1 uppercase letter & 1 lowercase letter
+              </ValidationText>
+              <ValidationText sx={{ color: getValidationColor(isNumSpecialOk) }}>
+                ✓ At least 1 number & 1 special character
+              </ValidationText>
+            </Box>
+          ) : null}
         </Box>
 
+        <SectionLabel sx={{ mb: 1 }}>Repeat new password to confirm</SectionLabel>
         <StyledTextField
           fullWidth
-          label="Repeat new password to confirm"
+          size="small"
           type={showConfirmPassword ? 'text' : 'password'}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -234,6 +206,7 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
         <SubmitButton
           type="submit"
           fullWidth
+          sx={{ mt: 2 }}
           disabled={isSubmitting || !isValidPassword}
         >
           {isSubmitting ? 'Resetting...' : 'Reset password'}

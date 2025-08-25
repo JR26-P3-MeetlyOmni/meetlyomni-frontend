@@ -1,14 +1,8 @@
 import Image from 'next/image';
-
 import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material/styles';
 
-import type {
-  DecorativeContainerProps,
-  ImageConfig,
-  ResponsiveImageWrapperProps,
-} from '../../types';
-
+import type { DecorativeContainerProps, ImageConfig, ResponsiveImageWrapperProps } from '../../types';
 export const DECORATIVE_SPACING = {
   LOGO_BASE: 3,
   LOGO_SM: 4,
@@ -31,7 +25,7 @@ const AbsoluteBox = styled(Box)({
 });
 
 export const DecorativeContainer = styled(AbsoluteBox, {
-  shouldForwardProp: prop => !['zIndex', 'opacity'].includes(String(prop)),
+  shouldForwardProp: (prop) => !['zIndex', 'opacity'].includes(String(prop)),
 })<DecorativeContainerProps>(({ theme, zIndex = theme.zIndex.mobileStepper, opacity = 1 }) => ({
   zIndex,
   opacity,
@@ -79,12 +73,8 @@ export const TopCenterSketch = styled(DecorativeContainer)(({ theme }) => ({
 }));
 
 export const ResponsiveImageWrapper = styled(DecorativeContainer, {
-  shouldForwardProp: prop =>
-    !['top', 'bottom', 'left', 'right', 'imageWidth', 'imageHeight', 'transform'].includes(
-      String(prop),
-    ),
-})<ResponsiveImageWrapperProps>(
-  ({ theme, top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
+  shouldForwardProp: (prop) => !['top', 'bottom', 'left', 'right', 'imageWidth', 'imageHeight', 'transform'].includes(String(prop)),
+})<ResponsiveImageWrapperProps>(({ theme, top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
     ...(top && { top }),
     ...(bottom && { bottom }),
     ...(left && { left }),
@@ -103,11 +93,12 @@ export const ResponsiveImageWrapper = styled(DecorativeContainer, {
         transform: 'scale(1.02)',
       },
     },
-  }),
-);
+}));
 
 export const ImageElement: React.FC<{ config: ImageConfig }> = ({ config }) => (
   <ResponsiveImageWrapper {...config.position} {...config.styles} data-testid={config.testId}>
     <Image src={config.src} alt={config.alt} width={config.width} height={config.height} />
   </ResponsiveImageWrapper>
 );
+
+
