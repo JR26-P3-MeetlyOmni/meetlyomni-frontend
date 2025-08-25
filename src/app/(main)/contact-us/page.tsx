@@ -17,37 +17,43 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 // Hero Section
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(54.5), // 436px / 8 ≈ 54.5
-  height: theme.spacing(8.25), // 66px / 8 ≈ 8.25
-  margin: `0 ${theme.spacing(14.625)} 0`, // 117px / 8 ≈ 14.625
-  fontFamily: theme.typography.fontFamily,
+  maxWidth: theme.spacing(70), // 增加最大宽度，确保文字能在一行显示
+  width: 'auto', // 自动宽度
+  height: 'auto', // 自动高度
+  margin: `0 auto 0`, // 居中显示
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // 明确使用Roboto字体
   fontSize: theme.typography.pxToRem(56),
   fontWeight: theme.typography.fontWeightMedium,
-  lineHeight: 'normal',
+  lineHeight: 1.2, // 设置合适的行高
   textAlign: 'center',
   color: theme.palette.text.primary,
+  whiteSpace: 'nowrap', // 防止换行
   [theme.breakpoints.down('md')]: {
-    width: '100%',
-    margin: '0 0 0',
+    maxWidth: '90%',
     fontSize: theme.typography.pxToRem(48),
-    height: 'auto',
+    whiteSpace: 'normal', // 小屏幕允许换行
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: theme.typography.pxToRem(36),
+    whiteSpace: 'normal',
   },
 }));
 
 const StyledSubtitle = styled(Typography)(({ theme }) => ({
-  width: theme.spacing(64.5), // 516px / 8 ≈ 64.5
-  height: theme.spacing(4), // 32px / 8 = 4
-  margin: `${theme.spacing(2)} ${theme.spacing(9.625)} ${theme.spacing(10)}`, // 16px, 77px, 80px
-  fontFamily: theme.typography.fontFamily,
+  maxWidth: theme.spacing(80), // 增加最大宽度
+  width: 'auto',
+  height: 'auto',
+  margin: `${theme.spacing(2)} auto ${theme.spacing(10)}`, // 居中显示
+  padding: `0 ${theme.spacing(2)}`, // 添加左右内边距
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // 明确使用Roboto字体
   fontSize: theme.typography.pxToRem(14),
   fontWeight: theme.typography.fontWeightRegular,
-  lineHeight: 'normal',
+  lineHeight: 1.5, // 更好的行高
   textAlign: 'center',
   color: theme.palette.text.secondary,
   [theme.breakpoints.down('md')]: {
-    width: '100%',
-    margin: `${theme.spacing(2)} 0 ${theme.spacing(10)}`,
-    height: 'auto',
+    maxWidth: '90%',
+    padding: `0 ${theme.spacing(1)}`,
   },
 }));
 
@@ -55,13 +61,10 @@ const StyledSubtitle = styled(Typography)(({ theme }) => ({
 const FormContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'flex-start', // 左对齐，让按钮在左下角
   width: '100%',
   maxWidth: theme.spacing(83.75), // 670px / 8 ≈ 83.75
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(4),
-  boxShadow: theme.shadows[1],
+  margin: '0 auto', // 整个容器居中
 }));
 
 // First Name and Last Name Row
@@ -80,12 +83,12 @@ const NameRow = styled(Box)(({ theme }) => ({
 const StyledSendButton = styled(Button)(({ theme }) => ({
   width: theme.spacing(40), // 320px / 8 = 40
   height: theme.spacing(4.75), // 38px / 8 ≈ 4.75
-  margin: `${theme.spacing(6)} ${theme.spacing(3.75)} 0 0`, // 48px, 30px
+  margin: `${theme.spacing(6)} 0 0 0`, // 顶部48px间距，左对齐
   padding: `${theme.spacing(1.5)} ${theme.spacing(18)}`, // 12px, 144px
   borderRadius: theme.spacing(0.75), // 6px / 8 = 0.75
   boxShadow: theme.shadows[1],
   backgroundImage: 'linear-gradient(to bottom, #f0f0f1, rgba(220, 221, 223, 0.3))',
-  fontFamily: theme.typography.fontFamily,
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // 明确使用Roboto字体
   fontSize: theme.typography.pxToRem(14),
   fontWeight: theme.typography.fontWeightMedium,
   lineHeight: 1,
@@ -107,6 +110,7 @@ const StyledSendButton = styled(Button)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     margin: `${theme.spacing(6)} 0 0 0`,
     width: '100%',
+    alignSelf: 'flex-start', // 确保移动端也左对齐
   },
 }));
 
@@ -171,7 +175,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         label="Your Question"
         value={formData.question}
         onChange={onInputChange('question')}
-        placeholder="Your Question"
+        placeholder="Enter your text here"
         multiline
         rows={6}
         width="83.75"
@@ -237,15 +241,11 @@ export default function ContactUsPage() {
 
   return (
     <StyledContainer maxWidth={false}>
-      {/* Hero Section */}
       <StyledTitle>Contact our team</StyledTitle>
-
       <StyledSubtitle>
         Contact us now to find out how you can make your event more lively and engaging with
         interactive Q&A and live sweepstakes!
       </StyledSubtitle>
-
-      {/* Contact Form */}
       <ContactFormSection
         formData={formData}
         isSubmitting={isSubmitting}
