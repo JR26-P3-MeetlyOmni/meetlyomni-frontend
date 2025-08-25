@@ -16,7 +16,6 @@ const formBackgroundConfig: ImageConfig = {
     opacity: 0.8,
     imageWidth: 'min(460px, 35vw)',
   },
-  testId: 'form-wrapper',
 };
 
 export const FormBackgroundIcon = () => (

@@ -1,16 +1,47 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Typography, Box, Alert, IconButton, InputAdornment, LinearProgress } from '@mui/material';
+import { Typography, Box, Alert, IconButton, InputAdornment, LinearProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { FormContainer, FormTitle, StyledTextField, SubmitButton, SectionLabel } from './forms/shared';
 
+const StyledSectionLabel = styled(SectionLabel)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+}));
 
-const ValidationText = styled(Typography)(({ theme }) => ({
+const PasswordStrengthContainer = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const StrengthHeaderBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: theme.spacing(0.5),
+}));
+
+const StrengthLabel = styled(Typography)<{ strengthColor: 'error' | 'warning' | 'success' }>(({ theme, strengthColor }) => ({
+  color: theme.palette[strengthColor].main,
+}));
+
+const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 8,
+  borderRadius: 4,
+  backgroundColor: theme.palette.action.hover,
+}));
+
+const ValidationContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(1.5),
+}));
+
+const ValidationText = styled(Typography)<{ isValid: boolean }>(({ theme, isValid }) => ({
   fontSize: '14px',
-  color: theme.palette.text.secondary,
+  color: isValid ? theme.palette.success.main : theme.palette.text.secondary,
   lineHeight: 1.4,
+}));
+
+const StyledSubmitButton = styled(SubmitButton)(({ theme }) => ({
+  marginTop: theme.spacing(2),
 }));
 
 import type { NewPasswordFormProps, PasswordValidation } from '../types';
@@ -59,8 +90,6 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
     return { label: 'Strong', color: 'success' };
   };
   const strengthMeta = getStrengthMeta(strengthScore);
-
-  const getValidationColor = (isValid: boolean) => isValid ? 'success.main' : 'text.secondary';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,7 +149,7 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
       <FormTitle>Reset your password</FormTitle>
       
       <Box component="form" onSubmit={handleSubmit}>
-        <SectionLabel sx={{ mb: 1 }}>Enter new password</SectionLabel>
+        <StyledSectionLabel>Enter new password</StyledSectionLabel>
         <StyledTextField
           fullWidth
           size="small"
@@ -143,37 +172,32 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
             ),
           }}
         />
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+        <PasswordStrengthContainer>
+          <StrengthHeaderBox>
             <Typography variant="caption" color="text.secondary">Password strength</Typography>
-            <Typography variant="caption" sx={{ color: (theme) => theme.palette[strengthMeta.color].main }}>{strengthMeta.label}</Typography>
-          </Box>
-          <LinearProgress
+            <StrengthLabel variant="caption" strengthColor={strengthMeta.color}>{strengthMeta.label}</StrengthLabel>
+          </StrengthHeaderBox>
+          <StyledLinearProgress
             variant="determinate"
             value={strengthPercent}
             color={strengthMeta.color}
-            sx={{
-              height: 8,
-              borderRadius: 4,
-              backgroundColor: (theme) => theme.palette.action.hover,
-            }}
           />
           {hasInput && !isStrong ? (
-            <Box sx={{ mt: 1.5 }}>
-              <ValidationText sx={{ color: getValidationColor(isLengthOk) }}>
+            <ValidationContainer>
+              <ValidationText isValid={isLengthOk}>
                 ✓ At least 12 characters
               </ValidationText>
-              <ValidationText sx={{ color: getValidationColor(isCaseOk) }}>
+              <ValidationText isValid={isCaseOk}>
                 ✓ At least 1 uppercase letter & 1 lowercase letter
               </ValidationText>
-              <ValidationText sx={{ color: getValidationColor(isNumSpecialOk) }}>
+              <ValidationText isValid={isNumSpecialOk}>
                 ✓ At least 1 number & 1 special character
               </ValidationText>
-            </Box>
+            </ValidationContainer>
           ) : null}
-        </Box>
+        </PasswordStrengthContainer>
 
-        <SectionLabel sx={{ mb: 1 }}>Repeat new password to confirm</SectionLabel>
+        <StyledSectionLabel>Repeat new password to confirm</StyledSectionLabel>
         <StyledTextField
           fullWidth
           size="small"
@@ -203,14 +227,13 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
             {error}
           </Alert> : null}
         
-        <SubmitButton
+        <StyledSubmitButton
           type="submit"
           fullWidth
-          sx={{ mt: 2 }}
           disabled={isSubmitting || !isValidPassword}
         >
           {isSubmitting ? 'Resetting...' : 'Reset password'}
-        </SubmitButton>
+        </StyledSubmitButton>
       </Box>
     </FormContainer>
   );

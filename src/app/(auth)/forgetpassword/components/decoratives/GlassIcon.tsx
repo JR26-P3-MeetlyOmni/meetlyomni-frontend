@@ -16,7 +16,6 @@ const glassConfig: ImageConfig = {
     imageWidth: 'min(84px, 6vw)',
     imageHeight: 'min(84px, 6vw)',
   },
-  testId: 'glass-wrapper',
 };
 
 export const GlassIcon = () => (

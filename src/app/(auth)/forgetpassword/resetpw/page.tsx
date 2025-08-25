@@ -21,7 +21,7 @@ const PageContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const FormContainer = styled(Box)(({ theme }) => ({
+const FormContainer = styled(Box)(() => ({
   position: 'relative',
   zIndex: 10,
   width: '100%',

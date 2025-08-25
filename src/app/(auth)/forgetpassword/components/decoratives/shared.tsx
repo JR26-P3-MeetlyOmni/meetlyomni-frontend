@@ -96,7 +96,7 @@ export const ResponsiveImageWrapper = styled(DecorativeContainer, {
 }));
 
 export const ImageElement: React.FC<{ config: ImageConfig }> = ({ config }) => (
-  <ResponsiveImageWrapper {...config.position} {...config.styles} data-testid={config.testId}>
+  <ResponsiveImageWrapper {...config.position} {...config.styles}>
     <Image src={config.src} alt={config.alt} width={config.width} height={config.height} />
   </ResponsiveImageWrapper>
 );

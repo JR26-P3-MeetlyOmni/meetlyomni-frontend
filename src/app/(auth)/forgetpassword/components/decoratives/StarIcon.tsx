@@ -16,7 +16,6 @@ const starConfig: ImageConfig = {
     imageWidth: 'min(72px, 5vw)',
     imageHeight: 'min(72px, 5vw)',
   },
-  testId: 'star-wrapper',
 };
 
 export const StarIcon = () => (

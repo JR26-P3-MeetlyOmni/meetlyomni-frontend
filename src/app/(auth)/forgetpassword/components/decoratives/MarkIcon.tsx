@@ -14,7 +14,6 @@ const markConfig: ImageConfig = {
     zIndex: 2,
     imageWidth: 'min(209px, 18vw)',
   },
-  testId: 'mark-wrapper',
 };
 
 export const MarkIcon = () => (

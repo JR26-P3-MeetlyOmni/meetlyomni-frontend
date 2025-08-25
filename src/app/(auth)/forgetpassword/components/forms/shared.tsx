@@ -30,7 +30,7 @@ export const FormTitle = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const StyledTextField = styled(TextField)(({ theme }) => ({
+export const StyledTextField = styled(TextField)(() => ({
   '& .MuiOutlinedInput-root': {
     backgroundColor: '#FFFFFF',
     borderRadius: 6,

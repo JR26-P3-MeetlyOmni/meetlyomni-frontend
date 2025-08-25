@@ -14,7 +14,6 @@ const rachelConfig: ImageConfig = {
     zIndex: 2,
     imageWidth: 'min(209px, 18vw)',
   },
-  testId: 'rachel-wrapper',
 };
 
 export const RachelIcon = () => (

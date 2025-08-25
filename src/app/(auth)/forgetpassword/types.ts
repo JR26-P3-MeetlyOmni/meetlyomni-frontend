@@ -5,7 +5,6 @@ export interface ImageConfig {
     height: number;
     position: ImagePosition;
     styles: ImageStyles;
-    testId: string;
   }
 
 export interface ResponsiveImageWrapperProps {

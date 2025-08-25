@@ -15,7 +15,6 @@ const lookingForConfig: ImageConfig = {
     opacity: 0.8,
     imageWidth: 'min(179px, 15vw)',
   },
-  testId: 'looking-for-wrapper',
 };
 
 export const LookingForIcon = () => (
