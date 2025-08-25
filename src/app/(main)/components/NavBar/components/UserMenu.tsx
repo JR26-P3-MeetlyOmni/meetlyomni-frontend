@@ -1,23 +1,61 @@
 'use client';
 
+import { logoutThunk } from '@/features/auth/logoutThunk';
+import type { AppDispatch } from '@/store/store';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { UserInfo } from '../type';
-import { DropdownIcon, UserAvatar, UserMenuWrapper, UserName } from './UserMenu.styles';
+import {
+  DropdownIcon,
+  DropdownMenu,
+  DropdownMenuItem,
+  UserAvatar,
+  UserMenuWrapper,
+  UserName,
+} from './UserMenu.styles';
 
 interface UserMenuProps {
   user: UserInfo;
 }
 
 export const UserMenu = ({ user }: UserMenuProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutThunk()).unwrap();
+      setIsOpen(false);
+      router.push('/login');
+    } catch {
+      //todo： catch error
+      alert('Logout failed');
+    }
+  };
+
   if (!user) return null;
 
   return (
-    <UserMenuWrapper>
+    <UserMenuWrapper onClick={toggleMenu}>
       <UserAvatar
         src={typeof user.avatar === 'string' ? user.avatar : user.avatar.src}
         alt={user.username}
       />
       <UserName>{user.username}</UserName>
       <DropdownIcon />
+      {isOpen === true && (
+        <DropdownMenu>
+          <DropdownMenuItem onClick={handleLogout}>Log Out</DropdownMenuItem>
+        </DropdownMenu>
+      )}
     </UserMenuWrapper>
   );
 };

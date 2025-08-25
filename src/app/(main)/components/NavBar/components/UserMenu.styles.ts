@@ -1,5 +1,5 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const UserMenuWrapper = styled(Box)(({ theme }) => ({
@@ -20,3 +20,21 @@ export const UserName = styled(Typography)(({ theme }) => ({
 }));
 
 export const DropdownIcon = styled(ArrowDropDownIcon)({});
+
+export const DropdownMenu = styled(Paper)(({ theme }) => ({
+  fontWeight: theme.typography.fontWeightMedium,
+  fontSize: theme.typography.body2.fontSize,
+  fontFamily: 'var(--font-roboto)',
+  background: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[2],
+  zIndex: theme.zIndex.modal,
+}));
+
+export const DropdownMenuItem = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(1, 2),
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
