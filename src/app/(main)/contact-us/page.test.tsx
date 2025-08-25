@@ -53,7 +53,7 @@ describe('ContactUsPage', () => {
       expect(screen.getByPlaceholderText('First name')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Last name')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Email Address')).toBeInTheDocument();
-      expect(screen.getByPlaceholderText('Your Question')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Enter your text here')).toBeInTheDocument();
 
       // First name and last name inputs
       const allInputs = screen.getAllByDisplayValue('');
