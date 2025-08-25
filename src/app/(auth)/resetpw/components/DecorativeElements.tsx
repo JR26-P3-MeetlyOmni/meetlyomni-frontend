@@ -1,252 +1,131 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { Box, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import { alpha, styled } from '@mui/material/styles';
 
-// Styled components using proper MUI syntax
-const LogoElement = styled(Box)(({ theme }) => ({
+import type { DecorativeContainerProps, ImageConfig, ResponsiveImageWrapperProps } from '../types';
+import {
+  charactersConfig,
+  DECORATIVE_DIMENSIONS,
+  DECORATIVE_SPACING,
+  formBackgroundConfig,
+  smallElementsConfig,
+} from './decorativeElementsData';
+
+const AbsoluteBox = styled(Box)({
   position: 'absolute',
-  zIndex: 10,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(5),
-    left: theme.spacing(3),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(6),
-    left: theme.spacing(5),
+});
+
+const DecorativeContainer = styled(AbsoluteBox)<DecorativeContainerProps>(
+  ({ theme, zIndex = theme.zIndex.mobileStepper, opacity = 1 }) => ({
+    zIndex,
+    opacity,
     display: 'block',
+  }),
+);
+
+const LogoWrapper = styled(DecorativeContainer)(({ theme }) => ({
+  top: theme.spacing(DECORATIVE_SPACING.LOGO_BASE),
+  left: theme.spacing(DECORATIVE_SPACING.LOGO_BASE),
+  zIndex: theme.zIndex.appBar,
+  transition: theme.transitions.create(['top', 'left'], {
+    duration: theme.transitions.duration.standard,
+  }),
+  [theme.breakpoints.up('sm')]: {
+    top: theme.spacing(DECORATIVE_SPACING.LOGO_SM),
+    left: theme.spacing(DECORATIVE_SPACING.LOGO_SM),
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(8),
-    left: theme.spacing(10),
+    top: theme.spacing(DECORATIVE_SPACING.LOGO_MD),
+    left: theme.spacing(DECORATIVE_SPACING.LOGO_MD),
   },
   [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(5),
-    left: theme.spacing(10),
+    top: theme.spacing(DECORATIVE_SPACING.LOGO_LG_TOP),
+    left: theme.spacing(DECORATIVE_SPACING.LOGO_LG_LEFT),
   },
 }));
 
-const MagnifyingGlassElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(10),
-    left: theme.spacing(5),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(15),
-    left: theme.spacing(8),
-    display: 'block',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: theme.spacing(20),
-    left: theme.spacing(10),
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(38),
-    left: theme.spacing(22),
-  },
-}));
-
-const RachelElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 2,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(20),
-    right: theme.spacing(15),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(22),
-    right: theme.spacing(18),
-    display: 'none',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: theme.spacing(24),
-    right: theme.spacing(20),
-    display: 'none',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(15),
-    right: theme.spacing(25),
-    display: 'block',
-  },
-}));
-
-const MarkElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 2,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(60),
-    left: theme.spacing(5),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(65),
-    left: theme.spacing(8),
-    display: 'none',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: theme.spacing(70),
-    left: theme.spacing(12),
-    display: 'none',
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(75),
-    left: theme.spacing(22),
-    display: 'block',
-  },
-}));
-
-const LookingForElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(45),
-    right: theme.spacing(15),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(50),
-    right: theme.spacing(20),
-    display: 'block',
-  },
-  [theme.breakpoints.up('md')]: {
-    top: theme.spacing(55),
-    right: theme.spacing(25),
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(45),
-    right: theme.spacing(15),
-  },
-}));
-
-const FormElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(9),
+const TopCenterSketch = styled(DecorativeContainer)(({ theme }) => ({
+  top: theme.spacing(DECORATIVE_SPACING.SKETCH_TOP),
   left: '50%',
   transform: 'translateX(-50%)',
-  zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    display: 'block',
-  },
-}));
-
-const StarElement = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    bottom: theme.spacing(10),
-    right: theme.spacing(5),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    bottom: theme.spacing(8),
-    right: theme.spacing(8),
-    display: 'block',
-  },
+  width: `min(${DECORATIVE_DIMENSIONS.SKETCH_WIDTH_BASE}px, 25vw)`,
+  height: `min(${DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_BASE}px, 15vh)`,
+  backgroundColor: alpha(theme.palette.grey[300], theme.palette.action.hoverOpacity),
+  borderRadius: `${Number(theme.shape.borderRadius) * DECORATIVE_DIMENSIONS.BORDER_RADIUS_MULTIPLIER}px`,
+  opacity: theme.palette.action.disabledOpacity,
+  boxShadow: theme.shadows[1],
+  transition: theme.transitions.create(['opacity', 'transform'], {
+    duration: theme.transitions.duration.short,
+  }),
   [theme.breakpoints.up('md')]: {
-    bottom: theme.spacing(5),
-    right: theme.spacing(12),
-  },
-  [theme.breakpoints.up('lg')]: {
-    bottom: theme.spacing(15),
-    right: theme.spacing(25),
+    width: `min(${DECORATIVE_DIMENSIONS.SKETCH_WIDTH_MD}px, 28vw)`,
+    height: `min(${DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_MD}px, 17vh)`,
   },
 }));
 
-// Styled image components
-const StyledImage = styled(Image)({
-  objectFit: 'contain',
-});
+const ResponsiveImageWrapper = styled(DecorativeContainer)<ResponsiveImageWrapperProps>(
+  ({ theme, top, bottom, left, right, imageWidth, imageHeight = 'auto', transform }) => ({
+    ...(top && { top }),
+    ...(bottom && { bottom }),
+    ...(left && { left }),
+    ...(right && { right }),
+    ...(transform && { transform }),
+    transition: theme.transitions.create(['opacity', 'transform'], {
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    '& img': {
+      width: imageWidth,
+      height: imageHeight,
+      transition: theme.transitions.create(['transform'], {
+        duration: theme.transitions.duration.short,
+      }),
+      '&:hover': {
+        transform: 'scale(1.02)',
+      },
+    },
+  }),
+);
 
-const MagnifyingGlassImage = styled(Image)(({ theme }) => ({
-  opacity: 0.7,
-  objectFit: 'contain',
-  margin: `${theme.spacing(3)} ${theme.spacing(11)} ${theme.spacing(2)} ${theme.spacing(12)}`,
-}));
+const ImageElement: React.FC<{ config: ImageConfig }> = ({ config }) => (
+  <ResponsiveImageWrapper {...config.position} {...config.styles} data-testid={config.testId}>
+    <Image src={config.src} alt={config.alt} width={config.width} height={config.height} />
+  </ResponsiveImageWrapper>
+);
 
-const LookingForImage = styled(Image)({
-  opacity: 0.8,
-  objectFit: 'contain',
-});
-
-const FormImage = styled(Image)({
-  opacity: 0.8,
-  objectFit: 'contain',
-});
-
-const StarImage = styled(Image)({
-  opacity: 0.8,
-  objectFit: 'contain',
-});
-
-// Helper component to render decorative elements
-const DecorativeElementsContent = () => (
+const LogoAndSketch = () => (
   <>
-    <LogoElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/logo.png"
-        alt="Omni Logo"
-        width={105}
-        height={30}
-      />
-    </LogoElement>
-
-    <MagnifyingGlassElement>
-      <MagnifyingGlassImage
-        src="/assets/images/WelcomeToSignin/glass.png"
-        alt="Magnifying glass"
-        width={84}
-        height={84}
-      />
-    </MagnifyingGlassElement>
-
-    <RachelElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/rachel.png"
-        alt="Rachel"
-        width={209.3}
-        height={97.2}
-      />
-    </RachelElement>
-
-    <MarkElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/mark.png"
-        alt="Mark"
-        width={209.3}
-        height={97.2}
-      />
-    </MarkElement>
-
-    <LookingForElement>
-      <LookingForImage
-        src="/assets/images/WelcomeToSignin/lookingFor.png"
-        alt="Looking For"
-        width={179}
-        height={42}
-      />
-    </LookingForElement>
-
-    <FormElement>
-      <FormImage
-        src="/assets/images/WelcomeToSignin/form.png"
-        alt="Form"
-        width={460}
-        height={337}
-      />
-    </FormElement>
-
-    <StarElement>
-      <StarImage src="/assets/images/WelcomeToSignin/star.png" alt="Star" width={72} height={72} />
-    </StarElement>
+    <LogoWrapper zIndex={10} data-testid="logo-wrapper">
+      <Image src="/assets/images/WelcomeToSignin/logo.png" alt="Omni Logo" width={105} height={30} />
+    </LogoWrapper>
+    <TopCenterSketch zIndex={1} data-testid="top-center-sketch" />
   </>
 );
 
-export const DecorativeElements = () => <DecorativeElementsContent />;
+const CharacterElements = () => (
+  <>
+    {charactersConfig.map(config => (
+      <ImageElement key={config.testId} config={config} />
+    ))}
+  </>
+);
+
+const SmallElements = () => (
+  <>
+    {smallElementsConfig.map(config => (
+      <ImageElement key={config.testId} config={config} />
+    ))}
+  </>
+);
+
+const FormBackground = () => <ImageElement config={formBackgroundConfig} />;
+
+export const DecorativeElements = () => (
+  <>
+    <LogoAndSketch />
+    <CharacterElements />
+    <SmallElements />
+    <FormBackground />
+  </>
+);
