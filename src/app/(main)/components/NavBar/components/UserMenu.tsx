@@ -4,7 +4,7 @@ import { logoutThunk } from '@/features/auth/logoutThunk';
 import type { AppDispatch } from '@/store/store';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { UserInfo } from '../type';
@@ -25,22 +25,20 @@ export const UserMenu = ({ user }: UserMenuProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     setIsOpen(!isOpen);
-  };
+  }, [isOpen]);
 
   const router = useRouter();
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       await dispatch(logoutThunk()).unwrap();
       setIsOpen(false);
       router.push('/login');
     } catch {
-      //todo： catch error
-      alert('Logout failed');
+      alert('Logout failed'); //ToDo： catch (error)& toast？
     }
-  };
-
+  }, [dispatch, router]);
   if (!user) return null;
 
   return (

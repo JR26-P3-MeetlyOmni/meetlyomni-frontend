@@ -50,7 +50,7 @@ const eslintConfig = [
       }],
       "no-unused-vars": "off", 
       "react-hooks/exhaustive-deps": "error",
-      //"react/jsx-no-bind": "error",
+      "react/jsx-no-bind": "error",
       "react/jsx-no-leaked-render": "error",
       "react/no-danger": "error"
     }
