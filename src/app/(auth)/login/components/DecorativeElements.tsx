@@ -3,25 +3,27 @@ import React from 'react';
 
 import { Box, styled } from '@mui/material';
 
-// Styled components using proper MUI syntax
+// Styled components using proper MUI syntax with responsive positioning
 const LogoElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 10,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(5),
-    left: theme.spacing(3),
-    display: 'none',
-  },
+  display: 'none',
+  top: theme.spacing(2),
+  left: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(6),
-    left: theme.spacing(5),
     display: 'block',
+    top: theme.spacing(4),
+    left: theme.spacing(3),
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(8),
-    left: theme.spacing(10),
+    top: theme.spacing(6),
+    left: theme.spacing(6),
   },
   [theme.breakpoints.up('lg')]: {
+    top: theme.spacing(4),
+    left: theme.spacing(8),
+  },
+  [theme.breakpoints.up('xl')]: {
     top: theme.spacing(5),
     left: theme.spacing(10),
   },
@@ -30,21 +32,23 @@ const LogoElement = styled(Box)(({ theme }) => ({
 const MagnifyingGlassElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
+  display: 'none',
+  top: theme.spacing(4),
+  left: theme.spacing(1),
+  [theme.breakpoints.up('sm')]: {
+    display: 'block',
     top: theme.spacing(10),
     left: theme.spacing(5),
-    display: 'none',
-  },
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(15),
-    left: theme.spacing(8),
-    display: 'block',
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(20),
-    left: theme.spacing(10),
+    top: theme.spacing(12),
+    left: theme.spacing(6),
   },
   [theme.breakpoints.up('lg')]: {
+    top: theme.spacing(25),
+    left: theme.spacing(15),
+  },
+  [theme.breakpoints.up('xl')]: {
     top: theme.spacing(38),
     left: theme.spacing(22),
   },
@@ -53,71 +57,73 @@ const MagnifyingGlassElement = styled(Box)(({ theme }) => ({
 const RachelElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 2,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(20),
-    right: theme.spacing(15),
-    display: 'none',
-  },
+  display: 'none',
+  top: theme.spacing(8),
+  right: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(22),
-    right: theme.spacing(18),
-    display: 'none',
+    display: 'block',
+    top: theme.spacing(14),
+    right: theme.spacing(10),
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(24),
-    right: theme.spacing(20),
-    display: 'none',
+    top: theme.spacing(16),
+    right: theme.spacing(12),
   },
   [theme.breakpoints.up('lg')]: {
+    top: theme.spacing(10),
+    right: theme.spacing(18),
+  },
+  [theme.breakpoints.up('xl')]: {
     top: theme.spacing(15),
     right: theme.spacing(25),
-    display: 'block',
   },
 }));
 
 const MarkElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 2,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(60),
-    left: theme.spacing(5),
-    display: 'none',
-  },
+  display: 'none',
+  top: theme.spacing(25),
+  left: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(65),
-    left: theme.spacing(8),
-    display: 'none',
+    display: 'block',
+    top: theme.spacing(40),
+    left: theme.spacing(5),
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(70),
-    left: theme.spacing(12),
-    display: 'none',
+    top: theme.spacing(45),
+    left: theme.spacing(8),
   },
   [theme.breakpoints.up('lg')]: {
+    top: theme.spacing(55),
+    left: theme.spacing(15),
+  },
+  [theme.breakpoints.up('xl')]: {
     top: theme.spacing(75),
     left: theme.spacing(22),
-    display: 'block',
   },
 }));
 
 const LookingForElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    top: theme.spacing(45),
-    right: theme.spacing(15),
-    display: 'none',
-  },
+  display: 'none',
+  top: theme.spacing(15),
+  right: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(50),
-    right: theme.spacing(20),
     display: 'block',
+    top: theme.spacing(30),
+    right: theme.spacing(12),
   },
   [theme.breakpoints.up('md')]: {
-    top: theme.spacing(55),
-    right: theme.spacing(25),
+    top: theme.spacing(35),
+    right: theme.spacing(15),
   },
   [theme.breakpoints.up('lg')]: {
+    top: theme.spacing(30),
+    right: theme.spacing(10),
+  },
+  [theme.breakpoints.up('xl')]: {
     top: theme.spacing(45),
     right: theme.spacing(15),
   },
@@ -125,13 +131,11 @@ const LookingForElement = styled(Box)(({ theme }) => ({
 
 const FormElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  top: theme.spacing(9),
+  top: theme.spacing(4),
   left: '50%',
-  transform: 'translateX(-50%)',
   zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    display: 'none',
-  },
+  display: 'none',
+  transform: 'translateX(-50%)',
   [theme.breakpoints.up('sm')]: {
     display: 'block',
   },
@@ -140,21 +144,23 @@ const FormElement = styled(Box)(({ theme }) => ({
 const StarElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
-  [theme.breakpoints.up('xs')]: {
-    bottom: theme.spacing(10),
-    right: theme.spacing(5),
-    display: 'none',
-  },
+  display: 'none',
+  bottom: theme.spacing(2),
+  right: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    bottom: theme.spacing(8),
-    right: theme.spacing(8),
     display: 'block',
+    bottom: theme.spacing(5),
+    right: theme.spacing(5),
   },
   [theme.breakpoints.up('md')]: {
-    bottom: theme.spacing(5),
-    right: theme.spacing(12),
+    bottom: theme.spacing(4),
+    right: theme.spacing(8),
   },
   [theme.breakpoints.up('lg')]: {
+    bottom: theme.spacing(10),
+    right: theme.spacing(18),
+  },
+  [theme.breakpoints.up('xl')]: {
     bottom: theme.spacing(15),
     right: theme.spacing(25),
   },

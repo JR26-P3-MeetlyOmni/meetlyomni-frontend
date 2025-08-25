@@ -1,8 +1,104 @@
 import React, { useCallback } from 'react';
 
 import { Box, Button, Link, TextField, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Theme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+
+// Styled components
+const StyledErrorText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.caption,
+  color: theme.palette.error.main,
+  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(1),
+  textAlign: 'left',
+}));
+
+const StyledLabel = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.text.primary,
+  marginBottom: theme.spacing(0.75),
+  textAlign: 'left',
+}));
+
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: prop => prop !== 'hasError',
+})<{ hasError: boolean }>(({ hasError, theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+    '& fieldset': {
+      borderColor: hasError ? theme.palette.error.main : theme.palette.grey[300],
+    },
+    '&:hover fieldset': {
+      borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
+    },
+  },
+  '& .MuiInputLabel-root': { display: 'none' },
+  '& .MuiInputBase-input': { ...theme.typography.body2 },
+  marginBottom: theme.spacing(1),
+}));
+
+const StyledForgotPasswordBox = styled(Box)(({ theme }) => ({
+  textAlign: 'left',
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledForgotPasswordLink = styled(Link)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.primary.light || theme.palette.primary.main,
+  textDecoration: 'none',
+  '&:hover': { textDecoration: 'underline' },
+}));
+
+const StyledSignUpBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: theme.spacing(1),
+}));
+
+const StyledSignUpText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.text.secondary,
+  whiteSpace: 'nowrap',
+}));
+
+const StyledSignUpLink = styled(Link)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.primary.light || theme.palette.primary.main,
+  textDecoration: 'none',
+  '&:hover': { textDecoration: 'underline' },
+  whiteSpace: 'nowrap',
+}));
+
+const StyledSignInButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  height: 38,
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[1],
+  backgroundColor: theme.palette.grey[900],
+  textTransform: 'none',
+  fontFamily: theme.typography.button.fontFamily,
+  fontWeight: theme.typography.button.fontWeight,
+  fontSize: theme.typography.button.fontSize,
+  lineHeight: theme.typography.button.lineHeight,
+  letterSpacing: theme.typography.button.letterSpacing,
+  color: theme.palette.primary.contrastText,
+  '&:hover': { backgroundColor: theme.palette.grey[900] },
+  '&:disabled': {
+    backgroundColor: theme.palette.grey[300],
+    color: theme.palette.text.disabled,
+  },
+}));
+
+const StyledFormBox = styled('form')({
+  maxWidth: 412,
+  margin: '0 auto',
+});
 
 interface SignInFormProps {
   formData: { email: string; password: string };
@@ -16,23 +112,9 @@ interface SignInFormProps {
 // Error text component
 interface ErrorTextProps {
   error: string;
-  theme: Theme;
 }
-const ErrorText = ({ error, theme }: ErrorTextProps) =>
-  error ? (
-    <Typography
-      variant="caption"
-      sx={{
-        ...theme.typography.caption,
-        color: theme.palette.error.main,
-        mt: theme.spacing(0.5),
-        mb: theme.spacing(1),
-        textAlign: 'left',
-      }}
-    >
-      {error}
-    </Typography>
-  ) : null;
+const ErrorText = ({ error }: ErrorTextProps) =>
+  error ? <StyledErrorText>{error}</StyledErrorText> : null;
 
 // EmailInput only receives error boolean
 interface EmailInputProps {
@@ -40,22 +122,11 @@ interface EmailInputProps {
   hasError: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-  theme: Theme;
 }
-const EmailInput = ({ value, hasError, onChange, onBlur, theme }: EmailInputProps) => (
+const EmailInput = ({ value, hasError, onChange, onBlur }: EmailInputProps) => (
   <>
-    <Typography
-      variant="body2"
-      sx={{
-        ...theme.typography.body2,
-        color: theme.palette.text.primary,
-        mb: theme.spacing(0.75),
-        textAlign: 'left',
-      }}
-    >
-      Email
-    </Typography>
-    <TextField
+    <StyledLabel>Email</StyledLabel>
+    <StyledTextField
       required
       fullWidth
       id="email"
@@ -67,24 +138,7 @@ const EmailInput = ({ value, hasError, onChange, onBlur, theme }: EmailInputProp
       onBlur={onBlur}
       error={hasError}
       placeholder="Email Address"
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          borderRadius: theme.shape.borderRadius,
-          backgroundColor: theme.palette.background.paper,
-          '& fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.grey[300],
-          },
-          '&:hover fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-          },
-          '&.Mui-focused fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-          },
-        },
-        '& .MuiInputLabel-root': { display: 'none' },
-        '& .MuiInputBase-input': { ...theme.typography.body2 },
-        mb: theme.spacing(1),
-      }}
+      hasError={hasError}
     />
   </>
 );
@@ -95,22 +149,11 @@ interface PasswordInputProps {
   hasError: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-  theme: Theme;
 }
-const PasswordInput = ({ value, hasError, onChange, onBlur, theme }: PasswordInputProps) => (
+const PasswordInput = ({ value, hasError, onChange, onBlur }: PasswordInputProps) => (
   <>
-    <Typography
-      variant="body2"
-      sx={{
-        ...theme.typography.body2,
-        color: theme.palette.text.primary,
-        mb: theme.spacing(0.75),
-        textAlign: 'left',
-      }}
-    >
-      Password
-    </Typography>
-    <TextField
+    <StyledLabel>Password</StyledLabel>
+    <StyledTextField
       required
       fullWidth
       name="password"
@@ -122,120 +165,34 @@ const PasswordInput = ({ value, hasError, onChange, onBlur, theme }: PasswordInp
       onBlur={onBlur}
       error={hasError}
       placeholder="Password"
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          borderRadius: theme.shape.borderRadius,
-          backgroundColor: theme.palette.background.paper,
-          '& fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.grey[300],
-          },
-          '&:hover fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-          },
-          '&.Mui-focused fieldset': {
-            borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-          },
-        },
-        '& .MuiInputLabel-root': { display: 'none' },
-        '& .MuiInputBase-input': { ...theme.typography.body2 },
-        mb: theme.spacing(1),
-      }}
+      hasError={hasError}
     />
   </>
 );
 
 // Forgot password link component
-interface ForgotPasswordLinkProps {
-  theme: Theme;
-}
-const ForgotPasswordLink = ({ theme }: ForgotPasswordLinkProps) => (
-  <Box sx={{ textAlign: 'left', mb: theme.spacing(2) }}>
-    <Link
-      href="/forgot-password"
-      variant="body2"
-      sx={{
-        ...theme.typography.body2,
-        color: theme.palette.primary.light || theme.palette.primary.main,
-        textDecoration: 'none',
-        '&:hover': { textDecoration: 'underline' },
-      }}
-    >
-      Forgot Password?
-    </Link>
-  </Box>
+const ForgotPasswordLink = () => (
+  <StyledForgotPasswordBox>
+    <StyledForgotPasswordLink href="/forgot-password">Forgot Password?</StyledForgotPasswordLink>
+  </StyledForgotPasswordBox>
 );
 
 // Sign up link component
-interface SignUpLinkProps {
-  theme: Theme;
-}
-const SignUpLink = ({ theme }: SignUpLinkProps) => (
-  <Box
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: theme.spacing(1),
-    }}
-  >
-    <Typography
-      variant="body2"
-      sx={{
-        ...theme.typography.body2,
-        color: theme.palette.text.secondary,
-        whiteSpace: 'nowrap',
-      }}
-    >
-      Don&apos;t have an account?
-    </Typography>
-    <Link
-      href="/signup"
-      sx={{
-        ...theme.typography.body2,
-        color: theme.palette.primary.light || theme.palette.primary.main,
-        textDecoration: 'none',
-        '&:hover': { textDecoration: 'underline' },
-        whiteSpace: 'nowrap',
-      }}
-    >
-      Sign up
-    </Link>
-  </Box>
+const SignUpLink = () => (
+  <StyledSignUpBox>
+    <StyledSignUpText>Don&apos;t have an account?</StyledSignUpText>
+    <StyledSignUpLink href="/signup">Sign up</StyledSignUpLink>
+  </StyledSignUpBox>
 );
 
 // Sign in button component
 interface SignInButtonProps {
   isSubmitting: boolean;
-  theme: Theme;
 }
-const SignInButton = ({ isSubmitting, theme }: SignInButtonProps) => (
-  <Button
-    type="submit"
-    variant="contained"
-    disabled={isSubmitting}
-    sx={{
-      width: '100%',
-      height: 38,
-      my: theme.spacing(2),
-      borderRadius: theme.shape.borderRadius,
-      boxShadow: theme.shadows[1],
-      backgroundColor: theme.palette.grey[900],
-      textTransform: 'none',
-      fontFamily: theme.typography.button.fontFamily,
-      fontWeight: theme.typography.button.fontWeight,
-      fontSize: theme.typography.button.fontSize,
-      lineHeight: theme.typography.button.lineHeight,
-      letterSpacing: theme.typography.button.letterSpacing,
-      color: theme.palette.primary.contrastText,
-      '&:hover': { backgroundColor: theme.palette.grey[900] },
-      '&:disabled': {
-        backgroundColor: theme.palette.grey[300],
-        color: theme.palette.text.disabled,
-      },
-    }}
-  >
+const SignInButton = ({ isSubmitting }: SignInButtonProps) => (
+  <StyledSignInButton type="submit" variant="contained" disabled={isSubmitting}>
     {isSubmitting ? 'Signing in...' : 'Sign in'}
-  </Button>
+  </StyledSignInButton>
 );
 
 export const SignInForm: React.FC<SignInFormProps> = ({
@@ -246,7 +203,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   handleInputBlur,
   handleSubmit,
 }) => {
-  const theme = useTheme();
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('email', e.target.value),
     [handleInputChange],
@@ -268,26 +224,24 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   const emailHasError = emailError.length > 0;
   const passwordHasError = passwordError.length > 0;
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 412, mx: 'auto' }}>
+    <StyledFormBox onSubmit={handleSubmit}>
       <EmailInput
         value={formData.email}
         hasError={emailHasError}
         onChange={handleEmailChange}
         onBlur={handleEmailBlur}
-        theme={theme}
       />
-      <ErrorText error={emailError} theme={theme} />
+      <ErrorText error={emailError} />
       <PasswordInput
         value={formData.password}
         hasError={passwordHasError}
         onChange={handlePasswordChange}
         onBlur={handlePasswordBlur}
-        theme={theme}
       />
-      <ErrorText error={passwordError} theme={theme} />
-      <ForgotPasswordLink theme={theme} />
-      <SignInButton isSubmitting={isSubmitting} theme={theme} />
-      <SignUpLink theme={theme} />
-    </Box>
+      <ErrorText error={passwordError} />
+      <ForgotPasswordLink />
+      <SignInButton isSubmitting={isSubmitting} />
+      <SignUpLink />
+    </StyledFormBox>
   );
 };
