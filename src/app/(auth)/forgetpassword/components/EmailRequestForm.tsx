@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Alert } from '@mui/material';
 import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -21,6 +21,11 @@ const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
   const emailSent = useAppSelector(selectEmailSent);
   const requestError = useAppSelector(selectPasswordResetRequestError);
 
+  // Memoized callbacks to avoid inline functions
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }, []);
+
   // Clear errors when component unmounts or email changes
   useEffect(() => {
     if (validationError) {
@@ -31,7 +36,7 @@ const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
     }
   }, [email, dispatch, validationError, requestError]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Reset validation error
@@ -55,42 +60,46 @@ const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
     if (requestResetThunk.fulfilled.match(result)) {
       setEmail('');
     }
-  };
+  }, [email, dispatch]);
 
   const displayError = validationError || requestError;
+
+  if (emailSent) {
+    return (
+      <FormContainer>
+        <FormTitle>Reset your password</FormTitle>
+        <Alert severity="success">
+          Password reset link has been sent to your email. Please check your inbox.
+        </Alert>
+      </FormContainer>
+    );
+  }
 
   return (
     <FormContainer>
       <FormTitle>Reset your password</FormTitle>
-      
-      {emailSent ? (
-        <Alert severity="success">
-          Password reset link has been sent to your email. Please check your inbox.
-        </Alert>
-      ) : (
-        <Box component="form" onSubmit={handleSubmit}>
-          <StyledSectionLabel>Email</StyledSectionLabel>
-          <StyledTextField
-            fullWidth
-            size="small"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!!displayError}
-            helperText={displayError}
-            disabled={isSubmitting}
-            placeholder="Input Your Email Address"
-          />
-          
-          <StyledSubmitButton
-            type="submit"
-            fullWidth
-            disabled={isSubmitting || !email}
-          >
-            {isSubmitting ? 'Sending...' : 'Submit'}
-          </StyledSubmitButton>
-        </Box>
-      )}
+      <Box component="form" onSubmit={handleSubmit}>
+        <StyledSectionLabel>Email</StyledSectionLabel>
+        <StyledTextField
+          fullWidth
+          size="small"
+          type="email"
+          value={email}
+          onChange={handleEmailChange}
+          error={!!displayError}
+          helperText={displayError}
+          disabled={isSubmitting}
+          placeholder="Input Your Email Address"
+        />
+        
+        <StyledSubmitButton
+          type="submit"
+          fullWidth
+          disabled={isSubmitting || !email}
+        >
+          {isSubmitting ? 'Sending...' : 'Submit'}
+        </StyledSubmitButton>
+      </Box>
     </FormContainer>
   );
 };
