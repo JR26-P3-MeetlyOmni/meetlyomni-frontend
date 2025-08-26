@@ -48,12 +48,10 @@ export const UserMenu = ({ user }: UserMenuProps) => {
         alt={user.username}
       />
       <UserName>{user.username}</UserName>
-      <DropdownIcon />
-      {isOpen === true && (
-        <DropdownMenu>
-          <DropdownMenuItem onClick={handleLogout}>Log Out</DropdownMenuItem>
-        </DropdownMenu>
-      )}
+      <DropdownIcon isOpen={isOpen} />
+      <DropdownMenu isOpen={isOpen}>
+        <DropdownMenuItem onClick={handleLogout}>Log Out</DropdownMenuItem>
+      </DropdownMenu>
     </UserMenuWrapper>
   );
 };
