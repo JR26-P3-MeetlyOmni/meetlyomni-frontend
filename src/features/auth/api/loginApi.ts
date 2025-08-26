@@ -1,4 +1,4 @@
-import type { LoginCredentials, User } from './types';
+import type { LoginCredentials, User } from '../types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 

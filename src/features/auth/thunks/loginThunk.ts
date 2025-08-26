@@ -2,8 +2,8 @@ import type { RootState } from '@/store/store';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { loginApi } from './authApi';
-import type { AuthError, LoginCredentials, User } from './types';
+import { loginApi } from '../api/loginApi';
+import type { AuthError, LoginCredentials, User } from '../types';
 
 export const loginThunk = createAsyncThunk<
   User,

@@ -1,7 +1,7 @@
 'use client';
 
 import { selectError, selectIsLoading } from '@/features/auth/selectors';
-import { loginThunk } from '@/features/auth/thunks';
+import { loginThunk } from '@/features/auth/thunks/loginThunk';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
