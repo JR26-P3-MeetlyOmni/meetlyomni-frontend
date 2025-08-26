@@ -1,5 +1,5 @@
 import { ImageElement } from './shared';
-import type { ImageConfig } from '../../types';
+import type { ImageConfig } from '../types';
 
 const formBackgroundConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/form.png',

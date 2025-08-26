@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material/styles';
 
-import type { DecorativeContainerProps, ImageConfig, ResponsiveImageWrapperProps } from '../../types';
+import type { DecorativeContainerProps, ImageConfig, ResponsiveImageWrapperProps } from '../types';
 export const DECORATIVE_SPACING = {
   LOGO_BASE: 3,
   LOGO_SM: 4,

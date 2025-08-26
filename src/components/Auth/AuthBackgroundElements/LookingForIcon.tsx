@@ -1,5 +1,5 @@
 import { ImageElement } from './shared';
-import type { ImageConfig } from '../../types';
+import type { ImageConfig } from '../types';
 
 const lookingForConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/lookingFor.png',

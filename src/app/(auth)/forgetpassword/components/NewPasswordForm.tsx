@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Typography, Box, Alert, IconButton, InputAdornment, LinearProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from './shared/shared_form';
+import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
 
 const PasswordStrengthContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Box, Alert } from '@mui/material';
-import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from './shared/shared_form';
+import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
 
 import type { EmailRequestFormProps } from '../types';
 

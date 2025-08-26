@@ -1,5 +1,5 @@
 import { ImageElement } from './shared';
-import type { ImageConfig } from '../../types';
+import type { ImageConfig } from '../types';
 
 const starConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/star.png',
