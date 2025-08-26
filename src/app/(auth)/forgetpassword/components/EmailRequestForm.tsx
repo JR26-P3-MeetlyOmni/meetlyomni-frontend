@@ -2,18 +2,9 @@
 
 import React, { useState } from 'react';
 import { Box, Alert } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { FormContainer, FormTitle, StyledTextField, SubmitButton, SectionLabel } from './forms/shared';
+import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from './shared/shared_form';
 
 import type { EmailRequestFormProps } from '../types';
-
-const StyledSectionLabel = styled(SectionLabel)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-}));
-
-const StyledSubmitButton = styled(SubmitButton)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
 
 const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
   const [email, setEmail] = useState('');
