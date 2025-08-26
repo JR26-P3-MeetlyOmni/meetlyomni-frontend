@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Box, styled, Alert, CircularProgress } from '@mui/material';
+import { Box, styled, Alert, CircularProgress, Button } from '@mui/material';
+import Link from 'next/link';
 import { DecorativeElements } from '../components/DecorativeElements';
 import NewPasswordForm from '../components/NewPasswordForm';
 
@@ -52,6 +53,12 @@ const LoadingContainer = styled(Box)(() => ({
   minHeight: '200px',
 }));
 
+const BackLinkContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  display: 'flex',
+  justifyContent: 'center',
+}));
+
 function VerifyPageContent() {
   const searchParams = useSearchParams();
   const [token, setToken] = useState<string | null>(null);
@@ -86,6 +93,11 @@ function VerifyPageContent() {
         <Alert severity="error">
           {error || 'Invalid reset link'}
         </Alert>
+        <BackLinkContainer>
+          <Button component={Link} href="/login" variant="outlined">
+            Back to login
+          </Button>
+        </BackLinkContainer>
       </ErrorContainer>
     );
   }

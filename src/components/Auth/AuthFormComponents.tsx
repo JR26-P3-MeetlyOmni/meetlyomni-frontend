@@ -2,32 +2,27 @@ import { TextField, Button, Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const FormContainer = styled(Box)(({ theme }) => ({
-  maxWidth: 460,
   width: '100%',
-  padding: theme.spacing(4),
+  maxWidth: 'clamp(320px, 45vw, 520px)',
+  padding: 'clamp(16px, 3vw, 24px)',
   backgroundColor: theme.palette.background.paper,
   borderRadius: Number(theme.shape.borderRadius) * 2.5,
   boxShadow: theme.shadows[1],
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(3),
+  gap: 'clamp(16px, 2.5vw, 28px)',
   position: 'relative',
   zIndex: 10,
   margin: '0 auto',
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(5),
-  },
 }));
 
 export const FormTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '28px',
-  fontWeight: 700,  
+  fontSize: 'clamp(22px, 4vw, 40px)',
+  fontWeight: 700,
   color: theme.palette.text.primary,
   textAlign: 'center',
-  marginBottom: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '34px', 
-  },
+  marginBottom: 'clamp(12px, 2.5vw, 24px)',
+  lineHeight: 1.2,
 }));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -35,6 +30,8 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[1],
+    fontSize: 'clamp(14px, 1.8vw, 18px)',
+    minHeight: 'clamp(36px, 6vw, 56px)',
     '& fieldset': {
       borderColor: theme.palette.divider,
     },
@@ -45,21 +42,26 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       borderColor: theme.palette.divider,
     },
   },
+  '& .MuiInputBase-input': {
+    fontSize: 'clamp(14px, 1.8vw, 18px)',
+    padding: 'clamp(8px, 2vw, 12px) clamp(10px, 2.4vw, 16px)',
+  },
   '& input::placeholder': {
     color: theme.palette.text.secondary,
     opacity: 1,
-    fontSize: theme.typography.body2.fontSize,
+    fontSize: 'clamp(13px, 1.7vw, 16px)',
   },
 }));
 
 export const SubmitButton = styled(Button)(({ theme }) => ({
   backgroundColor: 'rgb(20,24,59)', 
   color: '#FFFFFF', 
-  height: 38,
+  minHeight: 'clamp(40px, 6vw, 56px)',
   borderRadius: theme.shape.borderRadius,
   textTransform: 'none',
-  fontSize: theme.typography.button.fontSize,
+  fontSize: 'clamp(14px, 1.8vw, 18px)',
   fontWeight: theme.typography.button.fontWeight,
+  padding: 'clamp(8px, 2vw, 12px) clamp(16px, 4vw, 28px)',
   '&:hover': {
     backgroundColor: 'rgb(16,20,47)', 
   },
@@ -71,6 +73,13 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
 export const SectionLabel = styled(Typography)(({ theme }) => ({
   fontWeight: 500, 
   color: theme.palette.text.primary,
+  fontSize: 'clamp(13px, 2.2vw, 15px)',
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '14px',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '15px',
+  },
 }));
 
 export const StyledSectionLabel = styled(SectionLabel)(({ theme }) => ({
