@@ -1,6 +1,8 @@
+import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
 
 import React from 'react';
+import { Provider } from 'react-redux';
 
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -62,8 +64,12 @@ vi.mock('@mui/icons-material', () => ({
 }));
 
 describe('SigninPage', () => {
+  const renderWithRedux = (component: React.ReactElement) => {
+    return render(<Provider store={store}>{component}</Provider>);
+  };
+
   it('renders the sign-in form with title', () => {
-    render(<SigninPage />);
+    renderWithRedux(<SigninPage />);
 
     // check both parts of the title
     expect(screen.getByText('Welcome to Omni!')).toBeInTheDocument();
@@ -71,7 +77,7 @@ describe('SigninPage', () => {
   });
 
   it('renders email and password inputs', () => {
-    render(<SigninPage />);
+    renderWithRedux(<SigninPage />);
 
     // check with input with placeholder
     expect(screen.getByPlaceholderText('Email Address')).toBeInTheDocument();
@@ -79,13 +85,13 @@ describe('SigninPage', () => {
   });
 
   it('renders sign in button', () => {
-    render(<SigninPage />);
+    renderWithRedux(<SigninPage />);
 
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
   });
 
   it('renders forgot password and sign up links', () => {
-    render(<SigninPage />);
+    renderWithRedux(<SigninPage />);
 
     // Check for links
     expect(screen.getByText(/forgot password/i)).toBeInTheDocument();

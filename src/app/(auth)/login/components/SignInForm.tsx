@@ -1,3 +1,7 @@
+import { selectError, selectIsLoading } from '@/features/auth/selectors';
+import { loginThunk } from '@/features/auth/thunks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+
 import React, { useCallback } from 'react';
 
 import { Box, Button, Link, TextField, Typography } from '@mui/material';
@@ -103,10 +107,8 @@ const StyledFormBox = styled('form')({
 interface SignInFormProps {
   formData: { email: string; password: string };
   errors: { email: string; password: string };
-  isSubmitting: boolean;
   handleInputChange: (field: string, value: string) => void;
   handleInputBlur: (field: string, value: string) => void;
-  handleSubmit: (e: React.FormEvent) => void;
 }
 
 // Error text component
@@ -187,22 +189,22 @@ const SignUpLink = () => (
 
 // Sign in button component
 interface SignInButtonProps {
-  isSubmitting: boolean;
+  isLoading: boolean;
 }
-const SignInButton = ({ isSubmitting }: SignInButtonProps) => (
-  <StyledSignInButton type="submit" variant="contained" disabled={isSubmitting}>
-    {isSubmitting ? 'Signing in...' : 'Sign in'}
+const SignInButton = ({ isLoading }: SignInButtonProps) => (
+  <StyledSignInButton type="submit" variant="contained" disabled={isLoading}>
+    {isLoading ? 'Signing in...' : 'Sign in'}
   </StyledSignInButton>
 );
 
-export const SignInForm: React.FC<SignInFormProps> = ({
-  formData,
-  errors,
-  isSubmitting,
-  handleInputChange,
-  handleInputBlur,
-  handleSubmit,
-}) => {
+// Form handlers component
+const useFormHandlers = (
+  formData: { email: string; password: string },
+  handleInputChange: (field: string, value: string) => void,
+  handleInputBlur: (field: string, value: string) => void,
+) => {
+  const dispatch = useAppDispatch();
+
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('email', e.target.value),
     [handleInputChange],
@@ -219,10 +221,54 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     (e: React.FocusEvent<HTMLInputElement>) => handleInputBlur('password', e.target.value),
     [handleInputBlur],
   );
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const emailTrim = formData.email.trim();
+      const passwordTrim = formData.password.trim();
+
+      try {
+        await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
+        // TODO: redirect to dashboard
+      } catch {
+        // TODO: handle error
+      }
+    },
+    [dispatch, formData.email, formData.password],
+  );
+
+  return {
+    handleEmailChange,
+    handleEmailBlur,
+    handlePasswordChange,
+    handlePasswordBlur,
+    handleSubmit,
+  };
+};
+
+export const SignInForm: React.FC<SignInFormProps> = ({
+  formData,
+  errors,
+  handleInputChange,
+  handleInputBlur,
+}) => {
+  const isLoading = useAppSelector(selectIsLoading);
+  const reduxError = useAppSelector(selectError);
+
+  const {
+    handleEmailChange,
+    handleEmailBlur,
+    handlePasswordChange,
+    handlePasswordBlur,
+    handleSubmit,
+  } = useFormHandlers(formData, handleInputChange, handleInputBlur);
+
   const emailError = typeof errors.email === 'string' ? errors.email : '';
   const passwordError = typeof errors.password === 'string' ? errors.password : '';
   const emailHasError = emailError.length > 0;
   const passwordHasError = passwordError.length > 0;
+
   return (
     <StyledFormBox onSubmit={handleSubmit}>
       <EmailInput
@@ -239,8 +285,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         onBlur={handlePasswordBlur}
       />
       <ErrorText error={passwordError} />
+      {reduxError ? <ErrorText error={reduxError} /> : null}
       <ForgotPasswordLink />
-      <SignInButton isSubmitting={isSubmitting} />
+      <SignInButton isLoading={isLoading} />
       <SignUpLink />
     </StyledFormBox>
   );

@@ -89,8 +89,7 @@ function SignInTitle() {
 }
 
 export default function SigninPage() {
-  const { formData, errors, isSubmitting, handleInputChange, handleInputBlur, handleSubmit } =
-    useSignInForm();
+  const { formData, errors, handleInputChange, handleInputBlur } = useSignInForm();
 
   return (
     <StyledPageBox>
@@ -100,10 +99,8 @@ export default function SigninPage() {
         <SignInForm
           formData={formData}
           errors={errors}
-          isSubmitting={isSubmitting}
           handleInputChange={handleInputChange}
           handleInputBlur={handleInputBlur}
-          handleSubmit={handleSubmit}
         />
       </StyledContainer>
     </StyledPageBox>

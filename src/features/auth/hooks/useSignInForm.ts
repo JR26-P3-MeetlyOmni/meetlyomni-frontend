@@ -15,7 +15,7 @@ const validatePassword = (password: string) => {
   return minLength && hasUpperCase && hasLowerCase && hasNumber;
 };
 
-const validateFields = (formData: { email: string; password: string }) => {
+const _validateFields = (formData: { email: string; password: string }) => {
   const newErrors = { email: '', password: '' };
   if (!formData.email) {
     newErrors.email = 'Email is required';
@@ -31,30 +31,10 @@ const validateFields = (formData: { email: string; password: string }) => {
   return newErrors;
 };
 
-const validateAndSubmit = async (
-  formData: { email: string; password: string },
-  setErrors: React.Dispatch<React.SetStateAction<{ email: string; password: string }>>,
-  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>,
-  handleSuccess: () => void,
-) => {
-  const newErrors = validateFields(formData);
-  setErrors(newErrors);
-  if (!newErrors.email && !newErrors.password) {
-    setIsSubmitting(true);
-    try {
-      handleSuccess();
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-};
-
 export const useSignInForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -81,17 +61,6 @@ export const useSignInForm = () => {
     setErrors(prev => ({ ...prev, [field]: newError }));
   };
 
-  const handleSuccess = () => {
-    alert('Sign in successful! Redirecting to dashboard...');
-    // Example: router.push('/dashboard');
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setHasSubmitted(true);
-    await validateAndSubmit(formData, setErrors, setIsSubmitting, handleSuccess);
-  };
-
   const isFormValid = useMemo((): boolean => {
     return (
       formData.email.length > 0 &&
@@ -105,12 +74,9 @@ export const useSignInForm = () => {
     formData,
     errors,
     showPassword,
-    isSubmitting,
-    hasSubmitted,
     isFormValid,
     handleInputChange,
     handleInputBlur,
-    handleSubmit,
     setShowPassword,
   };
 };
