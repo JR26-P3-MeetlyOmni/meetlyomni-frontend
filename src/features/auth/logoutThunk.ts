@@ -10,7 +10,7 @@ export const logoutThunk = createAsyncThunk<
   void,
   { rejectValue: AuthError; state: RootState }
 >(
-  'auth/logout',
+  '/auth/logout',
   async (_, { rejectWithValue, signal }) => {
     try {
       await logoutApi(signal);
