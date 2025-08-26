@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Generate reset URL
-    const resetUrl = `http://localhost:3000/resetpw/verify?token=${token}`;
+    const resetUrl = `http://localhost:3000/forgetpassword/resetpw?token=${token}`;
     
     // Simulate sending email by logging to console
     console.log('\n=== PASSWORD RESET EMAIL ===');

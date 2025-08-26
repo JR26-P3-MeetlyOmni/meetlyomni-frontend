@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { loginApi } from '../authApi';
+import { loginApi } from '../api/loginApi';
 import type { LoginCredentials, User } from '../types';
 
 // Mock global fetch

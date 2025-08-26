@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import authReducer from '../slice';
-import { loginThunk } from '../thunks';
+import { loginThunk } from '../thunks/loginThunk';
 import type { AuthState, User } from '../types';
 
 describe('auth slice', () => {
@@ -10,6 +10,13 @@ describe('auth slice', () => {
     isAuthenticated: false,
     isLoading: false,
     error: null,
+    passwordReset: {
+      emailSent: false,
+      isRequestingReset: false,
+      isResettingPassword: false,
+      requestError: null,
+      resetError: null,
+    },
   };
 
   const mockUser: User = {

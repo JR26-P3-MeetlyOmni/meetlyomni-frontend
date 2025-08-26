@@ -2,13 +2,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { configureStore } from '@reduxjs/toolkit';
 
-import * as authApi from '../authApi';
+import * as authApi from '../api/loginApi';
 import authReducer from '../slice';
-import { loginThunk } from '../thunks';
+import { loginThunk } from '../thunks/loginThunk';
 import type { LoginCredentials, User } from '../types';
 
 // Mock the authApi module
-vi.mock('../authApi');
+vi.mock('../api/loginApi');
 const mockLoginApi = authApi.loginApi as ReturnType<typeof vi.fn>;
 
 describe('loginThunk', () => {
@@ -202,6 +202,13 @@ describe('loginThunk', () => {
         isAuthenticated: true,
         isLoading: false,
         error: null,
+        passwordReset: {
+          emailSent: false,
+          isRequestingReset: false,
+          isResettingPassword: false,
+          requestError: null,
+          resetError: null,
+        },
       });
     });
   });

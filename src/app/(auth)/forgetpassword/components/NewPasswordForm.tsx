@@ -1,10 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Typography, Box, Alert, IconButton, InputAdornment, LinearProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { resetPasswordThunk } from '@/features/auth/thunks/resetPasswordThunk';
+import { clearPasswordResetErrors } from '@/features/auth/slice';
+import { selectIsResettingPassword, selectPasswordResetError } from '@/features/auth/selectors';
+import { validatePasswordStrength, isPasswordValid, getPasswordStrengthScore, getPasswordStrengthMeta } from '@/features/auth/utils/validation';
 
 const PasswordStrengthContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -36,93 +41,65 @@ const ValidationText = styled(Typography)<{ isValid: boolean }>(({ theme, isVali
   lineHeight: 1.4,
 }));
 
-import type { NewPasswordFormProps, PasswordValidation } from '../types';
+import type { NewPasswordFormProps } from '../types';
 
 const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
+  const dispatch = useAppDispatch();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const validatePassword = (pwd: string): PasswordValidation => {
-    return {
-      minLength: pwd.length >= 12,
-      hasUpper: /[A-Z]/.test(pwd),
-      hasLower: /[a-z]/.test(pwd),
-      hasNumber: /\d/.test(pwd),
-      hasSpecial: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd),
-      match: pwd === confirmPassword && pwd.length > 0,
-    };
-  };
+  // Redux state
+  const isSubmitting = useAppSelector(selectIsResettingPassword);
+  const resetError = useAppSelector(selectPasswordResetError);
 
-  const validation = validatePassword(password);
-  const isValidPassword = Object.values(validation).every(v => v === true);
+  // Password validation using utility functions
+  const validation = validatePasswordStrength(password, confirmPassword);
+  const isValidPassword = isPasswordValid(validation);
   const isLengthOk = validation.minLength;
   const isCaseOk = validation.hasUpper && validation.hasLower;
   const isNumSpecialOk = validation.hasNumber && validation.hasSpecial;
   const isStrong = isLengthOk && isCaseOk && isNumSpecialOk;
   const hasInput = password.length > 0;
 
-  // Strength meter (shown when rules are hidden)
-  const strengthScore = [
-    validation.minLength,
-    validation.hasUpper,
-    validation.hasLower,
-    validation.hasNumber,
-    validation.hasSpecial,
-  ].filter(Boolean).length;
-
+  // Strength meter
+  const strengthScore = getPasswordStrengthScore(validation);
   const strengthPercent = (strengthScore / 5) * 100;
-  const getStrengthMeta = (score: number): { label: string; color: 'error' | 'warning' | 'success' } => {
-    if (score <= 2) return { label: 'Weak', color: 'error' };
-    if (score <= 4) return { label: 'Medium', color: 'warning' };
-    return { label: 'Strong', color: 'success' };
-  };
-  const strengthMeta = getStrengthMeta(strengthScore);
+  const strengthMeta = getPasswordStrengthMeta(strengthScore);
+
+  // Clear errors when password changes
+  useEffect(() => {
+    if (resetError) {
+      dispatch(clearPasswordResetErrors());
+    }
+  }, [password, confirmPassword, dispatch, resetError]);
+
+  // Handle successful password reset
+  const handleResetSuccess = useCallback(() => {
+    setSuccess(true);
+    // Redirect to login page after successful reset
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 2000);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Reset previous states
-    setError('');
-    setSuccess(false);
-
     if (!isValidPassword) {
-      setError('Please ensure all password requirements are met');
       return;
     }
 
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/auth/reset-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token, newPassword: password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'An error occurred');
-      }
-
-      setSuccess(true);
-      
-      // Redirect to login page after successful reset
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 2000);
-      
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setIsSubmitting(false);
+    const result = await dispatch(resetPasswordThunk({ 
+      token, 
+      newPassword: password 
+    }));
+    
+    // Handle success
+    if (resetPasswordThunk.fulfilled.match(result)) {
+      handleResetSuccess();
     }
   };
 
@@ -215,8 +192,8 @@ const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
           }}
         />
 
-        {error ? <Alert severity="error">
-            {error}
+        {resetError ? <Alert severity="error">
+            {resetError}
           </Alert> : null}
         
         <StyledSubmitButton
