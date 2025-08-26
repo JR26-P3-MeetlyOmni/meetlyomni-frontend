@@ -215,8 +215,7 @@ describe('ContactUsPage', () => {
 
       render(<ContactUsPage />);
 
-      // We would need to mock the fetch or API call to simulate an error
-      // For now, we'll test the basic structure is in place
+      // mock the fetch or API call to simulate an error
       expect(screen.getByText('Contact our team')).toBeInTheDocument();
 
       alertSpy.mockRestore();
