@@ -38,7 +38,6 @@ export interface ImageStyles {
     imageHeight?: string;
   }
   
-// Reset password feature form types
 export interface NewPasswordFormProps {
     token: string;
 }
@@ -51,5 +50,3 @@ export interface PasswordValidation {
     hasSpecial: boolean;
     match: boolean;
 }
-
-export interface EmailRequestFormProps {}

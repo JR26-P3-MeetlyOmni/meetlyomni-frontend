@@ -38,13 +38,11 @@ export async function POST(request: NextRequest) {
     const resetUrl = `http://localhost:3000/forgetpassword/resetpw?token=${token}`;
     
     // Simulate sending email by logging to console
-    /* eslint-disable no-console */
     console.log('\n=== PASSWORD RESET EMAIL ===');
     console.log(`To: ${user.email}`);
     console.log(`Subject: Reset your password`);
     console.log(`Reset URL: ${resetUrl}`);
     console.log('==============================\n');
-    /* eslint-enable no-console */
     return NextResponse.json({ ok: true });
 
   } catch (error) {

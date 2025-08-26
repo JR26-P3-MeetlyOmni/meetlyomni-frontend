@@ -9,9 +9,7 @@ import { clearPasswordResetErrors } from '@/features/auth/slice';
 import { selectIsRequestingReset, selectEmailSent, selectPasswordResetRequestError } from '@/features/auth/selectors';
 import { validateEmail } from '@/features/auth/utils/validation';
 
-import type { EmailRequestFormProps } from '../types';
-
-const EmailRequestForm: React.FC<EmailRequestFormProps> = () => {
+const EmailRequestForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [validationError, setValidationError] = useState('');

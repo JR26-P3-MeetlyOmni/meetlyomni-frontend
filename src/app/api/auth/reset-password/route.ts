@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { token, newPassword } = body;
-
     console.log('=== RESET PASSWORD DEBUG ===');
     console.log('Received token:', token);
     console.log('Available tokens:', Array.from(resetTokens.keys()));
@@ -57,7 +56,6 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-
     // Simulate password update
     console.log(`\n=== PASSWORD UPDATED ===`);
     console.log(`User: ${user.email}`);
