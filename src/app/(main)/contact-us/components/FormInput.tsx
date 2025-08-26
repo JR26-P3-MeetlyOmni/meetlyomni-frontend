@@ -4,31 +4,24 @@ import React from 'react';
 
 import { Box, styled, TextField, Typography } from '@mui/material';
 
+import { FormInputProps } from '../types';
+
+// Label styling for form inputs
 const StyledLabel = styled(Typography)(({ theme }) => ({
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   fontSize: theme.typography.pxToRem(14),
   fontWeight: theme.typography.fontWeightMedium,
   lineHeight: 1,
   color: theme.palette.text.primary,
-  marginBottom: theme.spacing(0.75), // 6px / 8 = 0.75
+  marginBottom: theme.spacing(0.75),
   display: 'block',
 }));
 
-// 注释掉未使用的StyledOptionalLabel
-// const StyledOptionalLabel = styled(Typography)(({ theme }) => ({
-//   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-//   fontSize: theme.typography.pxToRem(14),
-//   fontWeight: theme.typography.fontWeightRegular,
-//   lineHeight: 1,
-//   color: theme.palette.text.disabled,
-//   marginBottom: theme.spacing(0.75), // 6px / 8 = 0.75
-//   display: 'block',
-// }));
-
+// Custom styled text field with consistent design
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    borderRadius: theme.spacing(0.75), // 6px / 8 = 0.75
+    borderRadius: theme.spacing(0.75),
     backgroundColor: theme.palette.background.paper,
     border: `solid 1px ${theme.palette.divider}`,
     boxShadow: theme.shadows[1],
@@ -42,14 +35,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
       border: `solid 1px ${theme.palette.primary.main}`,
     },
     '& input': {
-      padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`, // 上下12px 左右16px
-      height: theme.spacing(1.75), // 14px / 8 = 1.75
+      padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
+      height: theme.spacing(1.75),
     },
     '& textarea': {
-      padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`, // 上下12px 左右16px
+      padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
     },
     '& input::placeholder, & textarea::placeholder': {
-      color: theme.palette.text.disabled, // #c9cacd
+      color: theme.palette.text.disabled,
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       fontSize: theme.typography.pxToRem(14),
       fontWeight: theme.typography.fontWeightRegular,
@@ -61,18 +54,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-interface FormInputProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  multiline?: boolean;
-  rows?: number;
-  width?: string;
-  required?: boolean;
-  type?: string;
-}
-
+// Reusable form input component
 const FormInput: React.FC<FormInputProps> = ({
   label,
   value,
@@ -80,10 +62,11 @@ const FormInput: React.FC<FormInputProps> = ({
   placeholder = '',
   multiline = false,
   rows = 1,
-  width = '40', // Default to theme.spacing(40) which is 320px
-  required: _required = true, // 前缀_表示未使用但需要保留
+  width = '40',
+  required: _required = true,
   type = 'text',
 }) => {
+  // Handle input value changes
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       onChange(event.target.value);
@@ -91,10 +74,7 @@ const FormInput: React.FC<FormInputProps> = ({
     [onChange],
   );
 
-  // 所有字段都使用required样式（深色标签）
-  const LabelComponent = StyledLabel;
-
-  // Convert width to theme spacing if it's a number string
+  // Convert width string to theme spacing function
   const getWidth = (w: string) => {
     const numValue = parseFloat(w);
     return isNaN(numValue)
@@ -103,10 +83,10 @@ const FormInput: React.FC<FormInputProps> = ({
   };
 
   return (
-    <Box sx={{ marginBottom: theme => theme.spacing(3) }}>
+    <Box sx={{ marginBottom: theme => theme.spacing(4) }}>
       {' '}
-      {/* 24px / 8 = 3 */}
-      <LabelComponent>{label}</LabelComponent>
+      {/* 32px / 8 = 4 */}
+      <StyledLabel>{label}</StyledLabel>
       <StyledTextField
         value={value}
         onChange={handleChange}
@@ -117,8 +97,8 @@ const FormInput: React.FC<FormInputProps> = ({
         sx={{
           width: getWidth(width),
           '& .MuiOutlinedInput-root': {
-            height: multiline ? 'auto' : theme => theme.spacing(4.75), // 38px / 8 = 4.75
-            minHeight: multiline ? theme => theme.spacing(19) : theme => theme.spacing(4.75), // 152px / 8 = 19
+            height: multiline ? 'auto' : theme => theme.spacing(4.75),
+            minHeight: multiline ? theme => theme.spacing(19) : theme => theme.spacing(4.75),
           },
         }}
       />
