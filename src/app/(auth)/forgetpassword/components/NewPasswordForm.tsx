@@ -6,10 +6,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { resetPasswordThunk } from '@/features/auth/thunks/resetPasswordThunk';
-import { clearPasswordResetErrors } from '@/features/auth/slice';
-import { selectIsResettingPassword, selectPasswordResetError } from '@/features/auth/selectors';
-import { validatePasswordStrength, isPasswordValid, getPasswordStrengthScore, getPasswordStrengthMeta } from '@/features/auth/utils/validation';
+import { resetPasswordThunk, clearPasswordResetErrors, selectIsResettingPassword, selectPasswordResetError, validatePasswordStrength, isPasswordValid, getPasswordStrengthScore, getPasswordStrengthMeta } from '@/features/auth';
 
 const PasswordStrengthContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),

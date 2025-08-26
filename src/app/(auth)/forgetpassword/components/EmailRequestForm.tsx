@@ -1,66 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { Box, Alert } from '@mui/material';
 import { FormContainer, FormTitle, StyledTextField, StyledSectionLabel, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestResetThunk } from '@/features/auth/thunks/requestResetThunk';
-import { clearPasswordResetErrors } from '@/features/auth/slice';
-import { selectIsRequestingReset, selectEmailSent, selectPasswordResetRequestError } from '@/features/auth/selectors';
-import { validateEmail } from '@/features/auth/utils/validation';
+import { useEmailRequestForm } from '@/features/auth';
 
 const EmailRequestForm: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
-  const [validationError, setValidationError] = useState('');
-
-  // Redux state
-  const isSubmitting = useAppSelector(selectIsRequestingReset);
-  const emailSent = useAppSelector(selectEmailSent);
-  const requestError = useAppSelector(selectPasswordResetRequestError);
-
-  // Memoized callbacks to avoid inline functions
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  }, []);
-
-  // Clear errors when component unmounts or email changes
-  useEffect(() => {
-    if (validationError) {
-      setValidationError('');
-    }
-    if (requestError) {
-      dispatch(clearPasswordResetErrors());
-    }
-  }, [email, dispatch, validationError, requestError]);
-
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Reset validation error
-    setValidationError('');
-
-    // Client-side validation
-    if (!email) {
-      setValidationError('Email is required');
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setValidationError('Please enter a valid email address');
-      return;
-    }
-
-    // Dispatch thunk
-    const result = await dispatch(requestResetThunk({ email }));
-    
-    // Clear email field on success
-    if (requestResetThunk.fulfilled.match(result)) {
-      setEmail('');
-    }
-  }, [email, dispatch]);
-
-  const displayError = validationError || requestError;
+  const {
+    email,
+    emailSent,
+    isSubmitting,
+    displayError,
+    handleEmailChange,
+    handleSubmit,
+  } = useEmailRequestForm();
 
   if (emailSent) {
     return (
