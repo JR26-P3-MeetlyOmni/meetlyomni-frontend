@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Logo from '@assets/images/navbar/nav_bar_logo.png';
-import DefaultAvatar from '@assets/images/navbar/user_avatar.png';
 
 import { UserMenu } from './components/UserMenu';
 import {
@@ -19,9 +19,10 @@ import {
 import { NavLinkItem, UserInfo } from './type';
 
 const NavBar: React.FC = () => {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<UserInfo | null>(null);
+  const [isLoggedIn, _setIsLoggedIn] = useState(false);
+  const [user, _setUser] = useState<UserInfo | null>(null);
   //TODO: In the future the user info should be store in the redux
 
   const navLinks: NavLinkItem[] = [
@@ -37,10 +38,8 @@ const NavBar: React.FC = () => {
   }, []);
 
   const handleSignInClick = useCallback(() => {
-    //TODO: in the future we should store this state in the redux
-    setIsLoggedIn(true);
-    setUser({ username: 'Alex Li', avatar: DefaultAvatar });
-  }, []);
+    router.push('/login');
+  }, [router]);
 
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>

@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 import React from 'react';
 
@@ -7,7 +7,24 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import NavBar from './NavBar';
 
+// Mock Next.js router
+const mockPush = vi.fn();
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
+// Mock Next.js Image component
+vi.mock('next/image', () => ({
+  default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
+}));
+
 describe('NavBar Component', () => {
+  beforeEach(() => {
+    mockPush.mockClear();
+  });
+
   test('render logo, nav links, and buttons when not logged in', () => {
     render(<NavBar />);
 
@@ -21,5 +38,14 @@ describe('NavBar Component', () => {
     const getStartedButton = screen.getByText('Get Started');
     expect(signInButton).toBeInTheDocument();
     expect(getStartedButton).toBeInTheDocument();
+  });
+
+  test('navigates to login page when Sign In button is clicked', () => {
+    render(<NavBar />);
+
+    const signInButton = screen.getByText('Sign In');
+    fireEvent.click(signInButton);
+
+    expect(mockPush).toHaveBeenCalledWith('/login');
   });
 });
