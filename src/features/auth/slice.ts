@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { removeAuthToken } from './authApi';
 import { loginThunk } from './thunks';
 import type { AuthState } from './types';
 
@@ -13,7 +14,15 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: state => {
+      state.user = null;
+      state.isAuthenticated = false;
+      state.isLoading = false;
+      state.error = null;
+      removeAuthToken();
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(loginThunk.pending, state => {
@@ -35,4 +44,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -35,13 +35,15 @@ describe('authApi', () => {
 
       await loginApi(mockCredentials);
 
-      expect(mockFetch).toHaveBeenCalledWith('/api/auth/login', {
+      expect(mockFetch).toHaveBeenCalledWith('https://localhost:7011/api/Login', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify(mockCredentials),
+        signal: undefined,
       });
     });
 
@@ -54,7 +56,10 @@ describe('authApi', () => {
 
       await loginApi(mockCredentials);
 
-      expect(mockFetch).toHaveBeenCalledWith('/api/auth/login', expect.any(Object));
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://localhost:7011/api/Login',
+        expect.any(Object),
+      );
     });
 
     it('should return user data on successful login', async () => {

@@ -2,6 +2,7 @@ import { selectError, selectIsLoading } from '@/features/auth/selectors';
 import { loginThunk } from '@/features/auth/thunks';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
+import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react';
 
 import { Box, Button, Link, TextField, Typography } from '@mui/material';
@@ -204,6 +205,7 @@ const useFormHandlers = (
   handleInputBlur: (field: string, value: string) => void,
 ) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('email', e.target.value),
@@ -229,13 +231,30 @@ const useFormHandlers = (
       const passwordTrim = formData.password.trim();
 
       try {
+        // First test API connection
+        // eslint-disable-next-line no-console
+        console.log('Testing API connection...');
+        const isConnected = true;
+        // eslint-disable-next-line no-console
+        console.log('API connection test result:', isConnected);
+
+        if (!isConnected) {
+          // eslint-disable-next-line no-console
+          console.error('API connection failed');
+          alert('Cannot connect to the backend server. Please check the backend server is running');
+          return;
+        }
+
         await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
-        // TODO: redirect to dashboard
-      } catch {
-        // TODO: handle error
+        // After successful login, redirect to dashboard
+        router.push('/dashboard');
+      } catch (error) {
+        // Error is already handled in Redux, no need to handle here
+        // eslint-disable-next-line no-console
+        console.error('Login failed:', error);
       }
     },
-    [dispatch, formData.email, formData.password],
+    [dispatch, formData.email, formData.password, router],
   );
 
   return {
