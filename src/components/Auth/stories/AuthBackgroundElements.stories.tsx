@@ -1,21 +1,21 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import Logo from '../AuthBackgroundElements/Logo';
-import StarIcon from '../AuthBackgroundElements/StarIcon';
-import MarkIcon from '../AuthBackgroundElements/MarkIcon';
-import RachelIcon from '../AuthBackgroundElements/RachelIcon';
-import LookingForIcon from '../AuthBackgroundElements/LookingForIcon';
-import GlassIcon from '../AuthBackgroundElements/GlassIcon';
-import FormBackgroundIcon from '../AuthBackgroundElements/FormBackgroundIcon';
-import TopCenterSketch from '../AuthBackgroundElements/TopCenterSketch';
+import Logo from '../AuthBackgroundPage/Logo';
+import StarIcon from '../AuthBackgroundPage/StarIcon';
+import MarkIcon from '../AuthBackgroundPage/MarkIcon';
+import RachelIcon from '../AuthBackgroundPage/RachelIcon';
+import LookingForIcon from '../AuthBackgroundPage/LookingForIcon';
+import GlassIcon from '../AuthBackgroundPage/GlassIcon';
+import FormBackgroundIcon from '../AuthBackgroundPage/FormBackgroundIcon';
+import TopCenterSketch from '../AuthBackgroundPage/TopCenterSketch';
 import { 
   DecorativeContainer, 
   LogoWrapper, 
   ResponsiveImageWrapper,
   DECORATIVE_SPACING,
   DECORATIVE_DIMENSIONS 
-} from '../AuthBackgroundElements/shared';
+} from '../AuthBackgroundPage/shared';
 
 // Mock Next.js Image for Storybook
 const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; width: number; height: number }) => (

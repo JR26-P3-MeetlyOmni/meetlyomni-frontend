@@ -1,4 +1,4 @@
-export { DecorativeContainer, ResponsiveImageWrapper, ImageElement } from './AuthBackgroundElements/shared';
+export { DecorativeContainer, ResponsiveImageWrapper, ImageElement } from './AuthBackgroundPage/shared';
 
 export { 
   FormContainer, 
@@ -10,11 +10,12 @@ export {
   StyledSubmitButton 
 } from './AuthFormComponents';
 
-export { default as Logo } from './AuthBackgroundElements/Logo';
-export { default as TopCenterSketch } from './AuthBackgroundElements/TopCenterSketch';
-export { default as RachelIcon } from './AuthBackgroundElements/RachelIcon';
-export { default as MarkIcon } from './AuthBackgroundElements/MarkIcon';
-export { default as GlassIcon } from './AuthBackgroundElements/GlassIcon';
-export { default as LookingForIcon } from './AuthBackgroundElements/LookingForIcon';
-export { default as StarIcon } from './AuthBackgroundElements/StarIcon';
-export { default as FormBackgroundIcon } from './AuthBackgroundElements/FormBackgroundIcon';
+export { default as Logo } from './AuthBackgroundPage/Logo';
+export { default as TopCenterSketch } from './AuthBackgroundPage/TopCenterSketch';
+export { default as RachelIcon } from './AuthBackgroundPage/RachelIcon';
+export { default as MarkIcon } from './AuthBackgroundPage/MarkIcon';
+export { default as GlassIcon } from './AuthBackgroundPage/GlassIcon';
+export { default as LookingForIcon } from './AuthBackgroundPage/LookingForIcon';
+export { default as StarIcon } from './AuthBackgroundPage/StarIcon';
+export { default as FormBackgroundIcon } from './AuthBackgroundPage/FormBackgroundIcon';
+export { PageBackground } from './AuthBackgroundPage/PageBackground';

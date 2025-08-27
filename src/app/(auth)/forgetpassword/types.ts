@@ -50,3 +50,11 @@ export interface PasswordValidation {
     hasSpecial: boolean;
     match: boolean;
 }
+
+export interface PasswordValidationRulesProps {
+  isLengthOk: boolean;
+  isCaseOk: boolean;
+  isNumSpecialOk: boolean;
+  hasInput: boolean;
+  isStrong: boolean;
+}

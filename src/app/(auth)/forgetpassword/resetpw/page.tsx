@@ -7,22 +7,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { Alert, Box, Button, CircularProgress, styled } from '@mui/material';
 
 import NewPasswordForm from '../components/NewPasswordForm';
-import { PageBackground } from '../components/PageBackground';
-
-const PageContainer = styled(Box)(({ theme }) => ({
-  minHeight: '100vh',
-  width: '100%',
-  backgroundColor: theme.palette.background.paper,
-  position: 'relative',
-  overflow: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
-}));
+import { PageBackground } from '@/components/Auth';
 
 const ErrorContainer = styled(Box)(({ theme }) => ({
   maxWidth: 500,
@@ -37,13 +22,6 @@ const ErrorContainer = styled(Box)(({ theme }) => ({
   zIndex: 15,
   margin: '0 auto',
   transform: 'translateY(15vh)',
-}));
-
-const LoadingContainer = styled(Box)(() => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  minHeight: '200px',
 }));
 
 const BackLinkContainer = styled(Box)(({ theme }) => ({
@@ -73,9 +51,9 @@ function VerifyPageContent() {
 
   if (isLoading) {
     return (
-      <LoadingContainer>
+      <PageBackground>
         <CircularProgress />
-      </LoadingContainer>
+      </PageBackground>
     );
   }
 
@@ -97,17 +75,12 @@ function VerifyPageContent() {
 
 export default function VerifyPage() {
   return (
-    <PageContainer>
-      <PageBackground />
+      <PageBackground>
       <Suspense
-        fallback={
-          <LoadingContainer>
-            <CircularProgress />
-          </LoadingContainer>
-        }
+        fallback={ <CircularProgress /> }
       >
         <VerifyPageContent />
       </Suspense>
-    </PageContainer>
+      </PageBackground>
   );
 }
