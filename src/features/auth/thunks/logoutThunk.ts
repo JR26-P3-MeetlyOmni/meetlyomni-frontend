@@ -2,8 +2,8 @@ import type { RootState } from '@/store/store';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { logoutApi } from './logoutApi';
-import type { AuthError } from './types';
+import { logoutApi } from '../api/logoutApi';
+import type { AuthError } from '../types';
 
 export const logoutThunk = createAsyncThunk<
   boolean,
