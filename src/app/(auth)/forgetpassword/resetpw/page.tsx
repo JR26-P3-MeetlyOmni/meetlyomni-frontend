@@ -11,8 +11,8 @@ import NewPasswordForm from '../components/NewPasswordForm';
 
 const PageContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
-  width: '100vw',
-  backgroundColor: theme.palette.grey[50],
+  width: '100%',
+  backgroundColor: theme.palette.background.paper,
   position: 'relative',
   overflow: 'hidden',
   display: 'flex',
@@ -24,28 +24,19 @@ const PageContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const FormContainer = styled(Box)(() => ({
-  position: 'relative',
-  zIndex: 10,
-  width: '100%',
-  maxWidth: '500px',
-  display: 'flex',
-  justifyContent: 'center',
-}));
-
 const ErrorContainer = styled(Box)(({ theme }) => ({
-  maxWidth: 400,
+  maxWidth: 500,
   width: '100%',
   padding: theme.spacing(4),
   backgroundColor: 'white',
   borderRadius: theme.spacing(2),
-  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(2),
   position: 'relative',
-  zIndex: 10,
+  zIndex: 15,
   margin: '0 auto',
+  transform: 'translateY(15vh)',
 }));
 
 const LoadingContainer = styled(Box)(() => ({
@@ -76,7 +67,6 @@ function VerifyPageContent() {
       return;
     }
 
-    // Here you could validate the token with the server if needed
     setToken(tokenParam);
     setIsLoading(false);
   }, [searchParams]);
@@ -109,17 +99,17 @@ export default function VerifyPage() {
   return (
     <PageContainer>
       <DecorativeElements />
-      <FormContainer>
-        <Suspense
-          fallback={
-            <LoadingContainer>
-              <CircularProgress />
-            </LoadingContainer>
-          }
-        >
-          <VerifyPageContent />
-        </Suspense>
-      </FormContainer>
+      {/* <FormContainer> */}
+      <Suspense
+        fallback={
+          <LoadingContainer>
+            <CircularProgress />
+          </LoadingContainer>
+        }
+      >
+        <VerifyPageContent />
+      </Suspense>
+      {/* </FormContainer> */}
     </PageContainer>
   );
 }

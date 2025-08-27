@@ -7,13 +7,13 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   padding: 'clamp(16px, 3vw, 24px)',
   backgroundColor: theme.palette.background.paper,
   borderRadius: Number(theme.shape.borderRadius) * 2.5,
-  boxShadow: theme.shadows[1],
   display: 'flex',
   flexDirection: 'column',
   gap: 'clamp(16px, 2.5vw, 28px)',
   position: 'relative',
-  zIndex: 10,
+  zIndex: 15,
   margin: '0 auto',
+  transform: 'translateY(15vh)',
 }));
 
 export const FormTitle = styled(Typography)(({ theme }) => ({
@@ -30,7 +30,6 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
-    boxShadow: theme.shadows[1],
     fontSize: 'clamp(14px, 1.8vw, 18px)',
     minHeight: 'clamp(36px, 6vw, 56px)',
     '& fieldset': {
