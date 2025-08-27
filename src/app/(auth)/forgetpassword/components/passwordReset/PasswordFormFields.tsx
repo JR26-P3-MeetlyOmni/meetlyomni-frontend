@@ -1,3 +1,4 @@
+import { Box, styled } from '@mui/material';
 import type { PasswordValidation } from '../../types';
 import ConfirmPasswordField from './ConfirmPasswordField';
 import PasswordField from './NewPasswordField';
@@ -16,6 +17,10 @@ interface PasswordFormFieldsProps {
   toggleShowPassword: () => void;
   toggleShowConfirmPassword: () => void;
 }
+
+const SpacingBox = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(3), 
+}));
 
 const PasswordFormFields: React.FC<PasswordFormFieldsProps> = ({
   password,
@@ -39,6 +44,7 @@ const PasswordFormFields: React.FC<PasswordFormFieldsProps> = ({
         onPasswordChange={setPassword}
         onToggleVisibility={toggleShowPassword}
       />
+      <SpacingBox />
 
       {showValidation === true && (
         <PasswordValidationRules

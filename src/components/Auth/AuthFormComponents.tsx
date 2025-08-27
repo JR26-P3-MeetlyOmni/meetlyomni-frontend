@@ -31,7 +31,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     fontSize: 'clamp(14px, 1.8vw, 18px)',
-    minHeight: 'clamp(36px, 6vw, 56px)',
+    minHeight: 'clamp(12px, 2vw, 28px)',
     '& fieldset': {
       borderColor: theme.palette.divider,
     },
