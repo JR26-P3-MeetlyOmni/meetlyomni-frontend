@@ -9,6 +9,7 @@ export default defineConfig({
     exclude: [
       'node_modules/**', 
       '.storybook/**', 
+      'storybook-static/**',
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
@@ -24,6 +25,7 @@ export default defineConfig({
         '**/dist/**',
         '**/build/**',
         '**/.next/**',
+        'storybook-static/**',
     
         // Ignore config, declaration, and environment files
         '.storybook/**',
