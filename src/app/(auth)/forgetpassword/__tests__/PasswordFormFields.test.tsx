@@ -1,5 +1,11 @@
-import { describe, it, expect } from 'vitest';
 import type { PasswordValidation } from '@/features/auth/types';
+import { describe, expect, it, vi } from 'vitest';
+
+import React from 'react';
+
+import { render, screen } from '@testing-library/react';
+
+import PasswordFormFields from '../components/passwordReset/PasswordFormFields';
 
 // Unit tests for PasswordFormFields component logic
 // These tests verify the expected behavior without rendering the component
@@ -35,12 +41,13 @@ describe('PasswordFormFields Logic Tests', () => {
         match: true,
       };
 
-      const isStrong = strongPasswordValidation.minLength && 
-                      strongPasswordValidation.hasUpper && 
-                      strongPasswordValidation.hasLower && 
-                      strongPasswordValidation.hasNumber && 
-                      strongPasswordValidation.hasSpecial &&
-                      strongPasswordValidation.match;
+      const isStrong =
+        strongPasswordValidation.minLength &&
+        strongPasswordValidation.hasUpper &&
+        strongPasswordValidation.hasLower &&
+        strongPasswordValidation.hasNumber &&
+        strongPasswordValidation.hasSpecial &&
+        strongPasswordValidation.match;
 
       expect(isStrong).toBe(true);
     });
@@ -55,12 +62,13 @@ describe('PasswordFormFields Logic Tests', () => {
         match: false,
       };
 
-      const isStrong = weakPasswordValidation.minLength && 
-                      weakPasswordValidation.hasUpper && 
-                      weakPasswordValidation.hasLower && 
-                      weakPasswordValidation.hasNumber && 
-                      weakPasswordValidation.hasSpecial &&
-                      weakPasswordValidation.match;
+      const isStrong =
+        weakPasswordValidation.minLength &&
+        weakPasswordValidation.hasUpper &&
+        weakPasswordValidation.hasLower &&
+        weakPasswordValidation.hasNumber &&
+        weakPasswordValidation.hasSpecial &&
+        weakPasswordValidation.match;
 
       expect(isStrong).toBe(false);
     });
@@ -81,9 +89,12 @@ describe('PasswordFormFields Logic Tests', () => {
       const confirmPasswordMismatch = 'DifferentPassword123!';
       const emptyConfirmPassword = '';
 
-      const shouldShowErrorForMatch = confirmPasswordMatch.length > 0 && password !== confirmPasswordMatch;
-      const shouldShowErrorForMismatch = confirmPasswordMismatch.length > 0 && password !== confirmPasswordMismatch;
-      const shouldShowErrorForEmpty = emptyConfirmPassword.length > 0 && password !== emptyConfirmPassword;
+      const shouldShowErrorForMatch =
+        confirmPasswordMatch.length > 0 && password !== confirmPasswordMatch;
+      const shouldShowErrorForMismatch =
+        confirmPasswordMismatch.length > 0 && password !== confirmPasswordMismatch;
+      const shouldShowErrorForEmpty =
+        emptyConfirmPassword.length > 0 && password !== emptyConfirmPassword;
 
       expect(shouldShowErrorForMatch).toBe(false);
       expect(shouldShowErrorForMismatch).toBe(true);
@@ -93,7 +104,7 @@ describe('PasswordFormFields Logic Tests', () => {
     it('should handle field visibility states', () => {
       const showPasswordTrue = true;
       const showPasswordFalse = false;
-      
+
       const passwordFieldType = showPasswordTrue ? 'text' : 'password';
       const hiddenPasswordFieldType = showPasswordFalse ? 'text' : 'password';
 
@@ -126,8 +137,10 @@ describe('PasswordFormFields Logic Tests', () => {
       const validSpecialValidation = { hasNumber: true, hasSpecial: true };
       const invalidSpecialValidation = { hasNumber: false, hasSpecial: false };
 
-      const isNumSpecialOkValid = validSpecialValidation.hasNumber && validSpecialValidation.hasSpecial;
-      const isNumSpecialOkInvalid = invalidSpecialValidation.hasNumber && invalidSpecialValidation.hasSpecial;
+      const isNumSpecialOkValid =
+        validSpecialValidation.hasNumber && validSpecialValidation.hasSpecial;
+      const isNumSpecialOkInvalid =
+        invalidSpecialValidation.hasNumber && invalidSpecialValidation.hasSpecial;
 
       expect(isNumSpecialOkValid).toBe(true);
       expect(isNumSpecialOkInvalid).toBe(false);
@@ -152,13 +165,19 @@ describe('PasswordFormFields Logic Tests', () => {
         match: false,
       };
 
-      const isStrongPassword = strongValidation.minLength && 
-                              (strongValidation.hasUpper && strongValidation.hasLower) &&
-                              (strongValidation.hasNumber && strongValidation.hasSpecial);
+      const isStrongPassword =
+        strongValidation.minLength &&
+        strongValidation.hasUpper &&
+        strongValidation.hasLower &&
+        strongValidation.hasNumber &&
+        strongValidation.hasSpecial;
 
-      const isWeakPassword = weakValidation.minLength && 
-                            (weakValidation.hasUpper && weakValidation.hasLower) &&
-                            (weakValidation.hasNumber && weakValidation.hasSpecial);
+      const isWeakPassword =
+        weakValidation.minLength &&
+        weakValidation.hasUpper &&
+        weakValidation.hasLower &&
+        weakValidation.hasNumber &&
+        weakValidation.hasSpecial;
 
       expect(isStrongPassword).toBe(true);
       expect(isWeakPassword).toBe(false);
@@ -205,5 +224,49 @@ describe('PasswordFormFields Logic Tests', () => {
       expect(shouldShowError).toBeTruthy();
       expect(shouldNotShowError).toBeFalsy();
     });
+  });
+});
+
+// Smoke render to generate coverage for the component file
+// Mock child components to keep the test lightweight
+vi.mock('../components/passwordReset/NewPasswordField', () => ({
+  default: () => <div data-testid="password-field">PasswordField</div>,
+}));
+
+vi.mock('../components/passwordReset/ConfirmPasswordField', () => ({
+  default: () => <div data-testid="confirm-password-field">ConfirmPasswordField</div>,
+}));
+
+vi.mock('../components/passwordReset/PasswordValidationRules', () => ({
+  default: () => <div data-testid="password-validation-rules">PasswordValidationRules</div>,
+}));
+
+describe('PasswordFormFields Component Smoke Test', () => {
+  it('renders component with minimal required props', () => {
+    render(
+      <PasswordFormFields
+        password=""
+        confirmPassword=""
+        showPassword={false}
+        showConfirmPassword={false}
+        isSubmitting={false}
+        validation={{
+          minLength: false,
+          hasUpper: false,
+          hasLower: false,
+          hasNumber: false,
+          hasSpecial: false,
+          match: false,
+        }}
+        showValidation={false}
+        setPassword={() => {}}
+        setConfirmPassword={() => {}}
+        toggleShowPassword={() => {}}
+        toggleShowConfirmPassword={() => {}}
+      />,
+    );
+
+    expect(screen.getByTestId('password-field')).toBeInTheDocument();
+    expect(screen.getByTestId('confirm-password-field')).toBeInTheDocument();
   });
 });
