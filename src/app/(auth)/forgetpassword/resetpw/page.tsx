@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
 import { Alert, Box, Button, CircularProgress, styled } from '@mui/material';
 
-import { DecorativeElements } from '../components/DecorativeElements';
 import NewPasswordForm from '../components/NewPasswordForm';
+import { PageBackground } from '../components/PageBackground';
 
 const PageContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
@@ -96,7 +98,7 @@ function VerifyPageContent() {
 export default function VerifyPage() {
   return (
     <PageContainer>
-      <DecorativeElements />
+      <PageBackground />
       <Suspense
         fallback={
           <LoadingContainer>
