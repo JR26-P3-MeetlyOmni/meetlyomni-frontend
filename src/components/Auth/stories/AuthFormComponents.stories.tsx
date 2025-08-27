@@ -70,7 +70,7 @@ export const FormContainerWithContent: StoryObj<typeof FormContainer> = {
 };
 
 // FormTitle Stories
-const FormTitleMeta: Meta<typeof FormTitle> = {
+const _FormTitleMeta: Meta<typeof FormTitle> = {
   title: 'Auth/Components/FormTitle',
   component: FormTitle,
   parameters: {
@@ -119,7 +119,7 @@ export const FormTitleVariations: StoryObj<typeof FormTitle> = {
 };
 
 // TextField Stories
-const TextFieldMeta: Meta<typeof StyledTextField> = {
+const _TextFieldMeta: Meta<typeof StyledTextField> = {
   title: 'Auth/Components/StyledTextField',
   component: StyledTextField,
   parameters: {
@@ -211,7 +211,7 @@ export const TextFieldDisabled: StoryObj<typeof StyledTextField> = {
 };
 
 // Button Stories
-const ButtonMeta: Meta<typeof SubmitButton> = {
+const _ButtonMeta: Meta<typeof SubmitButton> = {
   title: 'Auth/Components/SubmitButton',
   component: SubmitButton,
   parameters: {
@@ -298,7 +298,7 @@ export const ButtonVariations: StoryObj<typeof SubmitButton> = {
 };
 
 // Label Stories
-const LabelMeta: Meta<typeof SectionLabel> = {
+const _LabelMeta: Meta<typeof SectionLabel> = {
   title: 'Auth/Components/SectionLabel',
   component: SectionLabel,
   parameters: {
@@ -350,7 +350,7 @@ export const LabelVariations: StoryObj<typeof SectionLabel> = {
 };
 
 // Complete Form Example
-const FormExampleMeta: Meta = {
+const _FormExampleMeta: Meta = {
   title: 'Auth/Components/CompleteForm',
   parameters: {
     layout: 'centered',
@@ -405,7 +405,9 @@ export const CompleteLoginForm: StoryObj = {
               type="email"
               placeholder="Enter your email address"
               value={formData.email}
-              onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              onChange={function handleEmailChange(e) {
+                setFormData(prev => ({ ...prev, email: e.target.value }));
+              }}
               error={!!errors.email}
               helperText={errors.email}
               disabled={isSubmitting}
@@ -417,7 +419,9 @@ export const CompleteLoginForm: StoryObj = {
               type="password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={e => setFormData(prev => ({ ...prev, password: e.target.value }))}
+              onChange={function handlePasswordChange(e) {
+                setFormData(prev => ({ ...prev, password: e.target.value }));
+              }}
               error={!!errors.password}
               helperText={errors.password}
               disabled={isSubmitting}

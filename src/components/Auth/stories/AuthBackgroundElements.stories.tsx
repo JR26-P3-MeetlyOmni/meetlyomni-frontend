@@ -13,13 +13,12 @@ import {
   DecorativeContainer, 
   LogoWrapper, 
   ResponsiveImageWrapper,
-  ImageElement,
   DECORATIVE_SPACING,
   DECORATIVE_DIMENSIONS 
 } from '../AuthBackgroundElements/shared';
 
 // Mock Next.js Image for Storybook
-const MockImage = ({ src, alt, width, height }: any) => (
+const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; width: number; height: number }) => (
   <div
     style={{
       width,
@@ -100,7 +99,7 @@ export const LogoWithGrid: StoryObj<typeof Logo> = {
 };
 
 // Decorative Icons Stories
-const IconsMeta: Meta = {
+const _IconsMeta: Meta = {
   title: 'Auth/BackgroundElements/Icons',
   parameters: {
     layout: 'centered',
@@ -114,18 +113,20 @@ const IconsMeta: Meta = {
 };
 
 export const AllIcons: StoryObj = {
-  render: () => (
-    <div style={{ width: '800px', height: '600px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-      <Logo />
-      <StarIcon />
-      <MarkIcon />
-      <RachelIcon />
-      <LookingForIcon />
-      <GlassIcon />
-      <FormBackgroundIcon />
-      <TopCenterSketch />
-    </div>
-  ),
+  render: function renderAllIcons() {
+    return (
+      <div style={{ width: '800px', height: '600px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+        <Logo />
+        <StarIcon />
+        <MarkIcon />
+        <RachelIcon />
+        <LookingForIcon />
+        <GlassIcon />
+        <FormBackgroundIcon />
+        <TopCenterSketch />
+      </div>
+    );
+  },
   parameters: {
     docs: {
       description: {
@@ -135,68 +136,33 @@ export const AllIcons: StoryObj = {
   },
 };
 
+// Helper component for individual icon display
+const IconDisplay = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div style={{ textAlign: 'center' }}>
+    <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>{title}</h3>
+    <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+      {children}
+    </div>
+  </div>
+);
+
 export const IndividualIcons: StoryObj = {
-  render: () => (
-    <div style={{ width: '900px', padding: '20px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Logo</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <Logo />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Star Icon</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <StarIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Mark Icon</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <MarkIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Rachel Icon</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <RachelIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Looking For Icon</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <LookingForIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Glass Icon</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <GlassIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Form Background</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <FormBackgroundIcon />
-          </div>
-        </div>
-        
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Top Sketch</h3>
-          <div style={{ position: 'relative', height: '100px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-            <TopCenterSketch />
-          </div>
+  render: function renderIndividualIcons() {
+    return (
+      <div style={{ width: '900px', padding: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+          <IconDisplay title="Logo"><Logo /></IconDisplay>
+          <IconDisplay title="Star Icon"><StarIcon /></IconDisplay>
+          <IconDisplay title="Mark Icon"><MarkIcon /></IconDisplay>
+          <IconDisplay title="Rachel Icon"><RachelIcon /></IconDisplay>
+          <IconDisplay title="Looking For Icon"><LookingForIcon /></IconDisplay>
+          <IconDisplay title="Glass Icon"><GlassIcon /></IconDisplay>
+          <IconDisplay title="Form Background"><FormBackgroundIcon /></IconDisplay>
+          <IconDisplay title="Top Sketch"><TopCenterSketch /></IconDisplay>
         </div>
       </div>
-    </div>
-  ),
+    );
+  },
   parameters: {
     docs: {
       description: {
@@ -207,7 +173,7 @@ export const IndividualIcons: StoryObj = {
 };
 
 // Shared Components Stories
-const SharedMeta: Meta<typeof DecorativeContainer> = {
+const _SharedMeta: Meta<typeof DecorativeContainer> = {
   title: 'Auth/BackgroundElements/SharedComponents',
   component: DecorativeContainer,
   parameters: {
@@ -226,105 +192,113 @@ export const DecorativeContainerDefault: StoryObj<typeof DecorativeContainer> = 
     zIndex: 10,
     opacity: 1,
   },
-  render: (args) => (
-    <div style={{ position: 'relative', width: '300px', height: '200px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-      <DecorativeContainer {...args}>
-        <div style={{ 
-          width: '100px', 
-          height: '100px', 
-          backgroundColor: '#007bff', 
-          color: 'white', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          borderRadius: '4px'
-        }}>
-          Content
-        </div>
-      </DecorativeContainer>
-    </div>
-  ),
+  render: function renderDecorativeContainerDefault(args) {
+    return (
+      <div style={{ position: 'relative', width: '300px', height: '200px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+        <DecorativeContainer {...args}>
+          <div style={{ 
+            width: '100px', 
+            height: '100px', 
+            backgroundColor: '#007bff', 
+            color: 'white', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            borderRadius: '4px'
+          }}>
+            Content
+          </div>
+        </DecorativeContainer>
+      </div>
+    );
+  },
 };
 
 export const LogoWrapperDemo: StoryObj = {
-  render: () => (
-    <div style={{ position: 'relative', width: '400px', height: '300px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-      <LogoWrapper>
-        <MockImage 
-          src="/assets/images/logo.png"
-          alt="Demo Logo"
-          width={105}
-          height={30}
-        />
-      </LogoWrapper>
-    </div>
-  ),
+  render: function renderLogoWrapperDemo() {
+    return (
+      <div style={{ position: 'relative', width: '400px', height: '300px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+        <LogoWrapper>
+          <MockImage 
+            _src="/assets/images/logo.png"
+            alt="Demo Logo"
+            width={105}
+            height={30}
+          />
+        </LogoWrapper>
+      </div>
+    );
+  },
 };
 
 export const ResponsiveImageWrapperDemo: StoryObj = {
-  render: () => (
-    <div style={{ position: 'relative', width: '400px', height: '300px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-      <ResponsiveImageWrapper
-        top="20px"
-        right="20px"
-        imageWidth="80px"
-        imageHeight="80px"
-      >
-        <MockImage 
-          src="/demo.png"
-          alt="Demo Image"
-          width={80}
-          height={80}
-        />
-      </ResponsiveImageWrapper>
-      
-      <ResponsiveImageWrapper
-        bottom="20px"
-        left="20px"
-        imageWidth="60px"
-        imageHeight="60px"
-      >
-        <MockImage 
-          src="/demo2.png"
-          alt="Demo Image 2"
-          width={60}
-          height={60}
-        />
-      </ResponsiveImageWrapper>
-    </div>
-  ),
+  render: function renderResponsiveImageWrapperDemo() {
+    return (
+      <div style={{ position: 'relative', width: '400px', height: '300px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+        <ResponsiveImageWrapper
+          top="20px"
+          right="20px"
+          imageWidth="80px"
+          imageHeight="80px"
+        >
+          <MockImage 
+            _src="/demo.png"
+            alt="Demo Image"
+            width={80}
+            height={80}
+          />
+        </ResponsiveImageWrapper>
+        
+        <ResponsiveImageWrapper
+          bottom="20px"
+          left="20px"
+          imageWidth="60px"
+          imageHeight="60px"
+        >
+          <MockImage 
+            _src="/demo2.png"
+            alt="Demo Image 2"
+            width={60}
+            height={60}
+          />
+        </ResponsiveImageWrapper>
+      </div>
+    );
+  },
 };
 
 // Configuration and Constants
 export const ConfigurationDemo: StoryObj = {
-  render: () => (
-    <div style={{ width: '600px', padding: '20px' }}>
-      <h2 style={{ marginBottom: '20px' }}>Design System Configuration</h2>
-      
-      <div style={{ marginBottom: '30px' }}>
-        <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Decorative Spacing</h3>
-        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '14px' }}>
-          <div>LOGO_BASE: {DECORATIVE_SPACING.LOGO_BASE}</div>
-          <div>LOGO_SM: {DECORATIVE_SPACING.LOGO_SM}</div>
-          <div>LOGO_MD: {DECORATIVE_SPACING.LOGO_MD}</div>
-          <div>LOGO_LG_TOP: {DECORATIVE_SPACING.LOGO_LG_TOP}</div>
-          <div>LOGO_LG_LEFT: {DECORATIVE_SPACING.LOGO_LG_LEFT}</div>
-          <div>SKETCH_TOP: {DECORATIVE_SPACING.SKETCH_TOP}</div>
+  render: function renderConfigurationDemo() {
+    return (
+      <div style={{ width: '600px', padding: '20px' }}>
+        <h2 style={{ marginBottom: '20px' }}>Design System Configuration</h2>
+        
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Decorative Spacing</h3>
+          <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '14px' }}>
+            <div>LOGO_BASE: {DECORATIVE_SPACING.LOGO_BASE}</div>
+            <div>LOGO_SM: {DECORATIVE_SPACING.LOGO_SM}</div>
+            <div>LOGO_MD: {DECORATIVE_SPACING.LOGO_MD}</div>
+            <div>LOGO_LG_TOP: {DECORATIVE_SPACING.LOGO_LG_TOP}</div>
+            <div>LOGO_LG_LEFT: {DECORATIVE_SPACING.LOGO_LG_LEFT}</div>
+            <div>SKETCH_TOP: {DECORATIVE_SPACING.SKETCH_TOP}</div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Decorative Dimensions</h3>
+          <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '14px' }}>
+            <div>SKETCH_WIDTH_BASE: {DECORATIVE_DIMENSIONS.SKETCH_WIDTH_BASE}px</div>
+            <div>SKETCH_HEIGHT_BASE: {DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_BASE}px</div>
+            <div>SKETCH_WIDTH_MD: {DECORATIVE_DIMENSIONS.SKETCH_WIDTH_MD}px</div>
+            <div>SKETCH_HEIGHT_MD: {DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_MD}px</div>
+            <div>BORDER_RADIUS_MULTIPLIER: {DECORATIVE_DIMENSIONS.BORDER_RADIUS_MULTIPLIER}</div>
+          </div>
         </div>
       </div>
-      
-      <div>
-        <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Decorative Dimensions</h3>
-        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '14px' }}>
-          <div>SKETCH_WIDTH_BASE: {DECORATIVE_DIMENSIONS.SKETCH_WIDTH_BASE}px</div>
-          <div>SKETCH_HEIGHT_BASE: {DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_BASE}px</div>
-          <div>SKETCH_WIDTH_MD: {DECORATIVE_DIMENSIONS.SKETCH_WIDTH_MD}px</div>
-          <div>SKETCH_HEIGHT_MD: {DECORATIVE_DIMENSIONS.SKETCH_HEIGHT_MD}px</div>
-          <div>BORDER_RADIUS_MULTIPLIER: {DECORATIVE_DIMENSIONS.BORDER_RADIUS_MULTIPLIER}</div>
-        </div>
-      </div>
-    </div>
-  ),
+    );
+  },
   parameters: {
     docs: {
       description: {
@@ -336,31 +310,33 @@ export const ConfigurationDemo: StoryObj = {
 
 // Layout Examples
 export const ResponsiveLayoutDemo: StoryObj = {
-  render: () => (
-    <div style={{ width: '100%' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-        <div>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Mobile Layout (320px)</h3>
-          <div style={{ width: '320px', height: '200px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', margin: '0 auto' }}>
-            <Logo />
-            <StarIcon />
-            <TopCenterSketch />
+  render: function renderResponsiveLayoutDemo() {
+    return (
+      <div style={{ width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+          <div>
+            <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Mobile Layout (320px)</h3>
+            <div style={{ width: '320px', height: '200px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', margin: '0 auto' }}>
+              <Logo />
+              <StarIcon />
+              <TopCenterSketch />
+            </div>
           </div>
-        </div>
-        
-        <div>
-          <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Desktop Layout (800px)</h3>
-          <div style={{ width: '800px', height: '200px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', margin: '0 auto' }}>
-            <Logo />
-            <StarIcon />
-            <MarkIcon />
-            <RachelIcon />
-            <TopCenterSketch />
+          
+          <div>
+            <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>Desktop Layout (800px)</h3>
+            <div style={{ width: '800px', height: '200px', position: 'relative', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', margin: '0 auto' }}>
+              <Logo />
+              <StarIcon />
+              <MarkIcon />
+              <RachelIcon />
+              <TopCenterSketch />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  ),
+    );
+  },
   parameters: {
     docs: {
       description: {

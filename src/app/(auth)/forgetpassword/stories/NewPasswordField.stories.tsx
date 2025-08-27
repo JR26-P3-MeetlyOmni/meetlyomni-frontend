@@ -53,7 +53,9 @@ const InteractiveWrapper = (args: { onPasswordChange?: (value: string) => void; 
 
 // Default empty password field
 export const Default: Story = {
-  render: InteractiveWrapper,
+  render: function renderDefault(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: '',
     showPassword: false,
@@ -63,7 +65,9 @@ export const Default: Story = {
 
 // Password field with value (hidden)
 export const WithPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderWithPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MySecurePassword123!',
     showPassword: false,
@@ -73,7 +77,9 @@ export const WithPassword: Story = {
 
 // Password field with value (visible)
 export const WithPasswordVisible: Story = {
-  render: InteractiveWrapper,
+  render: function renderWithPasswordVisible(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MySecurePassword123!',
     showPassword: true,
@@ -101,7 +107,9 @@ export const Submitting: Story = {
 
 // Interactive demo
 export const Interactive: Story = {
-  render: InteractiveWrapper,
+  render: function renderInteractive(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: '',
     showPassword: false,
@@ -118,7 +126,9 @@ export const Interactive: Story = {
 
 // Different password lengths for testing
 export const ShortPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderShortPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'short',
     showPassword: true,
@@ -127,7 +137,9 @@ export const ShortPassword: Story = {
 };
 
 export const MediumPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderMediumPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MediumPassword123',
     showPassword: true,
@@ -136,7 +148,9 @@ export const MediumPassword: Story = {
 };
 
 export const LongPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderLongPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'VeryLongPasswordWithManyCharacters123!@#$%^&*()',
     showPassword: true,

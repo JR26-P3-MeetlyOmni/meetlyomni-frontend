@@ -71,7 +71,9 @@ const InteractiveWrapper = (args: { password?: string; confirmPassword?: string;
 
 // Default story with empty fields
 export const Default: Story = {
-  render: InteractiveWrapper,
+  render: function renderDefault(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: '',
     confirmPassword: '',
@@ -96,7 +98,9 @@ export const Default: Story = {
 
 // Story with validation shown and weak password
 export const WeakPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderWeakPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'weak',
     confirmPassword: '',
@@ -117,7 +121,9 @@ export const WeakPassword: Story = {
 
 // Story with strong password
 export const StrongPassword: Story = {
-  render: InteractiveWrapper,
+  render: function renderStrongPassword(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MyStrongPassword123!',
     confirmPassword: 'MyStrongPassword123!',
@@ -138,7 +144,9 @@ export const StrongPassword: Story = {
 
 // Story with password mismatch
 export const PasswordMismatch: Story = {
-  render: InteractiveWrapper,
+  render: function renderPasswordMismatch(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MyStrongPassword123!',
     confirmPassword: 'DifferentPassword123!',
@@ -159,7 +167,9 @@ export const PasswordMismatch: Story = {
 
 // Story with passwords visible
 export const PasswordsVisible: Story = {
-  render: InteractiveWrapper,
+  render: function renderPasswordsVisible(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: 'MyStrongPassword123!',
     confirmPassword: 'MyStrongPassword123!',
@@ -200,16 +210,20 @@ export const Submitting: Story = {
     toggleShowPassword: () => {},
     toggleShowConfirmPassword: () => {},
   },
-  render: (args) => (
-    <div style={{ width: '400px', padding: '20px' }}>
-      <PasswordFormFields {...args} />
-    </div>
-  ),
+  render: function renderSubmitting(args) {
+    return (
+      <div style={{ width: '400px', padding: '20px' }}>
+        <PasswordFormFields {...args} />
+      </div>
+    );
+  },
 };
 
 // Interactive demo story
 export const Interactive: Story = {
-  render: InteractiveWrapper,
+  render: function renderInteractive(args) {
+    return <InteractiveWrapper {...args} />;
+  },
   args: {
     password: '',
     confirmPassword: '',

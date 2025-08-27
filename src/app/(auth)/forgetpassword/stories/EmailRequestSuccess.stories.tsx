@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import EmailRequestSuccess from '../components/EmailRequestSuccess';
 
 // Mock Next.js Image component for Storybook
-const MockImage = ({ src, alt, width, height }: { src: string; alt: string; width: number; height: number }) => (
+const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; width: number; height: number }) => (
   <div 
     style={{ 
       width, 
@@ -23,14 +23,21 @@ const MockImage = ({ src, alt, width, height }: { src: string; alt: string; widt
 );
 
 // Mock Next.js Link component for Storybook
-const MockLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <div onClick={() => {
-    // eslint-disable-next-line no-console
-    console.log(`Navigate to: ${href}`);
-  }} style={{ cursor: 'pointer' }}>
-    {children}
-  </div>
-);
+const MockLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+  const handleClick = () => {
+    // Mock navigation - disabled for production
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-alert
+      alert(`Navigate to: ${href}`);
+    }
+  };
+
+  return (
+    <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+      {children}
+    </div>
+  );
+};
 
 const meta: Meta<typeof EmailRequestSuccess> = {
   title: 'Auth/ForgetPassword/EmailRequestSuccess',
@@ -62,9 +69,14 @@ const WithMockedDependencies = () => {
   React.useEffect(() => {
     // Mock Next.js Image
     if (typeof window !== 'undefined') {
-      (window as any).next = {
+      (window as unknown as { next: { router: { push: (href: string) => void } } }).next = {
         router: {
-          push: (href: string) => console.log(`Navigate to: ${href}`),
+          push: (href: string) => {
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-alert
+              alert(`Navigate to: ${href}`);
+            }
+          },
         }
       };
     }
@@ -136,68 +148,83 @@ export const DarkMode: Story = {
   },
 };
 
+// Helper components for breakdown
+const IconSection = () => (
+  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+    <h3>Icon Container</h3>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      <MockImage 
+        _src="/assets/images/WelcomeToSignin/pwreset-icon.png"
+        alt="Success Checkmark"
+        width={44}
+        height={44}
+      />
+    </div>
+  </div>
+);
+
+const TitleSection = () => (
+  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+    <h3>Title Text</h3>
+    <div style={{ 
+      fontSize: '24px', 
+      fontWeight: 'bold', 
+      textAlign: 'center',
+      marginTop: '10px'
+    }}>
+      Password reset link has been sent
+    </div>
+  </div>
+);
+
+const DescriptionSection = () => (
+  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+    <h3>Description Text</h3>
+    <div style={{ 
+      fontSize: '14px', 
+      textAlign: 'center',
+      color: '#666',
+      lineHeight: 1.5,
+      marginTop: '10px'
+    }}>
+      An email with password reset link has been sent to your email address. If you do not see
+      it in the inbox, check your spam folder
+    </div>
+  </div>
+);
+
+const ActionSection = () => (
+  <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+    <h3>Action Button</h3>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      <MockLink href="/login">
+        <button style={{ 
+          padding: '12px 20px', 
+          border: '1px solid #ddd',
+          borderRadius: '4px',
+          backgroundColor: 'white',
+          cursor: 'pointer'
+        }}>
+          Back to Sign in
+        </button>
+      </MockLink>
+    </div>
+  </div>
+);
+
 // Component parts breakdown
 export const ComponentBreakdown: Story = {
-  render: () => (
-    <div style={{ padding: '20px', maxWidth: '800px' }}>
-      <h2 style={{ marginBottom: '20px' }}>EmailRequestSuccess Component Structure</h2>
-      
-      <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h3>Icon Container</h3>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-          <MockImage 
-            src="/assets/images/WelcomeToSignin/pwreset-icon.png"
-            alt="Success Checkmark"
-            width={44}
-            height={44}
-          />
-        </div>
+  render: function renderComponentBreakdown() {
+    return (
+      <div style={{ padding: '20px', maxWidth: '800px' }}>
+        <h2 style={{ marginBottom: '20px' }}>EmailRequestSuccess Component Structure</h2>
+        <IconSection />
+        <TitleSection />
+        <DescriptionSection />
+        <ActionSection />
       </div>
-
-      <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h3>Title Text</h3>
-        <div style={{ 
-          fontSize: '24px', 
-          fontWeight: 'bold', 
-          textAlign: 'center',
-          marginTop: '10px'
-        }}>
-          Password reset link has been sent
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h3>Description Text</h3>
-        <div style={{ 
-          fontSize: '14px', 
-          textAlign: 'center',
-          color: '#666',
-          lineHeight: 1.5,
-          marginTop: '10px'
-        }}>
-          An email with password reset link has been sent to your email address. If you do not see
-          it in the inbox, check your spam folder
-        </div>
-      </div>
-
-      <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h3>Action Button</h3>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-          <MockLink href="/login">
-            <button style={{ 
-              padding: '12px 20px', 
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              backgroundColor: 'white',
-              cursor: 'pointer'
-            }}>
-              Back to Sign in
-            </button>
-          </MockLink>
-        </div>
-      </div>
-    </div>
-  ),
+    );
+  },
   parameters: {
     docs: {
       description: {
