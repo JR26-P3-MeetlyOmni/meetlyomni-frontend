@@ -1,6 +1,6 @@
 'use client';
 
-import { CompanyNameStep } from '@/features/auth/components/CompanyNameStep';
+import { CompanyNameStep } from '@/app/(auth)/signup/components/companyName';
 
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react';

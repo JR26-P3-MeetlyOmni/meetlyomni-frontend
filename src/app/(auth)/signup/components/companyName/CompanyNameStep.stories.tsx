@@ -1,3 +1,4 @@
+// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.stories.tsx
 import { MUIProvider } from '@/components/Providers/MUIProvider';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';

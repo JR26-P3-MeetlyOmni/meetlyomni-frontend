@@ -1,7 +1,10 @@
+// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.style.ts
 'use client';
 
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
+// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.style.ts
 
 export const Wrapper = styled('main')(({ theme }) => ({
   minHeight: '100vh',
@@ -10,6 +13,7 @@ export const Wrapper = styled('main')(({ theme }) => ({
   alignItems: 'center',
   paddingTop: theme.spacing(10),
 }));
+
 export const TitleRow = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
