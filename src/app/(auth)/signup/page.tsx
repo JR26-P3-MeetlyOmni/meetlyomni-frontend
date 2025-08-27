@@ -22,22 +22,19 @@ const PageRoot = styled(Box)(({ theme }) => ({
 
 const PageContainer = styled(Container)(({ theme }) => ({
   position: 'relative',
-  zIndex: 3,
+  zIndex: 100,
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  paddingInline: theme.spacing(2),
   marginTop: theme.spacing(12.5),
-  [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(18.75),
-  },
-  [theme.breakpoints.up('md')]: {
-    marginTop: theme.spacing(25),
-  },
-  [theme.breakpoints.up('lg')]: {
-    marginTop: theme.spacing(31.25),
-  },
+  [theme.breakpoints.up('sm')]: { marginTop: theme.spacing(18.75) },
+  [theme.breakpoints.up('md')]: { marginTop: theme.spacing(25) },
+  [theme.breakpoints.up('lg')]: { marginTop: theme.spacing(31.25) },
 }));
 
 export default function SignupPage() {
   const router = useRouter();
-
   const handleNext = useCallback(
     (_companyName: string) => {
       router.push('/signup/email');

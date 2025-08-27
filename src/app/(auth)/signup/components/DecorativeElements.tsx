@@ -4,6 +4,8 @@ import Image from 'next/image';
 import React from 'react';
 
 import { Box, styled } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const LogoElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
@@ -11,100 +13,73 @@ const LogoElement = styled(Box)(({ theme }) => ({
   display: 'none',
   top: theme.spacing(2),
   left: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: { display: 'block', top: theme.spacing(4), left: theme.spacing(3) },
-  [theme.breakpoints.up('md')]: { top: theme.spacing(6), left: theme.spacing(6) },
-  [theme.breakpoints.up('lg')]: { top: theme.spacing(4), left: theme.spacing(8) },
-  [theme.breakpoints.up('xl')]: { top: theme.spacing(5), left: theme.spacing(10) },
+  [theme.breakpoints.up('lg')]: { display: 'block', top: theme.spacing(4), left: theme.spacing(8) },
 }));
 
 const MagnifyingGlassElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   display: 'none',
-  top: theme.spacing(4),
-  left: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     display: 'block',
     top: theme.spacing(10),
     left: theme.spacing(5),
   },
-  [theme.breakpoints.up('md')]: { top: theme.spacing(12), left: theme.spacing(6) },
-  [theme.breakpoints.up('lg')]: { top: theme.spacing(25), left: theme.spacing(15) },
-  [theme.breakpoints.up('xl')]: { top: theme.spacing(38), left: theme.spacing(22) },
 }));
 
 const RachelElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 2,
   display: 'none',
-  top: theme.spacing(8),
-  right: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     display: 'block',
-    top: theme.spacing(14),
-    right: theme.spacing(10),
+    top: theme.spacing(10),
+    right: theme.spacing(18),
   },
-  [theme.breakpoints.up('md')]: { top: theme.spacing(16), right: theme.spacing(12) },
-  [theme.breakpoints.up('lg')]: { top: theme.spacing(10), right: theme.spacing(18) },
-  [theme.breakpoints.up('xl')]: { top: theme.spacing(15), right: theme.spacing(25) },
 }));
 
 const MarkElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 2,
   display: 'none',
-  top: theme.spacing(25),
-  left: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     display: 'block',
-    top: theme.spacing(40),
-    left: theme.spacing(5),
+    top: theme.spacing(55),
+    left: theme.spacing(15),
   },
-  [theme.breakpoints.up('md')]: { top: theme.spacing(45), left: theme.spacing(8) },
-  [theme.breakpoints.up('lg')]: { top: theme.spacing(55), left: theme.spacing(15) },
-  [theme.breakpoints.up('xl')]: { top: theme.spacing(75), left: theme.spacing(22) },
 }));
 
 const LookingForElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   display: 'none',
-  top: theme.spacing(15),
-  right: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     display: 'block',
     top: theme.spacing(30),
-    right: theme.spacing(12),
+    right: theme.spacing(10),
   },
-  [theme.breakpoints.up('md')]: { top: theme.spacing(35), right: theme.spacing(15) },
-  [theme.breakpoints.up('lg')]: { top: theme.spacing(30), right: theme.spacing(10) },
-  [theme.breakpoints.up('xl')]: { top: theme.spacing(45), right: theme.spacing(15) },
 }));
 
 const FormElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  top: theme.spacing(4),
-  left: '50%',
-  zIndex: 1,
   display: 'none',
-  transform: 'translateX(-50%)',
-  [theme.breakpoints.up('sm')]: { display: 'block' },
+  [theme.breakpoints.up('lg')]: {
+    display: 'block',
+    top: theme.spacing(4),
+    left: '50%',
+    transform: 'translateX(-50%)',
+  },
 }));
 
 const StarElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   display: 'none',
-  bottom: theme.spacing(2),
-  right: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     display: 'block',
-    bottom: theme.spacing(5),
-    right: theme.spacing(5),
+    bottom: theme.spacing(10),
+    right: theme.spacing(18),
   },
-  [theme.breakpoints.up('md')]: { bottom: theme.spacing(4), right: theme.spacing(8) },
-  [theme.breakpoints.up('lg')]: { bottom: theme.spacing(10), right: theme.spacing(18) },
-  [theme.breakpoints.up('xl')]: { bottom: theme.spacing(15), right: theme.spacing(25) },
 }));
 
 const StyledImage = styled(Image)({ objectFit: 'contain' });
@@ -179,4 +154,8 @@ const DecorativeElementsContent = () => (
   </>
 );
 
-export const DecorativeElements = () => <DecorativeElementsContent />;
+export const DecorativeElements = () => {
+  const theme = useTheme();
+  const showDecor = useMediaQuery(theme.breakpoints.up('lg'));
+  return showDecor ? <DecorativeElementsContent /> : null;
+};

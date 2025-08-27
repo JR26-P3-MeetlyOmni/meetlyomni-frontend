@@ -1,4 +1,3 @@
-// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.test.tsx
 import { describe, expect, it, vi } from 'vitest';
 
 import React from 'react';

@@ -1,24 +1,21 @@
-// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.style.ts
 'use client';
 
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.style.ts
-
-export const Wrapper = styled('main')(({ theme }) => ({
-  minHeight: '100vh',
+export const Wrapper = styled('section')(() => ({
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  paddingTop: theme.spacing(10),
 }));
 
 export const TitleRow = styled('div')(({ theme }) => ({
+  width: '100%',
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2),
-  marginBottom: theme.spacing(8),
+  marginBottom: theme.spacing(4),
   flexWrap: 'nowrap',
   flexDirection: 'row',
   [theme.breakpoints.down('sm')]: {
@@ -34,18 +31,21 @@ export const TitleHighlight = styled('span')(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
-  ...theme.typography.h6,
+  ...theme.typography.subtitle1,
   fontWeight: theme.typography.fontWeightBold,
   whiteSpace: 'nowrap',
   wordBreak: 'keep-all',
 }));
 
 export const TitleNormal = styled('span')(({ theme }) => ({
-  ...theme.typography.h4,
+  ...theme.typography.h5,
   fontWeight: theme.typography.fontWeightBold,
   color: theme.palette.text.primary,
   whiteSpace: 'nowrap',
   wordBreak: 'keep-all',
+  [theme.breakpoints.up('md')]: {
+    ...theme.typography.h4,
+  },
 }));
 
 export const FormWrap = styled('form')(({ theme }) => ({
@@ -72,9 +72,13 @@ export const Label = styled('label')(({ theme }) => ({
 export const CompanyInput = styled(TextField)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-root': {
-    ...theme.typography.h3,
+    ...theme.typography.h5,
     fontWeight: theme.typography?.fontWeightLight ?? theme.typography.fontWeightLight,
-    paddingBlock: theme.spacing(1.5),
+    paddingBlock: theme.spacing(1.25),
+    [theme.breakpoints.up('md')]: {
+      ...theme.typography.h4,
+      paddingBlock: theme.spacing(1.5),
+    },
   },
   '& .MuiInputBase-input::placeholder': {
     color: theme.palette.grey[400],
@@ -99,8 +103,12 @@ export const ErrorText = styled('div')(({ theme }) => ({
 }));
 
 export const NextButton = styled(Button)(({ theme }) => ({
-  minWidth: theme.spacing(30),
-  paddingBlock: theme.spacing(2),
+  minWidth: theme.spacing(24),
+  paddingBlock: theme.spacing(1.5),
   textTransform: 'none',
   borderRadius: theme.shape.borderRadius,
+  [theme.breakpoints.up('md')]: {
+    minWidth: theme.spacing(30),
+    paddingBlock: theme.spacing(2),
+  },
 }));

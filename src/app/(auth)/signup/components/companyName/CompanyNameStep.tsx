@@ -1,4 +1,3 @@
-// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.tsx
 'use client';
 
 import React, { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
@@ -6,8 +5,6 @@ import React, { type ChangeEvent, type FormEvent, useCallback, useState } from '
 import { Typography } from '@mui/material';
 
 import * as S from './CompanyNameStep.style';
-
-// /home/lukelyu/p3/meetlyomni-frontend/src/app/(auth)/signup/components/companyName/CompanyNameStep.tsx
 
 type Props = { onNext: (companyName: string) => void };
 
