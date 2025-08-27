@@ -76,7 +76,6 @@ const NameRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(3.75),
   width: '100%',
-  // marginBottom: theme.spacing(4), // Removed to avoid double spacing
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
     gap: 0,
@@ -96,7 +95,7 @@ const StyledSendButton = styled(Button)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(14),
   fontWeight: theme.typography.fontWeightMedium,
   lineHeight: 1,
-  color: '#ffffff',
+  color: theme.palette.common.white,
   textTransform: 'none',
   transition: theme.transitions.create(['background-color', 'transform', 'box-shadow'], {
     duration: theme.transitions.duration.short,
