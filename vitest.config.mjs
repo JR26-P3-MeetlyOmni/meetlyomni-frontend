@@ -12,6 +12,7 @@ export default defineConfig({
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
+      'src/app/api/**',
     ],
     coverage: {
       provider: 'v8',
@@ -37,9 +38,10 @@ export default defineConfig({
         // Ignore styling, theming, and internationalization
         'src/theme/**',
     
-        // Ignore page layouts and routing shells
+        // Ignore Mock API, page layouts and routing shells
         'src/**/layout.tsx',
         'src/**/page.tsx',
+        'src/app/api/**',
     
         // Ignore barrel/index files
         'src/**/index.ts',
