@@ -1,5 +1,7 @@
-import { ImageElement } from './shared';
+import React from 'react';
+
 import type { ImageConfig } from '../types';
+import { ImageElement } from './shared';
 
 const glassConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/glass.png',
@@ -18,10 +20,6 @@ const glassConfig: ImageConfig = {
   },
 };
 
-export const GlassIcon = () => (
-  <ImageElement config={glassConfig} />
-);
+export const GlassIcon = () => <ImageElement config={glassConfig} />;
 
 export default GlassIcon;
-
-

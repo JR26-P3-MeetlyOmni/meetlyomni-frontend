@@ -1,5 +1,7 @@
-import { ImageElement } from './shared';
+import React from 'react';
+
 import type { ImageConfig } from '../types';
+import { ImageElement } from './shared';
 
 const lookingForConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/lookingFor.png',
@@ -17,10 +19,6 @@ const lookingForConfig: ImageConfig = {
   },
 };
 
-export const LookingForIcon = () => (
-  <ImageElement config={lookingForConfig} />
-);
+export const LookingForIcon = () => <ImageElement config={lookingForConfig} />;
 
 export default LookingForIcon;
-
-

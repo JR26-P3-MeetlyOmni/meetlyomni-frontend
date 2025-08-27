@@ -22,7 +22,6 @@ const EmailRequestForm: React.FC = () => {
   if (emailSent) {
     return <EmailRequestSuccess />;
   }
-
   return (
     <FormContainer>
       <FormTitle>Reset your password</FormTitle>

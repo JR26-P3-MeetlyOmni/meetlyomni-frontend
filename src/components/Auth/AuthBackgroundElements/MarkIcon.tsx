@@ -1,5 +1,7 @@
-import { ImageElement } from './shared';
+import React from 'react';
+
 import type { ImageConfig } from '../types';
+import { ImageElement } from './shared';
 
 const markConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/mark.png',
@@ -16,10 +18,6 @@ const markConfig: ImageConfig = {
   },
 };
 
-export const MarkIcon = () => (
-  <ImageElement config={markConfig} />
-);
+export const MarkIcon = () => <ImageElement config={markConfig} />;
 
 export default MarkIcon;
-
-

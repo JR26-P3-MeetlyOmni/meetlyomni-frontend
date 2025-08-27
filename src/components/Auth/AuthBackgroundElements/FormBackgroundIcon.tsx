@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { ImageConfig } from '../types';
 import { ImageElement } from './shared';
 
