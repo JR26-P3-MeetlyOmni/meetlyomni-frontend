@@ -9,8 +9,6 @@ import {
 } from '@/components/Auth/AuthFormComponents';
 import { useEmailRequestForm } from '@/features/auth';
 
-import React from 'react';
-
 import { Box } from '@mui/material';
 
 import EmailRequestSuccess from './EmailRequestSuccess';

@@ -8,6 +8,7 @@ export type {
   PasswordResetState,
   AuthState,
   AuthError,
+  UseNewPasswordFormReturn,
 } from './types';
 
 // Slice (reducer and actions)
@@ -41,13 +42,15 @@ export { requestResetApi } from './api/requestResetApi';
 export { resetPasswordApi } from './api/resetPasswordApi';
 
 // Utility functions
+export { validateEmail } from './utils/emailValidation';
 export {
-  validateEmail,
   validatePasswordStrength,
   isPasswordValid,
   getPasswordStrengthScore,
   getPasswordStrengthMeta,
-} from './utils/validation';
+  getPasswordValidationState,
+} from './utils/passwordValidation';
 
 // Hooks
 export { useEmailRequestForm } from './hooks/useEmailRequestForm';
+export { useNewPasswordForm } from './hooks/useNewPasswordForm';

@@ -1,5 +1,13 @@
-import React from 'react';
-import { Logo, TopCenterSketch, RachelIcon, MarkIcon, GlassIcon, LookingForIcon, StarIcon, FormBackgroundIcon } from '@/components/Auth';
+import {
+  FormBackgroundIcon,
+  GlassIcon,
+  Logo,
+  LookingForIcon,
+  MarkIcon,
+  RachelIcon,
+  StarIcon,
+  TopCenterSketch,
+} from '@/components/Auth';
 
 export const DecorativeElements = () => (
   <>

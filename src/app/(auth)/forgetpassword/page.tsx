@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
 import { DecorativeElements } from './components/DecorativeElements';
 import EmailRequestForm from './components/EmailRequestForm';
 

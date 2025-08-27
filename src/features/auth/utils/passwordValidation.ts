@@ -1,12 +1,8 @@
 import type { PasswordValidation } from '../types';
 
 /**
- * Validates email format using regex
+ * Password validation utilities
  */
-export const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
 
 /**
  * Validates password strength according to app requirements
@@ -18,7 +14,7 @@ export const validateEmail = (email: string): boolean => {
  */
 export const validatePasswordStrength = (
   password: string,
-  confirmPassword?: string
+  confirmPassword?: string,
 ): PasswordValidation => {
   return {
     minLength: password.length >= 12,
@@ -26,9 +22,8 @@ export const validatePasswordStrength = (
     hasLower: /[a-z]/.test(password),
     hasNumber: /\d/.test(password),
     hasSpecial: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
-    match: confirmPassword !== undefined 
-      ? password === confirmPassword && password.length > 0 
-      : true,
+    match:
+      confirmPassword !== undefined ? password === confirmPassword && password.length > 0 : true,
   };
 };
 
@@ -57,9 +52,39 @@ export const getPasswordStrengthScore = (validation: PasswordValidation): number
  * Gets password strength label and color
  */
 export const getPasswordStrengthMeta = (
-  score: number
+  score: number,
 ): { label: string; color: 'error' | 'warning' | 'success' } => {
   if (score <= 2) return { label: 'Weak', color: 'error' };
   if (score <= 4) return { label: 'Medium', color: 'warning' };
   return { label: 'Strong', color: 'success' };
 };
+
+/**
+ * Gets complete password validation state for form components
+ * Combines all validation results and strength calculations
+ */
+export function getPasswordValidationState(password: string, confirmPassword: string) {
+  const validation = validatePasswordStrength(password, confirmPassword);
+  const isValidPassword = isPasswordValid(validation);
+  const isLengthOk = validation.minLength;
+  const isCaseOk = validation.hasUpper && validation.hasLower;
+  const isNumSpecialOk = validation.hasNumber && validation.hasSpecial;
+  const isStrong = isLengthOk && isCaseOk && isNumSpecialOk;
+  const hasInput = password.length > 0;
+  const strengthScore = getPasswordStrengthScore(validation);
+  const strengthPercent = (strengthScore / 5) * 100;
+  const strengthMeta = getPasswordStrengthMeta(strengthScore);
+
+  return {
+    validation,
+    isValidPassword,
+    isLengthOk,
+    isCaseOk,
+    isNumSpecialOk,
+    isStrong,
+    hasInput,
+    strengthScore,
+    strengthPercent,
+    strengthMeta,
+  };
+}

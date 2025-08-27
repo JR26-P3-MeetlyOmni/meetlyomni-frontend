@@ -49,3 +49,29 @@ export interface AuthError {
   code?: string;
   status?: number;
 }
+
+// Hook return types
+export interface UseNewPasswordFormReturn {
+  // Form state
+  password: string;
+  confirmPassword: string;
+  showPassword: boolean;
+  showConfirmPassword: boolean;
+  success: boolean;
+
+  // Redux state
+  isSubmitting: boolean;
+  resetError: string | null;
+
+  // Password validation
+  validation: PasswordValidation;
+  isValidPassword: boolean;
+  showValidation: boolean;
+
+  // Event handlers
+  setPassword: (password: string) => void;
+  setConfirmPassword: (confirmPassword: string) => void;
+  toggleShowPassword: () => void;
+  toggleShowConfirmPassword: () => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+}

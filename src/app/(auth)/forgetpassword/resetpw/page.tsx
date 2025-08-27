@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Box, styled, Alert, CircularProgress, Button } from '@mui/material';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+
+import { Alert, Box, Button, CircularProgress, styled } from '@mui/material';
+
 import { DecorativeElements } from '../components/DecorativeElements';
 import NewPasswordForm from '../components/NewPasswordForm';
 
@@ -67,7 +69,7 @@ function VerifyPageContent() {
 
   useEffect(() => {
     const tokenParam = searchParams.get('token');
-    
+
     if (!tokenParam) {
       setError('Invalid reset link. Please request a new password reset.');
       setIsLoading(false);
@@ -90,9 +92,7 @@ function VerifyPageContent() {
   if (error || !token) {
     return (
       <ErrorContainer>
-        <Alert severity="error">
-          {error || 'Invalid reset link'}
-        </Alert>
+        <Alert severity="error">{error || 'Invalid reset link'}</Alert>
         <BackLinkContainer>
           <Button component={Link} href="/login" variant="outlined">
             Back to login
@@ -110,7 +110,7 @@ export default function VerifyPage() {
     <PageContainer>
       <DecorativeElements />
       <FormContainer>
-        <Suspense 
+        <Suspense
           fallback={
             <LoadingContainer>
               <CircularProgress />
