@@ -3,6 +3,8 @@
 import { FormContainer, FormTitle, StyledSubmitButton } from '@/components/Auth/AuthFormComponents';
 import { useNewPasswordForm } from '@/features/auth';
 
+import React from 'react';
+
 import { Alert, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 

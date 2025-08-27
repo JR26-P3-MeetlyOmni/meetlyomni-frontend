@@ -9,6 +9,8 @@ import {
   TopCenterSketch,
 } from '@/components/Auth';
 
+import React from 'react';
+
 export const DecorativeElements = () => (
   <>
     <Logo />

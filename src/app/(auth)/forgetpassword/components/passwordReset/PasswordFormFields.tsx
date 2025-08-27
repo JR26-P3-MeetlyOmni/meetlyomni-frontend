@@ -1,4 +1,7 @@
+import React from 'react';
+
 import { Box, styled } from '@mui/material';
+
 import type { PasswordValidation } from '../../types';
 import ConfirmPasswordField from './ConfirmPasswordField';
 import PasswordField from './NewPasswordField';
@@ -19,7 +22,7 @@ interface PasswordFormFieldsProps {
 }
 
 const SpacingBox = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(3), 
+  marginTop: theme.spacing(3),
 }));
 
 const PasswordFormFields: React.FC<PasswordFormFieldsProps> = ({

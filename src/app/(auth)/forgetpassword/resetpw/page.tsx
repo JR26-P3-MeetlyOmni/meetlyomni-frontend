@@ -99,7 +99,6 @@ export default function VerifyPage() {
   return (
     <PageContainer>
       <DecorativeElements />
-      {/* <FormContainer> */}
       <Suspense
         fallback={
           <LoadingContainer>
@@ -109,7 +108,6 @@ export default function VerifyPage() {
       >
         <VerifyPageContent />
       </Suspense>
-      {/* </FormContainer> */}
     </PageContainer>
   );
 }

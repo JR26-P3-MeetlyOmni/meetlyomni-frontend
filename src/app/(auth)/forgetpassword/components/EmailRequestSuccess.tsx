@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';

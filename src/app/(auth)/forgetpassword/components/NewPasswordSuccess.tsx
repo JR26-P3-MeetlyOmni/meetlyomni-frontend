@@ -1,5 +1,7 @@
 import { FormContainer } from '@/components/Auth/AuthFormComponents';
 
+import React from 'react';
+
 import { Alert } from '@mui/material';
 
 const NewPasswordSuccess: React.FC = () => {
