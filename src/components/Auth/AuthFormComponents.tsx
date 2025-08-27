@@ -1,4 +1,4 @@
-import { TextField, Button, Typography, Box } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const FormContainer = styled(Box)(({ theme }) => ({
@@ -17,8 +17,9 @@ export const FormContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const FormTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 'clamp(22px, 4vw, 40px)',
+  fontSize: 'clamp(22px, 34px, 45px)',
   fontWeight: 700,
+  fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.primary,
   textAlign: 'center',
   marginBottom: 'clamp(12px, 2.5vw, 24px)',
@@ -54,8 +55,8 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 export const SubmitButton = styled(Button)(({ theme }) => ({
-  backgroundColor: 'rgb(20,24,59)', 
-  color: '#FFFFFF', 
+  backgroundColor: 'rgb(20,24,59)',
+  color: '#FFFFFF',
   minHeight: 'clamp(40px, 6vw, 56px)',
   borderRadius: theme.shape.borderRadius,
   textTransform: 'none',
@@ -63,7 +64,7 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
   fontWeight: theme.typography.button.fontWeight,
   padding: 'clamp(8px, 2vw, 12px) clamp(16px, 4vw, 28px)',
   '&:hover': {
-    backgroundColor: 'rgb(16,20,47)', 
+    backgroundColor: 'rgb(16,20,47)',
   },
   '&:disabled': {
     backgroundColor: theme.palette.grey[300],
@@ -71,7 +72,7 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
 }));
 
 export const SectionLabel = styled(Typography)(({ theme }) => ({
-  fontWeight: 500, 
+  fontWeight: 500,
   color: theme.palette.text.primary,
   fontSize: 'clamp(13px, 2.2vw, 15px)',
   [theme.breakpoints.up('sm')]: {
