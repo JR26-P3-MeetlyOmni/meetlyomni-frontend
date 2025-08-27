@@ -31,7 +31,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Interactive wrapper to demonstrate real password input behavior
-const InteractiveWrapper = (args: { password?: string; confirmPassword?: string; showPassword?: boolean; showConfirmPassword?: boolean }) => {
+const InteractiveWrapper = (args: { 
+  password?: string; 
+  confirmPassword?: string; 
+  showPassword?: boolean; 
+  showConfirmPassword?: boolean;
+  isSubmitting?: boolean;
+  showValidation?: boolean;
+}) => {
   const [password, setPassword] = useState(args.password || '');
   const [confirmPassword, setConfirmPassword] = useState(args.confirmPassword || '');
   const [showPassword, setShowPassword] = useState(args.showPassword || false);
@@ -50,11 +57,12 @@ const InteractiveWrapper = (args: { password?: string; confirmPassword?: string;
   return (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordFormFields
-        {...args}
         password={password}
         confirmPassword={confirmPassword}
         showPassword={showPassword}
         showConfirmPassword={showConfirmPassword}
+        isSubmitting={args.isSubmitting || false}
+        showValidation={args.showValidation || false}
         validation={validation}
         setPassword={setPassword}
         setConfirmPassword={setConfirmPassword}

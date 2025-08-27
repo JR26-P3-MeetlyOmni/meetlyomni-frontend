@@ -142,7 +142,7 @@ const _TextFieldMeta: Meta<typeof StyledTextField> = {
   },
 };
 
-const InteractiveTextField = (args: { value?: string }) => {
+const InteractiveTextField = (args: any) => {
   const [value, setValue] = useState(args.value || '');
 
   return (
