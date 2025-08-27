@@ -1,4 +1,10 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+
+import React from 'react';
+
+import { render, screen } from '@testing-library/react';
+
+import NewPasswordForm from '../components/NewPasswordForm';
 
 // Unit tests for NewPasswordForm component logic
 // These tests verify the expected behavior without rendering the component
@@ -242,5 +248,65 @@ describe('NewPasswordForm Logic Tests', () => {
       expect(buttonDisabledWhenSubmitting).toBe(true);
       expect(buttonEnabledWhenNotSubmitting).toBe(true);
     });
+  });
+});
+
+// Smoke render to cover NewPasswordForm component file
+vi.mock('../components/NewPasswordSuccess', () => ({
+  default: () => <div data-testid="new-password-success">NewPasswordSuccess</div>,
+}));
+
+vi.mock('../components/passwordReset/PasswordFormFields', () => ({
+  default: () => <div data-testid="password-form-fields">PasswordFormFields</div>,
+}));
+
+vi.mock('@/components/Auth/AuthFormComponents', () => ({
+  FormContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="form-container">{children}</div>
+  ),
+  FormTitle: ({ children }: { children: React.ReactNode }) => (
+    <h1 data-testid="form-title">{children}</h1>
+  ),
+  StyledSubmitButton: ({ children, ...props }: any) => (
+    <button data-testid="submit-button" {...props}>
+      {children}
+    </button>
+  ),
+}));
+
+vi.mock('@/features/auth', () => ({
+  useNewPasswordForm: () => ({
+    password: '',
+    confirmPassword: '',
+    showPassword: false,
+    showConfirmPassword: false,
+    success: false,
+    isSubmitting: false,
+    resetError: '',
+    validation: {
+      minLength: false,
+      hasUpper: false,
+      hasLower: false,
+      hasNumber: false,
+      hasSpecial: false,
+      match: false,
+    },
+    isValidPassword: false,
+    showValidation: false,
+    setPassword: vi.fn(),
+    setConfirmPassword: vi.fn(),
+    toggleShowPassword: vi.fn(),
+    toggleShowConfirmPassword: vi.fn(),
+    handleSubmit: vi.fn((e: any) => e.preventDefault()),
+  }),
+}));
+
+describe('NewPasswordForm Component Smoke Test', () => {
+  it('renders with minimal props', () => {
+    render(<NewPasswordForm token="test-token" />);
+    expect(screen.getByTestId('form-container')).toBeInTheDocument();
+    expect(screen.getByTestId('form-title')).toHaveTextContent('Reset your password');
+    expect(screen.getByTestId('password-form-fields')).toBeInTheDocument();
+    expect(screen.getByTestId('submit-button')).toBeInTheDocument();
   });
 });
