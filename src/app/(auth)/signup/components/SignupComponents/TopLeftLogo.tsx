@@ -13,8 +13,8 @@ type TopLeftLogoProps = {
 const Root = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  paddingTop: theme.spacing(4),
-  paddingLeft: theme.spacing(12),
+  paddingTop: theme.spacing(6),
+  paddingLeft: theme.spacing(16),
 }));
 
 const Logo = styled('img')(({ theme }) => ({

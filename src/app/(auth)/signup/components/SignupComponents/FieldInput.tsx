@@ -65,6 +65,10 @@ const BigInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const ErrorBox = styled('div')(({ theme }) => ({
+  minHeight: theme.spacing(3), // 预留错误区域高度，防止布局跳动
+}));
+
 const Errors = styled('ul')(({ theme }) => ({
   margin: theme.spacing(0.5, 0, 0),
   paddingLeft: theme.spacing(2.5),
@@ -126,9 +130,10 @@ function getBarColor(
   focused: boolean,
   hasValue: boolean,
 ): string {
+  if (!touched && !hasValue && !focused) return '#1976d2';
   if (touched && !valid) return '#d32f2f';
-  if (valid && hasValue) return '#2e7d32';
   if (focused) return '#1976d2';
+  if (valid && hasValue) return '#2e7d32';
   return 'rgba(0,0,0,0.12)';
 }
 
@@ -205,7 +210,9 @@ export function ValidatedInput({
           }}
         />
       </FieldBox>
-      <ValidationErrors touched={touched} errors={errors} />
+      <ErrorBox>
+        <ValidationErrors touched={touched} errors={errors} />
+      </ErrorBox>
     </Wrap>
   );
 }
