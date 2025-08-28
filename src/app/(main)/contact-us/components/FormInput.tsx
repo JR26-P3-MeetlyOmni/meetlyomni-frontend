@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Box, styled, TextField, Typography } from '@mui/material';
 
-import { FormInputProps } from '../types';
+import { FormInputProps } from '..';
 
 // Label styling for form inputs
 const StyledLabel = styled(Typography)(({ theme }) => ({
