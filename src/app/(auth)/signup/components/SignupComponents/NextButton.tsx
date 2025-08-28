@@ -1,0 +1,71 @@
+'use client';
+
+import React from 'react';
+
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
+interface NextButtonProps {
+  onClick?: () => void;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  minWidth: 128,
+  padding: theme.spacing(1.25, 2.5),
+  borderRadius: theme.spacing(0.5),
+  textTransform: 'none',
+  fontSize: '1rem',
+  fontWeight: 500,
+  gap: theme.spacing(1),
+  transition: 'all 0.2s ease-in-out',
+  height: 44,
+  backgroundColor: '#14183b',
+  color: '#ffffff',
+
+  '&:hover': {
+    transform: 'translateX(2px)',
+  },
+
+  '&.Mui-disabled': {
+    transform: 'none',
+    backgroundColor: theme.palette.action.disabledBackground,
+    color: theme.palette.action.disabled,
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    minWidth: 100,
+    padding: theme.spacing(1, 2),
+    fontSize: '0.875rem',
+    height: 40,
+  },
+}));
+
+export function NextButton({
+  onClick,
+  disabled = false,
+  children = 'Next',
+  className,
+}: NextButtonProps) {
+  const handleClick = React.useCallback(() => {
+    if (!disabled && onClick) {
+      onClick();
+    }
+  }, [onClick, disabled]);
+
+  return (
+    <StyledButton
+      variant="contained"
+      onClick={handleClick}
+      disabled={disabled}
+      className={className}
+      aria-label={typeof children === 'string' ? children : 'Next'}
+    >
+      {children}
+    </StyledButton>
+  );
+}
+
+export default NextButton;

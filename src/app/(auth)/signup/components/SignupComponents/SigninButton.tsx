@@ -8,8 +8,8 @@ import { styled } from '@mui/material/styles';
 
 const Root = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: theme.spacing(2),
-  right: theme.spacing(2),
+  top: theme.spacing(6),
+  right: theme.spacing(16),
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
