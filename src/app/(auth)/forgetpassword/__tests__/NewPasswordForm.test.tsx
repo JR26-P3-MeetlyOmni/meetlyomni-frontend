@@ -256,8 +256,14 @@ vi.mock('../components/NewPasswordSuccess', () => ({
   default: () => <div data-testid="new-password-success">NewPasswordSuccess</div>,
 }));
 
-vi.mock('../components/passwordReset/PasswordFormFields', () => ({
-  default: () => <div data-testid="password-form-fields">PasswordFormFields</div>,
+vi.mock('../components/passwordReset/PasswordField', () => ({
+  default: ({ type }: { type: 'new' | 'confirm' }) => (
+    <div data-testid={`password-field-${type}`}>PasswordField-{type}</div>
+  ),
+}));
+
+vi.mock('../components/passwordReset/PasswordValidation', () => ({
+  default: () => <div data-testid="password-validation">PasswordValidation</div>,
 }));
 
 vi.mock('@/components/Auth/AuthFormComponents', () => ({
@@ -271,6 +277,24 @@ vi.mock('@/components/Auth/AuthFormComponents', () => ({
     <button data-testid="submit-button" {...props}>
       {children}
     </button>
+  ),
+  StyledSectionLabel: ({ children }: { children: React.ReactNode }) => (
+    <label data-testid="section-label">{children}</label>
+  ),
+  StyledTextField: ({ error, helperText, slotProps, fullWidth, size, ...rest }: any) => (
+    <div>
+      <input data-testid="password-input" {...rest} />
+      {slotProps?.input?.endAdornment}
+      {error && helperText && <span data-testid="error-message">{helperText}</span>}
+    </div>
+  ),
+  ValidationContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="validation-container">{children}</div>
+  ),
+  ValidationText: ({ children, isValid }: { children: React.ReactNode; isValid: boolean }) => (
+    <div data-testid="validation-text" data-valid={isValid}>
+      {children}
+    </div>
   ),
 }));
 
@@ -306,7 +330,8 @@ describe('NewPasswordForm Component Smoke Test', () => {
     render(<NewPasswordForm token="test-token" />);
     expect(screen.getByTestId('form-container')).toBeInTheDocument();
     expect(screen.getByTestId('form-title')).toHaveTextContent('Reset your password');
-    expect(screen.getByTestId('password-form-fields')).toBeInTheDocument();
+    expect(screen.getByTestId('password-field-new')).toBeInTheDocument();
+    expect(screen.getByTestId('password-field-confirm')).toBeInTheDocument();
     expect(screen.getByTestId('submit-button')).toBeInTheDocument();
   });
 });

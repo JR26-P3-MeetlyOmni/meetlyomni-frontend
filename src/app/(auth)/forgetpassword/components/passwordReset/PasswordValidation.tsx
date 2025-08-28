@@ -2,9 +2,9 @@ import { ValidationContainer, ValidationText } from '@/components/Auth/AuthFormC
 
 import React from 'react';
 
-import type { PasswordValidationRulesProps } from '../../types';
+import { PasswordValidationProps } from '../../types';
 
-const PasswordValidationRules: React.FC<PasswordValidationRulesProps> = ({
+const PasswordValidation: React.FC<PasswordValidationProps> = ({
   isLengthOk,
   isCaseOk,
   isNumSpecialOk,
@@ -28,4 +28,4 @@ const PasswordValidationRules: React.FC<PasswordValidationRulesProps> = ({
   );
 };
 
-export default PasswordValidationRules;
+export default PasswordValidation;

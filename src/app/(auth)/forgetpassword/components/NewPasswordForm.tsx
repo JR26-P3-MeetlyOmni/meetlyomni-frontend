@@ -8,65 +8,99 @@ import React from 'react';
 import { Alert, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import type { NewPasswordFormProps } from '../types';
 import NewPasswordSuccess from '../PasswordUpdateSuccess/page';
-import PasswordFormFields from './passwordReset/PasswordFormFields';
+import type { NewPasswordFormProps } from '../types';
+import PasswordField from './passwordReset/PasswordField';
+import PasswordValidation from './passwordReset/PasswordValidation';
 
 const ValidationAlert = styled(Alert)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 
-const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
-  const {
-    password,
-    confirmPassword,
-    showPassword,
-    showConfirmPassword,
-    success,
-    isSubmitting,
-    resetError,
-    validation,
-    isValidPassword,
-    showValidation,
-    setPassword,
-    setConfirmPassword,
-    toggleShowPassword,
-    toggleShowConfirmPassword,
-    handleSubmit,
-  } = useNewPasswordForm(token);
+interface FormData {
+  validation: {
+    minLength: boolean;
+    hasUpper: boolean;
+    hasLower: boolean;
+    hasNumber: boolean;
+    hasSpecial: boolean;
+  };
+  password: string;
+  showValidation: boolean;
+}
 
-  if (success) {
+const getPasswordValidationProps = (formData: FormData) => ({
+  isLengthOk: formData.validation.minLength,
+  isCaseOk: formData.validation.hasUpper && formData.validation.hasLower,
+  isNumSpecialOk: formData.validation.hasNumber && formData.validation.hasSpecial,
+  hasInput: formData.password.length > 0,
+  isStrong:
+    formData.validation.minLength &&
+    formData.validation.hasUpper &&
+    formData.validation.hasLower &&
+    formData.validation.hasNumber &&
+    formData.validation.hasSpecial,
+});
+
+const renderPasswordValidation = (formData: FormData) => {
+  if (!formData.showValidation) return null;
+  return <PasswordValidation {...getPasswordValidationProps(formData)} />;
+};
+
+const renderErrorAlert = (resetError: string | null) => {
+  if (!resetError) return null;
+  return <Alert severity="error">{resetError}</Alert>;
+};
+
+const renderValidationAlert = (showValidation: boolean, isValidPassword: boolean) => {
+  if (!(showValidation && !isValidPassword)) return null;
+  return (
+    <ValidationAlert severity="info">
+      Please ensure your password meets all the requirements above before proceeding.
+    </ValidationAlert>
+  );
+};
+
+const NewPasswordForm: React.FC<NewPasswordFormProps> = ({ token }) => {
+  const formData = useNewPasswordForm(token);
+
+  if (formData.success) {
     return <NewPasswordSuccess />;
   }
+
+  const hasPasswordMismatch = formData.confirmPassword.length > 0 && !formData.validation.match;
 
   return (
     <FormContainer>
       <FormTitle>Reset your password</FormTitle>
-      <Box component="form" onSubmit={handleSubmit}>
-        <PasswordFormFields
-          password={password}
-          confirmPassword={confirmPassword}
-          showPassword={showPassword}
-          showConfirmPassword={showConfirmPassword}
-          isSubmitting={isSubmitting}
-          validation={validation}
-          showValidation={showValidation}
-          setPassword={setPassword}
-          setConfirmPassword={setConfirmPassword}
-          toggleShowPassword={toggleShowPassword}
-          toggleShowConfirmPassword={toggleShowConfirmPassword}
+      <Box component="form" onSubmit={formData.handleSubmit}>
+        <PasswordField
+          type="new"
+          value={formData.password}
+          showPassword={formData.showPassword}
+          isSubmitting={formData.isSubmitting}
+          onChange={formData.setPassword}
+          onToggleVisibility={formData.toggleShowPassword}
         />
 
-        {resetError ? <Alert severity="error">{resetError}</Alert> : null}
+        {renderPasswordValidation(formData)}
 
-        {showValidation === true && isValidPassword === false && (
-          <ValidationAlert severity="info">
-            Please ensure your password meets all the requirements above before proceeding.
-          </ValidationAlert>
-        )}
+        <PasswordField
+          type="confirm"
+          value={formData.confirmPassword}
+          showPassword={formData.showConfirmPassword}
+          isSubmitting={formData.isSubmitting}
+          hasError={hasPasswordMismatch}
+          errorMessage="Passwords do not match"
+          onChange={formData.setConfirmPassword}
+          onToggleVisibility={formData.toggleShowConfirmPassword}
+        />
 
-        <StyledSubmitButton type="submit" fullWidth disabled={isSubmitting}>
-          {isSubmitting ? 'Resetting...' : 'Reset password'}
+        {renderErrorAlert(formData.resetError)}
+        {renderValidationAlert(formData.showValidation, formData.isValidPassword)}
+
+        <StyledSubmitButton type="submit" fullWidth disabled={formData.isSubmitting}>
+          {formData.isSubmitting ? 'Resetting...' : 'Reset password'}
         </StyledSubmitButton>
       </Box>
     </FormContainer>
