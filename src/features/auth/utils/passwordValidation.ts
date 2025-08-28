@@ -1,13 +1,5 @@
 import type { PasswordValidation } from '../types';
 
-/**
- * Validates password strength according to app requirements
- * - At least 12 characters
- * - At least 1 uppercase letter
- * - At least 1 lowercase letter
- * - At least 1 number
- * - At least 1 special character
- */
 export const validatePasswordStrength = (
   password: string,
   confirmPassword?: string,
@@ -23,16 +15,10 @@ export const validatePasswordStrength = (
   };
 };
 
-/**
- * Checks if password meets all requirements
- */
 export const isPasswordValid = (validation: PasswordValidation): boolean => {
   return Object.values(validation).every(v => v === true);
 };
 
-/**
- * Gets password strength score (0-5)
- */
 export const getPasswordStrengthScore = (validation: PasswordValidation): number => {
   const scores = [
     validation.minLength,
@@ -44,9 +30,6 @@ export const getPasswordStrengthScore = (validation: PasswordValidation): number
   return scores.filter(Boolean).length;
 };
 
-/**
- * Gets password strength label and color
- */
 export const getPasswordStrengthMeta = (
   score: number,
 ): { label: string; color: 'error' | 'warning' | 'success' } => {
@@ -55,10 +38,6 @@ export const getPasswordStrengthMeta = (
   return { label: 'Strong', color: 'success' };
 };
 
-/**
- * Gets complete password validation state for form components
- * Combines all validation results and strength calculations
- */
 export function getPasswordValidationState(password: string, confirmPassword: string) {
   const validation = validatePasswordStrength(password, confirmPassword);
   const isValidPassword = isPasswordValid(validation);
