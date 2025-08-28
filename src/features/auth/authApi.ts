@@ -2,7 +2,7 @@ import type { LoginCredentials, User } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7011/api';
 
-// Token处理工具函数
+// Token management functions
 export const getAuthToken = (): string | null => {
   if (typeof window !== 'undefined') {
     return localStorage.getItem('authToken');
