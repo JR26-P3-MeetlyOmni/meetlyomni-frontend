@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Box, Button, Container, styled, Typography } from '@mui/material';
 
@@ -119,59 +120,56 @@ const StyledSendButton = styled(Button)(({ theme }) => ({
 
 // Form section component
 const ContactFormSection: React.FC<ContactFormSectionProps> = ({
-  formData,
+  register,
+  errors,
+  handleSubmit,
   isSubmitting,
-  isFormValid,
-  onInputChange,
+  isValid,
   onSubmit,
 }) => {
-  const handleSubmit = React.useCallback(() => {
-    void onSubmit();
-  }, [onSubmit]);
-
   return (
     <FormContainer>
       <NameRow>
         <FormInput
           label="First name"
-          value={formData.firstName}
-          onChange={onInputChange('firstName')}
+          name="firstName"
+          register={register}
+          error={errors.firstName?.message}
           placeholder="First name"
           width="40"
-          required={true}
         />
         <FormInput
           label="Last name"
-          value={formData.lastName}
-          onChange={onInputChange('lastName')}
+          name="lastName"
+          register={register}
+          error={errors.lastName?.message}
           placeholder="Last name"
           width="40"
-          required={true}
         />
       </NameRow>
 
       <FormInput
         label="Email Address"
-        value={formData.email}
-        onChange={onInputChange('email')}
+        name="email"
+        register={register}
+        error={errors.email?.message}
         placeholder="Email Address"
         type="email"
         width="83.75"
-        required={true}
       />
 
       <FormInput
         label="Your Question"
-        value={formData.question}
-        onChange={onInputChange('question')}
+        name="question"
+        register={register}
+        error={errors.question?.message}
         placeholder="Enter your text here"
         multiline
         rows={6}
         width="83.75"
-        required={true}
       />
 
-      <StyledSendButton onClick={handleSubmit} disabled={!isFormValid || isSubmitting}>
+      <StyledSendButton onClick={handleSubmit(onSubmit)} disabled={!isValid || isSubmitting}>
         {isSubmitting ? 'Sending...' : 'Send'}
       </StyledSendButton>
     </FormContainer>
@@ -180,52 +178,33 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({
 
 // Main contact page component
 export default function ContactUsPage() {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    question: '',
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<FormData>({
+    mode: 'onChange',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Handle input changes
-  const handleInputChange = React.useCallback(
-    (field: keyof FormData) => (value: string) => {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value,
-      }));
-    },
-    [],
-  );
-
   // Handle form submission
-  const handleSubmit = React.useCallback(async () => {
-    setIsSubmitting(true);
+  const onSubmit = React.useCallback(
+    async (_data: FormData) => {
+      setIsSubmitting(true);
 
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        question: '',
-      });
-      alert('Message sent successfully!');
-    } catch {
-      alert('Failed to send message. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, []);
-
-  // Check if all form fields are filled
-  const isFormValid = !!(
-    formData.firstName &&
-    formData.lastName &&
-    formData.email &&
-    formData.question
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        reset();
+        alert('Message sent successfully!');
+      } catch {
+        alert('Failed to send message. Please try again.');
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [reset],
   );
 
   return (
@@ -237,11 +216,12 @@ export default function ContactUsPage() {
         interactive Q&A and live sweepstakes!
       </StyledSubtitle>
       <ContactFormSection
-        formData={formData}
+        register={register}
+        errors={errors}
+        handleSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        isFormValid={isFormValid}
-        onInputChange={handleInputChange}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isValid={isValid}
       />
     </StyledContainer>
   );

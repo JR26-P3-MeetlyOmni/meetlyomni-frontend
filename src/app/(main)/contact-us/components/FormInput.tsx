@@ -75,35 +75,28 @@ const StyledTextField = styled(TextField, {
 // Reusable form input component
 const FormInput: React.FC<FormInputProps> = ({
   label,
-  value,
-  onChange,
+  name,
+  register,
+  error,
   placeholder = '',
   multiline = false,
   rows = 1,
   width = '40',
-  required: _required = true,
   type = 'text',
 }) => {
-  // Handle input value changes
-  const handleChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      onChange(event.target.value);
-    },
-    [onChange],
-  );
-
   return (
     <FormInputContainer>
       <StyledLabel>{label}</StyledLabel>
       <StyledTextField
-        value={value}
-        onChange={handleChange}
+        {...register(name, { required: `${label} is required` })}
         placeholder={placeholder}
         multiline={multiline}
         rows={multiline ? rows : undefined}
         type={type}
         $multiline={multiline}
         $width={width}
+        error={!!error}
+        helperText={error}
       />
     </FormInputContainer>
   );
