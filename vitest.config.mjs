@@ -14,7 +14,10 @@ export default defineConfig({
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
+      '**/types.ts',
+      '**/types.tsx',
       'src/app/api/**',
+
     ],
     coverage: {
       provider: 'v8',
@@ -46,8 +49,9 @@ export default defineConfig({
         'src/**/page.tsx',
         'src/app/api/**',
     
-        // Ignore barrel/index files
+        // Ignore barrel/index and types files
         'src/**/index.ts',
+        'src/**/types.ts',
     
         // Ignore pure type definition files
         'src/**/interface.ts',

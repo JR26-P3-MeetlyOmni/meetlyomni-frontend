@@ -233,8 +233,12 @@ vi.mock('../components/passwordReset/NewPasswordField', () => ({
   default: () => <div data-testid="password-field">PasswordField</div>,
 }));
 
+let receivedConfirmProps: any = null;
 vi.mock('../components/passwordReset/ConfirmPasswordField', () => ({
-  default: () => <div data-testid="confirm-password-field">ConfirmPasswordField</div>,
+  default: (props: any) => {
+    receivedConfirmProps = props;
+    return <div data-testid="confirm-password-field">ConfirmPasswordField</div>;
+  },
 }));
 
 vi.mock('../components/passwordReset/PasswordValidationRules', () => ({
@@ -268,5 +272,60 @@ describe('PasswordFormFields Component Smoke Test', () => {
 
     expect(screen.getByTestId('password-field')).toBeInTheDocument();
     expect(screen.getByTestId('confirm-password-field')).toBeInTheDocument();
+  });
+
+  it('renders validation rules when showValidation is true and computes flags', () => {
+    render(
+      <PasswordFormFields
+        password={'Abcdef1!'}
+        confirmPassword={''}
+        showPassword={false}
+        showConfirmPassword={false}
+        isSubmitting={false}
+        validation={{
+          minLength: true,
+          hasUpper: true,
+          hasLower: true,
+          hasNumber: true,
+          hasSpecial: true,
+          match: true,
+        }}
+        showValidation={true}
+        setPassword={() => {}}
+        setConfirmPassword={() => {}}
+        toggleShowPassword={() => {}}
+        toggleShowConfirmPassword={() => {}}
+      />,
+    );
+
+    expect(screen.getByTestId('password-validation-rules')).toBeInTheDocument();
+  });
+
+  it('computes hasError for confirm password correctly', () => {
+    render(
+      <PasswordFormFields
+        password={'StrongPass1!'}
+        confirmPassword={'Mismatch'}
+        showPassword={false}
+        showConfirmPassword={false}
+        isSubmitting={false}
+        validation={{
+          minLength: true,
+          hasUpper: true,
+          hasLower: true,
+          hasNumber: true,
+          hasSpecial: true,
+          match: false,
+        }}
+        showValidation={false}
+        setPassword={() => {}}
+        setConfirmPassword={() => {}}
+        toggleShowPassword={() => {}}
+        toggleShowConfirmPassword={() => {}}
+      />,
+    );
+
+    expect(screen.getByTestId('confirm-password-field')).toBeInTheDocument();
+    expect(receivedConfirmProps?.hasError).toBe(true);
   });
 });
