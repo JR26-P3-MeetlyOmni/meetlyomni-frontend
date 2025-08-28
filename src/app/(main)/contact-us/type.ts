@@ -1,3 +1,5 @@
+import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+
 // Form data structure for contact form
 export interface FormData {
   firstName: string;
@@ -8,22 +10,23 @@ export interface FormData {
 
 // Props for the contact form section component
 export interface ContactFormSectionProps {
-  formData: FormData;
+  register: UseFormRegister<FormData>;
+  errors: FieldErrors<FormData>;
+  handleSubmit: UseFormHandleSubmit<FormData>;
   isSubmitting: boolean;
-  isFormValid: boolean;
-  onInputChange: (field: keyof FormData) => (value: string) => void;
-  onSubmit: () => Promise<void>;
+  isValid: boolean;
+  onSubmit: (data: FormData) => Promise<void>;
 }
 
 // Props for the reusable form input component
 export interface FormInputProps {
   label: string;
-  value: string;
-  onChange: (value: string) => void;
+  name: keyof FormData;
+  register: UseFormRegister<FormData>;
+  error?: string;
   placeholder?: string;
   multiline?: boolean;
   rows?: number;
   width?: string;
-  required?: boolean;
   type?: string;
 }
