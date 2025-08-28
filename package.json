@@ -15,7 +15,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
-    "precommit": "lint-staged"
+    "precommit": "npx --no-install lint-staged"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
