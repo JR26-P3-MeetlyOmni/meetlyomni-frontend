@@ -53,6 +53,11 @@ const LeftStack = styled('div')(({ theme }) => ({
 const InputsStack = styled('div')(({ theme }) => ({
   display: 'grid',
   gap: theme.spacing(2.5),
+  // 固定“标题到按钮”的距离：通过为输入区设置最小高度实现
+  minHeight: theme.spacing(20),
+  [theme.breakpoints.up('md')]: {
+    minHeight: theme.spacing(28),
+  },
 }));
 
 const ActionsRow = styled('div')(({ theme }) => ({
@@ -60,7 +65,6 @@ const ActionsRow = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(2),
-  marginTop: theme.spacing(12),
   minHeight: 44, // 与按钮高度一致，进一步稳定行高
 }));
 

@@ -2,31 +2,16 @@
 
 import React from 'react';
 
-import { styled } from '@mui/material/styles';
-
 import { ValidatedInput } from '../SignupComponents/FieldInput';
-import NextButton from '../SignupComponents/NextButton';
-import { PageTitle } from '../SignupComponents/PageLabel';
+import PageContainer from '../SignupComponents/PageContainer';
 
 interface EmailStepProps {
+  onBack: () => void;
+  onNext: () => void;
   onEmailChange?: (email: string, isValid: boolean) => void;
-  onNext?: () => void;
-  canGoNext?: boolean;
 }
 
-const StepContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-}));
-
-const ButtonContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(4),
-}));
-
-const EmailStep = ({ onEmailChange, onNext, canGoNext = false }: EmailStepProps) => {
+export default function EmailStep({ onBack, onNext, onEmailChange }: EmailStepProps) {
   const [email, setEmail] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
 
@@ -47,18 +32,17 @@ const EmailStep = ({ onEmailChange, onNext, canGoNext = false }: EmailStepProps)
   );
 
   const handleNext = React.useCallback(() => {
-    if (canGoNext && onNext) {
-      onNext();
-    }
-  }, [canGoNext, onNext]);
+    if (isValid) onNext();
+  }, [isValid, onNext]);
 
   return (
-    <StepContainer>
-      <PageTitle
-        title="Please Enter Your Email Address"
-        subtitle="This email address will be used as your primary account"
-      />
-
+    <PageContainer
+      title="Please Enter Your Email Address"
+      subtitle="This email address will be used as your primary account"
+      onBack={onBack}
+      onNext={handleNext}
+      nextDisabled={!isValid}
+    >
       <ValidatedInput
         kind="email"
         label="Email:"
@@ -68,12 +52,6 @@ const EmailStep = ({ onEmailChange, onNext, canGoNext = false }: EmailStepProps)
         onValidChange={handleValidationChange}
         required
       />
-
-      <ButtonContainer>
-        <NextButton onClick={handleNext} disabled={!canGoNext} />
-      </ButtonContainer>
-    </StepContainer>
+    </PageContainer>
   );
-};
-
-export default EmailStep;
+}

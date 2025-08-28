@@ -2,104 +2,110 @@
 
 import React from 'react';
 
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-
-import BackButton from '../SignupComponents/BackButton';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
-import { PageTitle } from '../SignupComponents/PageLabel';
+import PageContainer from '../SignupComponents/PageContainer';
 
 interface ContactInfoStepProps {
-  onBack?: () => void;
-  onContactInfoChange?: (email: string, isEmailValid: boolean) => void;
-  onSubmit?: () => void;
-  canSubmit?: boolean;
+  onBack: () => void;
+  onNext: () => void;
+  onChange?: (name: string, phone: string, valid: boolean) => void;
 }
 
-const FormContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-  marginTop: theme.spacing(2),
-}));
+function useContactInfo(onChange?: (name: string, phone: string, valid: boolean) => void) {
+  const [contactName, setContactName] = React.useState('');
+  const [contactNameValid, setContactNameValid] = React.useState(false);
+  const [phone, setPhone] = React.useState('');
+  const [phoneValid, setPhoneValid] = React.useState(false);
 
-const ButtonContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(4),
-}));
+  const isFormValid = contactNameValid && phoneValid;
 
-const SubmitButton = styled(Button)(({ theme }) => ({
-  minWidth: '120px',
-  padding: theme.spacing(1.5, 3),
-  borderRadius: theme.spacing(1),
-  textTransform: 'none',
-  fontSize: '1rem',
-  fontWeight: 600,
-}));
-
-export function ContactInfoStep({
-  onBack,
-  onContactInfoChange,
-  onSubmit,
-  canSubmit = false,
-}: ContactInfoStepProps) {
-  const [email, setEmail] = React.useState('');
-  const [isEmailValid, setIsEmailValid] = React.useState(false);
-
-  const handleEmailChange = React.useCallback(
-    (value: string) => {
-      setEmail(value);
-      onContactInfoChange?.(value, isEmailValid);
+  const handleName = React.useCallback(
+    (v: string) => {
+      setContactName(v);
+      onChange?.(v, phone, contactNameValid && phoneValid);
     },
-    [isEmailValid, onContactInfoChange],
+    [onChange, phone, contactNameValid, phoneValid],
   );
 
-  const handleEmailValidationChange = React.useCallback(
-    (valid: boolean) => {
-      setIsEmailValid(valid);
-      onContactInfoChange?.(email, valid);
+  const handleNameValid = React.useCallback(
+    (ok: boolean) => {
+      setContactNameValid(ok);
+      onChange?.(contactName, phone, ok && phoneValid);
     },
-    [email, onContactInfoChange],
+    [onChange, contactName, phone, phoneValid],
   );
 
-  const handleSubmit = React.useCallback(() => {
-    if (canSubmit && onSubmit) {
-      onSubmit();
-    }
-  }, [canSubmit, onSubmit]);
+  const handlePhone = React.useCallback(
+    (v: string) => {
+      setPhone(v);
+      onChange?.(contactName, v, contactNameValid && phoneValid);
+    },
+    [onChange, contactName, contactNameValid, phoneValid],
+  );
+
+  const handlePhoneValid = React.useCallback(
+    (ok: boolean) => {
+      setPhoneValid(ok);
+      onChange?.(contactName, phone, contactNameValid && ok);
+    },
+    [onChange, contactName, phone, contactNameValid],
+  );
+
+  return {
+    contactName,
+    contactNameValid,
+    phone,
+    phoneValid,
+    isFormValid,
+    handleName,
+    handleNameValid,
+    handlePhone,
+    handlePhoneValid,
+  } as const;
+}
+
+export default function ContactInfoStep({ onBack, onNext, onChange }: ContactInfoStepProps) {
+  const {
+    contactName,
+    // contactNameValid, // unused
+    phone,
+    // phoneValid, // unused
+    isFormValid,
+    handleName,
+    handleNameValid,
+    handlePhone,
+    handlePhoneValid,
+  } = useContactInfo(onChange);
+
+  const handleNext = React.useCallback(() => {
+    if (isFormValid) onNext();
+  }, [isFormValid, onNext]);
 
   return (
-    <div>
-      <BackButton onClick={onBack} />
-      <PageTitle
-        title="Contact Information"
-        subtitle="Provide your contact details to complete your registration"
+    <PageContainer
+      title="Contact Information"
+      onBack={onBack}
+      onNext={handleNext}
+      nextDisabled={!isFormValid}
+    >
+      <ValidatedInput
+        kind="contactName"
+        label="Contact name:"
+        placeholder="Alex Li"
+        value={contactName}
+        onChange={handleName}
+        onValidChange={handleNameValid}
+        required
       />
-      <FormContainer>
-        <ValidatedInput
-          kind="email"
-          label="Contact Email:"
-          placeholder="Enter your contact email"
-          value={email}
-          onChange={handleEmailChange}
-          onValidChange={handleEmailValidationChange}
-          required
-        />
-      </FormContainer>
-
-      <ButtonContainer>
-        <SubmitButton
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-        >
-          完成注册
-        </SubmitButton>
-      </ButtonContainer>
-    </div>
+      <ValidatedInput
+        kind="phone"
+        label="Contact phone number:"
+        placeholder="0XXXXXXXXX"
+        value={phone}
+        onChange={handlePhone}
+        onValidChange={handlePhoneValid}
+        required
+      />
+    </PageContainer>
   );
 }
-
-export default ContactInfoStep;
