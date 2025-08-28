@@ -35,7 +35,7 @@ describe('authApi', () => {
 
       await loginApi(mockCredentials);
 
-      expect(mockFetch).toHaveBeenCalledWith('https://localhost:7011/api/Login', {
+      expect(mockFetch).toHaveBeenCalledWith('https://localhost:7011/api/v1/auth/login', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -57,7 +57,7 @@ describe('authApi', () => {
       await loginApi(mockCredentials);
 
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://localhost:7011/api/Login',
+        'https://localhost:7011/api/v1/auth/login',
         expect.any(Object),
       );
     });

@@ -149,12 +149,12 @@ export const loginApi = async (
   signal?: AbortSignal,
 ): Promise<{ user: User }> => {
   // eslint-disable-next-line no-console
-  console.log('Attempting login to:', `${API_BASE_URL}/Login`);
+  console.log('Attempting login to:', `${API_BASE_URL}/v1/auth/login`);
   // eslint-disable-next-line no-console
   console.log('Request payload:', credentials);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/Login`, {
+    const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
