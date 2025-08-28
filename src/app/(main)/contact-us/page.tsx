@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 
 import { Box, Button, Container, styled, Typography } from '@mui/material';
 
+import { ContactFormSectionProps, FormData } from '.';
 import BackgroundDecoration from './components/BackgroundDecoration';
 import FormInput from './components/FormInput';
-import { ContactFormSectionProps, FormData } from './types';
 
 // Main container
 const StyledContainer = styled(Container)(({ theme }) => ({
