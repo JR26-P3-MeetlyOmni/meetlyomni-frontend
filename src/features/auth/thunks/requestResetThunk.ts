@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { requestResetApi } from '../api/requestResetApi';
 import type { AuthError, RequestResetCredentials } from '../types';
+import { canRequestPasswordReset, toAuthError } from '../utils/authThunkUtils';
 
 export const requestResetThunk = createAsyncThunk<
   boolean,
@@ -16,23 +17,13 @@ export const requestResetThunk = createAsyncThunk<
       const result = await requestResetApi(credentials, signal);
       return result.ok;
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        return rejectWithValue({ 
-          message: 'Request aborted', 
-          code: 'ABORTED' 
-        });
-      }
-      return rejectWithValue({
-        message: error instanceof Error ? error.message : 'Password reset request failed',
-        code: 'REQUEST_RESET_FAILED',
-      });
+      return rejectWithValue(
+        toAuthError(error, 'Password reset request failed', 'REQUEST_RESET_FAILED'),
+      );
     }
   },
   {
-    condition: (_credentials, { getState }) => {
-      const { auth } = getState();
-      return !auth.passwordReset.isRequestingReset;
-    },
+    condition: (_credentials, { getState }) => canRequestPasswordReset(getState()),
   },
 );
 

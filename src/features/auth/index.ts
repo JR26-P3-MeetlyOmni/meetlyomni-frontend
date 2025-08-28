@@ -51,6 +51,13 @@ export {
   getPasswordValidationState,
 } from './utils/passwordValidation';
 
+export {
+  toAuthError,
+  canLogin,
+  canRequestPasswordReset,
+  canResetPassword,
+} from './utils/authThunkUtils';
+
 // Hooks
 export { useEmailRequestForm } from './hooks/useEmailRequestForm';
 export { useNewPasswordForm } from './hooks/useNewPasswordForm';

@@ -3,7 +3,6 @@ import React from 'react';
 import type { ImageConfig } from '../types';
 import { ImageElement } from './AuthBackgroundLayout';
 
-// Logo 配置
 const logoConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/logo.png',
   alt: 'Omni Logo',
@@ -20,7 +19,6 @@ const logoConfig: ImageConfig = {
   },
 };
 
-// Glass Icon 配置
 const glassConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/glass.png',
   alt: 'Magnifying glass',
@@ -54,7 +52,6 @@ const rachelConfig: ImageConfig = {
   },
 };
 
-// Mark Icon 配置
 const markConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/mark.png',
   alt: 'Mark',
@@ -70,9 +67,8 @@ const markConfig: ImageConfig = {
   },
 };
 
-// Looking For Icon 配置
 const lookingForConfig: ImageConfig = {
-  src: '/assets/images/WelcomeToSignin/looking-for.png',
+  src: '/assets/images/WelcomeToSignin/lookingFor.png',
   alt: 'Looking for',
   width: 300,
   height: 60,
@@ -86,7 +82,6 @@ const lookingForConfig: ImageConfig = {
   },
 };
 
-// Star Icon 配置
 const starConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/star.png',
   alt: 'Star',
@@ -103,7 +98,6 @@ const starConfig: ImageConfig = {
   },
 };
 
-// Form Background Icon 配置
 const formBackgroundConfig: ImageConfig = {
   src: '/assets/images/WelcomeToSignin/form.png',
   alt: 'Form',
@@ -121,7 +115,6 @@ const formBackgroundConfig: ImageConfig = {
   },
 };
 
-// 导出所有图标组件
 export const Logo = () => <ImageElement config={logoConfig} />;
 export const GlassIcon = () => <ImageElement config={glassConfig} />;
 export const RachelIcon = () => <ImageElement config={rachelConfig} />;
@@ -130,7 +123,6 @@ export const LookingForIcon = () => <ImageElement config={lookingForConfig} />;
 export const StarIcon = () => <ImageElement config={starConfig} />;
 export const FormBackgroundIcon = () => <ImageElement config={formBackgroundConfig} />;
 
-// 默认导出
 const AuthBackgroundIcons = {
   Logo,
   GlassIcon,
