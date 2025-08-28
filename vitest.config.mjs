@@ -51,6 +51,7 @@ export default defineConfig({
         // Ignore state management setup files
         'src/store/store.ts',
         'src/store/provider.tsx',
+        'src/store/hooks.ts',
     
         // Ignore Next.js middleware (usually logic-less)
         'middleware.ts',

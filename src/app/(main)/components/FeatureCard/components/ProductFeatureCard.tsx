@@ -10,9 +10,8 @@ import type { FeatureCardItem } from '../types';
 
 const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(48),
-  height: theme.spacing(32), //'255px'
-  padding: theme.spacing(5),
+  minHeight: theme.spacing(32),
+  padding: theme.spacing(3),
   borderRadius: Number(theme.shape.borderRadius),
   boxSizing: 'border-box',
   backgroundColor: theme.palette.background.paper,
@@ -30,15 +29,16 @@ const ProductFeatureCardWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ProductFeatureImageWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(5), //40px
+  width: theme.spacing(5),
   height: theme.spacing(5),
   marginBottom: theme.spacing(5),
   position: 'relative',
+  flexShrink: 0,
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightMedium,
-  fontSize: theme.spacing(2.5), //'20px'
+  fontSize: theme.typography.h6.fontSize,
   lineHeight: 'normal',
   color: theme.palette.text.primary,
   textAlign: 'left',
@@ -47,7 +47,7 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 
 const StyledDescription = styled(Typography)(({ theme }) => ({
   height: theme.spacing(5),
-  fontSize: theme.spacing(2),
+  fontSize: theme.typography.subtitle1.fontSize,
   lineHeight: 1.5,
   color: theme.palette.text.secondary,
   textAlign: 'left',

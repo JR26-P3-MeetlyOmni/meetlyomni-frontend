@@ -1,23 +1,12 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from '@/features/auth/slice';
 
-// create a simple slice
-const initialState = {
-  // add your initial states
-};
-
-const appSlice = createSlice({
-  name: 'app',
-  initialState,
-  reducers: {
-    // add your reducer
-  },
-});
 
 export const store = configureStore({
   reducer: {
-    app: appSlice.reducer,
-    placeholder: (state = {}, _action) => state,
-  },
+    auth: authReducer,
+   },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;
