@@ -22,7 +22,6 @@ export interface DecorativeContainerProps {
     opacity?: number;
   }
 
-
 export interface ImagePosition {
     top?: string;
     bottom?: string;

@@ -1,34 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
-import { Alert, Box, Button, CircularProgress, styled } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 import NewPasswordForm from '../components/NewPasswordForm';
-import { PageBackground } from '@/components/Auth';
+import { PageBackground, AuthResultPageComponent } from '@/components/Auth';
+import { INVALID_RESET_LINK } from '@/constants/AuthResultData';
 
-const ErrorContainer = styled(Box)(({ theme }) => ({
-  maxWidth: 500,
-  width: '100%',
-  padding: theme.spacing(4),
-  backgroundColor: 'white',
-  borderRadius: theme.spacing(2),
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(2),
-  position: 'relative',
-  zIndex: 15,
-  margin: '0 auto',
-  transform: 'translateY(15vh)',
-}));
 
-const BackLinkContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  display: 'flex',
-  justifyContent: 'center',
-}));
 
 function VerifyPageContent() {
   const searchParams = useSearchParams();
@@ -59,14 +40,14 @@ function VerifyPageContent() {
 
   if (error || !token) {
     return (
-      <ErrorContainer>
-        <Alert severity="error">{error || 'Invalid reset link'}</Alert>
-        <BackLinkContainer>
-          <Button component={Link} href="/login" variant="outlined">
-            Back to login
-          </Button>
-        </BackLinkContainer>
-      </ErrorContainer>
+      <PageBackground>
+        <AuthResultPageComponent
+          iconSrc={INVALID_RESET_LINK.iconSrc}
+          iconAlt={INVALID_RESET_LINK.iconAlt}
+          title={INVALID_RESET_LINK.title}
+          description={INVALID_RESET_LINK.description}
+        />
+      </PageBackground>
     );
   }
 

@@ -1,16 +1,16 @@
-import { FormContainer } from '@/components/Auth/AuthFormComponents';
-
 import React from 'react';
 
-import { Alert } from '@mui/material';
+import { AuthResultPageComponent } from '@/components/Auth';
+import { RESET_PASSWORD_SUCCESS } from '@/constants/AuthResultData';
 
 const NewPasswordSuccess: React.FC = () => {
   return (
-    <FormContainer>
-      <Alert severity="success">
-        Password has been reset successfully! Redirecting to login...
-      </Alert>
-    </FormContainer>
+    <AuthResultPageComponent
+      iconSrc={RESET_PASSWORD_SUCCESS.iconSrc}
+      iconAlt={RESET_PASSWORD_SUCCESS.iconAlt}
+      title={RESET_PASSWORD_SUCCESS.title}
+      description={RESET_PASSWORD_SUCCESS.description}
+    />
   );
 };
 

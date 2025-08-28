@@ -7,7 +7,15 @@ export {
   SubmitButton, 
   SectionLabel, 
   StyledSectionLabel, 
-  StyledSubmitButton 
+  StyledSubmitButton,
+  ContentContainer,
+  IconContainer,
+  TitleText,
+  DescriptionText,
+  ButtonContainer,
+  BackButton,
+  AuthResultPage,
+  AUTH_RESULTS,
 } from './AuthFormComponents';
 
 export { default as Logo } from './AuthBackgroundPage/Logo';
@@ -18,4 +26,5 @@ export { default as GlassIcon } from './AuthBackgroundPage/GlassIcon';
 export { default as LookingForIcon } from './AuthBackgroundPage/LookingForIcon';
 export { default as StarIcon } from './AuthBackgroundPage/StarIcon';
 export { default as FormBackgroundIcon } from './AuthBackgroundPage/FormBackgroundIcon';
-export { PageBackground } from './AuthBackgroundPage/PageBackground';
+export { PageBackground } from './PageBackground';
+export { AuthResultPageComponent } from './ResultPage';
