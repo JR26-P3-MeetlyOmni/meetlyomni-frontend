@@ -2,32 +2,16 @@
 
 import React from 'react';
 
-import { styled } from '@mui/material/styles';
-
-import BackButton from '../SignupComponents/BackButton';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
-import NextButton from '../SignupComponents/NextButton';
-import { PageTitle } from '../SignupComponents/PageLabel';
+import PageContainer from '../SignupComponents/PageContainer';
 
 interface PasswordStepProps {
-  onBack?: () => void;
+  onBack: () => void;
   onPasswordChange?: (password: string, isValid: boolean) => void;
-  onNext?: () => void;
-  canGoNext?: boolean;
+  onNext: () => void;
 }
 
-const ButtonContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(4),
-}));
-
-export function PasswordStep({
-  onBack,
-  onPasswordChange,
-  onNext,
-  canGoNext = false,
-}: PasswordStepProps) {
+export function PasswordStep({ onBack, onPasswordChange, onNext }: PasswordStepProps) {
   const [password, setPassword] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
 
@@ -48,18 +32,17 @@ export function PasswordStep({
   );
 
   const handleNext = React.useCallback(() => {
-    if (canGoNext && onNext) {
-      onNext();
-    }
-  }, [canGoNext, onNext]);
+    if (isValid) onNext();
+  }, [isValid, onNext]);
 
   return (
-    <div>
-      <BackButton onClick={onBack} />
-      <PageTitle
-        title="Create a Secure Password"
-        subtitle="Your password should be strong and unique to protect your account"
-      />
+    <PageContainer
+      title="Create a Secure Password"
+      subtitle="Your password should be strong and unique to protect your account"
+      onBack={onBack}
+      onNext={handleNext}
+      nextDisabled={!isValid}
+    >
       <ValidatedInput
         kind="password"
         label="Password:"
@@ -69,11 +52,7 @@ export function PasswordStep({
         onValidChange={handleValidationChange}
         required
       />
-
-      <ButtonContainer>
-        <NextButton onClick={handleNext} disabled={!canGoNext} />
-      </ButtonContainer>
-    </div>
+    </PageContainer>
   );
 }
 
