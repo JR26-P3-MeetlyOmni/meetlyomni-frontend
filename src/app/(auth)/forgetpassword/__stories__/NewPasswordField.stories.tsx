@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import NewPasswordField from '../components/passwordReset/NewPasswordField';
@@ -10,7 +11,8 @@ const meta: Meta<typeof NewPasswordField> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A password input field component with visibility toggle. Used for entering new passwords in the password reset flow.',
+        component:
+          'A password input field component with visibility toggle. Used for entering new passwords in the password reset flow.',
       },
     },
   },
@@ -18,9 +20,18 @@ const meta: Meta<typeof NewPasswordField> = {
   argTypes: {
     password: { control: 'text', description: 'Current password value' },
     showPassword: { control: 'boolean', description: 'Whether to show password as plain text' },
-    isSubmitting: { control: 'boolean', description: 'Whether form is currently submitting (disables input)' },
-    onPasswordChange: { action: 'password-changed', description: 'Callback when password value changes' },
-    onToggleVisibility: { action: 'visibility-toggled', description: 'Callback when visibility toggle is clicked' },
+    isSubmitting: {
+      control: 'boolean',
+      description: 'Whether form is currently submitting (disables input)',
+    },
+    onPasswordChange: {
+      action: 'password-changed',
+      description: 'Callback when password value changes',
+    },
+    onToggleVisibility: {
+      action: 'visibility-toggled',
+      description: 'Callback when visibility toggle is clicked',
+    },
   },
 };
 
@@ -28,15 +39,28 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Interactive wrapper to demonstrate real password input behavior
-const InteractiveWrapper = (args: { 
-  password?: string; 
-  showPassword?: boolean; 
+const InteractiveWrapper = (args: {
+  password?: string;
+  showPassword?: boolean;
   isSubmitting?: boolean;
-  onPasswordChange?: (value: string) => void; 
+  onPasswordChange?: (value: string) => void;
   onToggleVisibility?: () => void;
 }) => {
   const [password, setPassword] = useState(args.password || '');
   const [showPassword, setShowPassword] = useState(args.showPassword || false);
+
+  const handlePasswordChange = useCallback(
+    (value: string) => {
+      setPassword(value);
+      args.onPasswordChange?.(value);
+    },
+    [args],
+  );
+
+  const handleToggleVisibility = useCallback(() => {
+    setShowPassword(!showPassword);
+    args.onToggleVisibility?.();
+  }, [showPassword, args]);
 
   return (
     <div style={{ width: '400px', padding: '20px' }}>
@@ -44,14 +68,8 @@ const InteractiveWrapper = (args: {
         password={password}
         showPassword={showPassword}
         isSubmitting={args.isSubmitting || false}
-        onPasswordChange={function handlePasswordChange(value) {
-          setPassword(value);
-          args.onPasswordChange?.(value);
-        }}
-        onToggleVisibility={function handleToggleVisibility() {
-          setShowPassword(!showPassword);
-          args.onToggleVisibility?.();
-        }}
+        onPasswordChange={handlePasswordChange}
+        onToggleVisibility={handleToggleVisibility}
       />
     </div>
   );
@@ -124,7 +142,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive demo where you can type a password and toggle visibility. Try clicking the eye icon to show/hide the password.',
+        story:
+          'Interactive demo where you can type a password and toggle visibility. Try clicking the eye icon to show/hide the password.',
       },
     },
   },

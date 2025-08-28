@@ -1,5 +1,8 @@
+import { ValidationContainer, ValidationText } from '@/components/Auth/AuthFormComponents';
+
+import React from 'react';
+
 import type { PasswordValidationRulesProps } from '../../types';
-import { ValidationText, ValidationContainer } from '@/components/Auth/AuthFormComponents';
 
 const PasswordValidationRules: React.FC<PasswordValidationRulesProps> = ({
   isLengthOk,

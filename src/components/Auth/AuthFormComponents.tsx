@@ -1,8 +1,5 @@
 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import type { AuthResultPageProps } from './types';
+
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -102,7 +99,7 @@ export const ValidationContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ValidationText = styled(Typography, {
-  shouldForwardProp: (prop) => !['isValid'].includes(prop as string),
+  shouldForwardProp: prop => !['isValid'].includes(prop as string),
 })<{ isValid: boolean }>(({ theme, isValid }) => ({
   fontSize: '14px',
   color: isValid ? theme.palette.success.main : theme.palette.text.secondary,

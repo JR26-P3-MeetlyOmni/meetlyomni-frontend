@@ -1,9 +1,10 @@
 import { StyledSectionLabel, StyledTextField } from '@/components/Auth/AuthFormComponents';
 
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment } from '@mui/material';
+
 import { PasswordFieldProps } from '../../types';
 
 const PasswordField: React.FC<PasswordFieldProps> = ({

@@ -1,9 +1,9 @@
-import type { PasswordValidation } from '../../types';
+import React from 'react';
+
+import { PasswordFormFieldsProps } from '../../types';
 import ConfirmPasswordField from './ConfirmPasswordField';
 import PasswordField from './NewPasswordField';
 import PasswordValidationRules from './PasswordValidationRules';
-import { PasswordFormFieldsProps } from '../../types';
-
 
 const PasswordFormFields: React.FC<PasswordFormFieldsProps> = ({
   password,

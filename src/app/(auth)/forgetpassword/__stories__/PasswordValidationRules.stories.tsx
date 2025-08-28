@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import PasswordValidationRules from '../components/passwordReset/PasswordValidationRules';
@@ -10,17 +11,33 @@ const meta: Meta<typeof PasswordValidationRules> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Password validation rules display component. Shows checkmarks for password requirements that are met and grayed out text for unmet requirements.',
+        component:
+          'Password validation rules display component. Shows checkmarks for password requirements that are met and grayed out text for unmet requirements.',
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
-    isLengthOk: { control: 'boolean', description: 'Whether password meets minimum length requirement (12 chars)' },
-    isCaseOk: { control: 'boolean', description: 'Whether password has both uppercase and lowercase letters' },
-    isNumSpecialOk: { control: 'boolean', description: 'Whether password has both numbers and special characters' },
-    hasInput: { control: 'boolean', description: 'Whether user has started typing (controls visibility)' },
-    isStrong: { control: 'boolean', description: 'Whether password meets all requirements (hides component when true)' },
+    isLengthOk: {
+      control: 'boolean',
+      description: 'Whether password meets minimum length requirement (12 chars)',
+    },
+    isCaseOk: {
+      control: 'boolean',
+      description: 'Whether password has both uppercase and lowercase letters',
+    },
+    isNumSpecialOk: {
+      control: 'boolean',
+      description: 'Whether password has both numbers and special characters',
+    },
+    hasInput: {
+      control: 'boolean',
+      description: 'Whether user has started typing (controls visibility)',
+    },
+    isStrong: {
+      control: 'boolean',
+      description: 'Whether password meets all requirements (hides component when true)',
+    },
   },
 };
 
@@ -36,7 +53,7 @@ export const Default: Story = {
     hasInput: true,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordValidationRules {...args} />
     </div>
@@ -52,7 +69,7 @@ export const LengthOk: Story = {
     hasInput: true,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordValidationRules {...args} />
     </div>
@@ -68,7 +85,7 @@ export const LengthAndCaseOk: Story = {
     hasInput: true,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordValidationRules {...args} />
     </div>
@@ -84,7 +101,7 @@ export const AlmostComplete: Story = {
     hasInput: true,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordValidationRules {...args} />
     </div>
@@ -100,23 +117,24 @@ export const AllComplete: Story = {
     hasInput: true,
     isStrong: true,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px', border: '1px dashed #ccc', minHeight: '60px' }}>
       <div style={{ marginBottom: '10px', fontSize: '14px', color: '#666' }}>
         Component should be hidden when isStrong=true:
       </div>
       <PasswordValidationRules {...args} />
-      {args.isStrong && (
+      {args.isStrong ? (
         <div style={{ fontSize: '14px', color: '#4caf50', fontStyle: 'italic' }}>
           ✓ All requirements met - component is hidden
         </div>
-      )}
+      ) : null}
     </div>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'When all password requirements are met (isStrong=true), the component returns null and is not displayed.',
+        story:
+          'When all password requirements are met (isStrong=true), the component returns null and is not displayed.',
       },
     },
   },
@@ -131,23 +149,24 @@ export const NoInput: Story = {
     hasInput: false,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px', border: '1px dashed #ccc', minHeight: '60px' }}>
       <div style={{ marginBottom: '10px', fontSize: '14px', color: '#666' }}>
         Component should be hidden when hasInput=false:
       </div>
       <PasswordValidationRules {...args} />
-      {!args.hasInput && (
+      {!args.hasInput ? (
         <div style={{ fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
           Component is hidden until user starts typing
         </div>
-      )}
+      ) : null}
     </div>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'When user has not started typing (hasInput=false), the component returns null and is not displayed.',
+        story:
+          'When user has not started typing (hasInput=false), the component returns null and is not displayed.',
       },
     },
   },
@@ -162,7 +181,7 @@ export const MixedValidation: Story = {
     hasInput: true,
     isStrong: false,
   },
-  render: (args) => (
+  render: args => (
     <div style={{ width: '400px', padding: '20px' }}>
       <div style={{ marginBottom: '10px', fontSize: '14px', color: '#666' }}>
         Example: Password &quot;MyPassword123!&quot; (missing lowercase)
@@ -185,7 +204,7 @@ export const ValidationStates: Story = {
     <div style={{ width: '500px', padding: '20px' }}>
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Weak Password (only lowercase)</h3>
-        <PasswordValidationRules 
+        <PasswordValidationRules
           isLengthOk={false}
           isCaseOk={false}
           isNumSpecialOk={false}
@@ -193,10 +212,10 @@ export const ValidationStates: Story = {
           isStrong={false}
         />
       </div>
-      
+
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Getting Better (length + case)</h3>
-        <PasswordValidationRules 
+        <PasswordValidationRules
           isLengthOk={true}
           isCaseOk={true}
           isNumSpecialOk={false}
@@ -204,10 +223,12 @@ export const ValidationStates: Story = {
           isStrong={false}
         />
       </div>
-      
+
       <div style={{ marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Almost There (missing numbers/special)</h3>
-        <PasswordValidationRules 
+        <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>
+          Almost There (missing numbers/special)
+        </h3>
+        <PasswordValidationRules
           isLengthOk={true}
           isCaseOk={true}
           isNumSpecialOk={false}

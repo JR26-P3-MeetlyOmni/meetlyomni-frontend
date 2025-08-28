@@ -1,10 +1,6 @@
 import type { PasswordValidation } from '../types';
 
 /**
- * Password validation utilities
- */
-
-/**
  * Validates password strength according to app requirements
  * - At least 12 characters
  * - At least 1 uppercase letter

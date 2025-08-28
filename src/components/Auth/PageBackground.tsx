@@ -1,5 +1,10 @@
 'use client';
 
+import React from 'react';
+
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import {
   FormBackgroundIcon,
   GlassIcon,
@@ -8,11 +13,8 @@ import {
   MarkIcon,
   RachelIcon,
   StarIcon,
-  TopCenterSketch,
-} from '@/components/Auth';
-
-import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+} from './AuthPageDecorativeElements/AuthBackgroundIcons';
+import { TopCenterSketch } from './AuthPageDecorativeElements/AuthBackgroundLayout';
 
 const PageContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',

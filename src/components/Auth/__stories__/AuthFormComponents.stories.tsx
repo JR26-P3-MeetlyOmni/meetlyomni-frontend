@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -142,18 +142,16 @@ const _TextFieldMeta: Meta<typeof StyledTextField> = {
   },
 };
 
-const InteractiveTextField = (args: any) => {
+const InteractiveTextField = (args: React.ComponentProps<typeof StyledTextField>) => {
   const [value, setValue] = useState(args.value || '');
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  }, []);
 
   return (
     <ComponentWrapper>
-      <StyledTextField
-        {...args}
-        value={value}
-        onChange={function handleChange(e) {
-          setValue(e.target.value);
-        }}
-      />
+      <StyledTextField {...args} value={value} onChange={handleChange} />
     </ComponentWrapper>
   );
 };
@@ -364,16 +362,16 @@ const _FormExampleMeta: Meta = {
   tags: ['autodocs'],
 };
 
-export const CompleteLoginForm: StoryObj = {
-  render: function renderCompleteForm() {
-    const [formData, setFormData] = useState({
-      email: '',
-      password: '',
-    });
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const useLoginForm = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
       e.preventDefault();
       setErrors({});
 
@@ -392,7 +390,38 @@ export const CompleteLoginForm: StoryObj = {
         setIsSubmitting(false);
         alert('Login simulation complete!');
       }, 2000);
-    };
+    },
+    [formData],
+  );
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, email: e.target.value }));
+  }, []);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, password: e.target.value }));
+  }, []);
+
+  return {
+    formData,
+    errors,
+    isSubmitting,
+    handleSubmit,
+    handleEmailChange,
+    handlePasswordChange,
+  };
+};
+
+export const CompleteLoginForm: StoryObj = {
+  render: function renderCompleteForm() {
+    const {
+      formData,
+      errors,
+      isSubmitting,
+      handleSubmit,
+      handleEmailChange,
+      handlePasswordChange,
+    } = useLoginForm();
 
     return (
       <div style={{ width: '600px', height: '600px', backgroundColor: '#f5f5f5', padding: '40px' }}>
@@ -405,9 +434,7 @@ export const CompleteLoginForm: StoryObj = {
               type="email"
               placeholder="Enter your email address"
               value={formData.email}
-              onChange={function handleEmailChange(e) {
-                setFormData(prev => ({ ...prev, email: e.target.value }));
-              }}
+              onChange={handleEmailChange}
               error={!!errors.email}
               helperText={errors.email}
               disabled={isSubmitting}
@@ -419,9 +446,7 @@ export const CompleteLoginForm: StoryObj = {
               type="password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={function handlePasswordChange(e) {
-                setFormData(prev => ({ ...prev, password: e.target.value }));
-              }}
+              onChange={handlePasswordChange}
               error={!!errors.password}
               helperText={errors.password}
               disabled={isSubmitting}

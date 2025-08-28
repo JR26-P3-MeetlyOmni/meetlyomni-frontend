@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import PasswordFormFields from '../components/passwordReset/PasswordFormFields';
@@ -11,7 +12,8 @@ const meta: Meta<typeof PasswordFormFields> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Password form fields component for password reset flow. Includes password input, confirm password, and validation rules display.',
+        component:
+          'Password form fields component for password reset flow. Includes password input, confirm password, and validation rules display.',
       },
     },
   },
@@ -20,7 +22,10 @@ const meta: Meta<typeof PasswordFormFields> = {
     password: { control: 'text', description: 'Current password value' },
     confirmPassword: { control: 'text', description: 'Current confirm password value' },
     showPassword: { control: 'boolean', description: 'Whether to show password as plain text' },
-    showConfirmPassword: { control: 'boolean', description: 'Whether to show confirm password as plain text' },
+    showConfirmPassword: {
+      control: 'boolean',
+      description: 'Whether to show confirm password as plain text',
+    },
     isSubmitting: { control: 'boolean', description: 'Whether form is currently submitting' },
     showValidation: { control: 'boolean', description: 'Whether to show validation rules' },
     validation: { control: 'object', description: 'Password validation state object' },
@@ -31,10 +36,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Interactive wrapper to demonstrate real password input behavior
-const InteractiveWrapper = (args: { 
-  password?: string; 
-  confirmPassword?: string; 
-  showPassword?: boolean; 
+const InteractiveWrapper = (args: {
+  password?: string;
+  confirmPassword?: string;
+  showPassword?: boolean;
   showConfirmPassword?: boolean;
   isSubmitting?: boolean;
   showValidation?: boolean;
@@ -54,6 +59,14 @@ const InteractiveWrapper = (args: {
     match: password === confirmPassword && password.length > 0,
   };
 
+  const handleToggleShowPassword = useCallback(() => {
+    setShowPassword(!showPassword);
+  }, [showPassword]);
+
+  const handleToggleShowConfirmPassword = useCallback(() => {
+    setShowConfirmPassword(!showConfirmPassword);
+  }, [showConfirmPassword]);
+
   return (
     <div style={{ width: '400px', padding: '20px' }}>
       <PasswordFormFields
@@ -66,12 +79,8 @@ const InteractiveWrapper = (args: {
         validation={validation}
         setPassword={setPassword}
         setConfirmPassword={setConfirmPassword}
-        toggleShowPassword={function handleTogglePassword() {
-          setShowPassword(!showPassword);
-        }}
-        toggleShowConfirmPassword={function handleToggleConfirmPassword() {
-          setShowConfirmPassword(!showConfirmPassword);
-        }}
+        toggleShowPassword={handleToggleShowPassword}
+        toggleShowConfirmPassword={handleToggleShowConfirmPassword}
       />
     </div>
   );
@@ -243,7 +252,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive demo where you can type passwords and see real-time validation. Try entering different password patterns to see the validation rules update.',
+        story:
+          'Interactive demo where you can type passwords and see real-time validation. Try entering different password patterns to see the validation rules update.',
       },
     },
   },

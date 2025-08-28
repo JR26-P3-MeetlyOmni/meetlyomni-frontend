@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import EmailRequestSuccess from '../EmailSentSuccess/page';
 
 // Mock Next.js Image component for Storybook
-const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; width: number; height: number }) => (
-  <div 
-    style={{ 
-      width, 
-      height, 
-      backgroundColor: '#f0f0f0', 
+const MockImage = ({
+  _src,
+  alt,
+  width,
+  height,
+}: {
+  _src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) => (
+  <div
+    style={{
+      width,
+      height,
+      backgroundColor: '#f0f0f0',
       border: '1px solid #ddd',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '12px',
-      color: '#666'
+      color: '#666',
     }}
   >
     {alt}
@@ -24,16 +35,16 @@ const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; wi
 
 // Mock Next.js Link component for Storybook
 const MockLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-  const handleClick = () => {
+  const handleDivClick = useCallback(() => {
     // Mock navigation - disabled for production
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-alert
+       
       alert(`Navigate to: ${href}`);
     }
-  };
+  }, [href]);
 
   return (
-    <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+    <div onClick={handleDivClick} style={{ cursor: 'pointer' }}>
       {children}
     </div>
   );
@@ -46,7 +57,8 @@ const meta: Meta<typeof EmailRequestSuccess> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Success page displayed after user requests a password reset email. Shows confirmation message and provides link back to sign in.',
+        component:
+          'Success page displayed after user requests a password reset email. Shows confirmation message and provides link back to sign in.',
       },
     },
     backgrounds: {
@@ -73,11 +85,11 @@ const WithMockedDependencies = () => {
         router: {
           push: (href: string) => {
             if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-alert
+               
               alert(`Navigate to: ${href}`);
             }
           },
-        }
+        },
       };
     }
   }, []);
@@ -150,10 +162,12 @@ export const DarkMode: Story = {
 
 // Helper components for breakdown
 const IconSection = () => (
-  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <div
+    style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}
+  >
     <h3>Icon Container</h3>
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-      <MockImage 
+      <MockImage
         _src="/assets/images/WelcomeToSignin/pwreset-icon.png"
         alt="Success Checkmark"
         width={44}
@@ -164,31 +178,39 @@ const IconSection = () => (
 );
 
 const TitleSection = () => (
-  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <div
+    style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}
+  >
     <h3>Title Text</h3>
-    <div style={{ 
-      fontSize: '24px', 
-      fontWeight: 'bold', 
-      textAlign: 'center',
-      marginTop: '10px'
-    }}>
+    <div
+      style={{
+        fontSize: '24px',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: '10px',
+      }}
+    >
       Password reset link has been sent
     </div>
   </div>
 );
 
 const DescriptionSection = () => (
-  <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <div
+    style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}
+  >
     <h3>Description Text</h3>
-    <div style={{ 
-      fontSize: '14px', 
-      textAlign: 'center',
-      color: '#666',
-      lineHeight: 1.5,
-      marginTop: '10px'
-    }}>
-      An email with password reset link has been sent to your email address. If you do not see
-      it in the inbox, check your spam folder
+    <div
+      style={{
+        fontSize: '14px',
+        textAlign: 'center',
+        color: '#666',
+        lineHeight: 1.5,
+        marginTop: '10px',
+      }}
+    >
+      An email with password reset link has been sent to your email address. If you do not see it in
+      the inbox, check your spam folder
     </div>
   </div>
 );
@@ -198,13 +220,15 @@ const ActionSection = () => (
     <h3>Action Button</h3>
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
       <MockLink href="/login">
-        <button style={{ 
-          padding: '12px 20px', 
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-          backgroundColor: 'white',
-          cursor: 'pointer'
-        }}>
+        <button
+          style={{
+            padding: '12px 20px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            backgroundColor: 'white',
+            cursor: 'pointer',
+          }}
+        >
           Back to Sign in
         </button>
       </MockLink>

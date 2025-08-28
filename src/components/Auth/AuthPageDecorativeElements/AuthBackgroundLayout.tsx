@@ -1,4 +1,5 @@
 'use client';
+
 import Image from 'next/image';
 import React from 'react';
 
@@ -7,6 +8,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import type { DecorativeContainerProps, ImageConfig, ResponsiveImageWrapperProps } from '../types';
 
+// 常量定义
 export const DECORATIVE_SPACING = {
   LOGO_BASE: 3,
   LOGO_SM: 4,
@@ -24,6 +26,7 @@ export const DECORATIVE_DIMENSIONS = {
   BORDER_RADIUS_MULTIPLIER: 2,
 } as const;
 
+// 基础样式组件
 const AbsoluteBox = styled(Box)({
   position: 'absolute',
 });
@@ -36,27 +39,7 @@ export const DecorativeContainer = styled(AbsoluteBox, {
   display: 'block',
 }));
 
-export const LogoWrapper = styled(DecorativeContainer)(({ theme }) => ({
-  top: theme.spacing(DECORATIVE_SPACING.LOGO_BASE),
-  left: theme.spacing(DECORATIVE_SPACING.LOGO_BASE),
-  zIndex: theme.zIndex.appBar,
-  transition: theme.transitions.create(['top', 'left'], {
-    duration: theme.transitions.duration.standard,
-  }),
-  [theme.breakpoints.up('sm')]: {
-    top: theme.spacing(DECORATIVE_SPACING.LOGO_SM),
-    left: theme.spacing(DECORATIVE_SPACING.LOGO_SM),
-  },
-  [theme.breakpoints.up('md')]: {
-    top: theme.spacing(DECORATIVE_SPACING.LOGO_MD),
-    left: theme.spacing(DECORATIVE_SPACING.LOGO_MD),
-  },
-  [theme.breakpoints.up('lg')]: {
-    top: theme.spacing(DECORATIVE_SPACING.LOGO_LG_TOP),
-    left: theme.spacing(DECORATIVE_SPACING.LOGO_LG_LEFT),
-  },
-}));
-
+// TopCenterSketch 组件
 export const TopCenterSketch = styled(DecorativeContainer)(({ theme }) => ({
   top: theme.spacing(DECORATIVE_SPACING.SKETCH_TOP),
   left: '50%',
@@ -76,6 +59,7 @@ export const TopCenterSketch = styled(DecorativeContainer)(({ theme }) => ({
   },
 }));
 
+// ResponsiveImageWrapper 组件
 export const ResponsiveImageWrapper = styled(DecorativeContainer, {
   shouldForwardProp: prop =>
     !['top', 'bottom', 'left', 'right', 'imageWidth', 'imageHeight', 'transform'].includes(
@@ -104,6 +88,7 @@ export const ResponsiveImageWrapper = styled(DecorativeContainer, {
   }),
 );
 
+// ImageElement 组件
 export const ImageElement: React.FC<{ config: ImageConfig }> = ({ config }) => (
   <ResponsiveImageWrapper {...config.position} {...config.styles}>
     <Image src={config.src} alt={config.alt} width={config.width} height={config.height} />
