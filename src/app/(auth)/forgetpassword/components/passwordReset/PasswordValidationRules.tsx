@@ -1,17 +1,5 @@
-import React from 'react';
 import type { PasswordValidationRulesProps } from '../../types';
-import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-const ValidationContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(1.5),
-}));
-
-const ValidationText = styled(Typography)<{ isValid: boolean }>(({ theme, isValid }) => ({
-  fontSize: '14px',
-  color: isValid ? theme.palette.success.main : theme.palette.text.secondary,
-  lineHeight: 1.4,
-}));
+import { ValidationText, ValidationContainer } from '@/components/Auth/AuthFormComponents';
 
 const PasswordValidationRules: React.FC<PasswordValidationRulesProps> = ({
   isLengthOk,

@@ -1,17 +1,10 @@
 import { StyledSectionLabel, StyledTextField } from '@/components/Auth/AuthFormComponents';
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment } from '@mui/material';
-
-interface PasswordFieldProps {
-  password: string;
-  showPassword: boolean;
-  isSubmitting: boolean;
-  onPasswordChange: (password: string) => void;
-  onToggleVisibility: () => void;
-}
+import { PasswordFieldProps } from '../../types';
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
   password,

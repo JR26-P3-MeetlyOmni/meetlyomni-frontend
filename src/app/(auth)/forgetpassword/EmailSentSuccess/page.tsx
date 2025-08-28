@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AuthResultPageComponent } from '@/components/Auth';
+import { AuthResultPageComponent } from '../components/passwordReset/ResultPage';
 import { PASSWORD_RESET_SENT } from '@/constants/AuthResultData';
 
 const EmailRequestSuccess: React.FC = () => {

@@ -8,14 +8,8 @@ export {
   SectionLabel, 
   StyledSectionLabel, 
   StyledSubmitButton,
-  ContentContainer,
-  IconContainer,
-  TitleText,
-  DescriptionText,
-  ButtonContainer,
-  BackButton,
-  AuthResultPage,
-  AUTH_RESULTS,
+  ValidationText,
+  ValidationContainer,
 } from './AuthFormComponents';
 
 export { default as Logo } from './AuthBackgroundPage/Logo';
@@ -27,4 +21,3 @@ export { default as LookingForIcon } from './AuthBackgroundPage/LookingForIcon';
 export { default as StarIcon } from './AuthBackgroundPage/StarIcon';
 export { default as FormBackgroundIcon } from './AuthBackgroundPage/FormBackgroundIcon';
 export { PageBackground } from './PageBackground';
-export { AuthResultPageComponent } from './ResultPage';

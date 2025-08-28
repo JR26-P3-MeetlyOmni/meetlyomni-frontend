@@ -57,3 +57,35 @@ export interface PasswordValidationRulesProps {
   hasInput: boolean;
   isStrong: boolean;
 }
+
+export interface PasswordFieldProps {
+  password: string;
+  showPassword: boolean;
+  isSubmitting: boolean;
+  onPasswordChange: (password: string) => void;
+  onToggleVisibility: () => void;
+}
+
+export interface PasswordFormFieldsProps {
+  password: string;
+  confirmPassword: string;
+  showPassword: boolean;
+  showConfirmPassword: boolean;
+  isSubmitting: boolean;
+  validation: PasswordValidation;
+  showValidation: boolean;
+  setPassword: (password: string) => void;
+  setConfirmPassword: (confirmPassword: string) => void;
+  toggleShowPassword: () => void;
+  toggleShowConfirmPassword: () => void;
+}
+
+export interface ConfirmPasswordFieldProps {
+  confirmPassword: string;
+  showConfirmPassword: boolean;
+  isSubmitting: boolean;
+  hasError: boolean;
+  errorMessage: string;
+  onConfirmPasswordChange: (confirmPassword: string) => void;
+  onToggleVisibility: () => void;
+}

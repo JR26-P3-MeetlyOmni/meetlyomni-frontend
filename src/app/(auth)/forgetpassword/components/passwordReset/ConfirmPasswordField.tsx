@@ -1,19 +1,8 @@
 import { StyledSectionLabel, StyledTextField } from '@/components/Auth/AuthFormComponents';
-
-import React, { useCallback } from 'react';
-
+import { useCallback } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment } from '@mui/material';
-
-interface ConfirmPasswordFieldProps {
-  confirmPassword: string;
-  showConfirmPassword: boolean;
-  isSubmitting: boolean;
-  hasError: boolean;
-  errorMessage: string;
-  onConfirmPasswordChange: (confirmPassword: string) => void;
-  onToggleVisibility: () => void;
-}
+import { ConfirmPasswordFieldProps } from '../../types';
 
 const ConfirmPasswordField: React.FC<ConfirmPasswordFieldProps> = ({
   confirmPassword,

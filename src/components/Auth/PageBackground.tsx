@@ -19,6 +19,7 @@ const PageContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   position: 'relative',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: theme.palette.background.default,

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import EmailRequestSuccess from '../components/EmailRequestSuccess';
+import EmailRequestSuccess from '../EmailSentSuccess/page';
 
 // Mock Next.js Image component for Storybook
 const MockImage = ({ _src, alt, width, height }: { _src: string; alt: string; width: number; height: number }) => (

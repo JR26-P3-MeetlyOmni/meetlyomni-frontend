@@ -9,7 +9,7 @@ import { Alert, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import type { NewPasswordFormProps } from '../types';
-import NewPasswordSuccess from './NewPasswordSuccess';
+import NewPasswordSuccess from '../PasswordUpdateSuccess/page';
 import PasswordFormFields from './passwordReset/PasswordFormFields';
 
 const ValidationAlert = styled(Alert)(({ theme }) => ({

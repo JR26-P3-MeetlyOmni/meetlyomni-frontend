@@ -13,7 +13,7 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-import EmailRequestSuccess from './EmailRequestSuccess';
+import EmailRequestSuccess from '../EmailSentSuccess/page';
 
 const EmailRequestForm: React.FC = () => {
   const { email, emailSent, isSubmitting, displayError, handleEmailChange, handleSubmit } =

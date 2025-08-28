@@ -7,20 +7,10 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import type { AuthResultPageProps } from './types';
+import type { AuthResultPageProps } from '@/components/Auth/types';
+import { PageBackground } from '@/components/Auth/PageBackground';  
 
-export const AuthResultContentContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  maxWidth: theme.breakpoints.values.sm,
-  textAlign: 'center',
-  gap: theme.spacing(2.5),
-  backgroundColor: theme.palette.background.default,
-  padding: theme.spacing(3),
-  borderRadius: theme.shape.borderRadius,
-  zIndex: theme.zIndex.appBar,
-}));
+
 
 export const AuthResultIconContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -48,10 +38,6 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.sm,
 }));
 
-export const AuthResultButtonContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
-
 export const AuthResultBackButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
@@ -63,13 +49,13 @@ export const AuthResultBackButton = styled(Button)(({ theme }) => ({
   lineHeight: theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
+  marginTop: theme.spacing(2),
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
     border: `1px solid ${theme.palette.divider}`,
   },
 }));
 
-// AuthResultPage component
 export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   iconSrc,
   iconAlt,
@@ -79,7 +65,7 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   buttonHref = '/login',
 }) => {
   return (
-    <AuthResultContentContainer>
+    <PageBackground>
       <AuthResultIconContainer>
         <Image
           src={iconSrc}
@@ -93,36 +79,10 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
 
       <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
 
-      <AuthResultButtonContainer>
-        <Link href={buttonHref} passHref>
-          <AuthResultBackButton>{buttonText}</AuthResultBackButton>
-        </Link>
-      </AuthResultButtonContainer>
-    </AuthResultContentContainer>
+      <Link href={buttonHref} passHref>
+        <AuthResultBackButton>{buttonText}</AuthResultBackButton>
+      </Link>
+    </PageBackground>
   );
 
-  // return (
-  //   <PageBackground>
-  //     <AuthResultIconContainer>
-  //       <Image
-  //         src={iconSrc}
-  //         alt={iconAlt}
-  //         width={44}
-  //         height={44}
-  //       />
-  //     </AuthResultIconContainer>
-
-  //     <AuthResultTitleText>{title}</AuthResultTitleText>
-
-  //     <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
-
-  //     <AuthResultButtonContainer>
-  //       <Link href={buttonHref} passHref>
-  //         <AuthResultBackButton>{buttonText}</AuthResultBackButton>
-  //       </Link>
-  //     </AuthResultButtonContainer>
-  //   </PageBackground>
-  // );
 };
-
-import { PageBackground } from './PageBackground';

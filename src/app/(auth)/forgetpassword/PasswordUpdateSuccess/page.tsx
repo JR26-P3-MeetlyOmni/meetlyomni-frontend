@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AuthResultPageComponent } from '@/components/Auth';
+import { AuthResultPageComponent } from '../components/passwordReset/ResultPage';
 import { RESET_PASSWORD_SUCCESS } from '@/constants/AuthResultData';
 
 const NewPasswordSuccess: React.FC = () => {

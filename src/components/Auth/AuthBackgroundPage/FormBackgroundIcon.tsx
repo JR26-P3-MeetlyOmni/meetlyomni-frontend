@@ -9,7 +9,7 @@ const formBackgroundConfig: ImageConfig = {
   width: 460,
   height: 337,
   position: {
-    top: '4vh',
+    top: '1.5vh',
     left: '50%',
     transform: 'translateX(-50%)',
   },
