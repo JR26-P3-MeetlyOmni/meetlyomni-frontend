@@ -36,40 +36,26 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        powershell '''
-$ErrorActionPreference = "Stop"
-$env:AWS_REGION = "${env:AWS_REGION}"
-$env:ECR_REPOSITORY = "${env:ECR_REPOSITORY}"
-# 获取所有已打标签的镜像标签
-$tags = aws ecr list-images --region $env:AWS_REGION --repository-name $env:ECR_REPOSITORY --filter tagStatus=TAGGED --query "imageIds[*].imageTag" --output text 2>$null
-$tagList = @()
-if ($tags) { $tagList = ($tags -split "`t|`n") | Where-Object { $_ } }
+                        sh """
+LATEST_DEV_TAG=
+$(aws ecr list-images --region \${AWS_REGION} --repository-name \${ECR_REPOSITORY} --filter tagStatus=TAGGED --query 'imageIds[*].imageTag' --output text \
+  | tr '\\t' '\\n' \
+  | grep -E '^meetlyomni-frontend-dev\\.[0-9]+\\.[0-9]+\\.[0-9]+$' \
+  | sort -t. -k4,4n \
+  | tail -n1)
 
-$prefix = 'meetlyomni-frontend-dev.'
-$numericTags = @()
-foreach ($t in $tagList) {
-  if ($t.StartsWith($prefix)) {
-    $parts = $t.Split('.')
-    if ($parts.Length -eq 4 -and ($parts[1] -as [int]) -ne $null -and ($parts[2] -as [int]) -ne $null -and ($parts[3] -as [int]) -ne $null) {
-      $numericTags += $t
-    }
-  }
-}
-
-$latest = $null
-if ($numericTags.Count -gt 0) {
-  $latest = $numericTags | Sort-Object {[int]($_.Split('.')[-1])} | Select-Object -Last 1
-}
-
-if ([string]::IsNullOrEmpty($latest)) {
-  $next = 'meetlyomni-frontend-dev.1.1.1'
-} else {
-  $parts = $latest.Split('.')
-  $parts[3] = ([int]$parts[3] + 1).ToString()
-  $next = ($parts -join '.')
-}
-Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
-'''
+if [ -z "\$LATEST_DEV_TAG" ]; then
+  NEXT_DEV_TAG="meetlyomni-frontend-dev.1.1.1"
+else
+  PATCH=
+    \${LATEST_DEV_TAG##*.}
+  BASE=
+    \${LATEST_DEV_TAG%.*}
+  NEXT_PATCH=$((PATCH+1))
+  NEXT_DEV_TAG="\${BASE}.\${NEXT_PATCH}"
+fi
+printf "%s" "\$NEXT_DEV_TAG" > next_dev_tag.txt
+"""
                     }
                     env.DEV_TAG = readFile('next_dev_tag.txt').trim()
                     env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
@@ -86,7 +72,9 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
                 }
             }
             steps {
-                powershell 'npm ci'
+                script {
+                    sh 'npm ci'
+                }
             }
         }
 
@@ -98,7 +86,9 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
                 }
             }
             steps {
-                powershell 'npm test'
+                script {
+                    sh 'npm test'
+                }
             }
         }
 
@@ -110,7 +100,9 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
                 }
             }
             steps {
-                powershell 'npm run build'
+                script {
+                    sh 'npm run build'
+                }
             }
         }
 
@@ -122,7 +114,9 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
                 }
             }
             steps {
-                powershell "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
+                script {
+                    sh "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
+                }
             }
         }
 
@@ -136,9 +130,9 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        powershell 'aws --version | Out-Host'
-                        powershell "aws ecr describe-repositories --region ${AWS_REGION} --repository-names ${ECR_REPOSITORY} 2>$null; if (-not $?) { aws ecr create-repository --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} | Out-Null }"
-                        powershell "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                        sh "aws --version | cat"
+                        sh "aws ecr describe-repositories --region ${AWS_REGION} --repository-names ${ECR_REPOSITORY} || aws ecr create-repository --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY}"
+                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
                     }
                 }
             }
@@ -152,7 +146,7 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
                 }
             }
             steps {
-                powershell "docker push ${IMAGE}:${DEV_TAG}"
+                sh "docker push ${IMAGE}:${DEV_TAG}"
             }
         }
 
@@ -166,7 +160,7 @@ Set-Content -Path next_dev_tag.txt -Value $next -NoNewline
             steps {
                 script {
                     sshagent(credentials: ['02e89ccd-0b72-47fb-b5d5-893d7c1b67c8']) {
-                        powershell "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:${PROD_TAG} && docker image prune -f'"
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:${PROD_TAG} && docker image prune -f'"
                     }
                 }
             }
