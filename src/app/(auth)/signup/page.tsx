@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import PasswordStep from './components/PasswordStep/PasswordStep';
+import EmailStep from './components/EmailStep/EmailStep';
 
 export default function SignupPage() {
   const handleBack = React.useCallback(() => {
@@ -15,5 +15,7 @@ export default function SignupPage() {
     // TODO: Implement navigation logic
   }, []);
 
-  return <PasswordStep onBack={handleBack} onNext={handleNext} />;
+  // return <PasswordStep onBack={handleBack} onNext={handleNext} />;
+  return <EmailStep onBack={handleBack} onNext={handleNext} />;
+  // return <ContactInfoStep onBack={handleBack} onNext={handleNext} />;
 }

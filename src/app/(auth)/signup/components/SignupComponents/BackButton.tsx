@@ -19,15 +19,15 @@ const BackButtonContainer = styled('div')(() => ({
 }));
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
   marginRight: theme.spacing(1),
   color: theme.palette.text.secondary,
   backgroundColor: 'transparent',
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.spacing(4),
   transition: 'all 0.2s ease-in-out',
-  width: 44,
-  height: 44,
+  width: theme.spacing(5),
+  height: theme.spacing(5),
+  boxShadow: theme.shadows[1],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

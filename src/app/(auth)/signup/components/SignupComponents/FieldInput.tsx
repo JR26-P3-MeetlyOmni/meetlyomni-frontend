@@ -26,8 +26,9 @@ const Wrap = styled('div')(({ theme: _theme }) => ({
 }));
 
 const Label = styled('label')(({ theme }) => ({
-  ...theme.typography.caption,
-  color: theme.palette.text.secondary,
+  ...theme.typography.body1,
+  fontWeight: theme.typography.body2.fontWeight,
+  color: theme.palette.text.primary,
   marginBottom: theme.spacing(0.5),
 }));
 
@@ -37,15 +38,15 @@ const FieldBox = styled('div', {
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: theme.spacing(1.5),
+  justifyContent: 'center',
+  paddingLeft: theme.spacing(3),
   '&::before': {
     content: '""',
     position: 'absolute',
-    left: 0,
-    top: 2,
-    bottom: 2,
-    width: 4,
-    borderRadius: 2,
+    left: theme.spacing(0),
+    top: theme.spacing(1),
+    width: theme.spacing(1),
+    height: theme.spacing(10),
     background: $barColor,
     transition: 'background-color 500ms ease',
   },
@@ -53,13 +54,12 @@ const FieldBox = styled('div', {
 
 const BigInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
-  fontWeight: 600,
-  fontSize: 36,
-  lineHeight: 1.2,
+  fontWeight: theme.typography.h6.fontWeight,
+  fontSize: theme.typography.h2.fontSize,
   color: theme.palette.text.primary,
   padding: theme.spacing(0.5, 0),
   '& input::placeholder': {
-    color: theme.palette.grey[400],
+    color: theme.palette.grey[300],
     opacity: 1,
   },
   [theme.breakpoints.down('sm')]: {
@@ -123,7 +123,15 @@ const PASSWORD_REQUIREMENTS = [
 ];
 
 // Component for displaying password requirements
-function PasswordRequirements({ value }: { value: string }) {
+function PasswordRequirements({
+  value,
+  hasStartedTyping,
+}: {
+  value: string;
+  hasStartedTyping: boolean;
+}) {
+  if (!hasStartedTyping) return null;
+
   return (
     <PasswordRequirementsList>
       {PASSWORD_REQUIREMENTS.map(requirement => {
@@ -225,8 +233,16 @@ function getBarColor(
 }
 
 // Component for displaying validation errors
-function ValidationErrors({ touched, errors }: { touched: boolean; errors: string[] }) {
-  if (!touched || errors.length === 0) return null;
+function ValidationErrors({
+  touched,
+  errors,
+  hasStartedTyping,
+}: {
+  touched: boolean;
+  errors: string[];
+  hasStartedTyping: boolean;
+}) {
+  if (!touched || !hasStartedTyping || errors.length === 0) return null;
 
   return (
     <Errors>
@@ -243,6 +259,7 @@ function useInputHandlers(
   controlled: boolean,
   setInner: React.Dispatch<React.SetStateAction<string>>,
   onChange?: (val: string) => void,
+  setHasStartedTyping?: (value: boolean) => void,
 ) {
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -254,8 +271,10 @@ function useInputHandlers(
       }
       if (!controlled) setInner(next);
       onChange?.(next);
+      // Mark that user has started typing
+      setHasStartedTyping?.(true);
     },
-    [controlled, onChange, kind, setInner],
+    [controlled, onChange, kind, setInner, setHasStartedTyping],
   );
 
   return { handleChange };
@@ -270,6 +289,7 @@ function useValidationState(
 ) {
   const [focused, setFocused] = React.useState(false);
   const [touched, setTouched] = React.useState(false);
+  const [hasStartedTyping, setHasStartedTyping] = React.useState(!!v);
 
   const errors = React.useMemo(() => validate(kind, v, required), [kind, v, required]);
   const valid = errors.length === 0 && (!!v || !required);
@@ -280,7 +300,48 @@ function useValidationState(
 
   const barColor = getBarColor(touched, valid, focused, !!v);
 
-  return { focused, setFocused, touched, setTouched, errors, valid, barColor };
+  return {
+    focused,
+    setFocused,
+    touched,
+    setTouched,
+    hasStartedTyping,
+    setHasStartedTyping,
+    errors,
+    valid,
+    barColor,
+  };
+}
+
+// Extract event handlers to reduce function length
+function useEventHandlers(
+  setFocused: (value: boolean) => void,
+  setTouched: (value: boolean) => void,
+) {
+  const handleInputFocus = React.useCallback(() => {
+    setFocused(true);
+  }, [setFocused]);
+
+  const handleInputBlur = React.useCallback(() => {
+    setFocused(false);
+    setTouched(true);
+  }, [setFocused, setTouched]);
+
+  return { handleInputFocus, handleInputBlur };
+}
+
+// Extract render logic to reduce function length
+function renderErrorContent(
+  kind: Kind,
+  v: string,
+  touched: boolean,
+  errors: string[],
+  hasStartedTyping: boolean,
+) {
+  if (kind === 'password') {
+    return <PasswordRequirements value={v} hasStartedTyping={hasStartedTyping} />;
+  }
+  return <ValidationErrors touched={touched} errors={errors} hasStartedTyping={hasStartedTyping} />;
 }
 
 export function ValidatedInput({
@@ -297,22 +358,25 @@ export function ValidatedInput({
   const controlled = value !== undefined;
   const v = controlled ? (value as string) : inner;
 
-  const { handleChange } = useInputHandlers(kind, controlled, setInner, onChange);
-  const { setFocused, touched, setTouched, errors, valid, barColor } = useValidationState(
+  const {
+    setFocused,
+    touched,
+    setTouched,
+    hasStartedTyping,
+    setHasStartedTyping,
+    errors,
+    valid,
+    barColor,
+  } = useValidationState(kind, v, required, onValidChange);
+
+  const { handleChange } = useInputHandlers(
     kind,
-    v,
-    required,
-    onValidChange,
+    controlled,
+    setInner,
+    onChange,
+    setHasStartedTyping,
   );
-
-  const handleInputFocus = React.useCallback(() => {
-    setFocused(true);
-  }, [setFocused]);
-
-  const handleInputBlur = React.useCallback(() => {
-    setFocused(false);
-    setTouched(true);
-  }, [setFocused, setTouched]);
+  const { handleInputFocus, handleInputBlur } = useEventHandlers(setFocused, setTouched);
 
   return (
     <Wrap>
@@ -331,13 +395,7 @@ export function ValidatedInput({
           }}
         />
       </FieldBox>
-      <ErrorBox>
-        {kind === 'password' ? (
-          <PasswordRequirements value={v} />
-        ) : (
-          <ValidationErrors touched={touched} errors={errors} />
-        )}
-      </ErrorBox>
+      <ErrorBox>{renderErrorContent(kind, v, touched, errors, hasStartedTyping)}</ErrorBox>
     </Wrap>
   );
 }

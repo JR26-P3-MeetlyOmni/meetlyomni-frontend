@@ -13,17 +13,17 @@ interface NextButtonProps {
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  minWidth: 128,
+  minWidth: theme.spacing(22),
   padding: theme.spacing(1.25, 2.5),
   borderRadius: theme.spacing(0.5),
   textTransform: 'none',
-  fontSize: '1rem',
-  fontWeight: 500,
+  fontSize: theme.typography.h5.fontSize,
+  fontWeight: theme.typography.h6.fontWeight,
   gap: theme.spacing(1),
   transition: 'all 0.2s ease-in-out',
-  height: 44,
+  height: theme.spacing(8),
   backgroundColor: '#14183b',
-  color: '#ffffff',
+  color: theme.palette.common.white,
 
   '&:hover': {
     transform: 'translateX(2px)',
