@@ -20,47 +20,47 @@ pipeline {
       steps { checkout scm }
     }
 
-    // ✅ 新的取号逻辑（替代原 Prepare Tags）
-    stage('Resolve Tags') {
-      when {
-        anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') }
-      }
-      steps {
-        script {
-          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                            credentialsId: 'aws_biaojin',
-                            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+    //✅ 新的取号逻辑（替代原 Prepare Tags）
+    // stage('Resolve Tags') {
+    //   when {
+    //     anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') }
+    //   }
+    //   steps {
+    //     script {
+    //       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+    //                         credentialsId: 'aws_biaojin',
+    //                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+    //                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 
-            def lastTag = sh(
-              returnStdout: true,
-              script: """
-                set -e
-                aws ecr list-images --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} \
-                  --filter tagStatus=TAGGED --query "imageIds[].imageTag" --output text \
-                | tr '\\t' '\\n' \
-                | grep -E '^meetlyomni-frontend-dev[.][0-9]+[.][0-9]+[.][0-9]+$' \
-                | sort -t. -k4,4n \
-                | tail -n1
-              """
-            ).trim()
+    //         def lastTag = sh(
+    //           returnStdout: true,
+    //           script: """
+    //             set -e
+    //             aws ecr list-images --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} \
+    //               --filter tagStatus=TAGGED --query "imageIds[].imageTag" --output text \
+    //             | tr '\\t' '\\n' \
+    //             | grep -E '^meetlyomni-frontend-dev[.][0-9]+[.][0-9]+[.][0-9]+$' \
+    //             | sort -t. -k4,4n \
+    //             | tail -n1
+    //           """
+    //         ).trim()
 
-            if (!lastTag) {
-              env.DEV_TAG = 'meetlyomni-frontend-dev.1.1.1'
-            } else {
-              // 拆分并把最后一段 +1
-              def parts = lastTag.tokenize('.')
-              def patch = (parts[-1] as int) + 1
-              env.DEV_TAG = "${parts[0]}.${parts[1]}.${parts[2]}.${patch}"
-            }
-            // 如果你需要固定一个占位的 PROD_TAG 也可以保留
-            env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
-            echo "Resolved DEV_TAG = ${env.DEV_TAG}"
-          }
-        }
-      }
-    }
-
+    //         if (!lastTag) {
+    //           env.DEV_TAG = 'meetlyomni-frontend-dev.1.1.1'
+    //         } else {
+    //           // 拆分并把最后一段 +1
+    //           def parts = lastTag.tokenize('.')
+    //           def patch = (parts[-1] as int) + 1
+    //           env.DEV_TAG = "${parts[0]}.${parts[1]}.${parts[2]}.${patch}"
+    //         }
+    //         // 如果你需要固定一个占位的 PROD_TAG 也可以保留
+    //         env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
+    //         echo "Resolved DEV_TAG = ${env.DEV_TAG}"
+    //       }
+    //     }
+    //   }
+    // }
+    
     stage('CI - Install Dependencies') {
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps { sh 'npm ci' }
@@ -79,7 +79,7 @@ pipeline {
     stage('Docker Build') {
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps {
-        sh "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
+        sh "docker build --pull -t ${IMAGE}:meetlyomni-frontend-dev.1.1.2 ."
       }
     }
 
