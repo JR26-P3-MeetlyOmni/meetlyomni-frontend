@@ -9,15 +9,21 @@ interface EmailStepProps {
   onBack: () => void;
   onNext: () => void;
   onEmailChange?: (email: string, isValid: boolean) => void;
+  email?: string;
 }
 
-export default function EmailStep({ onBack, onNext, onEmailChange }: EmailStepProps) {
-  const [email, setEmail] = React.useState('');
+export default function EmailStep({
+  onBack,
+  onNext,
+  onEmailChange,
+  email: emailProp = '',
+}: EmailStepProps) {
   const [isValid, setIsValid] = React.useState(false);
+  const latestValueRef = React.useRef<string>(emailProp);
 
   const handleEmailChange = React.useCallback(
     (value: string) => {
-      setEmail(value);
+      latestValueRef.current = value;
       onEmailChange?.(value, isValid);
     },
     [isValid, onEmailChange],
@@ -26,9 +32,9 @@ export default function EmailStep({ onBack, onNext, onEmailChange }: EmailStepPr
   const handleValidationChange = React.useCallback(
     (valid: boolean) => {
       setIsValid(valid);
-      onEmailChange?.(email, valid);
+      onEmailChange?.(latestValueRef.current, valid);
     },
-    [email, onEmailChange],
+    [onEmailChange],
   );
 
   const handleNext = React.useCallback(() => {
@@ -47,7 +53,7 @@ export default function EmailStep({ onBack, onNext, onEmailChange }: EmailStepPr
         kind="email"
         label="Email:"
         placeholder="123456@gmail.com"
-        value={email}
+        value={emailProp}
         onChange={handleEmailChange}
         onValidChange={handleValidationChange}
         required

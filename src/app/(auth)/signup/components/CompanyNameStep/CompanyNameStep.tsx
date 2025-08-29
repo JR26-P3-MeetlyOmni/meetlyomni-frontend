@@ -4,36 +4,55 @@ import React from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import BackButton from '../SignupComponents/BackButton';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import NextButton from '../SignupComponents/NextButton';
 import { PageTitle } from '../SignupComponents/PageLabel';
+
+const CenterContainer = styled('div')(({ theme }) => ({
+  height: '90vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+}));
+
+// Adjust only the input position without impacting others
+const InputPositioner = styled('div')(({ theme }) => ({
+  marginLeft: theme.spacing(58),
+  alignSelf: 'center',
+  // Responsive adjustments
+  [theme.breakpoints.down('lg')]: {
+    marginLeft: theme.spacing(40),
+  },
+  [theme.breakpoints.down('md')]: {
+    marginLeft: theme.spacing(20),
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginLeft: 0,
+    width: '100%',
+  },
+}));
 
 interface CompanyNameStepProps {
   onBack?: () => void;
   onCompanyNameChange?: (companyName: string, isValid: boolean) => void;
   onNext?: () => void;
-  canGoNext?: boolean;
+  companyName?: string;
 }
 
-const ButtonContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(4),
-}));
-
 export function CompanyNameStep({
-  onBack,
   onCompanyNameChange,
   onNext,
-  canGoNext = false,
+  companyName: companyNameProp = '',
 }: CompanyNameStepProps) {
-  const [companyName, setCompanyName] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
+  const latestValueRef = React.useRef<string>(companyNameProp);
 
   const handleCompanyNameChange = React.useCallback(
     (value: string) => {
-      setCompanyName(value);
+      latestValueRef.current = value;
       onCompanyNameChange?.(value, isValid);
     },
     [isValid, onCompanyNameChange],
@@ -42,38 +61,34 @@ export function CompanyNameStep({
   const handleValidationChange = React.useCallback(
     (valid: boolean) => {
       setIsValid(valid);
-      onCompanyNameChange?.(companyName, valid);
+      onCompanyNameChange?.(latestValueRef.current, valid);
     },
-    [companyName, onCompanyNameChange],
+    [onCompanyNameChange],
   );
 
   const handleNext = React.useCallback(() => {
-    if (canGoNext && onNext) {
+    if (isValid && onNext) {
       onNext();
     }
-  }, [canGoNext, onNext]);
+  }, [isValid, onNext]);
 
   return (
-    <div>
-      <BackButton onClick={onBack} />
-      <PageTitle
-        title="What's Your Company Name?"
-        subtitle="Enter the name of your organization or company"
-      />
-      <ValidatedInput
-        kind="company"
-        label="Company Name:"
-        placeholder="Enter your company name"
-        value={companyName}
-        onChange={handleCompanyNameChange}
-        onValidChange={handleValidationChange}
-        required
-      />
+    <CenterContainer>
+      <PageTitle title="Welcome to Omni !  Let’s Sign up Your Profile" />
+      <InputPositioner>
+        <ValidatedInput
+          kind="company"
+          label="Company Name:"
+          placeholder="Google"
+          value={companyNameProp}
+          onChange={handleCompanyNameChange}
+          onValidChange={handleValidationChange}
+          required
+        />
+      </InputPositioner>
 
-      <ButtonContainer>
-        <NextButton onClick={handleNext} disabled={!canGoNext} />
-      </ButtonContainer>
-    </div>
+      <NextButton onClick={handleNext} disabled={!isValid} />
+    </CenterContainer>
   );
 }
 

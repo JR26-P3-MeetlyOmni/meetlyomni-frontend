@@ -9,53 +9,51 @@ interface ContactInfoStepProps {
   onBack: () => void;
   onNext: () => void;
   onChange?: (name: string, phone: string, valid: boolean) => void;
+  contactName?: string;
+  phone?: string;
 }
 
 function useContactInfo(onChange?: (name: string, phone: string, valid: boolean) => void) {
-  const [contactName, setContactName] = React.useState('');
-  const [contactNameValid, setContactNameValid] = React.useState(false);
-  const [phone, setPhone] = React.useState('');
+  const latestNameRef = React.useRef<string>('');
+  const latestPhoneRef = React.useRef<string>('');
+  const [nameValid, setNameValid] = React.useState(false);
   const [phoneValid, setPhoneValid] = React.useState(false);
 
-  const isFormValid = contactNameValid && phoneValid;
+  const isFormValid = nameValid && phoneValid;
 
   const handleName = React.useCallback(
     (v: string) => {
-      setContactName(v);
-      onChange?.(v, phone, contactNameValid && phoneValid);
+      latestNameRef.current = v;
+      onChange?.(v, latestPhoneRef.current, nameValid && phoneValid);
     },
-    [onChange, phone, contactNameValid, phoneValid],
+    [onChange, nameValid, phoneValid],
   );
 
   const handleNameValid = React.useCallback(
     (ok: boolean) => {
-      setContactNameValid(ok);
-      onChange?.(contactName, phone, ok && phoneValid);
+      setNameValid(ok);
+      onChange?.(latestNameRef.current, latestPhoneRef.current, ok && phoneValid);
     },
-    [onChange, contactName, phone, phoneValid],
+    [onChange, phoneValid],
   );
 
   const handlePhone = React.useCallback(
     (v: string) => {
-      setPhone(v);
-      onChange?.(contactName, v, contactNameValid && phoneValid);
+      latestPhoneRef.current = v;
+      onChange?.(latestNameRef.current, v, nameValid && phoneValid);
     },
-    [onChange, contactName, contactNameValid, phoneValid],
+    [onChange, nameValid, phoneValid],
   );
 
   const handlePhoneValid = React.useCallback(
     (ok: boolean) => {
       setPhoneValid(ok);
-      onChange?.(contactName, phone, contactNameValid && ok);
+      onChange?.(latestNameRef.current, latestPhoneRef.current, nameValid && ok);
     },
-    [onChange, contactName, phone, contactNameValid],
+    [onChange, nameValid],
   );
 
   return {
-    contactName,
-    contactNameValid,
-    phone,
-    phoneValid,
     isFormValid,
     handleName,
     handleNameValid,
@@ -64,18 +62,15 @@ function useContactInfo(onChange?: (name: string, phone: string, valid: boolean)
   } as const;
 }
 
-export default function ContactInfoStep({ onBack, onNext, onChange }: ContactInfoStepProps) {
-  const {
-    contactName,
-    // contactNameValid, // unused
-    phone,
-    // phoneValid, // unused
-    isFormValid,
-    handleName,
-    handleNameValid,
-    handlePhone,
-    handlePhoneValid,
-  } = useContactInfo(onChange);
+export default function ContactInfoStep({
+  onBack,
+  onNext,
+  onChange,
+  contactName: contactNameProp = '',
+  phone: phoneProp = '',
+}: ContactInfoStepProps) {
+  const { isFormValid, handleName, handleNameValid, handlePhone, handlePhoneValid } =
+    useContactInfo(onChange);
 
   const handleNext = React.useCallback(() => {
     if (isFormValid) onNext();
@@ -92,7 +87,7 @@ export default function ContactInfoStep({ onBack, onNext, onChange }: ContactInf
         kind="contactName"
         label="Contact name:"
         placeholder="Alex Li"
-        value={contactName}
+        value={contactNameProp}
         onChange={handleName}
         onValidChange={handleNameValid}
         required
@@ -101,7 +96,7 @@ export default function ContactInfoStep({ onBack, onNext, onChange }: ContactInf
         kind="phone"
         label="Contact phone number:"
         placeholder="0XXXXXXXXX"
-        value={phone}
+        value={phoneProp}
         onChange={handlePhone}
         onValidChange={handlePhoneValid}
         required
