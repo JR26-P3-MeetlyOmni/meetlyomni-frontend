@@ -1,0 +1,79 @@
+name: CI-dev
+
+on:
+  pull_request:
+    branches: [ "dev","devops/leonard" ]
+  push:
+    branches: [ "dev","devops/leonard" ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION : ap-southeast-2
+  DOCKERFILE : ./Dockerfile
+  ECR_URI : 034362033405.dkr.ecr.ap-southeast-2.amazonaws.com/meetlyomni-frontend
+  TAG_ENV : dev
+  CONTEXT : .
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint 
+
+      - name: Test
+        run: npm test 
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build
+
+  build_and_push:
+    runs-on: ubuntu-latest
+    environment: dev
+    needs: ci
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+
+      - name: Build Docker image
+        run: |
+          TAG_SHA=${GITHUB_SHA::7}
+          docker build \
+            -f "${{ env.DOCKERFILE }}" \
+            -t "${{ env.ECR_URI }}:${TAG_SHA}" \
+            -t "${{ env.ECR_URI }}:${{ env.TAG_ENV }}" \
+            "${{ env.CONTEXT }}"
+
+      - name: Push Docker images to ECR
+        run: |
+          TAG_SHA=${GITHUB_SHA::7}
+          docker push "${{ env.ECR_URI }}:${TAG_SHA}"
+          docker push "${{ env.ECR_URI }}:${{ env.TAG_ENV }}"
