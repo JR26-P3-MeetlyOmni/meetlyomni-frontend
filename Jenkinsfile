@@ -40,9 +40,27 @@ pipeline {
 $ErrorActionPreference = "Stop"
 $env:AWS_REGION = "${env:AWS_REGION}"
 $env:ECR_REPOSITORY = "${env:ECR_REPOSITORY}"
-# 列出已有 dev 标签并取最后一位递增
+# 获取所有已打标签的镜像标签
 $tags = aws ecr list-images --region $env:AWS_REGION --repository-name $env:ECR_REPOSITORY --filter tagStatus=TAGGED --query "imageIds[*].imageTag" --output text 2>$null
-$latest = ($tags -split "`t|`n" | Where-Object { $_ -match '^meetlyomni-frontend-dev\.[0-9]+\.[0-9]+\.[0-9]+$' } | Sort-Object {[int]($_.Split('.')[-1])} | Select-Object -Last 1)
+$tagList = @()
+if ($tags) { $tagList = ($tags -split "`t|`n") | Where-Object { $_ } }
+
+$prefix = 'meetlyomni-frontend-dev.'
+$numericTags = @()
+foreach ($t in $tagList) {
+  if ($t.StartsWith($prefix)) {
+    $parts = $t.Split('.')
+    if ($parts.Length -eq 4 -and ($parts[1] -as [int]) -ne $null -and ($parts[2] -as [int]) -ne $null -and ($parts[3] -as [int]) -ne $null) {
+      $numericTags += $t
+    }
+  }
+}
+
+$latest = $null
+if ($numericTags.Count -gt 0) {
+  $latest = $numericTags | Sort-Object {[int]($_.Split('.')[-1])} | Select-Object -Last 1
+}
+
 if ([string]::IsNullOrEmpty($latest)) {
   $next = 'meetlyomni-frontend-dev.1.1.1'
 } else {
