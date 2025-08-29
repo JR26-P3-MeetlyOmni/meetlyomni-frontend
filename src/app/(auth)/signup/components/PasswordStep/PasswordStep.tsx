@@ -9,15 +9,21 @@ interface PasswordStepProps {
   onBack: () => void;
   onPasswordChange?: (password: string, isValid: boolean) => void;
   onNext: () => void;
+  password?: string;
 }
 
-export function PasswordStep({ onBack, onPasswordChange, onNext }: PasswordStepProps) {
-  const [password, setPassword] = React.useState('');
+export function PasswordStep({
+  onBack,
+  onPasswordChange,
+  onNext,
+  password: passwordProp = '',
+}: PasswordStepProps) {
   const [isValid, setIsValid] = React.useState(false);
+  const latestValueRef = React.useRef<string>(passwordProp);
 
   const handlePasswordChange = React.useCallback(
     (value: string) => {
-      setPassword(value);
+      latestValueRef.current = value;
       onPasswordChange?.(value, isValid);
     },
     [isValid, onPasswordChange],
@@ -26,9 +32,9 @@ export function PasswordStep({ onBack, onPasswordChange, onNext }: PasswordStepP
   const handleValidationChange = React.useCallback(
     (valid: boolean) => {
       setIsValid(valid);
-      onPasswordChange?.(password, valid);
+      onPasswordChange?.(latestValueRef.current, valid);
     },
-    [password, onPasswordChange],
+    [onPasswordChange],
   );
 
   const handleNext = React.useCallback(() => {
@@ -47,7 +53,7 @@ export function PasswordStep({ onBack, onPasswordChange, onNext }: PasswordStepP
         kind="password"
         label="Password:"
         placeholder="Enter your password"
-        value={password}
+        value={passwordProp}
         onChange={handlePasswordChange}
         onValidChange={handleValidationChange}
         required
