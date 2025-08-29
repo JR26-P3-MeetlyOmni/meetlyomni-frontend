@@ -1,6 +1,20 @@
 # Use the official Node.js LTS image as base
 FROM node:20-alpine AS base
 
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Disable Husky for CI builds
+ENV HUSKY=0
+
+# Install only production dependencies (no dev)
+RUN npm ci --ignore-scripts
+
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
