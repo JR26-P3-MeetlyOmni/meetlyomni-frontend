@@ -50,7 +50,7 @@ printf "%s" "$NEXT_DEV_TAG" > next_dev_tag.txt
 '''
                     }
                     env.DEV_TAG = readFile('next_dev_tag.txt').trim()
-                    env.PROD_TAG = 'meetlyomni-frontend-prod'
+                    env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
                     echo "DEV_TAG resolved to ${DEV_TAG}; PROD_TAG is ${PROD_TAG}"
                 }
             }
