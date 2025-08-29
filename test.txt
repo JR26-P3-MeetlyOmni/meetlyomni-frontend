@@ -1,3 +1,5 @@
+#test01
+
 $AWS_ACCOUNT_ID = '739287608007'
 $AWS_REGION = 'ap-southeast-2'
 $ECR_REPOSITORY = 'meetlyomni/frontend'
