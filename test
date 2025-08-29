@@ -1,0 +1,32 @@
+$AWS_ACCOUNT_ID = '739287608007'
+$AWS_REGION = 'ap-southeast-2'
+$ECR_REPOSITORY = 'meetlyomni/frontend'
+$ECR_REGISTRY = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+$IMAGE = "$ECR_REGISTRY/$ECR_REPOSITORY"
+$TAG = 'meetlyomni-frontend-prod.1.1.1'
+
+try {
+  aws ecr describe-repositories --region $AWS_REGION --repository-names $ECR_REPOSITORY -ErrorAction Stop | Out-Null
+} catch {
+  aws ecr create-repository --region $AWS_REGION --repository-name $ECR_REPOSITORY | Out-Null
+}
+
+aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+docker build --pull -t "${IMAGE}:$TAG" .
+docker push "${IMAGE}:$TAG"
+
+
+# 填写你的私钥路径
+$KEY = 'C:\Users\biaoj\Downloads\aws-credential\meetly-dev.pem'
+
+# 与 Jenkinsfile 保持一致
+$EC2_HOST = 'ubuntu@44.224.30.221'
+$AWS_ACCOUNT_ID = '739287608007'
+$AWS_REGION = 'ap-southeast-2'
+$ECR_REPOSITORY = 'meetlyomni/frontend'
+$ECR_REGISTRY = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+$IMAGE = "$ECR_REGISTRY/$ECR_REPOSITORY"
+$PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
+
+ssh -i $KEY -o StrictHostKeyChecking=no $EC2_HOST "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY && docker pull ${IMAGE}:$PROD_TAG && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:$PROD_TAG && docker image prune -f"

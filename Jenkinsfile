@@ -142,7 +142,7 @@ printf "%s" "$NEXT_DEV_TAG" > next_dev_tag.txt
             }
         }
 
-        stage('Deploy to EC2 (docker-compose)') {
+        stage('Deploy to EC2 (docker run)') {
             when {
                 allOf {
                     branch 'dev-biaojin'
@@ -152,7 +152,7 @@ printf "%s" "$NEXT_DEV_TAG" > next_dev_tag.txt
             steps {
                 script {
                     sshagent(credentials: ['02e89ccd-0b72-47fb-b5d5-893d7c1b67c8']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && cd ${EC2_DEPLOY_DIR} && (docker compose pull || docker-compose pull) && (docker compose up -d || docker-compose up -d) && docker image prune -f'"
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:${PROD_TAG} && docker image prune -f'"
                     }
                 }
             }
