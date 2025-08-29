@@ -36,18 +36,26 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        sh '''
-LATEST_DEV_TAG=$(aws ecr list-images --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} --filter tagStatus=TAGGED --query 'imageIds[*].imageTag' --output text | tr '\t' '\n' | grep -E '^meetlyomni-frontend-dev\.[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k4,4n | tail -n1)
+                        sh """
+LATEST_DEV_TAG=
+$(aws ecr list-images --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} --filter tagStatus=TAGGED --query 'imageIds[*].imageTag' --output text \
+  | tr '\\t' '\\n' \
+  | grep -E '^meetlyomni-frontend-dev\\.[0-9]+\\.[0-9]+\\.[0-9]+$' \
+  | sort -t. -k4,4n \
+  | tail -n1)
+
 if [ -z "$LATEST_DEV_TAG" ]; then
   NEXT_DEV_TAG="meetlyomni-frontend-dev.1.1.1"
 else
-  PATCH=${LATEST_DEV_TAG##*.}
-  BASE=${LATEST_DEV_TAG%.*}
+  PATCH=
+    ${LATEST_DEV_TAG##*.}
+  BASE=
+    ${LATEST_DEV_TAG%.*}
   NEXT_PATCH=$((PATCH+1))
   NEXT_DEV_TAG="${BASE}.${NEXT_PATCH}"
 fi
 printf "%s" "$NEXT_DEV_TAG" > next_dev_tag.txt
-'''
+"""
                     }
                     env.DEV_TAG = readFile('next_dev_tag.txt').trim()
                     env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
