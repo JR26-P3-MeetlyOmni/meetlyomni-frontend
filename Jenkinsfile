@@ -35,12 +35,65 @@ pipeline {
             }
             steps {
                 script {
-                    env.GIT_COMMIT_SHORT = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-                    // 所有在 dev-biaojin（包含指向 dev-biaojin 的 PR）统一用 dev-biaojin 前缀
-                    env.TAG_PREFIX = 'dev-biaojin'
-                    env.TAG_COMMIT = "${TAG_PREFIX}-${GIT_COMMIT_SHORT}"
-                    env.TAG_LATEST = "${TAG_PREFIX}-latest"
-                    echo "Will build ${IMAGE}:${TAG_COMMIT} and ${IMAGE}:${TAG_LATEST}"
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh '''
+LATEST_DEV_TAG=$(aws ecr list-images --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY} --filter tagStatus=TAGGED --query 'imageIds[*].imageTag' --output text | tr '\t' '\n' | grep -E '^meetlyomni-frontend-dev\.[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k4,4n | tail -n1)
+if [ -z "$LATEST_DEV_TAG" ]; then
+  NEXT_DEV_TAG="meetlyomni-frontend-dev.1.1.1"
+else
+  PATCH=${LATEST_DEV_TAG##*.}
+  BASE=${LATEST_DEV_TAG%.*}
+  NEXT_PATCH=$((PATCH+1))
+  NEXT_DEV_TAG="${BASE}.${NEXT_PATCH}"
+fi
+printf "%s" "$NEXT_DEV_TAG" > next_dev_tag.txt
+'''
+                    }
+                    env.DEV_TAG = readFile('next_dev_tag.txt').trim()
+                    env.PROD_TAG = 'meetlyomni-frontend-prod'
+                    echo "DEV_TAG resolved to ${DEV_TAG}; PROD_TAG is ${PROD_TAG}"
+                }
+            }
+        }
+
+        stage('CI - Install Dependencies') {
+            when {
+                anyOf {
+                    branch 'dev-biaojin'
+                    changeRequest(target: 'dev-biaojin')
+                }
+            }
+            steps {
+                script {
+                    sh 'npm ci'
+                }
+            }
+        }
+
+        stage('CI - Run Tests') {
+            when {
+                anyOf {
+                    branch 'dev-biaojin'
+                    changeRequest(target: 'dev-biaojin')
+                }
+            }
+            steps {
+                script {
+                    sh 'npm test'
+                }
+            }
+        }
+
+        stage('CI - Build Project') {
+            when {
+                anyOf {
+                    branch 'dev-biaojin'
+                    changeRequest(target: 'dev-biaojin')
+                }
+            }
+            steps {
+                script {
+                    sh 'npm run build'
                 }
             }
         }
@@ -54,7 +107,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "docker build --pull -t ${IMAGE}:${TAG_COMMIT} -t ${IMAGE}:${TAG_LATEST} ."
+                    sh "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
                 }
             }
         }
@@ -85,8 +138,7 @@ pipeline {
                 }
             }
             steps {
-                sh "docker push ${IMAGE}:${TAG_COMMIT}"
-                sh "docker push ${IMAGE}:${TAG_LATEST}"
+                sh "docker push ${IMAGE}:${DEV_TAG}"
             }
         }
 
@@ -100,7 +152,7 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['02e89ccd-0b72-47fb-b5d5-893d7c1b67c8']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && cd ${EC2_DEPLOY_DIR} && (docker compose pull || docker-compose pull) && (docker compose up -d || docker-compose up -d) && docker image prune -f'"
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && cd ${EC2_DEPLOY_DIR} && (docker compose pull || docker-compose pull) && (docker compose up -d || docker-compose up -d) && docker image prune -f'"
                     }
                 }
             }
