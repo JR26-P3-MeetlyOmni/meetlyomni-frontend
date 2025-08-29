@@ -37,8 +37,8 @@ export function PasswordStep({ onBack, onPasswordChange, onNext }: PasswordStepP
 
   return (
     <PageContainer
-      title="Create a Secure Password"
-      subtitle="Your password should be strong and unique to protect your account"
+      title="Please Set Your Password to Log in"
+      subtitle="Your password should no less than 12 characters"
       onBack={onBack}
       onNext={handleNext}
       nextDisabled={!isValid}

@@ -83,7 +83,7 @@ export default function ContactInfoStep({ onBack, onNext, onChange }: ContactInf
 
   return (
     <PageContainer
-      title="Contact Information"
+      title="Please Enter Your Contact Information"
       onBack={onBack}
       onNext={handleNext}
       nextDisabled={!isFormValid}

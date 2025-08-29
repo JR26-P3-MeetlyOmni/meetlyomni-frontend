@@ -20,16 +20,15 @@ const Root = styled('div', {
 }));
 
 const TitleText = styled('h1')(({ theme }) => ({
-  ...theme.typography.h4,
-  fontWeight: 800,
-  lineHeight: 1.2,
+  ...theme.typography.h3,
+  fontWeight: theme.typography.h6.fontWeight,
   margin: 0,
   color: theme.palette.text.primary,
   [theme.breakpoints.down('sm')]: { ...theme.typography.h5, fontWeight: 700 },
 }));
 
 const SubtitleText = styled('p')(({ theme }) => ({
-  ...theme.typography.body2,
+  ...theme.typography.body1,
   marginTop: theme.spacing(0.5),
   color: theme.palette.text.secondary,
 }));

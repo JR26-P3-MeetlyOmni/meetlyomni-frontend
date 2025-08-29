@@ -25,7 +25,7 @@ const Root = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(4),
-    paddingLeft: theme.spacing(16),
+    paddingLeft: theme.spacing(20),
   },
 }));
 
@@ -35,7 +35,7 @@ const Grid = styled('div')(({ theme }) => ({
   gridTemplateColumns: '1fr',
   gap: theme.spacing(2),
   alignItems: 'start',
-  marginTop: theme.spacing(16),
+  marginTop: theme.spacing(24),
   [theme.breakpoints.up('md')]: {
     gridTemplateColumns: '1fr 1fr',
     gap: theme.spacing(6),
@@ -45,19 +45,15 @@ const Grid = styled('div')(({ theme }) => ({
 const LeftStack = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  height: theme.spacing(78),
   width: '100%',
-  margin: 0,
-  gap: theme.spacing(3),
 }));
 
 const InputsStack = styled('div')(({ theme }) => ({
-  display: 'grid',
-  gap: theme.spacing(2.5),
-  // 固定“标题到按钮”的距离：通过为输入区设置最小高度实现
-  minHeight: theme.spacing(20),
-  [theme.breakpoints.up('md')]: {
-    minHeight: theme.spacing(28),
-  },
+  marginTop: theme.spacing(12),
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 const ActionsRow = styled('div')(({ theme }) => ({
@@ -65,7 +61,7 @@ const ActionsRow = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(2),
-  minHeight: 44, // 与按钮高度一致，进一步稳定行高
+  minHeight: 44,
 }));
 
 export function PageContainer({
