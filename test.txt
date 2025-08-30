@@ -32,3 +32,12 @@ $IMAGE = "$ECR_REGISTRY/$ECR_REPOSITORY"
 $PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
 
 ssh -i $KEY -o StrictHostKeyChecking=no $EC2_HOST "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY && docker pull ${IMAGE}:$PROD_TAG && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:$PROD_TAG && docker image prune -f"
+
+//为Melissa添加key
+sudo mkdir -p /home/jenkins/.ssh
+sudo chmod 700 /home/jenkins/.ssh
+sudo chown -R jenkins:jenkins /home/jenkins/.ssh
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrGkRI66Qc5H5flAEcRQkvgtCuaHRFONX1NXubM1gymEgjzQloGDkTbMfn2hC6yTvRQLSFOzTjv0sLGe9QDGawb2VkonIQG46d9g4GbjRb4zN1rA+Tl+pcxTKi1A8Ora+eGVubwsCNfiYTcNUHu2sspsSotCST1dMJLdDvL7ffF5L2Ts967DoVfQWtVF5URO96pkpk0f9Mz0m+vTWKOie6dpOY3LGkOs84+cJXSaLEBb39ZCXkAPFIxWV2w1Gb2njB8KHWvIsEUxEqK2Rxvl9d+1BETz8ckIlx5c8PfSErGH4waJo3BZbQpbA7K63zbSKPD0lDnPPUVPckjOH6xIbOw4Fe6itZdpP/ZQ2VR0nr2MFOXgCKtBM1m2109aMRhEoRhlL/og9FDRXm7fTnkJCDxBluSAvw5d7xCAVlAy9t2sAbAqjbhKjD3Ro599c/IW85XRt0rsC3qc+qIL/JgHKGAx2I5FyIX6ATvmx0iwDCWuETXMvc0WAJo5CwaVPj/GRcISz76JlPwG+d9M6oBtABmVc9+2H6UuZ4SE7G8qcARhdE7kNYKxOf3yt1mNc9mVdXX7MxBxWTC6+oWevXL5OaqxZPxArppqbzsX0ax9y0JDqt5KNPLM0O7rauWnEYChda4lch8UXxLSHB89mztTTo5VGuQJUiaWGEV1HIkmiqGw== jenkins@jenkins-frontend" | sudo tee -a /home/jenkins/.ssh/authorized_keys
+sudo chmod 600 /home/jenkins/.ssh/authorized_keys
+sudo chown jenkins:jenkins /home/jenkins/.ssh/authorized_keys
