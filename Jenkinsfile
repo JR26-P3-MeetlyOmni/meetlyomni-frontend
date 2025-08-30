@@ -64,21 +64,25 @@ pipeline {
     // }  #1234567890
     
     stage('CI - Install Dependencies') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps { sh 'npm ci' }
     }
 
     stage('CI - Run Tests') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps { sh 'npm -v' }
     }
 
     stage('CI - Build Project') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps { sh 'npm run build' }
     }
 
     stage('Docker Build') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps {
         sh "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
@@ -86,6 +90,7 @@ pipeline {
     }
 
     stage('Login ECR') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps {
         script {
@@ -106,11 +111,13 @@ pipeline {
     }
 
     stage('Push Image to ECR') {
+      //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps { sh "docker push ${IMAGE}:${DEV_TAG}" }
     }
 
     stage('Deploy to EC2 (docker run)') {
+      //agent { label 'deploy-agent' }
       when {
         allOf { branch 'dev-biaojin'; not { changeRequest() } } // 只在分支直推时部署
       }
