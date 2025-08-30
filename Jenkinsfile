@@ -9,7 +9,7 @@ pipeline {
         ECR_REGISTRY = '381492242095.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
         NEXT_PUBLIC_API_BASE_URL = 'https://api-dev.meetlyomni.com'
-        NODE_ENV = 'development'
+        NODE_ENV = 'production'
     }
 
     stages {
