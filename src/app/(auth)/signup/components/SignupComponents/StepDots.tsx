@@ -22,22 +22,22 @@ const DotsWrap = styled('div')(({ theme }) => ({
   zIndex: 10,
 }));
 
-const Dot = styled('button')<{ $active: boolean; $disabled: boolean }>(
-  ({ theme, $active, $disabled }) => ({
-    width: theme.spacing(1.5),
-    height: theme.spacing(1.5),
-    borderRadius: '50%',
-    border: 'none',
-    padding: 0,
-    cursor: $disabled ? 'not-allowed' : 'pointer',
-    backgroundColor: $active ? '#1976d2' : theme.palette.grey[300],
-    opacity: $disabled && !$active ? 0.6 : 1,
-    transition: 'transform 150ms ease, background-color 150ms ease',
-    '&:hover': {
-      transform: $disabled ? 'none' : 'scale(1.15)',
-    },
-  }),
-);
+const Dot = styled('button', {
+  shouldForwardProp: prop => prop !== '$active' && prop !== '$disabled',
+})<{ $active: boolean; $disabled: boolean }>(({ theme, $active, $disabled }) => ({
+  width: theme.spacing(1.5),
+  height: theme.spacing(1.5),
+  borderRadius: '50%',
+  border: 'none',
+  padding: 0,
+  cursor: $disabled ? 'not-allowed' : 'pointer',
+  backgroundColor: $active ? '#1976d2' : theme.palette.grey[300],
+  opacity: $disabled && !$active ? 0.6 : 1,
+  transition: 'transform 150ms ease, background-color 150ms ease',
+  '&:hover': {
+    transform: $disabled ? 'none' : 'scale(1.15)',
+  },
+}));
 
 export default function StepDots<T extends string>({
   steps,

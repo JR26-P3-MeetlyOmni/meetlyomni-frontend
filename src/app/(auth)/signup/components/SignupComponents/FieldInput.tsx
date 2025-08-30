@@ -290,13 +290,19 @@ function useValidationState(
   const [focused, setFocused] = React.useState(false);
   const [touched, setTouched] = React.useState(false);
   const [hasStartedTyping, setHasStartedTyping] = React.useState(!!v);
+  const onValidChangeRef = React.useRef(onValidChange);
+
+  // Update ref when onValidChange changes
+  React.useEffect(() => {
+    onValidChangeRef.current = onValidChange;
+  }, [onValidChange]);
 
   const errors = React.useMemo(() => validate(kind, v, required), [kind, v, required]);
   const valid = errors.length === 0 && (!!v || !required);
 
   React.useEffect(() => {
-    onValidChange?.(valid);
-  }, [valid, onValidChange]);
+    onValidChangeRef.current?.(valid);
+  }, [valid]);
 
   const barColor = getBarColor(touched, valid, focused, !!v);
 
