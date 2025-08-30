@@ -11,7 +11,7 @@ type PageTitleProps = {
   align?: TypographyProps['align'];
   mb?: number;
   variant?: 'default' | 'blue-banner' | 'partial-blue';
-  blueText?: string; // 要显示为蓝色的文本部分
+  blueText?: string;
 };
 
 const Root = styled('div', {
@@ -24,7 +24,7 @@ const Root = styled('div', {
   marginBottom: theme.spacing(mb),
   textAlign: align,
   ...(variant === 'blue-banner' && {
-    backgroundColor: '#1976d2', // MUI 默认蓝色
+    backgroundColor: '#1976d2',
     color: 'white',
     padding: theme.spacing(2, 3),
     borderRadius: theme.spacing(1),
@@ -38,10 +38,13 @@ const Root = styled('div', {
 
 const TitleText = styled('h1')(({ theme }) => ({
   ...theme.typography.h3,
-  fontWeight: theme.typography.h6.fontWeight,
+  fontWeight: theme.typography.fontWeightBold,
   margin: 0,
-  color: theme.palette.text.primary,
-  [theme.breakpoints.down('sm')]: { ...theme.typography.h5, fontWeight: 700 },
+  color: 'inherit',
+  [theme.breakpoints.down('sm')]: {
+    ...theme.typography.h5,
+    fontWeight: theme.typography.fontWeightBold,
+  },
 }));
 
 const SubtitleText = styled('p')(({ theme }) => ({
@@ -70,7 +73,7 @@ export function PageTitle({
 }: PageTitleProps) {
   const renderTitle = () => {
     if (variant === 'blue-banner') {
-      return <div style={{ color: 'white', fontWeight: 'bold' }}>{title}</div>;
+      return <TitleText>{title}</TitleText>;
     }
 
     if (variant === 'partial-blue' && blueText && typeof title === 'string') {

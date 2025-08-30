@@ -47,7 +47,13 @@ function useDebouncedSave(setItem: (key: string, value: unknown) => void) {
 
       // Set new timeout for 300ms debounce
       timeoutRef.current = setTimeout(() => {
-        setItem('signupFormData', pendingDataRef.current);
+        // Never persist secrets - strip password fields before saving
+        const {
+          password: _password,
+          passwordValid: _passwordValid,
+          ...safeData
+        } = pendingDataRef.current;
+        setItem('signupFormData', safeData);
         pendingDataRef.current = {}; // Clear pending data after saving
       }, 300);
     },
