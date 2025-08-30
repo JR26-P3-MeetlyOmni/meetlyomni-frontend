@@ -69,7 +69,15 @@ function useDebouncedSave(setItem: (key: string, value: unknown) => void) {
     };
   }, []);
 
-  return debouncedSave;
+  const cancelPendingSave = React.useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = undefined;
+    }
+    pendingDataRef.current = {};
+  }, []);
+
+  return { debouncedSave, cancelPendingSave };
 }
 
 // Custom hook for form handlers
@@ -133,6 +141,7 @@ function useSubmitHandler(
   setError: (error: string | null) => void,
   setSuccess: (success: boolean) => void,
   removeItem: (key: string) => void,
+  cancelPendingSave: () => void,
 ) {
   const handleSubmit = React.useCallback(async () => {
     if (
@@ -161,6 +170,7 @@ function useSubmitHandler(
       const result = await signup(signupData);
 
       if (result.success) {
+        cancelPendingSave();
         setSuccess(true);
         removeItem('signupFormData');
         removeItem('signupCurrentStep');
@@ -173,7 +183,7 @@ function useSubmitHandler(
     } finally {
       setIsLoading(false);
     }
-  }, [formState, setIsLoading, setError, setSuccess, removeItem]);
+  }, [formState, setIsLoading, setError, setSuccess, removeItem, cancelPendingSave]);
 
   return { handleSubmit };
 }
@@ -188,7 +198,7 @@ export function useFormData() {
   const [success, setSuccess] = React.useState(false);
 
   // Use debounced save to reduce localStorage writes
-  const debouncedSave = useDebouncedSave(setItem);
+  const { debouncedSave, cancelPendingSave } = useDebouncedSave(setItem);
 
   // Load data from localStorage after component mounts
   React.useEffect(() => {
@@ -212,15 +222,17 @@ export function useFormData() {
     setError,
     setSuccess,
     removeItem,
+    cancelPendingSave,
   );
 
   const clearFormData = React.useCallback(() => {
+    cancelPendingSave();
     setFormState(getInitialFormState());
     setError(null);
     setSuccess(false);
     removeItem('signupFormData');
     removeItem('signupCurrentStep');
-  }, [removeItem]);
+  }, [removeItem, cancelPendingSave]);
 
   return {
     ...formState,
