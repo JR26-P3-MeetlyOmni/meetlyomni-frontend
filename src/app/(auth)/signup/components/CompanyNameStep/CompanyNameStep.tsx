@@ -8,6 +8,7 @@ import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import NextButton from '../SignupComponents/NextButton';
 import { PageTitle } from '../SignupComponents/PageLabel';
+import type { CompanyNameStepProps } from './type';
 
 const CenterContainer = styled('div')(({ theme }) => ({
   height: '90vh',
@@ -35,13 +36,6 @@ const InputPositioner = styled('div')(({ theme }) => ({
     width: '100%',
   },
 }));
-
-interface CompanyNameStepProps {
-  onBack?: () => void;
-  onCompanyNameChange?: (companyName: string, isValid: boolean) => void;
-  onNext?: () => void;
-  companyName?: string;
-}
 
 export function CompanyNameStep({
   onCompanyNameChange,

@@ -5,13 +5,7 @@ import React from 'react';
 import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
-
-interface PasswordStepProps {
-  onBack: () => void;
-  onPasswordChange?: (password: string, isValid: boolean) => void;
-  onNext: () => void;
-  password?: string;
-}
+import type { PasswordStepProps } from './type';
 
 export function PasswordStep({
   onBack,
@@ -25,7 +19,7 @@ export function PasswordStep({
   );
 
   const handleNext = React.useCallback(() => {
-    if (isValid) onNext();
+    if (isValid && onNext) onNext();
   }, [isValid, onNext]);
 
   return (
