@@ -45,7 +45,6 @@ pipeline {
         }
 
         stage('Deploy to EC2') {
-            agent { label 'deploy-agent' }
             steps {
             sshagent(['ec2-dev-key']) {
                 sh """
