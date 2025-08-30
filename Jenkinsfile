@@ -7,7 +7,8 @@ pipeline {
     ECR_REPOSITORY = 'meetlyomni/frontend'
     ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
     IMAGE = "${ECR_REGISTRY}/${ECR_REPOSITORY}"
-    DEV_TAG = 'meetlyomni-frontend-dev.1.1.2'
+    DEV_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"  //采用scarlett的方法
+    //DEV_TAG = 'meetlyomni-frontend-dev.1.1.2'
 
     EC2_HOST = 'ubuntu@44.224.30.221'
     EC2_DEPLOY_DIR = '/opt/meetly-frontend'
