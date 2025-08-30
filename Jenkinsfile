@@ -14,12 +14,14 @@ pipeline {
 
     stages {
         stage('Checkout') {
+            agent { label 'jenkins-agent' }
             steps {
                 checkout scm
             }
         }
 
         stage('Build Docker Image') {
+            agent { label 'jenkins-agent' }
             steps {
                 sh """
                 docker build \
@@ -31,6 +33,7 @@ pipeline {
         }
 
         stage('Push to ECR') {
+            agent { label 'jenkins-agent' }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     sh '''
@@ -43,6 +46,7 @@ pipeline {
         }
 
         stage('Deploy to EC2') {
+            agent { label 'jenkins-agent' }
             steps {
                 sh """
                 ssh -i ${EC2_KEY_PATH} ${EC2_HOST} '
