@@ -4,6 +4,7 @@ pipeline {
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials'
         IMAGE_NAME = 'meetly-omni-frontend'
+        // TODO
         EC2_HOST = 'ec2-user@3.25.55.127'
         ECR_REGISTRY = '381492242095.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
