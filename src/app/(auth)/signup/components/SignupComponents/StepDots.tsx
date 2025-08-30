@@ -75,8 +75,10 @@ export default function StepDots<T extends string>({
             $active={isActive}
             $disabled={!allowed}
             onClick={stepHandlers[step]}
+            type="button"
+            disabled={!allowed}
             aria-label={`Go to ${step} step`}
-            aria-disabled={!allowed}
+            aria-current={isActive ? 'step' : undefined}
           />
         );
       })}

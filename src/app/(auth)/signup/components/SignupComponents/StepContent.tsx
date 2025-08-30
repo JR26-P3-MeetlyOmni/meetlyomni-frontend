@@ -3,10 +3,10 @@
 import React from 'react';
 
 import { type Step } from '../../hooks/useStepManager';
-import CompanyNameStep from '../CompanyNameStep/CompanyNameStep';
+import { CompanyNameStep } from '../CompanyNameStep/CompanyNameStep';
 import ContactInfoStep from '../ContactInfoStep/ContactInfoStep';
 import EmailStep from '../EmailStep/EmailStep';
-import PasswordStep from '../PasswordStep/PasswordStep';
+import { PasswordStep } from '../PasswordStep/PasswordStep';
 
 interface StepContentProps {
   step: Step;

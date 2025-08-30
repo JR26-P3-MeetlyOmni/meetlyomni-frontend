@@ -1,46 +1,74 @@
-// API base URL - update this with your actual API URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7011';
+import type { ApiError, SignupRequest, SignupResponse } from './types';
 
-// Types for the signup request and response
-export interface SignupRequest {
-  userName: string;
-  email: string;
-  password: string;
-  organizationName: string;
-  phoneNumber: string;
-}
-
-export interface SignupResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    userId: string;
-    companyId: string;
-  };
-}
-
-export interface ApiError {
-  success: false;
-  message: string;
-  error?: string;
-}
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  (process.env.NODE_ENV !== 'production'
+    ? 'https://localhost:7011'
+    : (() => {
+        throw new Error('NEXT_PUBLIC_API_BASE_URL must be defined in production');
+      })());
 
 /**
  * Signup API function
  * @param signupData - The signup form data
  * @returns Promise with signup response or error
  */
+function createTimeoutController(): { controller: AbortController; timeout: NodeJS.Timeout } {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+  return { controller, timeout };
+}
+
+function parseResponseData(text: string): {
+  message?: string;
+  error?: string;
+  data?: { userId: string; companyId: string };
+} {
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return {};
+  }
+}
+
+function handleApiError(error: unknown): ApiError {
+  const isAbort =
+    typeof error === 'object' &&
+    error !== null &&
+    (error as Error & { name?: string }).name === 'AbortError';
+  return {
+    success: false,
+    message: isAbort
+      ? 'Request timed out. Please try again.'
+      : 'Network error occurred. Please try again.',
+    error: error instanceof Error ? error.message : 'Unknown error',
+  };
+}
+
 export async function signup(signupData: SignupRequest): Promise<SignupResponse | ApiError> {
   try {
+    if (!API_BASE_URL) {
+      return {
+        success: false,
+        message: 'Signup is temporarily unavailable due to configuration. Please try again later.',
+        error: 'Missing NEXT_PUBLIC_API_BASE_URL',
+      };
+    }
+
+    const { controller, timeout } = createTimeoutController();
     const response = await fetch(`${API_BASE_URL}/v1/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(signupData),
+      // credentials: 'include', // uncomment if server uses cookies
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
-    const data = await response.json();
+    const text = await response.text();
+    const data = parseResponseData(text);
 
     if (!response.ok) {
       return {
@@ -56,10 +84,6 @@ export async function signup(signupData: SignupRequest): Promise<SignupResponse 
       data: data.data,
     };
   } catch (error) {
-    return {
-      success: false,
-      message: 'Network error occurred. Please try again.',
-      error: error instanceof Error ? error.message : 'Unknown error',
-    };
+    return handleApiError(error);
   }
 }

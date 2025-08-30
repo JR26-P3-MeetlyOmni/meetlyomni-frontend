@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { signup, SignupRequest } from '../../../../features/auth/authApi';
+import { signup, type SignupRequest } from '../../../../features/auth';
 import { useClient } from './useClient';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -165,7 +165,7 @@ function useSubmitHandler(
 
 export function useFormData() {
   const isClient = useClient();
-  const { setItem, removeItem, cleanupOldData } = useLocalStorage();
+  const { getItem, setItem, removeItem, cleanupOldData } = useLocalStorage();
 
   const [formState, setFormState] = React.useState<FormState>(getInitialFormState());
   const [isLoading, setIsLoading] = React.useState(false);
@@ -180,10 +180,17 @@ export function useFormData() {
     if (!isClient) return;
 
     cleanupOldData();
-    removeItem('signupFormData');
-    removeItem('signupCurrentStep');
-    setFormState(getInitialFormState());
-  }, [isClient, cleanupOldData, removeItem]);
+    try {
+      const saved = (getItem('signupFormData') as Partial<FormState> | null) ?? null;
+      if (saved && typeof saved === 'object') {
+        setFormState(prev => ({ ...prev, ...saved }));
+      }
+      // Do NOT clear 'signupCurrentStep' here; let the step manager restore it.
+    } catch {
+      // If parsing fails or storage unavailable, reset to initial.
+      setFormState(getInitialFormState());
+    }
+  }, [isClient, cleanupOldData, getItem]);
 
   const { handleCompany, handleEmail, handlePassword, handleContact } = useFormHandlers(
     setFormState,

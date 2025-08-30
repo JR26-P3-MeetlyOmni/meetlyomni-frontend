@@ -40,10 +40,10 @@ const InputPositioner = styled('div')(({ theme }) => ({
 export function CompanyNameStep({
   onCompanyNameChange,
   onNext,
-  companyName: companyNameProp = '',
+  companyName: companyNameProp,
 }: CompanyNameStepProps) {
   const { isValid, handleValueChange, handleValidationChange } = useStepField(
-    companyNameProp,
+    companyNameProp ?? '',
     onCompanyNameChange,
   );
 

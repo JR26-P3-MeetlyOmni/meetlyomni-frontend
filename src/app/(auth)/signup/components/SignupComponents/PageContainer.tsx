@@ -4,9 +4,8 @@ import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import BackButton from './BackButton';
-// import { ValidatedInput } from './FieldInput';
-import NextButton from './NextButton';
+import { BackButton } from './BackButton';
+import { NextButton } from './NextButton';
 import { PageTitle } from './PageLabel';
 import { SmileyCard } from './SmileyCard';
 

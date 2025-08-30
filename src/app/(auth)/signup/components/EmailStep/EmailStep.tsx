@@ -11,10 +11,10 @@ export default function EmailStep({
   onBack,
   onNext,
   onEmailChange,
-  email: emailProp = '',
+  email: emailProp,
 }: EmailStepProps) {
   const { isValid, handleValueChange, handleValidationChange } = useStepField(
-    emailProp,
+    emailProp ?? '',
     onEmailChange,
   );
 
