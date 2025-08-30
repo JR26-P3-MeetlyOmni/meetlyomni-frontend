@@ -5,13 +5,7 @@ import React from 'react';
 import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
-
-interface EmailStepProps {
-  onBack: () => void;
-  onNext: () => void;
-  onEmailChange?: (email: string, isValid: boolean) => void;
-  email?: string;
-}
+import type { EmailStepProps } from './type';
 
 export default function EmailStep({
   onBack,
@@ -25,7 +19,7 @@ export default function EmailStep({
   );
 
   const handleNext = React.useCallback(() => {
-    if (isValid) onNext();
+    if (isValid && onNext) onNext();
   }, [isValid, onNext]);
 
   return (
