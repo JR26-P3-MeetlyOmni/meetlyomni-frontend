@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { UserInfo } from '../type';
 import { DropdownIcon, UserAvatar, UserMenuWrapper, UserName } from './UserMenu.styles';
 

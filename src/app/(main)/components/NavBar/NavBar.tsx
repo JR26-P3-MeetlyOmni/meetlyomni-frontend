@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Logo from '@assets/images/navbar/nav_bar_logo.png';
@@ -19,6 +20,7 @@ import {
 import { NavLinkItem, UserInfo } from './type';
 
 const NavBar: React.FC = () => {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -42,6 +44,10 @@ const NavBar: React.FC = () => {
     setUser({ username: 'Alex Li', avatar: DefaultAvatar });
   }, []);
 
+  const handleGetStartedClick = useCallback(() => {
+    router.push('/signup');
+  }, [router]);
+
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>
       <LogoWrapper>
@@ -62,7 +68,9 @@ const NavBar: React.FC = () => {
             <CTAButton variant="outlined" onClick={handleSignInClick}>
               Sign In
             </CTAButton>
-            <CTAButton variant="contained">Get Started</CTAButton>
+            <CTAButton variant="contained" onClick={handleGetStartedClick}>
+              Get Started
+            </CTAButton>
           </>
         ) : (
           <>

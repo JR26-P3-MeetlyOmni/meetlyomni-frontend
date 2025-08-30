@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
 
@@ -18,23 +19,9 @@ export default function EmailStep({
   onEmailChange,
   email: emailProp = '',
 }: EmailStepProps) {
-  const [isValid, setIsValid] = React.useState(false);
-  const latestValueRef = React.useRef<string>(emailProp);
-
-  const handleEmailChange = React.useCallback(
-    (value: string) => {
-      latestValueRef.current = value;
-      onEmailChange?.(value, isValid);
-    },
-    [isValid, onEmailChange],
-  );
-
-  const handleValidationChange = React.useCallback(
-    (valid: boolean) => {
-      setIsValid(valid);
-      onEmailChange?.(latestValueRef.current, valid);
-    },
-    [onEmailChange],
+  const { isValid, handleValueChange, handleValidationChange } = useStepField(
+    emailProp,
+    onEmailChange,
   );
 
   const handleNext = React.useCallback(() => {
@@ -54,7 +41,7 @@ export default function EmailStep({
         label="Email:"
         placeholder="123456@gmail.com"
         value={emailProp}
-        onChange={handleEmailChange}
+        onChange={handleValueChange}
         onValidChange={handleValidationChange}
         required
       />
