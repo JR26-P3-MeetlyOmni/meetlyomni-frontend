@@ -1,72 +1,221 @@
 import React from 'react';
 
+import { signup, SignupRequest } from '../../../../features/auth/authApi';
+import { useClient } from './useClient';
+import { useLocalStorage } from './useLocalStorage';
+
+// Form state interface
+interface FormState {
+  companyName: string;
+  companyValid: boolean;
+  email: string;
+  emailValid: boolean;
+  password: string;
+  passwordValid: boolean;
+  contactName: string;
+  phone: string;
+  contactValid: boolean;
+}
+
+// Initialize form state
+const getInitialFormState = (): FormState => ({
+  companyName: '',
+  companyValid: false,
+  email: '',
+  emailValid: false,
+  password: '',
+  passwordValid: false,
+  contactName: '',
+  phone: '',
+  contactValid: false,
+});
+
+// Custom hook for debounced localStorage saving
+function useDebouncedSave(setItem: (key: string, value: unknown) => void) {
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const pendingDataRef = React.useRef<Partial<FormState>>({});
+
+  const debouncedSave = React.useCallback(
+    (updates: Partial<FormState>) => {
+      // Merge with pending data
+      pendingDataRef.current = { ...pendingDataRef.current, ...updates };
+
+      // Clear existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Set new timeout for 300ms debounce
+      timeoutRef.current = setTimeout(() => {
+        setItem('signupFormData', pendingDataRef.current);
+        pendingDataRef.current = {}; // Clear pending data after saving
+      }, 300);
+    },
+    [setItem],
+  );
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return debouncedSave;
+}
+
+// Custom hook for form handlers
+function useFormHandlers(
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>,
+  debouncedSave: (updates: Partial<FormState>) => void,
+) {
+  const handleCompany = React.useCallback(
+    (name: string, isValid: boolean) => {
+      setFormState(prev => ({ ...prev, companyName: name, companyValid: isValid }));
+      debouncedSave({ companyName: name, companyValid: isValid });
+    },
+    [setFormState, debouncedSave],
+  );
+
+  const handleEmail = React.useCallback(
+    (val: string, isValid: boolean) => {
+      setFormState(prev => ({ ...prev, email: val, emailValid: isValid }));
+      debouncedSave({ email: val, emailValid: isValid });
+    },
+    [setFormState, debouncedSave],
+  );
+
+  const handlePassword = React.useCallback(
+    (val: string, isValid: boolean) => {
+      setFormState(prev => ({ ...prev, password: val, passwordValid: isValid }));
+      debouncedSave({ password: val, passwordValid: isValid });
+    },
+    [setFormState, debouncedSave],
+  );
+
+  const handleContact = React.useCallback(
+    (name: string, phoneNum: string, isValid: boolean) => {
+      setFormState(prev => ({
+        ...prev,
+        contactName: name,
+        phone: phoneNum,
+        contactValid: isValid,
+      }));
+      debouncedSave({ contactName: name, phone: phoneNum, contactValid: isValid });
+    },
+    [setFormState, debouncedSave],
+  );
+
+  return { handleCompany, handleEmail, handlePassword, handleContact };
+}
+
+// Custom hook for submit functionality
+function useSubmitHandler(
+  formState: FormState,
+  setIsLoading: (loading: boolean) => void,
+  setError: (error: string | null) => void,
+  setSuccess: (success: boolean) => void,
+  removeItem: (key: string) => void,
+) {
+  const handleSubmit = React.useCallback(async () => {
+    if (
+      !(
+        formState.companyValid &&
+        formState.emailValid &&
+        formState.passwordValid &&
+        formState.contactValid
+      )
+    )
+      return;
+
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const signupData: SignupRequest = {
+        userName: formState.contactName,
+        email: formState.email,
+        password: formState.password,
+        organizationName: formState.companyName,
+        phoneNumber: formState.phone,
+      };
+
+      const result = await signup(signupData);
+
+      if (result.success) {
+        setSuccess(true);
+        removeItem('signupFormData');
+        removeItem('signupCurrentStep');
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [formState, setIsLoading, setError, setSuccess, removeItem]);
+
+  return { handleSubmit };
+}
+
 export function useFormData() {
-  const [companyName, setCompanyName] = React.useState('');
-  const [companyValid, setCompanyValid] = React.useState(false);
+  const isClient = useClient();
+  const { setItem, removeItem, cleanupOldData } = useLocalStorage();
 
-  const [email, setEmail] = React.useState('');
-  const [emailValid, setEmailValid] = React.useState(false);
+  const [formState, setFormState] = React.useState<FormState>(getInitialFormState());
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [success, setSuccess] = React.useState(false);
 
-  const [password, setPassword] = React.useState('');
-  const [passwordValid, setPasswordValid] = React.useState(false);
+  // Use debounced save to reduce localStorage writes
+  const debouncedSave = useDebouncedSave(setItem);
 
-  const [contactName, setContactName] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [contactValid, setContactValid] = React.useState(false);
+  // Load data from localStorage after component mounts
+  React.useEffect(() => {
+    if (!isClient) return;
 
-  const handleCompany = React.useCallback((name: string, isValid: boolean) => {
-    setCompanyName(name);
-    setCompanyValid(isValid);
-  }, []);
+    cleanupOldData();
+    removeItem('signupFormData');
+    removeItem('signupCurrentStep');
+    setFormState(getInitialFormState());
+  }, [isClient, cleanupOldData, removeItem]);
 
-  const handleEmail = React.useCallback((val: string, isValid: boolean) => {
-    setEmail(val);
-    setEmailValid(isValid);
-  }, []);
+  const { handleCompany, handleEmail, handlePassword, handleContact } = useFormHandlers(
+    setFormState,
+    debouncedSave,
+  );
 
-  const handlePassword = React.useCallback((val: string, isValid: boolean) => {
-    setPassword(val);
-    setPasswordValid(isValid);
-  }, []);
+  const { handleSubmit } = useSubmitHandler(
+    formState,
+    setIsLoading,
+    setError,
+    setSuccess,
+    removeItem,
+  );
 
-  const handleContact = React.useCallback((name: string, phoneNum: string, isValid: boolean) => {
-    setContactName(name);
-    setPhone(phoneNum);
-    setContactValid(isValid);
-  }, []);
-
-  const handleSubmit = React.useCallback(() => {
-    if (!(companyValid && emailValid && passwordValid && contactValid)) return;
-    // TODO: Replace with real signup API call
-    // For now, just log the collected data
-    // eslint-disable-next-line no-console
-    console.log({ companyName, email, password, contactName, phone });
-  }, [
-    companyValid,
-    emailValid,
-    passwordValid,
-    contactValid,
-    companyName,
-    email,
-    password,
-    contactName,
-    phone,
-  ]);
+  const clearFormData = React.useCallback(() => {
+    setFormState(getInitialFormState());
+    setError(null);
+    setSuccess(false);
+    removeItem('signupFormData');
+    removeItem('signupCurrentStep');
+  }, [removeItem]);
 
   return {
-    companyName,
-    companyValid,
-    email,
-    emailValid,
-    password,
-    passwordValid,
-    contactName,
-    phone,
-    contactValid,
+    ...formState,
+    isLoading,
+    error,
+    success,
     handleCompany,
     handleEmail,
     handlePassword,
     handleContact,
     handleSubmit,
+    clearFormData,
   };
 }

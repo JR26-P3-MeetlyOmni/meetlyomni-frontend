@@ -80,18 +80,28 @@ export function PageContainer({
     if (!nextDisabled) onNext?.();
   }, [onNext, nextDisabled]);
 
+  const handleFormSubmit = React.useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!nextDisabled) onNext?.();
+    },
+    [onNext, nextDisabled],
+  );
+
   return (
     <Root>
       <Grid>
         <LeftStack>
           <PageTitle title={title} subtitle={subtitle} />
 
-          <InputsStack>{children}</InputsStack>
+          <form onSubmit={handleFormSubmit}>
+            <InputsStack>{children}</InputsStack>
 
-          <ActionsRow>
-            <BackButton onClick={handleBack} />
-            <NextButton onClick={handleNext} disabled={nextDisabled} />
-          </ActionsRow>
+            <ActionsRow>
+              <BackButton onClick={handleBack} />
+              <NextButton onClick={handleNext} disabled={nextDisabled} />
+            </ActionsRow>
+          </form>
         </LeftStack>
         <SmileyCard />
       </Grid>

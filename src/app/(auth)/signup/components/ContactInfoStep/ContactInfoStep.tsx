@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useContactFields } from '../../hooks/useContactFields';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
 
@@ -13,54 +14,7 @@ interface ContactInfoStepProps {
   phone?: string;
 }
 
-function useContactInfo(onChange?: (name: string, phone: string, valid: boolean) => void) {
-  const latestNameRef = React.useRef<string>('');
-  const latestPhoneRef = React.useRef<string>('');
-  const [nameValid, setNameValid] = React.useState(false);
-  const [phoneValid, setPhoneValid] = React.useState(false);
-
-  const isFormValid = nameValid && phoneValid;
-
-  const handleName = React.useCallback(
-    (v: string) => {
-      latestNameRef.current = v;
-      onChange?.(v, latestPhoneRef.current, nameValid && phoneValid);
-    },
-    [onChange, nameValid, phoneValid],
-  );
-
-  const handleNameValid = React.useCallback(
-    (ok: boolean) => {
-      setNameValid(ok);
-      onChange?.(latestNameRef.current, latestPhoneRef.current, ok && phoneValid);
-    },
-    [onChange, phoneValid],
-  );
-
-  const handlePhone = React.useCallback(
-    (v: string) => {
-      latestPhoneRef.current = v;
-      onChange?.(latestNameRef.current, v, nameValid && phoneValid);
-    },
-    [onChange, nameValid, phoneValid],
-  );
-
-  const handlePhoneValid = React.useCallback(
-    (ok: boolean) => {
-      setPhoneValid(ok);
-      onChange?.(latestNameRef.current, latestPhoneRef.current, nameValid && ok);
-    },
-    [onChange, nameValid],
-  );
-
-  return {
-    isFormValid,
-    handleName,
-    handleNameValid,
-    handlePhone,
-    handlePhoneValid,
-  } as const;
-}
+// Removed the old useContactInfo function - now using useContactFields hook
 
 export default function ContactInfoStep({
   onBack,
@@ -69,8 +23,13 @@ export default function ContactInfoStep({
   contactName: contactNameProp = '',
   phone: phoneProp = '',
 }: ContactInfoStepProps) {
-  const { isFormValid, handleName, handleNameValid, handlePhone, handlePhoneValid } =
-    useContactInfo(onChange);
+  const {
+    isFormValid,
+    handleNameChange,
+    handleNameValidationChange,
+    handlePhoneChange,
+    handlePhoneValidationChange,
+  } = useContactFields(contactNameProp, phoneProp, onChange);
 
   const handleNext = React.useCallback(() => {
     if (isFormValid) onNext();
@@ -88,8 +47,8 @@ export default function ContactInfoStep({
         label="Contact name:"
         placeholder="Alex Li"
         value={contactNameProp}
-        onChange={handleName}
-        onValidChange={handleNameValid}
+        onChange={handleNameChange}
+        onValidChange={handleNameValidationChange}
         required
       />
       <ValidatedInput
@@ -97,8 +56,8 @@ export default function ContactInfoStep({
         label="Contact phone number:"
         placeholder="0XXXXXXXXX"
         value={phoneProp}
-        onChange={handlePhone}
-        onValidChange={handlePhoneValid}
+        onChange={handlePhoneChange}
+        onValidChange={handlePhoneValidationChange}
         required
       />
     </PageContainer>

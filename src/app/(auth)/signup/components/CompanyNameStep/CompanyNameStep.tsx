@@ -4,6 +4,7 @@ import React from 'react';
 
 import { styled } from '@mui/material/styles';
 
+import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import NextButton from '../SignupComponents/NextButton';
 import { PageTitle } from '../SignupComponents/PageLabel';
@@ -47,23 +48,9 @@ export function CompanyNameStep({
   onNext,
   companyName: companyNameProp = '',
 }: CompanyNameStepProps) {
-  const [isValid, setIsValid] = React.useState(false);
-  const latestValueRef = React.useRef<string>(companyNameProp);
-
-  const handleCompanyNameChange = React.useCallback(
-    (value: string) => {
-      latestValueRef.current = value;
-      onCompanyNameChange?.(value, isValid);
-    },
-    [isValid, onCompanyNameChange],
-  );
-
-  const handleValidationChange = React.useCallback(
-    (valid: boolean) => {
-      setIsValid(valid);
-      onCompanyNameChange?.(latestValueRef.current, valid);
-    },
-    [onCompanyNameChange],
+  const { isValid, handleValueChange, handleValidationChange } = useStepField(
+    companyNameProp,
+    onCompanyNameChange,
   );
 
   const handleNext = React.useCallback(() => {
@@ -81,7 +68,7 @@ export function CompanyNameStep({
           label="Company Name:"
           placeholder="Google"
           value={companyNameProp}
-          onChange={handleCompanyNameChange}
+          onChange={handleValueChange}
           onValidChange={handleValidationChange}
           required
         />

@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useStepField } from '../../hooks/useStepField';
 import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
 
@@ -18,23 +19,9 @@ export function PasswordStep({
   onNext,
   password: passwordProp = '',
 }: PasswordStepProps) {
-  const [isValid, setIsValid] = React.useState(false);
-  const latestValueRef = React.useRef<string>(passwordProp);
-
-  const handlePasswordChange = React.useCallback(
-    (value: string) => {
-      latestValueRef.current = value;
-      onPasswordChange?.(value, isValid);
-    },
-    [isValid, onPasswordChange],
-  );
-
-  const handleValidationChange = React.useCallback(
-    (valid: boolean) => {
-      setIsValid(valid);
-      onPasswordChange?.(latestValueRef.current, valid);
-    },
-    [onPasswordChange],
+  const { isValid, handleValueChange, handleValidationChange } = useStepField(
+    passwordProp,
+    onPasswordChange,
   );
 
   const handleNext = React.useCallback(() => {
@@ -54,7 +41,7 @@ export function PasswordStep({
         label="Password:"
         placeholder="Enter your password"
         value={passwordProp}
-        onChange={handlePasswordChange}
+        onChange={handleValueChange}
         onValidChange={handleValidationChange}
         required
       />

@@ -1,12 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { styled } from '@mui/material/styles';
 
 type TopLeftLogoProps = {
-  imgSrc: string;
-  imgAlt: string;
   onClick?: () => void;
 };
 
@@ -26,16 +25,24 @@ const Logo = styled('img')(({ theme }) => ({
   },
 }));
 
-export function TopLeftLogo({ imgSrc, imgAlt, onClick }: TopLeftLogoProps) {
+export function TopLeftLogo({ onClick }: TopLeftLogoProps) {
+  const router = useRouter();
+
   const handleClick = React.useCallback(() => {
     if (onClick) {
       onClick();
+    } else {
+      router.push('/');
     }
-  }, [onClick]);
+  }, [onClick, router]);
 
   return (
     <Root>
-      <Logo src={imgSrc} alt={imgAlt} onClick={handleClick} />
+      <Logo
+        src="/assets/images/Signup/top-left-logo.png"
+        alt="MeetlyOmni Logo"
+        onClick={handleClick}
+      />
     </Root>
   );
 }
