@@ -19,6 +19,13 @@ pipeline {
             }
         }
 
+        // stage('Run Tests') {
+        //     steps {
+        //         sh 'npm install --include=dev'
+        //         sh 'npx vitest run'
+        //     }
+        // }
+
         stage('Build Docker Image') {
             agent { label 'deploy-agent' } 
             steps {
