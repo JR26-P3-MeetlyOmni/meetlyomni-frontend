@@ -50,14 +50,13 @@ export function NextButton({
   className,
 }: NextButtonProps) {
   const handleClick = React.useCallback(() => {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }, [onClick, disabled]);
+    onClick?.();
+  }, [onClick]);
 
   return (
     <StyledButton
       variant="contained"
+      type="button"
       onClick={handleClick}
       disabled={disabled}
       className={className}

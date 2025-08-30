@@ -7,14 +7,12 @@ import { ValidatedInput } from '../SignupComponents/FieldInput';
 import PageContainer from '../SignupComponents/PageContainer';
 import type { ContactInfoStepProps } from './type';
 
-// Removed the old useContactInfo function - now using useContactFields hook
-
 export default function ContactInfoStep({
   onBack,
   onNext,
   onChange,
-  contactName: contactNameProp = '',
-  phone: phoneProp = '',
+  contactName: contactNameProp,
+  phone: phoneProp,
 }: ContactInfoStepProps) {
   const {
     isFormValid,
@@ -22,7 +20,7 @@ export default function ContactInfoStep({
     handleNameValidationChange,
     handlePhoneChange,
     handlePhoneValidationChange,
-  } = useContactFields(contactNameProp, phoneProp, onChange);
+  } = useContactFields(contactNameProp ?? '', phoneProp ?? '', onChange);
 
   const handleNext = React.useCallback(() => {
     if (isFormValid && onNext) onNext();

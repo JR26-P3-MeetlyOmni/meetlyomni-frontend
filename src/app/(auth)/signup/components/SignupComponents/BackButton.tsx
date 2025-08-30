@@ -62,7 +62,13 @@ export function BackButton({ onClick, disabled = false, className }: BackButtonP
 
   return (
     <BackButtonContainer className={className}>
-      <StyledIconButton onClick={handleClick} disabled={disabled} aria-label="go back" size="small">
+      <StyledIconButton
+        onClick={handleClick}
+        disabled={disabled}
+        aria-label="go back"
+        size="small"
+        type="button"
+      >
         <ArrowBackIcon fontSize="small" />
       </StyledIconButton>
     </BackButtonContainer>

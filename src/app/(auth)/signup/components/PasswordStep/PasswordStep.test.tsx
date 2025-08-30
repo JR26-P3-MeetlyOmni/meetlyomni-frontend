@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { useStepField } from '../../hooks/useStepField';
-import PasswordStep from './PasswordStep';
+import { PasswordStep } from './PasswordStep';
 import type { PasswordStepProps } from './type';
 
 // Mock the useStepField hook
@@ -76,7 +76,7 @@ describe('PasswordStep', () => {
       expect(screen.getByText('Please Set Your Password to Log in')).toBeInTheDocument();
       expect(screen.getByTestId('page-subtitle')).toBeInTheDocument();
       expect(
-        screen.getByText('Your password should no less than 12 characters'),
+        screen.getByText('Your password should be no less than 12 characters'),
       ).toBeInTheDocument();
 
       expect(screen.getByTestId('form-content')).toBeInTheDocument();
@@ -238,7 +238,9 @@ describe('PasswordStep', () => {
         handleValidationChange: vi.fn(),
       });
 
-      render(<PasswordStep {...defaultProps} onNext={undefined} />);
+      // Create a new props object without onNext to test the component's handling
+      const { onNext, ...propsWithoutOnNext } = defaultProps;
+      render(<PasswordStep {...propsWithoutOnNext} onNext={undefined as any} />);
 
       const nextButton = screen.getByTestId('next-button');
       fireEvent.click(nextButton);
@@ -271,7 +273,7 @@ describe('PasswordStep', () => {
 
       expect(screen.getByText('Please Set Your Password to Log in')).toBeInTheDocument();
       expect(
-        screen.getByText('Your password should no less than 12 characters'),
+        screen.getByText('Your password should be no less than 12 characters'),
       ).toBeInTheDocument();
     });
 

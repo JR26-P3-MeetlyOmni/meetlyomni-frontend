@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import PasswordStep from './PasswordStep';
+import { PasswordStep } from './PasswordStep';
 
 const meta: Meta<typeof PasswordStep> = {
   title: 'Auth/Signup/PasswordStep',

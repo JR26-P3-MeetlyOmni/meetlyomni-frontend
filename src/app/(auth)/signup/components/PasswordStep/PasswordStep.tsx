@@ -11,10 +11,10 @@ export function PasswordStep({
   onBack,
   onPasswordChange,
   onNext,
-  password: passwordProp = '',
+  password: passwordProp,
 }: PasswordStepProps) {
   const { isValid, handleValueChange, handleValidationChange } = useStepField(
-    passwordProp,
+    passwordProp ?? '',
     onPasswordChange,
   );
 
@@ -25,7 +25,7 @@ export function PasswordStep({
   return (
     <PageContainer
       title="Please Set Your Password to Log in"
-      subtitle="Your password should no less than 12 characters"
+      subtitle="Your password should be no less than 12 characters"
       onBack={onBack}
       onNext={handleNext}
       nextDisabled={!isValid}

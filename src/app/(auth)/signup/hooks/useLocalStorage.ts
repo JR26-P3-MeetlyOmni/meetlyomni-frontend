@@ -61,16 +61,16 @@ function useCleanup(isClient: boolean) {
     if (!isClient) return;
 
     try {
-      // Check if signupCurrentStep exists as a plain string
-      const stepData = localStorage.getItem('signupCurrentStep');
-      if (
-        stepData &&
-        !stepData.startsWith('"') &&
-        !stepData.startsWith('{') &&
-        !stepData.startsWith('[')
-      ) {
-        // This is old format data, remove it
-        localStorage.removeItem('signupCurrentStep');
+      const raw = localStorage.getItem('signupCurrentStep');
+      if (raw) {
+        const trimmed = raw.trim();
+        try {
+          JSON.parse(trimmed);
+          // valid JSON -> keep
+        } catch {
+          // old/plain format -> remove
+          localStorage.removeItem('signupCurrentStep');
+        }
       }
     } catch {
       // Silently handle cleanup errors
