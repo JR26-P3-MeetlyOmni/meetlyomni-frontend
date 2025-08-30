@@ -55,7 +55,11 @@ export function CompanyNameStep({
 
   return (
     <CenterContainer>
-      <PageTitle title="Welcome to Omni !  Let’s Sign up Your Profile" />
+      <PageTitle
+        title="Welcome to Omni !  Let's Sign up Your Profile"
+        variant="partial-blue"
+        blueText="Welcome to Omni !"
+      />
       <InputPositioner>
         <ValidatedInput
           kind="company"

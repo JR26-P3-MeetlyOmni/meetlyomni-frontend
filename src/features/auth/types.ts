@@ -8,7 +8,7 @@ export interface SignupRequest {
 }
 
 export interface SignupResponse {
-  success: boolean;
+  success: true;
   message: string;
   data?: {
     userId: string;

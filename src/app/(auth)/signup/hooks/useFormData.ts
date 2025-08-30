@@ -73,37 +73,46 @@ function useFormHandlers(
 ) {
   const handleCompany = React.useCallback(
     (name: string, isValid: boolean) => {
-      setFormState(prev => ({ ...prev, companyName: name, companyValid: isValid }));
-      debouncedSave({ companyName: name, companyValid: isValid });
+      setFormState(prev => {
+        const next = { ...prev, companyName: name, companyValid: isValid };
+        debouncedSave(next);
+        return next;
+      });
     },
     [setFormState, debouncedSave],
   );
 
   const handleEmail = React.useCallback(
     (val: string, isValid: boolean) => {
-      setFormState(prev => ({ ...prev, email: val, emailValid: isValid }));
-      debouncedSave({ email: val, emailValid: isValid });
+      setFormState(prev => {
+        const next = { ...prev, email: val, emailValid: isValid };
+        debouncedSave(next);
+        return next;
+      });
     },
     [setFormState, debouncedSave],
   );
 
   const handlePassword = React.useCallback(
     (val: string, isValid: boolean) => {
+      // Do not persist password to storage
       setFormState(prev => ({ ...prev, password: val, passwordValid: isValid }));
-      debouncedSave({ password: val, passwordValid: isValid });
     },
-    [setFormState, debouncedSave],
+    [setFormState],
   );
 
   const handleContact = React.useCallback(
     (name: string, phoneNum: string, isValid: boolean) => {
-      setFormState(prev => ({
-        ...prev,
-        contactName: name,
-        phone: phoneNum,
-        contactValid: isValid,
-      }));
-      debouncedSave({ contactName: name, phone: phoneNum, contactValid: isValid });
+      setFormState(prev => {
+        const next = {
+          ...prev,
+          contactName: name,
+          phone: phoneNum,
+          contactValid: isValid,
+        };
+        debouncedSave(next);
+        return next;
+      });
     },
     [setFormState, debouncedSave],
   );
@@ -165,7 +174,7 @@ function useSubmitHandler(
 
 export function useFormData() {
   const isClient = useClient();
-  const { getItem, setItem, removeItem, cleanupOldData } = useLocalStorage();
+  const { setItem, removeItem, cleanupOldData } = useLocalStorage();
 
   const [formState, setFormState] = React.useState<FormState>(getInitialFormState());
   const [isLoading, setIsLoading] = React.useState(false);
@@ -180,17 +189,11 @@ export function useFormData() {
     if (!isClient) return;
 
     cleanupOldData();
-    try {
-      const saved = (getItem('signupFormData') as Partial<FormState> | null) ?? null;
-      if (saved && typeof saved === 'object') {
-        setFormState(prev => ({ ...prev, ...saved }));
-      }
-      // Do NOT clear 'signupCurrentStep' here; let the step manager restore it.
-    } catch {
-      // If parsing fails or storage unavailable, reset to initial.
-      setFormState(getInitialFormState());
-    }
-  }, [isClient, cleanupOldData, getItem]);
+    // Always clear form data on page refresh to ensure fresh start
+    removeItem('signupFormData');
+    removeItem('signupCurrentStep');
+    setFormState(getInitialFormState());
+  }, [isClient, cleanupOldData, removeItem]);
 
   const { handleCompany, handleEmail, handlePassword, handleContact } = useFormHandlers(
     setFormState,
