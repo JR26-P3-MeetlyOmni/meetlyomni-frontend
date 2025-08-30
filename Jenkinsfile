@@ -116,7 +116,7 @@ pipeline {
       }
       steps {
         script {
-          sshagent(credentials: ['02e89ccd-0b72-47fb-b5d5-893d7c1b67c8']) {
+          sshagent(credentials: ['meetly-dev-ec2']) {
             sh """
               ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
                 set -e
