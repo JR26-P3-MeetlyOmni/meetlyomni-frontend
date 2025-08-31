@@ -36,111 +36,92 @@ const extractUserFromJwt = (accessToken: string): User => {
       email: String(payload.email || ''),
       name: String(payload.name || payload.userName || payload.email || ''),
     };
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to parse JWT payload:', error);
+  } catch {
     throw new Error('Invalid JWT token format');
   }
 };
 
+// Helper function to create user object from data
+const createUserFromData = (data: Record<string, unknown>): User => ({
+  id: String(data.id),
+  email: String(data.email),
+  name: String(data.name || data.email),
+});
+
+// Helper function to validate user data
+const isValidUserData = (data: Record<string, unknown>): boolean => {
+  return !!(data.id && data.email);
+};
+
+// Helper function to try parsing user from nested object
+const tryParseFromNested = (data: Record<string, unknown>, key: string): User | null => {
+  const nested = data[key];
+  if (nested && typeof nested === 'object') {
+    const nestedObj = nested as Record<string, unknown>;
+    if (isValidUserData(nestedObj)) {
+      return createUserFromData(nestedObj);
+    }
+  }
+  return null;
+};
+
 // Helper function to parse user from response data
-// eslint-disable-next-line complexity
 const parseUserFromResponse = (data: Record<string, unknown>): User => {
   // Format 1: { user: User }
-  if (data.user && typeof data.user === 'object') {
-    const userObj = data.user as Record<string, unknown>;
-    if (userObj.id && userObj.email) {
-      return {
-        id: String(userObj.id),
-        email: String(userObj.email),
-        name: String(userObj.name || userObj.email),
-      };
-    }
-  }
+  const userFromUser = tryParseFromNested(data, 'user');
+  if (userFromUser) return userFromUser;
 
   // Format 2: Directly return user object { id, email, name }
-  if (data.id && data.email) {
-    return {
-      id: String(data.id),
-      email: String(data.email),
-      name: String(data.name || data.email),
-    };
+  if (isValidUserData(data)) {
+    return createUserFromData(data);
   }
 
-  // Format 3: { data: User } or other possible formats
-  if (data.data && typeof data.data === 'object') {
-    const dataObj = data.data as Record<string, unknown>;
-    if (dataObj.id && dataObj.email) {
-      return {
-        id: String(dataObj.id),
-        email: String(dataObj.email),
-        name: String(dataObj.name || dataObj.email),
-      };
-    }
-  }
+  // Format 3: { data: User }
+  const userFromData = tryParseFromNested(data, 'data');
+  if (userFromData) return userFromData;
 
-  // Format 4: { result: User } or other possible formats
-  if (data.result && typeof data.result === 'object') {
-    const resultObj = data.result as Record<string, unknown>;
-    if (resultObj.id && resultObj.email) {
-      return {
-        id: String(resultObj.id),
-        email: String(resultObj.email),
-        name: String(resultObj.name || resultObj.email),
-      };
-    }
-  }
+  // Format 4: { result: User }
+  const userFromResult = tryParseFromNested(data, 'result');
+  if (userFromResult) return userFromResult;
 
   // Format 5: Only token response, extract user information from JWT
   if (data.accessToken && typeof data.accessToken === 'string') {
     return extractUserFromJwt(data.accessToken);
   }
 
-  // eslint-disable-next-line no-console
-  console.error('Unexpected response format:', data);
-  // eslint-disable-next-line no-console
-  console.error('Response keys:', Object.keys(data));
   throw new Error(
     `Invalid response format from server. Expected user object or accessToken, got: ${JSON.stringify(data)}`,
   );
 };
 
+// Helper function to safely get string value from object
+const getStringValue = (obj: Record<string, unknown>, key: string): string | undefined => {
+  const value = obj[key];
+  return typeof value === 'string' ? value : undefined;
+};
+
+// Helper function to extract error message from error object
+const extractErrorMessage = (errorObj: Record<string, unknown>): string | undefined => {
+  const msg = getStringValue(errorObj, 'message');
+  const errStr = getStringValue(errorObj, 'error');
+  const detail = getStringValue(errorObj, 'detail');
+  const title = getStringValue(errorObj, 'title');
+
+  return msg ?? detail ?? title ?? errStr;
+};
+
 // Helper function to handle error response
-// eslint-disable-next-line complexity
 const handleErrorResponse = async (response: Response): Promise<never> => {
   let errorMessage: string;
-  let errorData: unknown = null;
 
   try {
-    errorData = await response.json();
-    // eslint-disable-next-line no-console
-    console.log('Error response data:', errorData);
-
-    //Harden JSON error extraction to avoid "[object Object]" messages
+    const errorData = await response.json();
     const errorObj = errorData as Record<string, unknown>;
-    const msg = typeof errorObj?.message === 'string' ? errorObj.message : undefined;
-    const errStr = typeof errorObj?.error === 'string' ? errorObj.error : undefined;
-    const detail = typeof errorObj?.detail === 'string' ? errorObj.detail : undefined;
-    const title = typeof errorObj?.title === 'string' ? errorObj.title : undefined;
-
-    const jsonStr = (() => {
-      try {
-        return JSON.stringify(errorData);
-      } catch {
-        return undefined;
-      }
-    })();
-
-    errorMessage =
-      msg ?? detail ?? title ?? errStr ?? jsonStr ?? getErrorMessageByStatus(response.status);
-  } catch (parseError) {
-    // eslint-disable-next-line no-console
-    console.log('Failed to parse error response:', parseError);
+    errorMessage = extractErrorMessage(errorObj) ?? getErrorMessageByStatus(response.status);
+  } catch {
     errorMessage = getErrorMessageByStatus(response.status);
   }
 
-  // eslint-disable-next-line no-console
-  console.log('Final error message:', errorMessage);
   throw new Error(errorMessage);
 };
 
@@ -148,11 +129,6 @@ export const loginApi = async (
   credentials: LoginCredentials,
   signal?: AbortSignal,
 ): Promise<{ user: User }> => {
-  // eslint-disable-next-line no-console
-  console.log('Attempting login to:', `${API_BASE_URL}/v1/auth/login`);
-  // eslint-disable-next-line no-console
-  console.log('Request payload:', credentials);
-
   try {
     const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
       method: 'POST',
@@ -165,22 +141,11 @@ export const loginApi = async (
       signal,
     });
 
-    // eslint-disable-next-line no-console
-    console.log('Response status:', response.status);
-    // eslint-disable-next-line no-console
-    console.log(
-      'Response headers:',
-      response.headers ? Object.fromEntries(response.headers.entries()) : 'No headers',
-    );
-
     if (!response.ok) {
       return handleErrorResponse(response);
     }
 
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log('Success response data:', data);
-
     const user = parseUserFromResponse(data);
 
     // If the backend returns a token, store it
@@ -191,8 +156,7 @@ export const loginApi = async (
 
     return { user };
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Network or parsing error:', error);
+    // Re-throw the error to be handled by the thunk
     throw error;
   }
 };

@@ -89,7 +89,7 @@ describe('authApi', () => {
       expect(mockResponse.json).toHaveBeenCalledTimes(1);
     });
 
-    it('should use JSON.stringify(err) when response has no error message', async () => {
+    it('should use status code message when response has no error message', async () => {
       const mockResponse = {
         ok: false,
         status: 500,
@@ -97,7 +97,9 @@ describe('authApi', () => {
       };
       mockFetch.mockResolvedValue(mockResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('{}');
+      await expect(loginApi(mockCredentials)).rejects.toThrow(
+        'Server error, please try again later',
+      );
     });
 
     it('should throw friendly message when JSON parsing fails', async () => {
@@ -120,10 +122,10 @@ describe('authApi', () => {
 
     it('should handle different HTTP error codes', async () => {
       const testCases = [
-        { status: 400, expectedError: '{}' },
-        { status: 403, expectedError: '{}' },
-        { status: 404, expectedError: '{}' },
-        { status: 500, expectedError: '{}' },
+        { status: 400, expectedError: 'Login failed (error code: 400)' },
+        { status: 403, expectedError: 'Login failed (error code: 403)' },
+        { status: 404, expectedError: 'Login failed (error code: 404)' },
+        { status: 500, expectedError: 'Server error, please try again later' },
       ];
 
       for (const testCase of testCases) {
