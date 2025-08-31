@@ -14,13 +14,14 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            agent { label 'deploy-agent' }
+            agent { label 'build-agent' }
             steps {
                 checkout scm
             }
         }
 
         // stage('Run Tests') {
+        //     agent { label 'build-agent' } 
         //     steps {
         //         sh 'npm install --include=dev'
         //         sh 'npx vitest run'
@@ -28,7 +29,7 @@ pipeline {
         // }
 
         stage('Build Docker Image') {
-            agent { label 'build-agent' } 
+            agent { label 'deploy-agent' } 
             steps {
                 sh """
                 docker build \
