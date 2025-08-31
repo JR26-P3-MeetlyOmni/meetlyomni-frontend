@@ -72,7 +72,7 @@ pipeline {
     stage('CI - Run Tests') {
       //agent { label 'build-agent' }
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
-      steps { sh 'npm -v' }
+      steps { sh 'npm test' }
     }
 
     stage('CI - Build Project') {
