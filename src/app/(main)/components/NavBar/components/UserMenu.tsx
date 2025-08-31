@@ -35,8 +35,10 @@ export const UserMenu = ({ user }: UserMenuProps) => {
       await dispatch(logoutThunk()).unwrap();
       setIsOpen(false);
       router.push('/login');
-    } catch {
-      alert('Logout failed'); //ToDo： catch (error)& toast？
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      alert('Logout failed!'); //ToDo： catch (error)& toast？
     }
   }, [dispatch, router]);
   if (!user) return null;
