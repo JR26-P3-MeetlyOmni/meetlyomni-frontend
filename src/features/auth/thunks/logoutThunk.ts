@@ -5,6 +5,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { logoutApi } from '../api/logoutApi';
 import type { AuthError } from '../types';
 
+export const logoutCondition = (_arg: void, { getState }: { getState: () => RootState }) => {
+  const { auth } = getState();
+  return auth.isAuthenticated && !auth.isLoading;
+};
+
 export const logoutThunk = createAsyncThunk<
   boolean,
   void,
@@ -24,10 +29,7 @@ export const logoutThunk = createAsyncThunk<
   },
   {
     // prevent logout if already not authenticated or in loading state
-    condition: (_arg, { getState }) => {
-      const { auth } = getState();
-      return auth.isAuthenticated && !auth.isLoading;
-    },
+    condition: logoutCondition,
   },
 );
 
