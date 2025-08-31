@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_CREDENTIALS_ID = 'aws-credentials'
+        AWS_CREDENTIALS_ID = 'aws-credentials-admin'
         IMAGE_NAME = 'meetly-omni-frontend-dev'
         // TODO
         EC2_HOST = 'ec2-user@3.25.52.0'
