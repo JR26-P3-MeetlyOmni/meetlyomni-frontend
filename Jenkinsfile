@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials'
-        IMAGE_NAME = 'meetly-omni-frontend'
+        IMAGE_NAME = 'meetly-omni-frontend-dev'
         // TODO
-        EC2_HOST = 'ec2-user@3.25.55.127'
-        ECR_REGISTRY = '381492242095.dkr.ecr.ap-southeast-2.amazonaws.com'
+        EC2_HOST = 'ec2-user@3.25.52.0'
+        ECR_REGISTRY = '351889159066.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
         NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
         NODE_ENV = 'production'
@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy to EC2') {
             agent { label 'deploy-agent' }
             steps {
-            sshagent(['ec2-deploy-key']) {
+            sshagent(['ec2-dev-key']) {
                 sh """
                 ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
                     set -e
