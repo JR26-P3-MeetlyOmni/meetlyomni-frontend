@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { ClientSignInForm } from './components/ClientSignInForm';
 import { DecorativeElements } from './components/DecorativeElements';
@@ -22,35 +22,33 @@ function SignInTitle() {
           },
         }}
       >
-        <Box
+        <Typography
+          variant="h4"
           component="h1"
           sx={{
-            display: 'inline-block',
             backgroundColor: 'primary.main',
             color: 'primary.contrastText',
             px: 2,
             py: 0.5,
             borderRadius: 1,
-            typography: 'h4',
             fontWeight: 'bold',
             whiteSpace: 'nowrap',
             margin: 0,
           }}
         >
           Welcome to Omni!
-        </Box>
-        <Box
+        </Typography>
+        <Typography
+          variant="h5"
           component="h2"
           sx={{
-            color: 'text.primary',
-            typography: 'h5',
             fontWeight: 'bold',
             whiteSpace: 'nowrap',
             margin: 0,
           }}
         >
           Let&apos;s Sign in Your Profile
-        </Box>
+        </Typography>
       </Box>
     </Box>
   );

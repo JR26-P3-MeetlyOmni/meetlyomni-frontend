@@ -1,5 +1,8 @@
 'use client';
 
+import { selectIsAuthenticated } from '@/features/auth/selectors';
+import { useAppSelector } from '@/store/hooks';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -7,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import Logo from '@assets/images/navbar/nav_bar_logo.png';
 
-import { UserMenu } from './components/UserMenu';
+import DashboardUserMenu from './components/DashboardUserMenu';
 import {
   ButtonGroupWrapper,
   CTAButton,
@@ -16,14 +19,12 @@ import {
   NavLinksWrapper,
   StickyNavbarWrapper,
 } from './NavBar.styles';
-import { NavLinkItem, UserInfo } from './type';
+import { NavLinkItem } from './type';
 
 const NavBar: React.FC = () => {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
-  const [isLoggedIn, _setIsLoggedIn] = useState(false);
-  const [user, _setUser] = useState<UserInfo | null>(null);
-  //TODO: In the future the user info should be store in the redux
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   const navLinks: NavLinkItem[] = [
     { label: 'Home', href: '/' },
@@ -56,7 +57,7 @@ const NavBar: React.FC = () => {
       </NavLinksWrapper>
 
       <ButtonGroupWrapper>
-        {!isLoggedIn ? (
+        {!isAuthenticated ? (
           <>
             <CTAButton variant="outlined" onClick={handleSignInClick}>
               Sign In
@@ -64,9 +65,7 @@ const NavBar: React.FC = () => {
             <CTAButton variant="contained">Get Started</CTAButton>
           </>
         ) : (
-          <>
-            <UserMenu user={user!} />
-          </>
+          <DashboardUserMenu />
         )}
       </ButtonGroupWrapper>
     </StickyNavbarWrapper>

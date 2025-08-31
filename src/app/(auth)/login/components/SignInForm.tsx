@@ -60,6 +60,7 @@ const StyledSignUpBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   gap: theme.spacing(1),
+  marginBottom: theme.spacing(2),
 }));
 
 const StyledSignUpText = styled(Typography)(({ theme }) => ({
@@ -69,6 +70,20 @@ const StyledSignUpText = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledSignUpLink = styled(Link)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.primary.light || theme.palette.primary.main,
+  textDecoration: 'none',
+  '&:hover': { textDecoration: 'underline' },
+  whiteSpace: 'nowrap',
+}));
+
+const StyledBackToHomeBox = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledBackToHomeLink = styled(Link)(({ theme }) => ({
   ...theme.typography.body2,
   color: theme.palette.primary.light || theme.palette.primary.main,
   textDecoration: 'none',
@@ -186,6 +201,13 @@ const SignUpLink = () => (
   </StyledSignUpBox>
 );
 
+// Back to home link component
+const BackToHomeLink = () => (
+  <StyledBackToHomeBox>
+    <StyledBackToHomeLink href="/">Back to home</StyledBackToHomeLink>
+  </StyledBackToHomeBox>
+);
+
 // Sign in button component
 interface SignInButtonProps {
   isLoading: boolean;
@@ -238,6 +260,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
       <ForgotPasswordLink />
       <SignInButton isLoading={isLoading} />
       <SignUpLink />
+      <BackToHomeLink />
     </StyledFormBox>
   );
 };
