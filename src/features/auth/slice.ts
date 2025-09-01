@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { removeAuthToken } from './authApi';
 import { loginThunk } from './thunks';
 import type { AuthState } from './types';
 
@@ -20,7 +19,6 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.isLoading = false;
       state.error = null;
-      removeAuthToken();
     },
   },
   extraReducers: builder => {

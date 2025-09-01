@@ -1,36 +1,97 @@
+// api/auth.ts
 import type { LoginCredentials, User } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7011/api';
 
-// Token management functions
-export const getAuthToken = (): string | null => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('authToken');
-  }
-  return null;
-};
+// ===== Cookie & CSRF =====
+function getCookie(name: string): string {
+  if (typeof window === 'undefined' || typeof window.document === 'undefined') return '';
+  const m = window.document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'),
+  );
+  return m && m[1] ? decodeURIComponent(m[1]) : '';
+}
 
-export const setAuthToken = (token: string): void => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('authToken', token);
-  }
-};
+// backend Antiforgery ：options.Cookie.Name = "XSRF-TOKEN", options.HeaderName = "X-XSRF-TOKEN"
+const CSRF_COOKIE = 'XSRF-TOKEN';
+const CSRF_HEADER = 'X-XSRF-TOKEN';
 
-export const removeAuthToken = (): void => {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('authToken');
+async function ensureCsrfToken(signal?: AbortSignal): Promise<string> {
+  let token = getCookie(CSRF_COOKIE);
+  if (!token) {
+    await fetch(`${API_BASE_URL}/v1/auth/csrf`, { method: 'GET', credentials: 'include', signal });
+    token = getCookie(CSRF_COOKIE);
   }
-};
+  return token;
+}
 
-// Helper function to extract user from JWT token
-const extractUserFromJwt = (accessToken: string): User => {
-  const tokenParts = accessToken.split('.');
-  if (tokenParts.length !== 3) {
-    throw new Error('Invalid JWT token format');
+// ===== Error Handling (compatible with ProblemDetails) =====
+function getStringValue(obj: Record<string, unknown>, key: string): string | undefined {
+  const v = obj[key];
+  return typeof v === 'string' ? v : undefined;
+}
+
+function extractErrorMessage(errorObj: Record<string, unknown>): string | undefined {
+  // RFC7807: title/detail + your custom message/error
+  const messages = [
+    getStringValue(errorObj, 'message'),
+    getStringValue(errorObj, 'detail'),
+    getStringValue(errorObj, 'title'),
+    getStringValue(errorObj, 'error'),
+  ].filter(Boolean);
+
+  if (messages.length > 0) {
+    return messages[0];
   }
 
+  // compatible with ModelState: { errors: { field: [msg] } }
+  return extractFromModelState(errorObj);
+}
+
+function extractFromModelState(errorObj: Record<string, unknown>): string | undefined {
+  if (typeof errorObj.errors !== 'object' || !errorObj.errors) {
+    return undefined;
+  }
+
+  const first = Object.values(errorObj.errors as Record<string, unknown[]>)[0] as unknown[];
+  return Array.isArray(first) && typeof first[0] === 'string' ? (first[0] as string) : undefined;
+}
+
+async function handleErrorResponse(response: Response): Promise<never> {
+  const text = '';
   try {
-    const payload = JSON.parse(atob(tokenParts[1] || ''));
+    const data = await response.json();
+    const msg = extractErrorMessage(data as Record<string, unknown>);
+    throw new Error(msg ?? getErrorMessageByStatus(response.status));
+  } catch {
+    // body is not JSON or parsing failed
+    throw new Error(text || getErrorMessageByStatus(response.status));
+  }
+}
+
+function getErrorMessageByStatus(status: number): string {
+  switch (status) {
+    case 400:
+      return 'Bad request';
+    case 401:
+      return 'Invalid username or password';
+    case 403:
+      return 'Forbidden';
+    case 404:
+      return 'Not found';
+    case 500:
+      return 'Server error, please try again later';
+    default:
+      return `Request failed (status: ${status})`;
+  }
+}
+
+// ===== User Parsing (keep your implementation) =====
+const extractUserFromJwt = (accessToken: string): User => {
+  const parts = accessToken.split('.');
+  if (parts.length !== 3) throw new Error('Invalid JWT token format');
+  try {
+    const payload = JSON.parse(atob(parts[1] || ''));
     return {
       id: String(payload.sub || payload.userId || ''),
       email: String(payload.email || ''),
@@ -41,133 +102,118 @@ const extractUserFromJwt = (accessToken: string): User => {
   }
 };
 
-// Helper function to create user object from data
+const isValidUserData = (data: Record<string, unknown>): boolean =>
+  !!(data.id && data.email) || !!(data.userId && data.email);
 const createUserFromData = (data: Record<string, unknown>): User => ({
-  id: String(data.id),
+  id: String(data.id || data.userId),
   email: String(data.email),
   name: String(data.name || data.email),
 });
-
-// Helper function to validate user data
-const isValidUserData = (data: Record<string, unknown>): boolean => {
-  return !!(data.id && data.email);
-};
-
-// Helper function to try parsing user from nested object
 const tryParseFromNested = (data: Record<string, unknown>, key: string): User | null => {
   const nested = data[key];
-  if (nested && typeof nested === 'object') {
-    const nestedObj = nested as Record<string, unknown>;
-    if (isValidUserData(nestedObj)) {
-      return createUserFromData(nestedObj);
-    }
+  if (nested && typeof nested === 'object' && isValidUserData(nested as Record<string, unknown>)) {
+    return createUserFromData(nested as Record<string, unknown>);
   }
   return null;
 };
-
-// Helper function to parse user from response data
 const parseUserFromResponse = (data: Record<string, unknown>): User => {
-  // Format 1: { user: User }
-  const userFromUser = tryParseFromNested(data, 'user');
-  if (userFromUser) return userFromUser;
+  // Try nested user objects first
+  const nestedUser = tryParseNestedUsers(data);
+  if (nestedUser) return nestedUser;
 
-  // Format 2: Directly return user object { id, email, name }
-  if (isValidUserData(data)) {
-    return createUserFromData(data);
+  // Check if data itself is valid user data
+  if (isValidUserData(data)) return createUserFromData(data);
+
+  // Try JWT token extraction
+  if (typeof data.accessToken === 'string') return extractUserFromJwt(data.accessToken);
+
+  // Handle new response format: { userId, email, orgId, message }
+  if (data.userId && data.email) {
+    return createUserFromUserIdResponse(data);
   }
 
-  // Format 3: { data: User }
-  const userFromData = tryParseFromNested(data, 'data');
-  if (userFromData) return userFromData;
-
-  // Format 4: { result: User }
-  const userFromResult = tryParseFromNested(data, 'result');
-  if (userFromResult) return userFromResult;
-
-  // Format 5: Only token response, extract user information from JWT
-  if (data.accessToken && typeof data.accessToken === 'string') {
-    return extractUserFromJwt(data.accessToken);
+  // Handle token-only response
+  if (data.expiresAt && data.tokenType) {
+    throw new Error(
+      'Response contains token info but no user data. You may need to call a separate API to get user information.',
+    );
   }
 
-  throw new Error(
-    `Invalid response format from server. Expected user object or accessToken, got: ${JSON.stringify(data)}`,
-  );
+  throw new Error(`Invalid response format: ${JSON.stringify(data)}`);
 };
 
-// Helper function to safely get string value from object
-const getStringValue = (obj: Record<string, unknown>, key: string): string | undefined => {
-  const value = obj[key];
-  return typeof value === 'string' ? value : undefined;
-};
-
-// Helper function to extract error message from error object
-const extractErrorMessage = (errorObj: Record<string, unknown>): string | undefined => {
-  const msg = getStringValue(errorObj, 'message');
-  const errStr = getStringValue(errorObj, 'error');
-  const detail = getStringValue(errorObj, 'detail');
-  const title = getStringValue(errorObj, 'title');
-
-  return msg ?? detail ?? title ?? errStr;
-};
-
-// Helper function to handle error response
-const handleErrorResponse = async (response: Response): Promise<never> => {
-  let errorMessage: string;
-
-  try {
-    const errorData = await response.json();
-    const errorObj = errorData as Record<string, unknown>;
-    errorMessage = extractErrorMessage(errorObj) ?? getErrorMessageByStatus(response.status);
-  } catch {
-    errorMessage = getErrorMessageByStatus(response.status);
+function tryParseNestedUsers(data: Record<string, unknown>): User | null {
+  const keys = ['user', 'data', 'result'];
+  for (const key of keys) {
+    const user = tryParseFromNested(data, key);
+    if (user) return user;
   }
+  return null;
+}
 
-  throw new Error(errorMessage);
-};
+function createUserFromUserIdResponse(data: Record<string, unknown>): User {
+  return {
+    id: String(data.userId),
+    email: String(data.email),
+    name: String(data.name || data.email),
+  };
+}
 
-export const loginApi = async (
+// ===== Login API (Cookie Flow + CSRF) =====
+export async function loginApi(
   credentials: LoginCredentials,
   signal?: AbortSignal,
-): Promise<{ user: User }> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(credentials),
-      signal,
-    });
+): Promise<{ user: User }> {
+  // 1) first ensure we get the CSRF (will plant the XSRF-TOKEN Cookie)
+  const csrf = await ensureCsrfToken(signal);
 
-    if (!response.ok) {
-      return handleErrorResponse(response);
-    }
+  // 2) initiate login.一定要 with credentials + 带 X-XSRF-TOKEN
+  const res = await fetch(`${API_BASE_URL}/v1/auth/login`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      [CSRF_HEADER]: csrf,
+    },
+    body: JSON.stringify(credentials),
+    signal,
+  });
 
-    const data = await response.json();
-    const user = parseUserFromResponse(data);
-
-    // If the backend returns a token, store it
-    if (data.token || data.accessToken || data.jwt) {
-      const token = data.token || data.accessToken || data.jwt;
-      setAuthToken(token);
-    }
-
-    return { user };
-  } catch (error) {
-    // Re-throw the error to be handled by the thunk
-    throw error;
+  if (!res.ok) {
+    // if 400/403, it may be a credential error or CSRF expired. because we just pulled the CSRF before login, we usually don't retry here.
+    return handleErrorResponse(res);
   }
-};
 
-function getErrorMessageByStatus(status: number): string {
-  switch (status) {
-    case 401:
-      return 'Invalid username or password, please try again';
-    case 500:
-      return 'Server error, please try again later';
-    default:
-      return `Login failed (error code: ${status})`;
+  const data = (await res.json()) as Record<string, unknown>;
+
+  // if the response only contains token information, we need to call the API to get user information
+  if (data.expiresAt && data.tokenType && !data.user && !data.accessToken) {
+    const userResponse = await getCurrentUserApi(signal);
+    return userResponse;
   }
+
+  const user = parseUserFromResponse(data);
+  return { user };
+}
+
+// ===== Get Current User Information API =====
+export async function getCurrentUserApi(signal?: AbortSignal): Promise<{ user: User }> {
+  const res = await fetch(`${API_BASE_URL}/v1/auth/me`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+    },
+    signal,
+  });
+
+  if (!res.ok) {
+    return handleErrorResponse(res);
+  }
+
+  const data = (await res.json()) as Record<string, unknown>;
+  const user = parseUserFromResponse(data);
+
+  return { user };
 }
