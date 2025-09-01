@@ -37,7 +37,7 @@ export const UserMenu = ({ user }: UserMenuProps) => {
       router.push('/login');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      console.error(error); //ToDo： to delete once the sign-in flow is merged
       alert('Logout failed!'); //ToDo： catch (error)& toast？
     }
   }, [dispatch, router]);
