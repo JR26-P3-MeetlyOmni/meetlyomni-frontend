@@ -12,6 +12,16 @@ export default function DashboardPage() {
         flexDirection: 'column',
       }}
     >
+      <div
+        style={{
+          fontSize: '40px',
+          color: '#666',
+          fontStyle: 'italic',
+          marginBottom: '20px',
+        }}
+      >
+        This page is still under development ...
+      </div>
       {/* Empty dashboard content */}
     </div>
   );
