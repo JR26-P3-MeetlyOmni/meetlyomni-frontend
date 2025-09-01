@@ -74,8 +74,11 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'FE deployment finished.'
+        success {
+            slackSend(channel: '#deployments', message: "✅ FE Deployment completed successfully")
+        }
+        failure {
+            slackSend(channel: '#deployments', message: "❌ FE Deployment failed")
         }
     }
 }
