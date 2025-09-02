@@ -11,7 +11,7 @@ import { PageTitle } from '../SignupComponents/PageLabel';
 import type { CompanyNameStepProps } from './type';
 
 const CenterContainer = styled('div')(({ theme }) => ({
-  height: '90vh',
+  height: '80vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
