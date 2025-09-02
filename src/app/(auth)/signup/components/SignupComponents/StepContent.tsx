@@ -22,6 +22,7 @@ interface StepContentProps {
   onBack: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  errorMessage?: string | null;
 }
 
 export default function StepContent({
@@ -38,6 +39,7 @@ export default function StepContent({
   onBack,
   onNext,
   onSubmit,
+  errorMessage,
 }: StepContentProps) {
   if (step === 'company') {
     return (
@@ -73,6 +75,7 @@ export default function StepContent({
       onChange={onContactChange}
       contactName={contactName}
       phone={phone}
+      errorMessage={errorMessage}
     />
   );
 }

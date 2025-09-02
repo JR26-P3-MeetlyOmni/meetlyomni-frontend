@@ -1,4 +1,5 @@
 import { logout } from '@/features/auth/slice';
+import { logoutApi } from '@/features/auth';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
@@ -14,9 +15,15 @@ const UserMenu = React.memo(() => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-    router.push('/login');
+  const handleLogout = useCallback(async () => {
+    try {
+      await logoutApi();
+    } catch {
+      // ignore - even if api fails, proceed to client logout
+    } finally {
+      dispatch(logout());
+      router.push('/login');
+    }
   }, [dispatch, router]);
 
   const handleDashboard = useCallback(() => {

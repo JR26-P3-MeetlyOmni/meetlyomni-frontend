@@ -16,6 +16,7 @@ type PageContainerProps = {
   onBack?: () => void;
   onNext?: () => void;
   nextDisabled?: boolean;
+  errorMessage?: string | null;
 };
 
 const Root = styled('div')(({ theme }) => ({
@@ -70,6 +71,7 @@ export function PageContainer({
   onBack,
   onNext,
   nextDisabled = false,
+  errorMessage,
 }: PageContainerProps) {
   const handleBack = React.useCallback(() => {
     onBack?.();
@@ -95,6 +97,20 @@ export function PageContainer({
 
           <form onSubmit={handleFormSubmit}>
             <InputsStack>{children}</InputsStack>
+
+            {errorMessage && (
+              <div
+                style={{
+                  color: '#d32f2f',
+                  marginTop: 8,
+                  marginBottom: 4,
+                  fontSize: 14,
+                }}
+                role="alert"
+              >
+                {errorMessage}
+              </div>
+            )}
 
             <ActionsRow>
               <BackButton onClick={handleBack} />

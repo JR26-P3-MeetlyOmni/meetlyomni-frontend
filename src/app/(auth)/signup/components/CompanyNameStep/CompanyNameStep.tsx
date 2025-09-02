@@ -9,7 +9,7 @@ import { ValidatedInput } from '../SignupComponents/FieldInput';
 import NextButton from '../SignupComponents/NextButton';
 import { PageTitle } from '../SignupComponents/PageLabel';
 import type { CompanyNameStepProps } from './type';
-
+import { DecorativeElements } from '../../../login/components/DecorativeElements';
 const CenterContainer = styled('div')(({ theme }) => ({
   height: '80vh',
   display: 'flex',
@@ -22,7 +22,7 @@ const CenterContainer = styled('div')(({ theme }) => ({
 
 // Adjust only the input position without impacting others
 const InputPositioner = styled('div')(({ theme }) => ({
-  marginLeft: theme.spacing(58),
+  marginLeft: theme.spacing(50),
   alignSelf: 'center',
   // Responsive adjustments
   [theme.breakpoints.down('lg')]: {
@@ -55,6 +55,7 @@ export function CompanyNameStep({
 
   return (
     <CenterContainer>
+      <DecorativeElements show={['star','lookingFor','mark','rachel','magnifyingGlass']} />
       <PageTitle
         title="Welcome to Omni !  Let's Sign up Your Profile"
         variant="partial-blue"

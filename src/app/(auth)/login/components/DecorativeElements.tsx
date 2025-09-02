@@ -59,14 +59,9 @@ const MagnifyingGlassElement = styled(Box)(({ theme }) => ({
 const RachelElement = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: 2,
-  display: 'none',
-  top: theme.spacing(8),
+  display: 'block',
+  top: theme.spacing(12),
   right: theme.spacing(1),
-  [theme.breakpoints.up('sm')]: {
-    display: 'block',
-    top: theme.spacing(14),
-    right: theme.spacing(10),
-  },
   [theme.breakpoints.up('md')]: {
     top: theme.spacing(16),
     right: theme.spacing(12),
@@ -76,7 +71,7 @@ const RachelElement = styled(Box)(({ theme }) => ({
     right: theme.spacing(18),
   },
   [theme.breakpoints.up('xl')]: {
-    top: theme.spacing(15),
+    top: theme.spacing(20),
     right: theme.spacing(25),
   },
 }));
@@ -194,67 +189,103 @@ const StarImage = styled(Image)({
   objectFit: 'contain',
 });
 
-// Helper component to render decorative elements
-const DecorativeElementsContent = () => (
-  <>
-    <LogoElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/logo.png"
-        alt="Omni Logo"
-        width={105}
-        height={30}
-      />
-    </LogoElement>
+type DecorativeElementKey =
+  | 'logo'
+  | 'magnifyingGlass'
+  | 'rachel'
+  | 'mark'
+  | 'lookingFor'
+  | 'form'
+  | 'star';
 
-    <MagnifyingGlassElement>
-      <MagnifyingGlassImage
-        src="/assets/images/WelcomeToSignin/glass.png"
-        alt="Magnifying glass"
-        width={84}
-        height={84}
-      />
-    </MagnifyingGlassElement>
+export type DecorativeElementsProps = {
+  // If provided, only these elements will render. If omitted, all render.
+  show?: DecorativeElementKey[];
+};
 
-    <RachelElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/rachel.png"
-        alt="Rachel"
-        width={209.3}
-        height={97.2}
-      />
-    </RachelElement>
+const DecorativeElementsContent: React.FC<DecorativeElementsProps> = ({ show }) => {
+  const showAll = !show || show.length === 0;
+  const allow = new Set<DecorativeElementKey>(show ?? []);
 
-    <MarkElement>
-      <StyledImage
-        src="/assets/images/WelcomeToSignin/mark.png"
-        alt="Mark"
-        width={209.3}
-        height={97.2}
-      />
-    </MarkElement>
+  const isShown = (key: DecorativeElementKey) => showAll || allow.has(key);
 
-    <LookingForElement>
-      <LookingForImage
-        src="/assets/images/WelcomeToSignin/lookingFor.png"
-        alt="Looking For"
-        width={179}
-        height={42}
-      />
-    </LookingForElement>
+  return (
+    <>
+      {isShown('logo') && (
+        <LogoElement>
+          <StyledImage
+            src="/assets/images/WelcomeToSignin/logo.png"
+            alt="Omni Logo"
+            width={105}
+            height={30}
+          />
+        </LogoElement>
+      )}
 
-    <FormElement>
-      <FormImage
-        src="/assets/images/WelcomeToSignin/form.png"
-        alt="Form"
-        width={460}
-        height={337}
-      />
-    </FormElement>
+      {isShown('magnifyingGlass') && (
+        <MagnifyingGlassElement>
+          <MagnifyingGlassImage
+            src="/assets/images/WelcomeToSignin/glass.png"
+            alt="Magnifying glass"
+            width={84}
+            height={84}
+          />
+        </MagnifyingGlassElement>
+      )}
 
-    <StarElement>
-      <StarImage src="/assets/images/WelcomeToSignin/star.png" alt="Star" width={72} height={72} />
-    </StarElement>
-  </>
+      {isShown('rachel') && (
+        <RachelElement>
+          <StyledImage
+            src="/assets/images/WelcomeToSignin/rachel.png"
+            alt="Rachel"
+            width={209.3}
+            height={97.2}
+          />
+        </RachelElement>
+      )}
+
+      {isShown('mark') && (
+        <MarkElement>
+          <StyledImage
+            src="/assets/images/WelcomeToSignin/mark.png"
+            alt="Mark"
+            width={209.3}
+            height={97.2}
+          />
+        </MarkElement>
+      )}
+
+      {isShown('lookingFor') && (
+        <LookingForElement>
+          <LookingForImage
+            src="/assets/images/WelcomeToSignin/lookingFor.png"
+            alt="Looking For"
+            width={179}
+            height={42}
+          />
+        </LookingForElement>
+      )}
+
+      {isShown('form') && (
+        <FormElement>
+          <FormImage
+            src="/assets/images/WelcomeToSignin/form.png"
+            alt="Form"
+            width={460}
+            height={337}
+          />
+        </FormElement>
+      )}
+
+      {isShown('star') && (
+        <StarElement>
+          <StarImage src="/assets/images/WelcomeToSignin/star.png" alt="Star" width={72} height={72} />
+        </StarElement>
+      )}
+    </>
+  );
+};
+
+export const DecorativeElements: React.FC<DecorativeElementsProps> = (props) => (
+  <DecorativeElementsContent {...props} />
 );
-
-export const DecorativeElements = () => <DecorativeElementsContent />;

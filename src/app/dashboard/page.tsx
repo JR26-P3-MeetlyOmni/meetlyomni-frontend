@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import { selectError, selectIsAuthenticated, selectUser } from '@/features/auth';
+import { useAppSelector } from '@/store/hooks';
 
 export default function DashboardPage() {
   return (

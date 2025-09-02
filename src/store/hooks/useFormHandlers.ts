@@ -1,4 +1,4 @@
-import { loginThunk } from '@/features/auth/thunks';
+import { loginThunk } from '@/features/auth';
 
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';

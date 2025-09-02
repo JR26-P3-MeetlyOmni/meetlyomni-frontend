@@ -5,13 +5,19 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    setupFiles: ['@testing-library/jest-dom/vitest'],
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     exclude: [
       'node_modules/**', 
       '.storybook/**', 
+      'storybook-static/**',
       '**/*.stories.{js,ts,jsx,tsx}',
       '**/index.ts',
       '**/index.tsx',
+      '**/types.ts',
+      '**/types.tsx',
+      'src/app/api/**',
+
     ],
     coverage: {
       provider: 'v8',
@@ -23,6 +29,7 @@ export default defineConfig({
         '**/dist/**',
         '**/build/**',
         '**/.next/**',
+        'storybook-static/**',
     
         // Ignore config, declaration, and environment files
         '.storybook/**',
@@ -37,12 +44,14 @@ export default defineConfig({
         // Ignore styling, theming, and internationalization
         'src/theme/**',
     
-        // Ignore page layouts and routing shells
+        // Ignore Mock API, page layouts and routing shells
         'src/**/layout.tsx',
         'src/**/page.tsx',
+        'src/app/api/**',
     
-        // Ignore barrel/index files
+        // Ignore barrel/index and types files
         'src/**/index.ts',
+        'src/**/types.ts',
     
         // Ignore pure type definition files
         'src/**/interface.ts',

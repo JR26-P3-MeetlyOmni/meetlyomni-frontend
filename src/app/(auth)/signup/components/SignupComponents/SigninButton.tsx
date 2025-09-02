@@ -30,7 +30,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 export function SigninButton() {
   return (
     <Root>
-      <Link href="/signin" passHref>
+      <Link href="/login" passHref>
         <StyledButton variant="contained" startIcon={<ArrowBackIosNewRoundedIcon />}>
           Sign In
         </StyledButton>

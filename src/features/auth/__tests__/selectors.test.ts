@@ -12,7 +12,16 @@ describe('auth selectors', () => {
   };
 
   const createMockRootState = (authState: any): RootState => ({
-    auth: authState,
+    auth: {
+      ...authState,
+      passwordReset: authState.passwordReset || {
+        emailSent: false,
+        isRequestingReset: false,
+        isResettingPassword: false,
+        requestError: null,
+        resetError: null,
+      },
+    },
   });
 
   describe('selectUser', () => {

@@ -1,12 +1,15 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { Alert } from '@mui/material';
 
 import { type Step, useStepManager } from '../hooks/useStepManager';
 import StepContent from './SignupComponents/StepContent';
 import StepDots from './SignupComponents/StepDots';
 
 export default function SignupForm() {
+  const router = useRouter();
   const {
     step,
     setStep,
@@ -23,9 +26,19 @@ export default function SignupForm() {
     handleContact,
     handleSubmit,
     canGoTo,
+    success,
+    error,
   } = useStepManager();
 
   const steps: Step[] = ['company', 'email', 'password', 'contact'];
+
+  React.useEffect(() => {
+    if (success) {
+      const params = new URLSearchParams();
+      if (email) params.set('email', email);
+      router.push(`/email-sent-success?${params.toString()}`);
+    }
+  }, [success, router, email]);
 
   return (
     <>
@@ -43,6 +56,7 @@ export default function SignupForm() {
         onBack={goBack}
         onNext={goNext}
         onSubmit={handleSubmit}
+        errorMessage={error}
       />
       <StepDots steps={steps} activeStep={step} onStepChange={setStep} canGoToStep={canGoTo} />
     </>

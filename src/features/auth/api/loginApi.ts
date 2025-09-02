@@ -1,6 +1,7 @@
 // api/auth.ts
-import type { LoginCredentials, User } from './types';
-import type { ApiError, SignupRequest, SignupResponse } from './types';
+import type { LoginCredentials, User } from '../types';
+import type { ApiError, SignupRequest, SignupResponse } from '../types';
+
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7011/api';
 
@@ -267,34 +268,81 @@ export async function signup(signupData: SignupRequest): Promise<SignupResponse 
     }
 
     const { controller, timeout } = createTimeoutController();
+    // Ensure CSRF cookie exists and include header
+    const csrf = await ensureCsrfToken(controller.signal);
     const response = await fetch(`${API_BASE_URL}/v1/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
+        [CSRF_HEADER]: csrf,
       },
       body: JSON.stringify(signupData),
-      // credentials: 'include', // uncomment if server uses cookies
+      credentials: 'include',
       signal: controller.signal,
     });
     clearTimeout(timeout);
 
     const text = await response.text();
-    const data = parseResponseData(text);
+    const data = parseResponseData(text) as Record<string, unknown> & {
+      member?: { id?: string };
+      emailConfirmation?: string;
+    };
 
-    if (!response.ok) {
+    if (!response.ok && response.status !== 201) {
+      // Try to extract a helpful message (ProblemDetails title/detail or custom fields)
+      const rawObj = (typeof text === 'string' && text) ? (parseResponseData(text) as Record<string, unknown>) : {};
+      const extracted = extractErrorMessage(rawObj);
       return {
         success: false,
-        message: data.message || 'Signup failed',
-        error: data.error,
+        message: extracted || (data as { message?: string }).message || 'Signup failed',
+        error: (data as { error?: string }).error,
       };
     }
 
+    // Backend returns 201 with payload: { member: { id, ... }, emailConfirmation: "sent" }
+    const memberId = data?.member && typeof data.member === 'object' ? String((data.member as any).id ?? '') : undefined;
     return {
       success: true,
-      message: data.message || 'Signup successful',
-      data: data.data,
+      message: 'Signup successful. Verification email sent.',
+      data: memberId ? { userId: memberId, companyId: '' } : undefined,
     };
   } catch (error) {
     return handleApiError(error);
   }
+}
+
+// ===== Confirm Email API =====
+export async function confirmEmailApi(payload: { userId: string; code: string }): Promise<{ message: string }> {
+  const csrf = await ensureCsrfToken();
+  const res = await fetch(`${API_BASE_URL}/v1/auth/confirm-email`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json', [CSRF_HEADER]: csrf },
+    body: JSON.stringify(payload),
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    return handleErrorResponse(res);
+  }
+
+  const data = (await res.json()) as { message?: string };
+  return { message: data.message ?? 'Email confirmed' };
+}
+
+// ===== Logout API =====
+export async function logoutApi(signal?: AbortSignal): Promise<{ message: string }> {
+  const csrf = await ensureCsrfToken(signal);
+  const res = await fetch(`${API_BASE_URL}/v1/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { Accept: 'application/json', [CSRF_HEADER]: csrf },
+    signal,
+  });
+
+  if (!res.ok) {
+    return handleErrorResponse(res);
+  }
+  const data = (await res.json()) as { message?: string };
+  return { message: data.message ?? 'Logged out successfully' };
 }

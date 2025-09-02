@@ -13,6 +13,7 @@ export default function ContactInfoStep({
   onChange,
   contactName: contactNameProp,
   phone: phoneProp,
+  errorMessage,
 }: ContactInfoStepProps) {
   const {
     isFormValid,
@@ -32,6 +33,7 @@ export default function ContactInfoStep({
       onBack={onBack}
       onNext={handleNext}
       nextDisabled={!isFormValid}
+      errorMessage={errorMessage}
     >
       <ValidatedInput
         kind="contactName"
