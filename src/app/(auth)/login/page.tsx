@@ -1,7 +1,14 @@
-export default function LoginPage() {
+import React from 'react';
+
+import { ClientSignInForm } from './components/ClientSignInForm';
+import { DecorativeElements } from './components/DecorativeElements';
+import { StyledLoginPage } from './components/StyledLoginPage';
+
+export default function SigninPage() {
   return (
-    <div>
-      <h1>Login Page</h1>
-    </div>
+    <StyledLoginPage
+      decorativeElements={<DecorativeElements />}
+      signInForm={<ClientSignInForm />}
+    />
   );
 }
