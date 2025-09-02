@@ -55,7 +55,7 @@ const FieldBox = styled('div', {
 const BigInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
   fontWeight: theme.typography.h6.fontWeight,
-  fontSize: theme.typography.h2.fontSize,
+  fontSize: theme.typography.h3.fontSize,
   color: theme.palette.text.primary,
   padding: theme.spacing(0.5, 0),
   '& input::placeholder': {

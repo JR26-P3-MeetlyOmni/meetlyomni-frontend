@@ -12,7 +12,7 @@ import { SmileyCard } from './SmileyCard';
 type PageContainerProps = {
   title: React.ReactNode;
   subtitle?: React.ReactNode;
-  children?: React.ReactNode; // 放置 1-2 个 FieldInput
+  children?: React.ReactNode;
   onBack?: () => void;
   onNext?: () => void;
   nextDisabled?: boolean;
@@ -29,12 +29,12 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const Grid = styled('div')(({ theme }) => ({
+  maxHeight: '70vh',
+  height: '100%',
   display: 'grid',
-  width: '100%',
   gridTemplateColumns: '1fr',
-  gap: theme.spacing(2),
   alignItems: 'start',
-  marginTop: theme.spacing(24),
+  marginTop: theme.spacing(8),
   [theme.breakpoints.up('md')]: {
     gridTemplateColumns: '1fr 1fr',
     gap: theme.spacing(6),
@@ -49,7 +49,7 @@ const LeftStack = styled('div')(({ theme }) => ({
 }));
 
 const InputsStack = styled('div')(({ theme }) => ({
-  marginTop: theme.spacing(12),
+  marginTop: theme.spacing(2),
   height: '100%',
   display: 'flex',
   flexDirection: 'column',

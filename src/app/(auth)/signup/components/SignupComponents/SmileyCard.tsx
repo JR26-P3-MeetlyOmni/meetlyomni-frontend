@@ -20,7 +20,7 @@ const Card = styled('img')(({ theme }) => ({
     height: 'auto',
   },
   [theme.breakpoints.up('lg')]: {
-    width: 500,
+    width: 400,
     height: 'auto',
   },
 }));
