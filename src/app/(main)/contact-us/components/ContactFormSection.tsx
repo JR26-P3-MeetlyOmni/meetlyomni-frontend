@@ -72,19 +72,24 @@ const ContactFormSection: React.FC = () => {
     mode: 'onChange',
   });
 
-  const { track } = useAnalytics();
+  const { trackContactForm } = useAnalytics();
 
   const onSubmit = React.useCallback(
     async (_data: FormData) => {
       try {
-        await track('Contact Form Submitted', { ..._data });
+        // Use dedicated form tracking function - now directly accepts FormData
+        await trackContactForm(_data);
+
         reset();
-        alert('Message sent successfully!');
-      } catch {
+        alert('Message sent successfully! We will get back to you soon.');
+      } catch (error) {
+        // Log error for debugging purposes
+        // eslint-disable-next-line no-console
+        console.error('Form submission error:', error);
         alert('Failed to send message. Please try again.');
       }
     },
-    [reset, track],
+    [reset, trackContactForm],
   );
 
   return (
