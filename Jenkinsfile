@@ -111,11 +111,17 @@ pipeline {
   }
 
   post {
-    success {
-      slackSend(channel: '#deployments', message: "✅ FE Dev CD ok — ${env.ECR_VERSION_URI}")
-    }
-    failure {
-      slackSend(channel: '#deployments', message: "❌ FE Dev CD failed (build #${env.BUILD_NUMBER})")
-    }
+    always { cleanWs() }
+    success { echo "Pipeline completed successfully" }
+    failure { echo "Pipeline failed" }
   }
+  
+  // post {
+  //   success {
+  //     slackSend(channel: '#deployments', message: "✅ FE Dev CD ok — ${env.ECR_VERSION_URI}")
+  //   }
+  //   failure {
+  //     slackSend(channel: '#deployments', message: "❌ FE Dev CD failed (build #${env.BUILD_NUMBER})")
+  //   }
+  // }
 }
