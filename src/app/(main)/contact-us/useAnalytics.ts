@@ -1,21 +1,30 @@
-import { analytics } from '@/lib/analytics';
+import { analytics, type ContactFormEvent, getTimestamp } from '@/lib/analytics';
 
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
+
+// Import FormData type for better integration
+import type { FormData } from './type';
 
 export const useAnalytics = () => {
-  const pathname = usePathname();
+  // Track contact form submission - simplified version
+  const trackContactForm = useCallback(async (formData: FormData) => {
+    if (analytics) {
+      try {
+        const eventData: ContactFormEvent = {
+          ...formData,
+          timestamp: getTimestamp(),
+        };
 
-  useEffect(() => {
-    analytics?.page();
-  }, [pathname]);
+        return await analytics.track('contactFormSubmitted', eventData);
+      } catch (error) {
+        // Silently handle errors to avoid affecting user experience
+        throw error;
+      }
+    }
 
-  const track = (event: string, props?: Record<string, unknown>) => analytics?.track(event, props);
+    // Return null when analytics is not available
+    return null;
+  }, []);
 
-  const identify = (userId: string, traits?: Record<string, unknown>) =>
-    analytics?.identify(userId, traits);
-
-  const reset = () => analytics?.reset();
-
-  return { track, identify, reset };
+  return { trackContactForm };
 };
