@@ -9,7 +9,7 @@ pipeline {
     ECR_REGISTRY = "739287608007.dkr.ecr.ap-southeast-2.amazonaws.com"
 
     NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
-    NODE_ENV                = 'production'
+    //NODE_ENV                = 'production' //环境变量写死在Dockerfile中
   }
 
   options { timestamps() }
@@ -44,11 +44,11 @@ pipeline {
       steps { sh 'npm ci' }
     }
 
-    // stage('CI - Build Project') {
-    //   //agent { label 'build-agent' }
-    //   when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
-    //   steps { sh 'npm run build' }
-    // }
+    stage('CI - Build Project') {
+      //agent { label 'build-agent' }
+      when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
+      steps { sh 'npm run build' }
+    }
 
     stage('Docker Build') {
       //agent { label 'build-agent' }
@@ -57,7 +57,7 @@ pipeline {
         sh """
           docker build \\
             --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \\
-            --build-arg NODE_ENV=${NODE_ENV} \\
+            --build-arg NODE_ENV=production \\
             -t ${IMAGE_NAME}:${VERSION} \\
             .
         """
@@ -69,15 +69,16 @@ pipeline {
       when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
       steps {
         script {
-          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                            credentialsId: 'aws_biaojin']]) {
+          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin']]) {
             sh """
               aws --version | cat
-              aws ecr describe-repositories --region ap-southeast-2 --repository-names ${env.ECR_REGISTRY}/${env.IMAGE_NAME} \
+              aws ecr describe-repositories --region ap-southeast-2 --repository-names ${IMAGE_NAME} \
+              || aws ecr create-repository --region ap-southeast-2 --repository-name ${IMAGE_NAME}
               aws ecr get-login-password --region ap-southeast-2 \
                 | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
-                docker push ${ECR_VERSION_URI}
+
+              docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
+              docker push ${ECR_VERSION_URI}
             """
           }
         }

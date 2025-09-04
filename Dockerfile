@@ -8,8 +8,18 @@ WORKDIR /app
 # 复制package文件
 COPY package*.json ./
 
+# Disable Husky for CI builds
+ENV HUSKY=0
+
 # 安装所有依赖（包括devDependencies，因为构建时需要）
-RUN npm ci
+RUN npm ci --ignore-scripts
+
+# Build-time env for Next.js
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
 
 # 复制源代码
 COPY . .
