@@ -41,3 +41,69 @@ sudo chown -R jenkins:jenkins /home/jenkins/.ssh
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrGkRI66Qc5H5flAEcRQkvgtCuaHRFONX1NXubM1gymEgjzQloGDkTbMfn2hC6yTvRQLSFOzTjv0sLGe9QDGawb2VkonIQG46d9g4GbjRb4zN1rA+Tl+pcxTKi1A8Ora+eGVubwsCNfiYTcNUHu2sspsSotCST1dMJLdDvL7ffF5L2Ts967DoVfQWtVF5URO96pkpk0f9Mz0m+vTWKOie6dpOY3LGkOs84+cJXSaLEBb39ZCXkAPFIxWV2w1Gb2njB8KHWvIsEUxEqK2Rxvl9d+1BETz8ckIlx5c8PfSErGH4waJo3BZbQpbA7K63zbSKPD0lDnPPUVPckjOH6xIbOw4Fe6itZdpP/ZQ2VR0nr2MFOXgCKtBM1m2109aMRhEoRhlL/og9FDRXm7fTnkJCDxBluSAvw5d7xCAVlAy9t2sAbAqjbhKjD3Ro599c/IW85XRt0rsC3qc+qIL/JgHKGAx2I5FyIX6ATvmx0iwDCWuETXMvc0WAJo5CwaVPj/GRcISz76JlPwG+d9M6oBtABmVc9+2H6UuZ4SE7G8qcARhdE7kNYKxOf3yt1mNc9mVdXX7MxBxWTC6+oWevXL5OaqxZPxArppqbzsX0ax9y0JDqt5KNPLM0O7rauWnEYChda4lch8UXxLSHB89mztTTo5VGuQJUiaWGEV1HIkmiqGw== jenkins@jenkins-frontend" | sudo tee -a /home/jenkins/.ssh/authorized_keys
 sudo chmod 600 /home/jenkins/.ssh/authorized_keys
 sudo chown jenkins:jenkins /home/jenkins/.ssh/authorized_keys
+
+
+
+
+
+//创建ECS
+export AWS_REGION=ap-southeast-2
+export AWS_ACC=739287608007
+export CLUSTER=meetly-frontend
+export SERVICE=meetly-frontend-svc
+export APP_NAME=meetly-frontend
+export IMAGE_REPO="${AWS_ACC}.dkr.ecr.${AWS_REGION}.amazonaws.com/meetly-omni-frontend-dev"
+export IMAGE_TAG="202509041233-27-4431e30"   
+
+
+//IAM Role创建
+cat > trust-ecs-tasks.json <<'EOF'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow",
+      "Principal": { "Service": "ecs-tasks.amazonaws.com" },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+
+aws iam create-role \
+  --role-name ecsTaskExecutionRole \
+  --assume-role-policy-document file://trust-ecs-tasks.json || true
+
+aws iam attach-role-policy \
+  --role-name ecsTaskExecutionRole \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+# 允许从 SSM Parameter Store 读参数（含解密）
+cat > execrole-ssm-policy.json <<'EOF'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow",
+      "Action": ["ssm:GetParameters","ssm:GetParameter","ssm:GetParametersByPath"],
+      "Resource": "arn:aws:ssm:*:*:parameter/meetly/*"
+    },
+    { "Effect": "Allow",
+      "Action": ["kms:Decrypt"],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+
+aws iam put-role-policy \
+  --role-name ecsTaskExecutionRole \
+  --policy-name ecsTaskExecutionRoleSSMAccess \
+  --policy-document file://execrole-ssm-policy.json
+
+
+//配置vpc
+export VPC_ID=vpc-04c86c427522e4af4
+export PUB_SUBNET1=subnet-0cab0ac9997018533
+export PUB_SUBNET2=subnet-08bdfc01e794ffc75
+export PRIV_SUBNET1=subnet-0943a274e8902d1aa
+export PRIV_SUBNET2=subnet-01bf1586b05bdcf4e
+

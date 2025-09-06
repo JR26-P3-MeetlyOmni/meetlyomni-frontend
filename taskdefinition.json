@@ -1,0 +1,40 @@
+{
+  "family": "meetly-frontend",
+  "taskRoleArn": "arn:aws:iam::739287608007:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::739287608007:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "__IMAGE__",
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "essential": true,
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "PORT", "value": "3000" },
+        { "name": "HOST", "value": "0.0.0.0" }
+      ],
+      "secrets": [
+        {
+          "name": "API_BASE_URL",
+          "valueFrom": "arn:aws:ssm:ap-southeast-2:739287608007:parameter/meetly/frontend/api_base_url"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/meetly-frontend",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "web"
+        }
+      }
+    }
+  ]
+}

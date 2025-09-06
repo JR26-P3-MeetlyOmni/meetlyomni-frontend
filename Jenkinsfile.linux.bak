@@ -1,183 +1,127 @@
 pipeline {
-    agent any
+  agent any
 
-    environment {
-        // 基本参数：根据你的账户与区域调整
-        AWS_ACCOUNT_ID = '739287608007'
-        AWS_REGION = 'ap-southeast-2'
-        ECR_REPOSITORY = 'meetlyomni/frontend'
-        ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-        IMAGE = "${ECR_REGISTRY}/${ECR_REPOSITORY}"
+  environment {
+    IMAGE = "${ECR_REGISTRY}/${ECR_REPOSITORY}"
+    IMAGE_NAME = 'meetly-omni-frontend-dev'
 
-        // 部署目标（修改为你的EC2登录与部署目录）
-        EC2_HOST = 'ubuntu@44.224.30.221'
-        EC2_DEPLOY_DIR = '/opt/meetly-frontend'
-        DEPLOY_BRANCH = 'dev-biaojin'
+    EC2_HOST = 'ubuntu@44.224.30.221'
+    ECR_REGISTRY = "739287608007.dkr.ecr.ap-southeast-2.amazonaws.com"
+
+    NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
+    //NODE_ENV = 'production' //环境变量写死在Dockerfile中
+  }
+
+  options { timestamps() }
+
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
     }
 
-    options {
-        timestamps()
+    stage('Calc Dev Version') {
+      //agent { label 'build-agent' }
+      steps {
+        script {
+          def ver = sh(
+            returnStdout: true,
+            script: '''
+              TS=$(date +%Y%m%d%H%M)
+              SHA=$(git rev-parse --short HEAD || echo unknown)
+              echo "${TS}-${BUILD_NUMBER}-${SHA}"
+            '''
+          ).trim()
+          env.VERSION = ver
+          env.ECR_VERSION_URI = "${env.ECR_REGISTRY}/${env.IMAGE_NAME}:${env.VERSION}"
+          echo "Dev image version: ${env.VERSION}"
+        }
+      }
+    }
+    
+    stage('CI - Install Dependencies') {
+      //agent { label 'build-agent' }
+      when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
+      steps { sh 'npm ci' }
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Prepare Tags') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        sh """
-LATEST_DEV_TAG=
-$(aws ecr list-images --region \${AWS_REGION} --repository-name \${ECR_REPOSITORY} --filter tagStatus=TAGGED --query 'imageIds[*].imageTag' --output text \
-  | tr '\\t' '\\n' \
-  | grep -E '^meetlyomni-frontend-dev\\.[0-9]+\\.[0-9]+\\.[0-9]+$' \
-  | sort -t. -k4,4n \
-  | tail -n1)
-
-if [ -z "\$LATEST_DEV_TAG" ]; then
-  NEXT_DEV_TAG="meetlyomni-frontend-dev.1.1.1"
-else
-  PATCH=
-    \${LATEST_DEV_TAG##*.}
-  BASE=
-    \${LATEST_DEV_TAG%.*}
-  NEXT_PATCH=$((PATCH+1))
-  NEXT_DEV_TAG="\${BASE}.\${NEXT_PATCH}"
-fi
-printf "%s" "\$NEXT_DEV_TAG" > next_dev_tag.txt
-"""
-                    }
-                    env.DEV_TAG = readFile('next_dev_tag.txt').trim()
-                    env.PROD_TAG = 'meetlyomni-frontend-prod.1.1.1'
-                    echo "DEV_TAG resolved to ${DEV_TAG}; PROD_TAG is ${PROD_TAG}"
-                }
-            }
-        }
-
-        stage('CI - Install Dependencies') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    sh 'npm ci'
-                }
-            }
-        }
-
-        stage('CI - Run Tests') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    sh 'npm test'
-                }
-            }
-        }
-
-        stage('CI - Build Project') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Docker Build') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    sh "docker build --pull -t ${IMAGE}:${DEV_TAG} ."
-                }
-            }
-        }
-
-        stage('Login ECR') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        sh "aws --version | cat"
-                        sh "aws ecr describe-repositories --region ${AWS_REGION} --repository-names ${ECR_REPOSITORY} || aws ecr create-repository --region ${AWS_REGION} --repository-name ${ECR_REPOSITORY}"
-                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
-                    }
-                }
-            }
-        }
-
-        stage('Push Image to ECR') {
-            when {
-                anyOf {
-                    branch 'dev-biaojin'
-                    changeRequest(target: 'dev-biaojin')
-                }
-            }
-            steps {
-                sh "docker push ${IMAGE}:${DEV_TAG}"
-            }
-        }
-
-        stage('Deploy to EC2 (docker run)') {
-            when {
-                allOf {
-                    branch 'dev-biaojin'
-                    not { changeRequest() }
-                }
-            }
-            steps {
-                script {
-                    sshagent(credentials: ['02e89ccd-0b72-47fb-b5d5-893d7c1b67c8']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_HOST} 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY} && docker pull ${IMAGE}:${PROD_TAG} && (docker rm -f meetly-frontend || true) && docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${IMAGE}:${PROD_TAG} && docker image prune -f'"
-                    }
-                }
-            }
-        }
+    stage('CI - Build Project') {
+      //agent { label 'build-agent' }
+      when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
+      steps { sh 'npm run build' }
     }
 
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            echo "Pipeline completed successfully"
-        }
-        failure {
-            echo "Pipeline failed"
-        }
+    stage('Docker Build') {
+      //agent { label 'build-agent' }
+      when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
+      steps {
+        sh """
+          docker build \\
+            --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \\
+            --build-arg NODE_ENV=production \\
+            -t ${IMAGE_NAME}:${VERSION} \\
+            .
+        """
+      }
     }
+
+    stage('push to ECR') {
+      //agent { label 'build-agent' }
+      when { anyOf { branch 'dev-biaojin'; changeRequest(target: 'dev-biaojin') } }
+      steps {
+        script {
+          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_biaojin']]) {
+            sh """
+              aws --version | cat
+              aws ecr describe-repositories --region ap-southeast-2 --repository-names ${IMAGE_NAME} \
+              || aws ecr create-repository --region ap-southeast-2 --repository-name ${IMAGE_NAME}
+              aws ecr get-login-password --region ap-southeast-2 \
+                | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+
+              docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
+              docker push ${ECR_VERSION_URI}
+            """
+          }
+        }
+      }
+    }
+
+    stage('Deploy to EC2 (docker run)') {
+      //agent { label 'deploy-agent' }
+      when {
+        allOf { branch 'dev-biaojin'; not { changeRequest() } } // 只在分支直推时部署
+      }
+      steps {
+        script {
+          sshagent(credentials: ['meetly-dev-ec2']) {
+            sh """
+              ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
+                set -e
+                aws ecr get-login-password --region ap-southeast-2 \
+                  | docker login --username AWS --password-stdin ${ECR_REGISTRY} &&
+                docker pull ${ECR_VERSION_URI} &&
+                (docker rm -f meetly-frontend || true) &&
+                docker run -d --name meetly-frontend -p 3000:3000 --restart unless-stopped ${ECR_VERSION_URI} &&
+                docker image prune -f
+              '
+            """
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always { cleanWs() }
+    success { echo "Pipeline completed successfully" }
+    failure { echo "Pipeline failed" }
+  }
+  
+  // post {
+  //   success {
+  //     slackSend(channel: '#deployments', message: "✅ FE Dev CD ok — ${env.ECR_VERSION_URI}")
+  //   }
+  //   failure {
+  //     slackSend(channel: '#deployments', message: "❌ FE Dev CD failed (build #${env.BUILD_NUMBER})")
+  //   }
+  // }
 }
-
-
