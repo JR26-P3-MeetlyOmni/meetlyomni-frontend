@@ -18,10 +18,17 @@ const CSRF_HEADER = 'X-XSRF-TOKEN';
 
 async function ensureCsrfToken(signal?: AbortSignal): Promise<string> {
   let token = getCookie(CSRF_COOKIE);
+
   if (!token) {
-    await fetch(`${API_BASE_URL}/v1/auth/csrf`, { method: 'GET', credentials: 'include', signal });
-    token = getCookie(CSRF_COOKIE);
+    try {
+      token = await getCsrfTokenApi(signal);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to obtain CSRF token:', error);
+      throw new Error('Unable to obtain CSRF token for authentication');
+    }
   }
+
   return token;
 }
 
@@ -159,6 +166,31 @@ function createUserFromUserIdResponse(data: Record<string, unknown>): User {
   };
 }
 
+// ===== CSRF Token API =====
+export async function getCsrfTokenApi(signal?: AbortSignal): Promise<string> {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/csrf`, {
+    method: 'GET',
+    credentials: 'include',
+    signal,
+    headers: {
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`CSRF token request failed: ${response.status} ${response.statusText}`);
+  }
+
+  // The CSRF token is set as a cookie by the server
+  const token = getCookie(CSRF_COOKIE);
+
+  if (!token) {
+    throw new Error('CSRF token not found in cookies after request');
+  }
+
+  return token;
+}
+
 // ===== Login API (Cookie Flow + CSRF) =====
 export async function loginApi(
   credentials: LoginCredentials,
@@ -216,4 +248,27 @@ export async function getCurrentUserApi(signal?: AbortSignal): Promise<{ user: U
   const user = parseUserFromResponse(data);
 
   return { user };
+}
+
+// ===== Logout API =====
+export async function logoutApi(signal?: AbortSignal): Promise<void> {
+  // Ensure we have CSRF token for logout request
+  const csrf = await ensureCsrfToken(signal);
+
+  const res = await fetch(`${API_BASE_URL}/v1/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      [CSRF_HEADER]: csrf,
+    },
+    signal,
+  });
+
+  if (!res.ok) {
+    // Even if logout fails on server, we should still clear local state
+    // Log the error but don't throw to prevent blocking the logout flow
+    // eslint-disable-next-line no-console
+    console.warn('Logout API call failed:', res.status, res.statusText);
+  }
 }

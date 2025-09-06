@@ -1,6 +1,6 @@
 'use client';
 
-import { logout } from '@/features/auth/slice';
+import { logoutThunk } from '@/features/auth/thunks';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
@@ -16,9 +16,16 @@ const UserMenu = React.memo(() => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-    router.push('/login');
+  const handleLogout = useCallback(async () => {
+    try {
+      await dispatch(logoutThunk()).unwrap();
+      router.push('/login');
+    } catch (error) {
+      // Even if logout fails, redirect to login page
+      // eslint-disable-next-line no-console
+      console.warn('Logout failed:', error);
+      router.push('/login');
+    }
   }, [dispatch, router]);
 
   const handleDashboard = useCallback(() => {

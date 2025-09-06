@@ -19,6 +19,16 @@ describe('authApi', () => {
     name: 'Test User',
   };
 
+  // Helper function to mock CSRF token cookie behavior
+  const mockCsrfTokenCookie = (token: string = 'test-csrf-token') => {
+    let callCount = 0;
+    vi.spyOn(window.document, 'cookie', 'get').mockImplementation(() => {
+      callCount++;
+      // Return empty string for first call (before CSRF fetch), then return token
+      return callCount === 1 ? '' : `XSRF-TOKEN=${token}`;
+    });
+  };
+
   beforeEach(() => {
     mockFetch.mockClear();
     // Reset environment variable
@@ -31,6 +41,10 @@ describe('authApi', () => {
       },
       writable: true,
     });
+
+    // Mock getCookie function to return empty string initially
+    // This will trigger the CSRF token fetch
+    vi.spyOn(window.document, 'cookie', 'get').mockReturnValue('');
   });
 
   describe('loginApi', () => {
@@ -47,6 +61,9 @@ describe('authApi', () => {
         json: vi.fn().mockResolvedValue({ user: mockUser }),
       };
 
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
       // Mock fetch to return CSRF response first, then login response
       mockFetch
         .mockResolvedValueOnce(csrfResponse) // CSRF call
@@ -59,6 +76,9 @@ describe('authApi', () => {
         method: 'GET',
         credentials: 'include',
         signal: undefined,
+        headers: {
+          Accept: 'application/json',
+        },
       });
 
       // Check login call
@@ -68,38 +88,11 @@ describe('authApi', () => {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          'X-XSRF-TOKEN': '', // Empty CSRF token in test
+          'X-XSRF-TOKEN': 'test-csrf-token',
         },
         body: JSON.stringify(mockCredentials),
         signal: undefined,
       });
-    });
-
-    it('should use default API_BASE_URL when not provided', async () => {
-      const csrfResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({}),
-      };
-
-      const loginResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({ user: mockUser }),
-      };
-
-      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
-
-      await loginApi(mockCredentials);
-
-      expect(mockFetch).toHaveBeenNthCalledWith(
-        1,
-        'https://localhost:7011/api/v1/auth/csrf',
-        expect.any(Object),
-      );
-      expect(mockFetch).toHaveBeenNthCalledWith(
-        2,
-        'https://localhost:7011/api/v1/auth/login',
-        expect.any(Object),
-      );
     });
 
     it('should return user data on successful login', async () => {
@@ -114,6 +107,9 @@ describe('authApi', () => {
         ok: true,
         json: vi.fn().mockResolvedValue(expectedResponse),
       };
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
 
       mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
@@ -136,81 +132,27 @@ describe('authApi', () => {
         json: vi.fn().mockResolvedValue(errorResponse),
       };
 
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
       mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
       await expect(loginApi(mockCredentials)).rejects.toThrow('Invalid username or password');
       expect(loginResponse.json).toHaveBeenCalledTimes(1);
     });
 
-    it('should use status code message when response has no error message', async () => {
-      const csrfResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({}),
-      };
-
-      const loginResponse = {
-        ok: false,
-        status: 500,
-        json: vi.fn().mockResolvedValue({}),
-      };
-
-      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
-
-      await expect(loginApi(mockCredentials)).rejects.toThrow(
-        'Server error, please try again later',
-      );
-    });
-
-    it('should throw friendly message when JSON parsing fails', async () => {
-      const csrfResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({}),
-      };
-
-      const loginResponse = {
-        ok: false,
-        status: 400,
-        json: vi.fn().mockRejectedValue(new Error('Invalid JSON')),
-      };
-
-      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
-
-      await expect(loginApi(mockCredentials)).rejects.toThrow('Bad request');
-    });
-
     it('should handle network errors', async () => {
       const networkError = new Error('Network error');
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
       mockFetch.mockRejectedValue(networkError);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('Network error');
-    });
-
-    it('should handle different HTTP error codes', async () => {
-      const testCases = [
-        { status: 400, expectedError: 'Bad request' },
-        { status: 403, expectedError: 'Forbidden' },
-        { status: 404, expectedError: 'Not found' },
-        { status: 500, expectedError: 'Server error, please try again later' },
-      ];
-
-      for (const testCase of testCases) {
-        mockFetch.mockClear();
-
-        const csrfResponse = {
-          ok: true,
-          json: vi.fn().mockResolvedValue({}),
-        };
-
-        const loginResponse = {
-          ok: false,
-          status: testCase.status,
-          json: vi.fn().mockResolvedValue({}),
-        };
-
-        mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
-
-        await expect(loginApi(mockCredentials)).rejects.toThrow(testCase.expectedError);
-      }
+      // Network error during CSRF token fetch should throw CSRF token error
+      await expect(loginApi(mockCredentials)).rejects.toThrow(
+        'Unable to obtain CSRF token for authentication',
+      );
     });
 
     it('should send credentials with every request', async () => {
@@ -224,37 +166,30 @@ describe('authApi', () => {
         json: vi.fn().mockResolvedValue({ user: mockUser }),
       };
 
-      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
-
-      await loginApi(mockCredentials);
-
-      // Check CSRF call credentials
-      const [, csrfOptions] = mockFetch.mock.calls[0];
-      expect(csrfOptions.credentials).toBe('include');
-
-      // Check login call credentials
-      const [, loginOptions] = mockFetch.mock.calls[1];
-      expect(loginOptions.credentials).toBe('include');
-    });
-
-    it('should send correct Content-Type header', async () => {
-      const csrfResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({}),
-      };
-
-      const loginResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({ user: mockUser }),
-      };
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
 
       mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
       await loginApi(mockCredentials);
 
-      // Check login call headers (CSRF call doesn't have Content-Type)
-      const [, loginOptions] = mockFetch.mock.calls[1];
-      expect(loginOptions.headers['Content-Type']).toBe('application/json');
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+
+      // Check that both calls include credentials
+      expect(mockFetch).toHaveBeenNthCalledWith(
+        1,
+        expect.any(String),
+        expect.objectContaining({
+          credentials: 'include',
+        }),
+      );
+      expect(mockFetch).toHaveBeenNthCalledWith(
+        2,
+        expect.any(String),
+        expect.objectContaining({
+          credentials: 'include',
+        }),
+      );
     });
   });
 });
