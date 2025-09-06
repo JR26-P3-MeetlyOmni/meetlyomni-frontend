@@ -12,7 +12,7 @@ pipeline {
 
     // 你自己的 ECS 集群与服务名（按实际改）
     CLUSTER = 'meetly-frontend'
-    SERVICE = 'meetly-frontend-service'
+    SERVICE = 'meetly-frontend-svc'
   }
 
   stages {
