@@ -1,3 +1,5 @@
+'use client';
+
 import { logout } from '@/features/auth/slice';
 import { useAppDispatch } from '@/store/hooks';
 

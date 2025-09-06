@@ -1,3 +1,5 @@
+'use client';
+
 import { selectUser } from '@/features/auth/selectors';
 import { useAppSelector } from '@/store/hooks';
 
