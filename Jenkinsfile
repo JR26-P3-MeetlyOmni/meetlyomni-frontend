@@ -11,7 +11,7 @@ pipeline {
     AWS_DEFAULT_REGION = 'ap-southeast-2'
 
     // 你自己的 ECS 集群与服务名（按实际改）
-    CLUSTER = 'meetly-cluster'
+    CLUSTER = 'meetly-frontend'
     SERVICE = 'meetly-frontend-service'
   }
 
