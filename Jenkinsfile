@@ -20,6 +20,7 @@ pipeline {
     stage('Checkout') {
       steps { checkout scm }
     }
+ 
 
     stage('Calc Dev Version') {
       //agent { label 'build-agent' }
@@ -88,9 +89,9 @@ pipeline {
     }
 
   stage('Deploy to ECS') {
-  steps {
-    withAWS(credentials: 'aws_biaojin', region: 'ap-southeast-2') {
-      sh '''
+    steps {
+      withAWS(credentials: 'aws_biaojin', region: 'ap-southeast-2') {
+        sh '''
         set -euo pipefail
 
         # 1) 计算将要部署的镜像 URI（复用前面算好的 VERSION）
@@ -118,9 +119,9 @@ pipeline {
         # （可选）还原工作区，避免把替换后的 JSON 提交回仓库
         git checkout -- taskdefinition.json || true
       '''
+      }
     }
   }
-}
 
 
 
@@ -139,4 +140,5 @@ pipeline {
   //     slackSend(channel: '#deployments', message: "❌ FE Dev CD failed (build #${env.BUILD_NUMBER})")
   //   }
   // }
+ }
 }
