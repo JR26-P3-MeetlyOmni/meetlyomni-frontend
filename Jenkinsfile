@@ -86,7 +86,7 @@ pipeline {
       steps {
         withAWS(credentials: 'aws_biaojin', region: 'ap-southeast-2') {
           sh '''
-            set -euo pipefail
+            set -e
 
             IMAGE_URI="${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}"
 
