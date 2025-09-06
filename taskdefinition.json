@@ -1,6 +1,5 @@
 {
   "family": "meetly-frontend",
-  "taskRoleArn": "arn:aws:iam::739287608007:role/ecsTaskRole",
   "executionRoleArn": "arn:aws:iam::739287608007:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
