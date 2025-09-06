@@ -15,14 +15,15 @@
       "image": "__IMAGE__",
       "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
       "essential": true,
-      "command": ["sh", "-c", "next start -H 0.0.0.0 -p 3000"],
+
+      "command": ["sh", "-c", "HOST=0.0.0.0 PORT=3000 node server.js"],
+
       "environment": [
         { "name": "NODE_ENV", "value": "production" },
         { "name": "PORT", "value": "3000" },
         { "name": "HOST", "value": "0.0.0.0" },
 
         { "name": "URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
-
         { "name": "NEXTAUTH_URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
 
         {
