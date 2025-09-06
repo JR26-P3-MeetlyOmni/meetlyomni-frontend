@@ -1,28 +1,26 @@
+import { PageTitle } from '@/components/Dashboard';
+
 import React from 'react';
+
+import { Box } from '@mui/material';
 
 export default function DashboardPage() {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         minHeight: 'calc(100vh - 80px)', // Account for header height
-        backgroundColor: 'var(--mui-palette-background-default)',
-        padding: '20px',
+        backgroundColor: 'background.default',
+        padding: 3,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <div
-        style={{
-          fontSize: '40px',
-          color: '#666',
-          fontStyle: 'italic',
-          marginBottom: '20px',
-        }}
-      >
-        This page is still under development ...
-      </div>
+      <PageTitle
+        title="Dashboard"
+        subtitle="Welcome to your dashboard. This page is still under development."
+      />
       {/* Empty dashboard content */}
-    </div>
+    </Box>
   );
 }
