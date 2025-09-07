@@ -16,7 +16,7 @@
       "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
       "essential": true,
 
-      "command": ["sh", "-c", "HOST=0.0.0.0 PORT=3000 node server.js"],
+      //"command": ["sh", "-c", "HOST=0.0.0.0 PORT=3000 node server.js"],
 
       "environment": [
         { "name": "NODE_ENV", "value": "production" },
