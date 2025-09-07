@@ -107,3 +107,4 @@ export PUB_SUBNET2=subnet-08bdfc01e794ffc75
 export PRIV_SUBNET1=subnet-0943a274e8902d1aa
 export PRIV_SUBNET2=subnet-01bf1586b05bdcf4e
 
+"command": ["sh", "-c", "HOST=0.0.0.0 PORT=3000 node server.js"],
