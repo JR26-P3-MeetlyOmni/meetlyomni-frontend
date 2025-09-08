@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials-admin'
         IMAGE_NAME = 'meetly-omni-frontend-dev'
-        EC2_HOST = 'ec2-user@3.25.52.0'
+        EC2_HOST = 'ec2-user@52.64.167.94'
         ECR_REGISTRY = '351889159066.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
         NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
