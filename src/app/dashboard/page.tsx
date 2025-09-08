@@ -1,26 +1,7 @@
-import { PageTitle } from '@/components/Dashboard';
-
 import React from 'react';
 
-import { Box } from '@mui/material';
+import EventManagement from './components/EventManagement';
 
 export default function DashboardPage() {
-  return (
-    <Box
-      sx={{
-        minHeight: 'calc(100vh - 80px)', // Account for header height
-        backgroundColor: 'background.default',
-        padding: 3,
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <PageTitle
-        title="Dashboard"
-        subtitle="Welcome to your dashboard. This page is still under development."
-      />
-      {/* Empty dashboard content */}
-    </Box>
-  );
+  return <EventManagement />;
 }
