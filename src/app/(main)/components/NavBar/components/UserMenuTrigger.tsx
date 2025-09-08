@@ -1,52 +1,69 @@
+import { ANIMATION_CONFIG, AVATAR_CONFIG } from '@/constants';
 import { selectUser } from '@/features/auth/selectors';
 import { useAppSelector } from '@/store/hooks';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { Avatar, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-import UserAvatar from '@assets/images/navbar/user_avatar.png';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 
 interface UserMenuTriggerProps {
   anchorEl: HTMLElement | null;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const UserMenuContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  cursor: 'pointer',
-  padding: theme.spacing(0.5),
-  borderRadius: theme.shape.borderRadius,
-  '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-  },
-}));
-
-const UserEmail = styled(Typography)(({ theme }) => ({
-  marginLeft: theme.spacing(1),
-  marginRight: theme.spacing(0.5),
-}));
-
-const ArrowIcon = styled(KeyboardArrowDown)({
-  transition: 'transform 0.2s',
-});
-
 const UserMenuTrigger = React.memo(({ anchorEl, onClick }: UserMenuTriggerProps) => {
   const user = useAppSelector(selectUser);
+  const theme = useTheme();
+
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.currentTarget.style.backgroundColor = theme.palette.grey[900];
+      e.currentTarget.style.color = 'white';
+    },
+    [theme.palette.grey],
+  );
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.backgroundColor = 'transparent';
+    e.currentTarget.style.color = 'inherit';
+  }, []);
 
   return (
-    <UserMenuContainer onClick={onClick}>
-      <Avatar src={UserAvatar.src} alt="User Avatar" />
-      <UserEmail variant="body2">{user?.email}</UserEmail>
-      <ArrowIcon
+    <Box
+      display="flex"
+      alignItems="center"
+      padding={0.5}
+      borderRadius={1}
+      component="div"
+      style={{
+        cursor: 'pointer',
+        transition: ANIMATION_CONFIG.TRANSITION_PROPERTIES.hoverEffect,
+      }}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Avatar
+        src={AVATAR_CONFIG.DEFAULT_AVATAR}
+        alt={AVATAR_CONFIG.ALT_TEXT}
         style={{
-          transform: anchorEl ? 'rotate(180deg)' : 'rotate(0deg)',
+          width: AVATAR_CONFIG.DIMENSIONS.width,
+          height: AVATAR_CONFIG.DIMENSIONS.height,
         }}
       />
-    </UserMenuContainer>
+      <Typography variant="body2" marginLeft={1} marginRight={0.5}>
+        {user?.email}
+      </Typography>
+      <KeyboardArrowDown
+        style={{
+          transform: anchorEl
+            ? ANIMATION_CONFIG.TRANSFORMS.rotate.expanded
+            : ANIMATION_CONFIG.TRANSFORMS.rotate.collapsed,
+          transition: ANIMATION_CONFIG.TRANSITION_PROPERTIES.transform,
+        }}
+      />
+    </Box>
   );
 });
 

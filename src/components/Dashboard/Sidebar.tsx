@@ -12,21 +12,21 @@ import HomeButton from './HomeButton';
 const Sidebar = React.memo(() => (
   <Paper
     elevation={1}
-    sx={{
+    style={{
       width: 280,
       display: 'flex',
       flexDirection: 'column',
       borderRadius: 0,
-      bgcolor: 'background.paper',
+      backgroundColor: 'transparent',
     }}
   >
     {/* Sidebar Header */}
-    <Box padding={3} borderBottom={1} borderColor="divider" sx={{ bgcolor: 'background.paper' }}>
+    <Box padding={3} borderBottom={1} borderColor="divider" bgcolor="background.paper">
       <Image src={Logo} alt="Dashboard Logo" width={120} height={40} />
     </Box>
 
     {/* Sidebar Content */}
-    <Box padding={2} flex={1} sx={{ bgcolor: 'background.paper' }}>
+    <Box padding={2} flex={1} bgcolor="background.paper">
       <HomeButton />
     </Box>
   </Paper>

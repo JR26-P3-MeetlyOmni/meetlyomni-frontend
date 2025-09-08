@@ -7,14 +7,12 @@ import { Box } from '@mui/material';
 export default function DashboardPage() {
   return (
     <Box
-      sx={{
-        minHeight: 'calc(100vh - 80px)', // Account for header height
-        backgroundColor: 'background.default',
-        padding: 3,
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      minHeight="calc(100vh - 80px)"
+      bgcolor="background.default"
+      padding={3}
+      flex={1}
+      display="flex"
+      flexDirection="column"
     >
       <PageTitle
         title="Dashboard"
