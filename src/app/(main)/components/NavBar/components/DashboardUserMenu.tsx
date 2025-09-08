@@ -32,7 +32,7 @@ const DashboardUserMenu = React.memo(() => {
   }, []);
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box position="relative">
       <UserMenuTrigger anchorEl={anchorEl} onClick={handleMenuClick} />
       <UserMenuDropdown
         onLogout={handleLogout}

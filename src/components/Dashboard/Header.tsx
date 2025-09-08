@@ -14,7 +14,7 @@ const Header = React.memo(() => (
     display="flex"
     alignItems="center"
     padding={3}
-    sx={{ bgcolor: theme => theme.palette.grey[50] }}
+    bgcolor="grey.50"
   >
     <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
       <Box flex={1} />
