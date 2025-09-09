@@ -18,6 +18,7 @@ export default function SignupForm() {
     password,
     contactName,
     phone,
+    isLoading,
     goBack,
     goNext,
     handleCompany,
@@ -49,6 +50,7 @@ export default function SignupForm() {
         password={password}
         contactName={contactName}
         phone={phone}
+        isLoading={isLoading}
         onCompanyNameChange={handleCompany}
         onEmailChange={handleEmail}
         onPasswordChange={handlePassword}

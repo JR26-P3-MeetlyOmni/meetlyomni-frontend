@@ -17,6 +17,8 @@ type PageContainerProps = {
   onNext?: () => void;
   nextDisabled?: boolean;
   errorMessage?: string | null;
+  loading?: boolean;
+  nextLabel?: React.ReactNode;
 };
 
 const Root = styled('div')(({ theme }) => ({
@@ -72,14 +74,16 @@ export function PageContainer({
   onNext,
   nextDisabled = false,
   errorMessage,
+  loading = false,
+  nextLabel,
 }: PageContainerProps) {
   const handleBack = React.useCallback(() => {
     onBack?.();
   }, [onBack]);
 
   const handleNext = React.useCallback(() => {
-    if (!nextDisabled) onNext?.();
-  }, [onNext, nextDisabled]);
+    if (!nextDisabled && !loading) onNext?.();
+  }, [onNext, nextDisabled, loading]);
 
   const handleFormSubmit = React.useCallback(
     (e: React.FormEvent) => {
@@ -113,8 +117,10 @@ export function PageContainer({
             )}
 
             <ActionsRow>
-              <BackButton onClick={handleBack} />
-              <NextButton onClick={handleNext} disabled={nextDisabled} />
+              <BackButton onClick={handleBack} disabled={loading} />
+              <NextButton onClick={handleNext} disabled={nextDisabled || loading} loading={loading}>
+                {nextLabel ?? 'Next'}
+              </NextButton>
             </ActionsRow>
           </form>
         </LeftStack>

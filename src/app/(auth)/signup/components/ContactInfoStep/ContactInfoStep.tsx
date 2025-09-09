@@ -14,6 +14,7 @@ export default function ContactInfoStep({
   contactName: contactNameProp,
   phone: phoneProp,
   errorMessage,
+  isLoading,
 }: ContactInfoStepProps) {
   const {
     isFormValid,
@@ -34,6 +35,8 @@ export default function ContactInfoStep({
       onNext={handleNext}
       nextDisabled={!isFormValid}
       errorMessage={errorMessage}
+      loading={Boolean(isLoading)}
+      nextLabel={isLoading ? 'Creating account…' : 'Create account'}
     >
       <ValidatedInput
         kind="contactName"

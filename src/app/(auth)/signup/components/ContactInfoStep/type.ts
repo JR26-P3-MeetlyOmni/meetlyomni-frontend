@@ -5,4 +5,5 @@ export interface ContactInfoStepProps {
   contactName?: string;
   phone?: string;
   errorMessage?: string | null;
+  isLoading?: boolean;
 }

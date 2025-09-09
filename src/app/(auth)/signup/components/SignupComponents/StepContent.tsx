@@ -15,6 +15,7 @@ interface StepContentProps {
   password: string;
   contactName: string;
   phone: string;
+  isLoading?: boolean;
   onCompanyNameChange: (name: string, isValid: boolean) => void;
   onEmailChange: (email: string, isValid: boolean) => void;
   onPasswordChange: (password: string, isValid: boolean) => void;
@@ -32,6 +33,7 @@ export default function StepContent({
   password,
   contactName,
   phone,
+  isLoading,
   onCompanyNameChange,
   onEmailChange,
   onPasswordChange,
@@ -76,6 +78,7 @@ export default function StepContent({
       contactName={contactName}
       phone={phone}
       errorMessage={errorMessage}
+      isLoading={isLoading}
     />
   );
 }

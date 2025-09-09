@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { styled } from '@mui/material/styles';
 
 interface NextButtonProps {
@@ -10,6 +11,7 @@ interface NextButtonProps {
   disabled?: boolean;
   children?: React.ReactNode;
   className?: string;
+  loading?: boolean;
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -48,21 +50,31 @@ export function NextButton({
   disabled = false,
   children = 'Next',
   className,
+  loading = false,
 }: NextButtonProps) {
   const handleClick = React.useCallback(() => {
-    onClick?.();
-  }, [onClick]);
+    if (!loading) {
+      onClick?.();
+    }
+  }, [onClick, loading]);
 
   return (
     <StyledButton
       variant="contained"
       type="button"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={className}
       aria-label={typeof children === 'string' ? children : 'Next'}
     >
-      {children}
+      {loading ? (
+        <>
+          <CircularProgress color="inherit" size={18} thickness={5} />
+          <span>Processing...</span>
+        </>
+      ) : (
+        children
+      )}
     </StyledButton>
   );
 }
