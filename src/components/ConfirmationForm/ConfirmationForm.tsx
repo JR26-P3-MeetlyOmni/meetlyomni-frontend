@@ -49,10 +49,9 @@ export const AuthResultBackButton = styled(Button)<{
   padding: `${theme.spacing(1.5)} ${theme.spacing(2.5)}`,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
-  lineHeight: theme.typography.body2.lineHeight,
+  lineHeight: theme.typTypography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
-  marginTop: theme.spacing(2),
   display: 'block',
   margin: `${theme.spacing(2)} auto 0`,
   '&:hover': {
@@ -76,7 +75,12 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
       </AuthResultIconContainer>
       <AuthResultTitleText>{title}</AuthResultTitleText>
       <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
-      <AuthResultBackButton component={Link} href={buttonHref}>
+
+      <AuthResultBackButton
+        component={Link}
+        href={buttonHref}
+        aria-label={buttonText}
+      >
         {buttonText}
       </AuthResultBackButton>
     </>

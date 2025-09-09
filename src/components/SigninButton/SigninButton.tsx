@@ -2,6 +2,7 @@
 'use client';
 
 import NextLink from 'next/link';
+
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';

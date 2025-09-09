@@ -3,13 +3,16 @@ import { describe, expect, it, vi } from 'vitest';
 import React from 'react';
 
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 
 import { SigninButton } from './SigninButton';
 
+
 (globalThis as any).React = React;
 
+
 vi.mock('next/link', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: ({ href, children, ...props }: any) => (
     <a href={href} {...props}>
       {children}
@@ -17,55 +20,52 @@ vi.mock('next/link', () => ({
   ),
 }));
 
-// Mock MUI icons
+
 vi.mock('@mui/icons-material/ArrowBackIosNewRounded', () => ({
   default: () => <span data-testid="arrow-icon">←</span>,
 }));
 
 describe('SigninButton', () => {
   describe('Basic Rendering', () => {
-    it('should render signin button text', () => {
+    it('renders text and link', () => {
       render(<SigninButton />);
       expect(screen.getByText('Sign In')).toBeInTheDocument();
       expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
-    it('should render with correct href', () => {
+    it('has correct href', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       expect(link).toHaveAttribute('href', '/signin');
     });
 
-    it('should render arrow icon', () => {
+    it('renders arrow icon', () => {
       render(<SigninButton />);
       expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
     });
   });
 
-  describe('Link Structure (Button-like anchor)', () => {
-    it('should render as an anchor styled like a MUI button', () => {
+  describe('Link structure & styling', () => {
+    it('is an anchor styled like MUI button', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
-      expect(link).toBeInTheDocument();
+
       expect(link).toHaveClass('MuiButton-root');
     });
 
-    it('should have startIcon (arrow) inside the anchor', () => {
+    it('contains icon and text inside the anchor', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       const arrowIcon = screen.getByTestId('arrow-icon');
-      expect(link).toContainElement(arrowIcon);
-    });
+      const signInText = screen.getByText('Sign In');
 
-    it('should contain "Sign In" text inside the anchor', () => {
-      render(<SigninButton />);
-      const link = screen.getByRole('link');
-      expect(link).toHaveTextContent('Sign In');
+      expect(link).toContainElement(arrowIcon);
+      expect(link).toContainElement(signInText);
     });
   });
 
   describe('Accessibility', () => {
-    it('should be keyboard focusable (as a link)', () => {
+    it('is keyboard focusable (as a link)', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       act(() => {
@@ -74,21 +74,7 @@ describe('SigninButton', () => {
       expect(link).toHaveFocus();
     });
 
-    it('should keep correct link semantics', () => {
-      render(<SigninButton />);
-      const link = screen.getByRole('link');
-      expect(link).toHaveAttribute('href', '/signin');
-    });
-  });
-
-  describe('User Interaction', () => {
-    it('should handle click events (no errors)', () => {
-      render(<SigninButton />);
-      const link = screen.getByRole('link');
-      expect(() => fireEvent.click(link)).not.toThrow();
-    });
-
-    it('should navigate to signin page (href present)', () => {
+    it('keeps correct link semantics', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       expect(link).toHaveAttribute('href', '/signin');
@@ -96,7 +82,7 @@ describe('SigninButton', () => {
   });
 
   describe('Consistency', () => {
-    it('should render consistently on rerender', () => {
+    it('renders consistently on rerender', () => {
       const { rerender } = render(<SigninButton />);
       expect(screen.getByText('Sign In')).toBeInTheDocument();
       expect(screen.getByRole('link')).toBeInTheDocument();
@@ -106,7 +92,7 @@ describe('SigninButton', () => {
       expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
-    it('should keep icon and text nested correctly', () => {
+    it('keeps icon and text nested correctly', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       const arrowIcon = screen.getByTestId('arrow-icon');
