@@ -1,4 +1,4 @@
-import { BarChart, Event, Home } from '@mui/icons-material';
+import { Home, SignalCellularAlt, WorkspacesOutline } from '@mui/icons-material';
 
 /**
  * Navigation configuration for sidebar menu items
@@ -20,14 +20,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     isActive: false,
   },
   {
-    href: '/dashboard/events',
-    icon: <Event />,
+    href: '/dashboard',
+    icon: <WorkspacesOutline />,
     label: 'Event management',
     isActive: false,
   },
   {
-    href: '/dashboard/statistics',
-    icon: <BarChart />,
+    href: '/dashboard/Statistics',
+    icon: <SignalCellularAlt />,
     label: 'Statistics',
     isActive: false,
   },

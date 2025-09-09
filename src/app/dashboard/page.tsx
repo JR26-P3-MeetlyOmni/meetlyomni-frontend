@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventManagement from './components/EventManagement';
+import EventManagement from './EventManagement/EventManagement';
 
 export default function DashboardPage() {
   return <EventManagement />;
