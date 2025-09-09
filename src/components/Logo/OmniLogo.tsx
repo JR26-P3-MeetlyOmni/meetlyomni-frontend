@@ -34,12 +34,25 @@ export function TopLeftLogo({ onClick }: TopLeftLogoProps) {
     }
   }, [onClick, router]);
 
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleClick();
+      }
+    },
+    [handleClick],
+  );
+
   return (
     <Root>
       <Logo
         src="/assets/images/navbar/nav_bar_logo.png"
         alt="MeetlyOmni Logo"
+        role="link"
+        tabIndex={0}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
       />
     </Root>
   );

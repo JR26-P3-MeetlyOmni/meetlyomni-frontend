@@ -37,7 +37,10 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.sm,
 }));
 
-export const AuthResultBackButton = styled(Button)(({ theme }) => ({
+export const AuthResultBackButton = styled(Button)<{
+  component?: React.ElementType;
+  href?: string;
+}>(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
   border: `1px solid ${theme.palette.divider}`,
@@ -72,9 +75,9 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
       </AuthResultIconContainer>
       <AuthResultTitleText>{title}</AuthResultTitleText>
       <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
-      <Link href={buttonHref} passHref>
-        <AuthResultBackButton>{buttonText}</AuthResultBackButton>
-      </Link>
+      <AuthResultBackButton component={Link} href={buttonHref}>
+        {buttonText}
+      </AuthResultBackButton>
     </>
   );
 };

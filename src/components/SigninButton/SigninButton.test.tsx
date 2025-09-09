@@ -13,8 +13,8 @@ import { SigninButton } from './SigninButton';
 
 // Mock Next.js Link component
 vi.mock('next/link', () => ({
-  default: ({ href, children }: any) => (
-    <a href={href} data-testid="signin-link">
+  default: ({ href, children, ...props }: any) => (
+    <a href={href} {...props}>
       {children}
     </a>
   ),
@@ -31,13 +31,13 @@ describe('SigninButton', () => {
       render(<SigninButton />);
 
       expect(screen.getByText('Sign In')).toBeInTheDocument();
-      expect(screen.getByTestId('signin-link')).toBeInTheDocument();
+      expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
     it('should render with correct href', () => {
       render(<SigninButton />);
 
-      const link = screen.getByTestId('signin-link');
+      const link = screen.getByRole('link');
       expect(link).toHaveAttribute('href', '/signin');
     });
 
@@ -49,28 +49,28 @@ describe('SigninButton', () => {
   });
 
   describe('Button Structure', () => {
-    it('should render button with correct variant', () => {
+    it('should render as a link with button styling', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
-      expect(button).toBeInTheDocument();
-      expect(button).toHaveAttribute('type', 'button');
+      const link = screen.getByRole('link');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/signin');
     });
 
     it('should have startIcon with arrow', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
+      const link = screen.getByRole('link');
       const arrowIcon = screen.getByTestId('arrow-icon');
 
-      expect(button).toContainElement(arrowIcon);
+      expect(link).toContainElement(arrowIcon);
     });
 
     it('should contain "Sign In" text', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
-      expect(button).toHaveTextContent('Sign In');
+      const link = screen.getByRole('link');
+      expect(link).toHaveTextContent('Sign In');
     });
   });
 
@@ -79,44 +79,44 @@ describe('SigninButton', () => {
       render(<SigninButton />);
 
       // The component should render without errors
-      expect(screen.getByTestId('signin-link')).toBeInTheDocument();
+      expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
     it('should have proper button styling', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
-      expect(button).toBeInTheDocument();
-      // Button should be rendered with MUI styling
-      expect(button).toHaveClass('MuiButton-root');
+      const link = screen.getByRole('link');
+      expect(link).toBeInTheDocument();
+      // Link should be rendered with MUI button styling
+      expect(link).toHaveClass('MuiButton-root');
     });
   });
 
   describe('Accessibility', () => {
-    it('should be accessible as a button', () => {
+    it('should be accessible as a link', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
-      expect(button).toBeInTheDocument();
+      const link = screen.getByRole('link');
+      expect(link).toBeInTheDocument();
     });
 
     it('should have proper link structure', () => {
       render(<SigninButton />);
 
-      const link = screen.getByTestId('signin-link');
+      const link = screen.getByRole('link');
       expect(link).toHaveAttribute('href', '/signin');
     });
 
     it('should be keyboard accessible', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
+      const link = screen.getByRole('link');
 
       // Should be focusable
       act(() => {
-        button.focus();
+        link.focus();
       });
-      expect(button).toHaveFocus();
+      expect(link).toHaveFocus();
     });
   });
 
@@ -124,16 +124,16 @@ describe('SigninButton', () => {
     it('should handle click events', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
+      const link = screen.getByRole('link');
 
       // Should not throw error when clicked
-      expect(() => fireEvent.click(button)).not.toThrow();
+      expect(() => fireEvent.click(link)).not.toThrow();
     });
 
     it('should navigate to signin page when clicked', () => {
       render(<SigninButton />);
 
-      const link = screen.getByTestId('signin-link');
+      const link = screen.getByRole('link');
       expect(link).toHaveAttribute('href', '/signin');
     });
   });
@@ -142,12 +142,12 @@ describe('SigninButton', () => {
     it('should display arrow icon before text', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
+      const link = screen.getByRole('link');
       const arrowIcon = screen.getByTestId('arrow-icon');
       const signInText = screen.getByText('Sign In');
 
-      expect(button).toContainElement(arrowIcon);
-      expect(button).toContainElement(signInText);
+      expect(link).toContainElement(arrowIcon);
+      expect(link).toContainElement(signInText);
     });
 
     it('should have proper icon styling', () => {
@@ -163,26 +163,24 @@ describe('SigninButton', () => {
       const { rerender } = render(<SigninButton />);
 
       expect(screen.getByText('Sign In')).toBeInTheDocument();
-      expect(screen.getByTestId('signin-link')).toBeInTheDocument();
+      expect(screen.getByRole('link')).toBeInTheDocument();
 
       rerender(<SigninButton />);
 
       expect(screen.getByText('Sign In')).toBeInTheDocument();
-      expect(screen.getByTestId('signin-link')).toBeInTheDocument();
+      expect(screen.getByRole('link')).toBeInTheDocument();
     });
 
-    it('should maintain button structure', () => {
+    it('should maintain link structure', () => {
       render(<SigninButton />);
 
-      const button = screen.getByRole('button');
-      const link = screen.getByTestId('signin-link');
+      const link = screen.getByRole('link');
       const arrowIcon = screen.getByTestId('arrow-icon');
       const signInText = screen.getByText('Sign In');
 
       // All elements should be present and properly nested
-      expect(link).toContainElement(button);
-      expect(button).toContainElement(arrowIcon);
-      expect(button).toContainElement(signInText);
+      expect(link).toContainElement(arrowIcon);
+      expect(link).toContainElement(signInText);
     });
   });
 });
