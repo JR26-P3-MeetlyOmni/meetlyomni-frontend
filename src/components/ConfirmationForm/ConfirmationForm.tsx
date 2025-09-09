@@ -37,6 +37,7 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.sm,
 }));
 
+
 export const AuthResultBackButton = styled(Button)<{
   component?: React.ElementType;
   href?: string;
