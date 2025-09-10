@@ -31,13 +31,12 @@ const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   paddingRight: theme.spacing(1),
-  fontSize: theme.typography.subtitle2.fontSize,
+  fontSize: theme.typography.h6.fontSize,
   fontFamily: 'var(--font-roboto)',
-  fontWeight: theme.typography.fontWeightRegular,
+  fontWeight: theme.typography.fontWeightBold,
 }));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: 'rgba(0, 0, 0, 0.05)',
   padding: theme.spacing(0.5),
   borderRadius: '50%',
   transition: 'background-color 0.2s ease',
@@ -69,8 +68,8 @@ export const FormModal: React.FC<FormModalProps> = ({
       <StyledDialog open={open} onClose={handleDialogClose} fullWidth maxWidth="sm">
         <StyledDialogTitle>
           {title}
-          <CloseButton aria-label="close" onClick={onClose} size="small">
-            <CloseIcon fontSize="small" />
+          <CloseButton aria-label="close" onClick={onClose}>
+            <CloseIcon />
           </CloseButton>
         </StyledDialogTitle>
         <DialogContent>{children}</DialogContent>

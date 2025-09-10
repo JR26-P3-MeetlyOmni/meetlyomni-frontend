@@ -6,6 +6,7 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 
 import { EventFormFieldsProps } from '../../../constants/Event';
+import EventNameField from './EventNameField';
 import FileUploadButton from './FileUploadButton';
 
 function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
@@ -23,24 +24,7 @@ function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
 
   return (
     <Box>
-      <Box mb={2}>
-        <label>Event Name</label>
-        <TextField
-          fullWidth
-          value={formState.name}
-          onChange={handleChange}
-          variant="outlined"
-          placeholder="Please enter event name"
-          slotProps={
-            {
-              // input: {
-              //   maxLength: 100
-              // }
-            }
-          }
-          helperText={`${formState.name.length}/100`}
-        />
-      </Box>
+      <EventNameField value={formState.name} onChange={handleChange} />
 
       <Box mb={2}>
         <label>Date</label>
