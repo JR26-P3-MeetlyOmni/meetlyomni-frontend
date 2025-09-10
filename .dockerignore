@@ -4,37 +4,24 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Production build
-.next
-out
-
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# IDE files
-.vscode
-.idea
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Git
-.git
-.gitignore
-
 # Testing
 coverage
 .nyc_output
 
 # Storybook
+.storybook
 storybook-static
+
+# Next.js
+.next/
+out/
+
+# Production
+build
+dist
+
+# Environment variables
+.env
 
 # Logs
 logs
@@ -46,37 +33,42 @@ pids
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
-coverage
+# IDEs and editors
+.vscode
+.idea
+*.swp
+*.swo
+*~
 
-# Dependency directories
-jspm_packages/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Optional npm cache directory
-.npm
+# Git
+.git
+.gitignore
 
-# Optional REPL history
-.node_repl_history
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
 
-# Output of 'npm pack'
-*.tgz
+# Docker
+Dockerfile
+.dockerignore
 
-# Yarn Integrity file
-.yarn-integrity
+# CI/CD
+.github
+.gitlab-ci.yml
 
-# dotenv environment variables file
-.env
-
-# next.js build output
-.next
-
-# Nuxt.js build output
-.nuxt
-
-# Storybook build outputs
-storybook-static
+# Package manager
+.pnpm-debug.log*
 
 # Temporary folders
 tmp/
 temp/
-
