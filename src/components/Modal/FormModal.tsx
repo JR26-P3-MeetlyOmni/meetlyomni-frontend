@@ -19,30 +19,32 @@ type FormModalProps = {
   children?: React.ReactNode;
 };
 
-const StyledDialog = styled(Dialog)`
-  .MuiDialog-paper {
-    border-radius: 16px;
-    padding: 8px;
-  }
-`;
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    borderRadius: theme.spacing(2),
+    padding: theme.spacing(1),
+  },
+}));
 
-const StyledDialogTitle = styled(DialogTitle)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 8px;
-`;
+const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingRight: theme.spacing(1),
+  fontSize: theme.typography.subtitle2.fontSize,
+  fontFamily: 'var(--font-roboto)',
+  fontWeight: theme.typography.fontWeightRegular,
+}));
 
-const CloseButton = styled(IconButton)`
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 4px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.15);
-  }
-`;
+const CloseButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+  padding: theme.spacing(0.5),
+  borderRadius: '50%',
+  transition: 'background-color 0.2s ease',
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
+  },
+}));
 
 export const FormModal: React.FC<FormModalProps> = ({
   open,
