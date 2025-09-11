@@ -21,5 +21,5 @@ export interface CreateEventResponse {
 export interface CreateEventModalProps {
   open: boolean;
   onClose: () => void;
-  onEventCreated?: (event: EventFormState) => void;
+  onEventCreated?: (event: CreateEventResponse) => void;
 }

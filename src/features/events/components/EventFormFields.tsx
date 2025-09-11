@@ -36,7 +36,7 @@ function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
     <StyledBox>
       <EventNameField value={formState.name} onChange={handleChange} />
 
-      <Box mb={2}>
+      <Box mb={3}>
         <label>Date</label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -56,16 +56,18 @@ function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
         </LocalizationProvider>
       </Box>
 
-      <Box>
+      <Box mb={2}>
         <label>Description</label>
         <TextField
           fullWidth
           value={formState.description}
           onChange={handleChange}
-          rows={4}
           multiline
           variant="outlined"
           placeholder="Please enter description"
+          {...{
+            inputProps: { maxLength: 500 },
+          }}
         />
       </Box>
 

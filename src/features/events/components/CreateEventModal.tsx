@@ -3,10 +3,7 @@
 import React, { useCallback } from 'react';
 
 import FormModal from '../../../components/Modal/FormModal';
-import {
-  CreateEventModalProps,
-  // CreateEventResponse,
-} from '../../../constants/Event';
+import { CreateEventModalProps, CreateEventResponse } from '../../../constants/Event';
 import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 
@@ -25,20 +22,20 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEv
         formData.append('coverImage', formState.coverImage);
       }
 
-      // TODO: CALL api/v1/events ）
-      const response = await fetch('api/v1/events', {
+      const response = await fetch('/api/v1/events', {
         method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create event');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to create event');
       }
 
-      // const data: CreateEventResponse = await response.json();
+      const data: CreateEventResponse = await response.json();
 
       if (onEventCreated) {
-        // onEventCreated(data);
+        onEventCreated(data);
       }
 
       resetForm();
