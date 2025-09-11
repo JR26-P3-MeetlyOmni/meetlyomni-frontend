@@ -1,15 +1,11 @@
-import { alpha, Theme } from '@mui/material/styles';
+import { Button } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 
-export interface CTAButtonStyleProps {
-  width?: number | string;
-  height?: number | string;
-  fontSize?: number | string;
-}
+import CTAButtonStyleProps from './CTAButton.types';
 
-export const getCTAButtonStyles = (
-  theme: Theme,
-  { width, height, fontSize }: CTAButtonStyleProps,
-) => ({
+export const StyledCTAButton = styled(Button, {
+  shouldForwardProp: prop => !['width', 'height', 'fontSize'].includes(prop as string),
+})<CTAButtonStyleProps>(({ theme, width, height, fontSize }) => ({
   fontSize: fontSize ?? theme.typography.subtitle2.fontSize,
   fontFamily: 'var(--font-roboto)',
   fontWeight: theme.typography.fontWeightRegular,
@@ -40,4 +36,4 @@ export const getCTAButtonStyles = (
       borderWidth: 1,
     },
   },
-});
+}));

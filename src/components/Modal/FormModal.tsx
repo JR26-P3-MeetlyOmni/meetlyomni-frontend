@@ -3,45 +3,18 @@
 import React, { useCallback } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { DialogActions, DialogContent } from '@mui/material';
 
-import { CTAButton } from '../../components/Button/ActionButtons';
-import { FormModalProps } from './type';
-
-const StyledDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-  },
-}));
-
-const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  paddingRight: theme.spacing(1),
-  fontSize: theme.typography.h6.fontSize,
-  fontFamily: 'var(--font-roboto)',
-  fontWeight: theme.typography.fontWeightBold,
-  marginBottom: theme.spacing(3),
-}));
-
-const CloseButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(0.5),
-  borderRadius: '50%',
-  transition: 'background-color 0.2s ease',
-  '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.15)',
-  },
-}));
+import { CTAButton } from '../Button/CTAButton';
+import { CloseButton, StyledDialog, StyledDialogTitle } from './FormModal.styles';
+import { ButtonGroupWrapper } from './FormModal.styles';
+import { FormModalProps } from './FormModal.type';
 
 export const FormModal: React.FC<FormModalProps> = ({
   open,
   title,
   onClose,
   onSubmit,
-
   children,
 }) => {
   const handleDialogClose = useCallback(
@@ -63,12 +36,14 @@ export const FormModal: React.FC<FormModalProps> = ({
       </StyledDialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <CTAButton onClick={onClose} variant="outlined" width={31}>
-          Cancel
-        </CTAButton>
-        <CTAButton onClick={onSubmit} variant="contained" width={31}>
-          Save
-        </CTAButton>
+        <ButtonGroupWrapper>
+          <CTAButton onClick={onClose} variant="outlined">
+            Cancel
+          </CTAButton>
+          <CTAButton onClick={onSubmit} variant="contained">
+            Save
+          </CTAButton>
+        </ButtonGroupWrapper>
       </DialogActions>
     </StyledDialog>
   );
