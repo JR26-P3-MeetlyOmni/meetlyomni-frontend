@@ -20,7 +20,6 @@
         { "name": "NODE_ENV", "value": "production" },
         { "name": "PORT", "value": "3000" },
         { "name": "HOST", "value": "0.0.0.0" },
-
         { "name": "URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
         { "name": "NEXTAUTH_URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
 
