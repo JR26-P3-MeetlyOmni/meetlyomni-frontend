@@ -1,7 +1,5 @@
 'use client';
 
-import { DefaultTheme, ThemeProvider } from 'styled-components';
-
 import React, { useCallback } from 'react';
 
 import FormModal from '../../../components/Modal/FormModal';
@@ -12,12 +10,7 @@ import {
 import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 
-const CreateEventModal: React.FC<CreateEventModalProps & { theme: DefaultTheme }> = ({
-  open,
-  onClose,
-  onEventCreated,
-  theme,
-}) => {
+const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEventCreated }) => {
   const { formState, handleChange, resetForm, setIsLoading, setError } = useEventForm();
 
   const handleSubmit = useCallback(async () => {
@@ -58,17 +51,9 @@ const CreateEventModal: React.FC<CreateEventModalProps & { theme: DefaultTheme }
   }, [formState, onEventCreated, onClose, resetForm, setIsLoading, setError]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <FormModal
-        open={open}
-        title="Create Event"
-        onClose={onClose}
-        onSubmit={handleSubmit}
-        theme={theme}
-      >
-        <EventFormFields formState={formState} handleChange={handleChange} />
-      </FormModal>
-    </ThemeProvider>
+    <FormModal open={open} title="Create Event" onClose={onClose} onSubmit={handleSubmit}>
+      <EventFormFields formState={formState} handleChange={handleChange} />
+    </FormModal>
   );
 };
 

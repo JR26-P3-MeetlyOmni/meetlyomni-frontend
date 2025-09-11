@@ -1,23 +1,13 @@
 'use client';
 
-import styled, { DefaultTheme, ThemeProvider } from 'styled-components';
-
 import React, { useCallback } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import { CTAButton } from '../../components/Button/ActionButtons';
-
-type FormModalProps = {
-  open: boolean;
-  title: string;
-  onClose: () => void;
-  onSubmit: () => void;
-  theme: DefaultTheme;
-  children?: React.ReactNode;
-};
+import { FormModalProps } from './type';
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
@@ -53,7 +43,6 @@ export const FormModal: React.FC<FormModalProps> = ({
 
   children,
 }) => {
-  const theme = createTheme();
   const handleDialogClose = useCallback(
     (event: object, reason: 'backdropClick' | 'escapeKeyDown') => {
       if (reason === 'escapeKeyDown' || reason === 'backdropClick') {
@@ -64,25 +53,23 @@ export const FormModal: React.FC<FormModalProps> = ({
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <StyledDialog open={open} onClose={handleDialogClose} fullWidth maxWidth="sm">
-        <StyledDialogTitle>
-          {title}
-          <CloseButton aria-label="close" onClick={onClose}>
-            <CloseIcon />
-          </CloseButton>
-        </StyledDialogTitle>
-        <DialogContent>{children}</DialogContent>
-        <DialogActions>
-          <CTAButton onClick={onClose} variant="outlined">
-            Cancel
-          </CTAButton>
-          <CTAButton onClick={onSubmit} variant="contained">
-            Save
-          </CTAButton>
-        </DialogActions>
-      </StyledDialog>
-    </ThemeProvider>
+    <StyledDialog open={open} onClose={handleDialogClose} fullWidth maxWidth="sm">
+      <StyledDialogTitle>
+        {title}
+        <CloseButton aria-label="close" onClick={onClose}>
+          <CloseIcon />
+        </CloseButton>
+      </StyledDialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions>
+        <CTAButton onClick={onClose} variant="outlined">
+          Cancel
+        </CTAButton>
+        <CTAButton onClick={onSubmit} variant="contained">
+          Save
+        </CTAButton>
+      </DialogActions>
+    </StyledDialog>
   );
 };
 

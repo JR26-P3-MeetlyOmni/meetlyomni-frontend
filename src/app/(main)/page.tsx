@@ -15,11 +15,10 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 export default function LocalPage() {
   const handleOnClose = useCallback(() => {}, []);
 
-  const theme = {};
   return (
     <Box>
       <HeroSection />
-      <CreateEventModal open={true} onClose={handleOnClose} theme={theme} />
+      <CreateEventModal open={true} onClose={handleOnClose} />
       <FeatureCard />
       <ScenariosSection />
       <TestimonialsSection />
