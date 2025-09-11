@@ -2,7 +2,9 @@
 
 import React from 'react';
 
-import { Box, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+
+import { StyledBox } from './EventFormFields.styles';
 
 function EventNameField({
   value,
@@ -12,7 +14,7 @@ function EventNameField({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <Box mb={3}>
+    <StyledBox>
       <label>Event Name</label>
       <TextField
         fullWidth
@@ -24,7 +26,7 @@ function EventNameField({
           inputProps: { maxLength: 100 },
         }}
       />
-    </Box>
+    </StyledBox>
   );
 }
 

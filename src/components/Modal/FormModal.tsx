@@ -24,6 +24,7 @@ const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   fontSize: theme.typography.h6.fontSize,
   fontFamily: 'var(--font-roboto)',
   fontWeight: theme.typography.fontWeightBold,
+  marginBottom: theme.spacing(3),
 }));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
@@ -62,10 +63,10 @@ export const FormModal: React.FC<FormModalProps> = ({
       </StyledDialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <CTAButton onClick={onClose} variant="outlined">
+        <CTAButton onClick={onClose} variant="outlined" width={31}>
           Cancel
         </CTAButton>
-        <CTAButton onClick={onSubmit} variant="contained">
+        <CTAButton onClick={onSubmit} variant="contained" width={31}>
           Save
         </CTAButton>
       </DialogActions>

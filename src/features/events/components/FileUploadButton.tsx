@@ -18,7 +18,12 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   fullWidth = true,
 }) => {
   return (
-    <CTAButton variant="contained" width={500} component="label" fullWidth={fullWidth}>
+    <CTAButton
+      variant="contained"
+      component="label"
+      fullWidth={fullWidth}
+      sx={{ width: '100%', maxWidth: '540px' }}
+    >
       Upload File
       <input type="file" name={name} onChange={handleChange} accept={accept} hidden />
     </CTAButton>
