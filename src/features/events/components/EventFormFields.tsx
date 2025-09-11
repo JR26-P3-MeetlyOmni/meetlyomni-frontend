@@ -1,11 +1,17 @@
 'use client';
 
+import dayjs, { Dayjs } from 'dayjs';
+
 import React, { useCallback } from 'react';
 
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { EventFormFieldsProps } from '../../../constants/Event';
+import { StyledBox } from './EventFormFields.styles';
 import EventNameField from './EventNameField';
 import FileUploadButton from './FileUploadButton';
 
@@ -17,42 +23,40 @@ function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
     [handleChange],
   );
 
-  const handleOpenDatePicker = useCallback(() => {
-    // TODO: real date picker
-    alert('Open date picker');
-  }, []);
+  const handleDateChange = useCallback(
+    (newValue: Dayjs | null) => {
+      handleChange({
+        target: { name: 'date', value: newValue ? newValue.toISOString() : null },
+      } as unknown as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>);
+    },
+    [handleChange],
+  );
 
   return (
-    <Box>
+    <StyledBox>
       <EventNameField value={formState.name} onChange={handleChange} />
 
       <Box mb={2}>
         <label>Date</label>
-        <TextField
-          fullWidth
-          type="date"
-          value={formState.date}
-          onChange={handleChange}
-          variant="outlined"
-          placeholder="Select date"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleOpenDatePicker}>
-                    <CalendarMonthOutlinedIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-            inputLabel: {
-              shrink: true,
-            },
-          }}
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            value={formState.date ? dayjs(formState.date) : null}
+            onChange={handleDateChange}
+            slots={{
+              openPickerIcon: CalendarMonthOutlinedIcon,
+            }}
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                variant: 'outlined',
+                placeholder: 'Select date',
+              },
+            }}
+          />
+        </LocalizationProvider>
       </Box>
 
-      <Box mb={2}>
+      <Box>
         <label>Description</label>
         <TextField
           fullWidth
@@ -66,7 +70,7 @@ function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
       </Box>
 
       <FileUploadButton name="coverImage" handleChange={handleFileChange} />
-    </Box>
+    </StyledBox>
   );
 }
 
