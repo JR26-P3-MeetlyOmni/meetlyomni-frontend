@@ -1,79 +1,68 @@
 'use client';
 
-import dayjs, { Dayjs } from 'dayjs';
-
 import React, { useCallback } from 'react';
 
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { Box, TextField } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TextField } from '@mui/material';
 
 import { EventFormFieldsProps } from '../../../constants/Event';
+import EventDateField from './EventDateField';
 import { StyledBox } from './EventFormFields.styles';
-import EventNameField from './EventNameField';
 import FileUploadButton from './FileUploadButton';
 
-function EventFormFields({ formState, handleChange }: EventFormFieldsProps) {
-  const handleFileChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      handleChange(e as unknown as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>);
-    },
+const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChange }) => {
+  const handleNameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => handleChange('name', e.target.value),
+    [handleChange],
+  );
+
+  const handleDescriptionChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => handleChange('description', e.target.value),
     [handleChange],
   );
 
   const handleDateChange = useCallback(
-    (newValue: Dayjs | null) => {
-      handleChange({
-        target: { name: 'date', value: newValue ? newValue.toISOString() : null },
-      } as unknown as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>);
-    },
+    (value: string) => handleChange('date', value),
+    [handleChange],
+  );
+
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      handleChange('coverImage', e.target.files?.[0] ?? null),
     [handleChange],
   );
 
   return (
     <StyledBox>
-      <EventNameField value={formState.name} onChange={handleChange} />
+      <StyledBox>
+        <label>Event Name</label>
+        <TextField
+          fullWidth
+          value={formState.name}
+          onChange={handleNameChange}
+          variant="outlined"
+          placeholder="Please enter event name"
+          inputProps={{ maxLength: 100 }}
+        />
+      </StyledBox>
 
-      <Box mb={3}>
-        <label>Date</label>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            value={formState.date ? dayjs(formState.date) : null}
-            onChange={handleDateChange}
-            slots={{
-              openPickerIcon: CalendarMonthOutlinedIcon,
-            }}
-            slotProps={{
-              textField: {
-                fullWidth: true,
-                variant: 'outlined',
-                placeholder: 'Select date',
-              },
-            }}
-          />
-        </LocalizationProvider>
-      </Box>
+      <EventDateField value={formState.date} onChange={handleDateChange} />
 
-      <Box mb={2}>
+      <StyledBox>
         <label>Description</label>
         <TextField
           fullWidth
           value={formState.description}
-          onChange={handleChange}
+          onChange={handleDescriptionChange}
           multiline
           variant="outlined"
           placeholder="Please enter description"
-          {...{
-            inputProps: { maxLength: 500 },
-          }}
+          inputProps={{ maxLength: 500 }}
         />
-      </Box>
+      </StyledBox>
 
       <FileUploadButton name="coverImage" handleChange={handleFileChange} />
     </StyledBox>
   );
-}
+};
 
 export default EventFormFields;

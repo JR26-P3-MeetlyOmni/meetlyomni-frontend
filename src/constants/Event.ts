@@ -7,7 +7,7 @@ export interface EventFormState {
 
 export interface EventFormFieldsProps {
   formState: EventFormState;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleChange: <K extends keyof EventFormState>(field: K, value: EventFormState[K]) => void;
 }
 
 export interface CreateEventResponse {
