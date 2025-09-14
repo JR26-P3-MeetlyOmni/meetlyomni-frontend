@@ -18,10 +18,8 @@ export const FormModal: React.FC<FormModalProps> = ({
   children,
 }) => {
   const handleDialogClose = useCallback(
-    (event: object, reason: 'backdropClick' | 'escapeKeyDown') => {
-      if (reason === 'escapeKeyDown' || reason === 'backdropClick') {
-        onClose();
-      }
+    (_event: object, _reason?: 'backdropClick' | 'escapeKeyDown') => {
+      onClose();
     },
     [onClose],
   );

@@ -2,7 +2,7 @@
 
 import CreateEventModal from '@/features/events/components/CreateEventModal';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -13,12 +13,15 @@ import { ScenariosSection } from './components/ScenariosSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 
 export default function LocalPage() {
-  const handleOnClose = useCallback(() => {}, []);
+  const [creatEventModalOpen, setCreatEventModalOpen] = useState(true);
+  const handleOnClose = useCallback(() => {
+    setCreatEventModalOpen(false);
+  }, []);
 
   return (
     <Box>
       <HeroSection />
-      <CreateEventModal open={true} onClose={handleOnClose} />
+      <CreateEventModal open={creatEventModalOpen} onClose={handleOnClose} />
       <FeatureCard />
       <ScenariosSection />
       <TestimonialsSection />
