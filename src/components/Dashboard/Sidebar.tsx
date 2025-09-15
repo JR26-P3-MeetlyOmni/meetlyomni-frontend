@@ -1,14 +1,12 @@
 'use client';
 
+import { TopLeftLogo } from '@/components/Logo';
 import { ANIMATION_CONFIG, NAVIGATION_ITEMS, type NavigationItem } from '@/constants';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback } from 'react';
 
 import { Box, Paper, Typography, useTheme } from '@mui/material';
-
-import Logo from '@assets/images/navbar/nav_bar_logo.png';
 
 const NavigationItemComponent = React.memo(
   ({ href, icon, label, isActive = false }: NavigationItem) => {
@@ -76,8 +74,8 @@ const Sidebar = React.memo(() => {
       }}
     >
       {/* Sidebar Header */}
-      <Box padding={3} borderBottom={1} borderColor="divider" bgcolor="background.paper">
-        <Image src={Logo} alt="Dashboard Logo" width={120} height={40} />
+      <Box borderBottom={1} borderColor="divider" bgcolor="background.paper">
+        <TopLeftLogo />
       </Box>
 
       {/* Sidebar Content */}
