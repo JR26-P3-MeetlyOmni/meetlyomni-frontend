@@ -1,3 +1,4 @@
+// src/components/ConfirmationForm/ConfirmationForm.tsx
 'use client';
 
 import Image from 'next/image';
@@ -37,7 +38,6 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.sm,
 }));
 
-
 export const AuthResultBackButton = styled(Button)<{
   component?: React.ElementType;
   href?: string;
@@ -49,6 +49,7 @@ export const AuthResultBackButton = styled(Button)<{
   padding: `${theme.spacing(1.5)} ${theme.spacing(2.5)}`,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
+  
   lineHeight: theme.typography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
@@ -67,6 +68,7 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   description,
   buttonText = 'Back to Login',
   buttonHref = '/login',
+  showButton = true,
 }) => {
   return (
     <>
@@ -76,13 +78,15 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
       <AuthResultTitleText>{title}</AuthResultTitleText>
       <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
 
-      <AuthResultBackButton
-        component={Link}
-        href={buttonHref}
-        aria-label={buttonText}
-      >
-        {buttonText}
-      </AuthResultBackButton>
+      {showButton && (
+        <AuthResultBackButton
+          component={Link}
+          href={buttonHref}
+          aria-label={buttonText}
+        >
+          {buttonText}
+        </AuthResultBackButton>
+      )}
     </>
   );
 };

@@ -48,7 +48,7 @@ type Story = StoryObj<typeof meta>;
 
 export const SuccessPage: Story = {
   args: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: '/assets/images/confirmationForm/green-success-check.png',
     iconAlt: 'Success',
     title: 'Registration Successful!',
     description:
@@ -60,7 +60,7 @@ export const SuccessPage: Story = {
 
 export const ErrorPage: Story = {
   args: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: '/assets/images/confirmationForm/green-success-check.png',
     iconAlt: 'Error',
     title: 'Verification Failed',
     description:
@@ -72,7 +72,7 @@ export const ErrorPage: Story = {
 
 export const DefaultLogin: Story = {
   args: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: '/assets/images/confirmationForm/green-success-check.png',
     iconAlt: 'Information',
     title: 'Please Sign In',
     description: 'You need to sign in to access this page.',
@@ -83,7 +83,7 @@ export const DefaultLogin: Story = {
 
 export const CustomAction: Story = {
   args: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: '/assets/images/confirmationForm/green-success-check.png',
     iconAlt: 'Warning',
     title: 'Account Locked',
     description:

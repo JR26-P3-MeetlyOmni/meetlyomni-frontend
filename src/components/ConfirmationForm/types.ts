@@ -1,3 +1,4 @@
+// src/components/ConfirmationForm/types.ts
 export interface AuthResultPageProps {
   iconSrc: string;
   iconAlt: string;
@@ -5,4 +6,5 @@ export interface AuthResultPageProps {
   description: string;
   buttonText?: string;
   buttonHref?: string;
+  showButton?: boolean; // default: true
 }
