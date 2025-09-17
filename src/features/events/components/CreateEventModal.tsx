@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 
 import FormModal from '../../../components/Modal/FormModal';
 import { CreateEventModalProps, CreateEventResponse } from '../../../constants/Event';
+import { API_BASE_URL } from '../../auth/authApi';
 import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 
@@ -23,7 +24,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEv
       formData.append('description', formState.description);
       if (formState.coverImage) formData.append('coverImage', formState.coverImage);
 
-      const response = await fetch('/api/v1/events', { method: 'POST', body: formData });
+      const response = await fetch(`${API_BASE_URL}/v1/events`, { method: 'POST', body: formData });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
