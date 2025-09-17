@@ -1,3 +1,6 @@
+import { ApiError } from '@/api/api';
+import { AppErrorCode, ERROR_CONFIG } from '@/types/errors';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getMe, loginApi, logoutApi } from './authApi';
@@ -9,9 +12,11 @@ export const fetchMe = createAsyncThunk<User, void, { rejectValue: 'UNAUTHENTICA
     try {
       return await getMe(thunkAPI.signal);
     } catch (err: unknown) {
-      const error = err as Error & { status?: number };
-      if (error?.status === 401) return thunkAPI.rejectWithValue('UNAUTHENTICATED');
-      return thunkAPI.rejectWithValue(error?.message ?? 'Failed to fetch current user');
+      if (err instanceof ApiError) {
+        if (err.status === 401) return thunkAPI.rejectWithValue('UNAUTHENTICATED');
+        return thunkAPI.rejectWithValue(err.message);
+      }
+      return thunkAPI.rejectWithValue('Failed to fetch current user');
     }
   },
 );
@@ -26,8 +31,16 @@ export const loginThunk = createAsyncThunk<
     const user = await thunkAPI.dispatch(fetchMe()).unwrap();
     return { user, expiresAt: meta.expiresAt };
   } catch (err: unknown) {
-    const error = err as Error & { message?: string };
-    return thunkAPI.rejectWithValue(error?.message ?? 'Login failed');
+    if (err instanceof ApiError) {
+      // Determine whether logout is needed based on error configuration
+      const config = ERROR_CONFIG[err.code as AppErrorCode];
+      if (config?.shouldLogout) {
+        // Can trigger logout logic here
+        // thunkAPI.dispatch(logoutLocal());
+      }
+      return thunkAPI.rejectWithValue(err.message);
+    }
+    return thunkAPI.rejectWithValue('Login failed');
   }
 });
 
@@ -38,8 +51,10 @@ export const logoutThunk = createAsyncThunk<void, void, { rejectValue: string }>
       await logoutApi();
       return;
     } catch (err: unknown) {
-      const error = err as Error & { message?: string };
-      return thunkAPI.rejectWithValue(error?.message ?? 'Logout failed');
+      if (err instanceof ApiError) {
+        return thunkAPI.rejectWithValue(err.message);
+      }
+      return thunkAPI.rejectWithValue('Logout failed');
     }
   },
 );

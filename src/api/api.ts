@@ -1,4 +1,6 @@
 // lib/api.ts
+import { AppError, AppErrorCode, ERROR_MESSAGES } from '@/types/errors';
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 let csrfTokenCache: string | null = null;
 
@@ -85,8 +87,102 @@ function shouldSetJsonContentType(
   return hasBody && !isFormData && !isBlob && !hasContentType;
 }
 
-interface ApiError extends Error {
-  status?: number;
+// Log error - currently disabled, but can be extended for error monitoring services
+function logError(_error: AppError, _context?: Record<string, unknown>): void {
+  // This function is currently a no-op since console logging is disabled
+  // In production, you can integrate with error monitoring services like Sentry here
+  // Example: Sentry.captureException(new Error(_error.message), { extra: { ..._error, _context } });
+}
+
+// Parse error response data
+async function parseErrorData(
+  response: Response,
+): Promise<{ title: string; detail: string; traceId?: string }> {
+  try {
+    const contentType = response.headers.get('content-type');
+    if (contentType?.includes('application/json')) {
+      const data = (await response.json()) as { title?: string; detail?: string; traceId?: string };
+      return {
+        title: data.title || '',
+        detail: data.detail || '',
+        traceId: data.traceId,
+      };
+    } else {
+      const text = await response.text();
+      return { title: '', detail: text, traceId: undefined };
+    }
+  } catch {
+    return { title: '', detail: `HTTP ${response.status}`, traceId: undefined };
+  }
+}
+
+// Map HTTP status to error code
+function mapStatusToErrorCode(status: number, title: string, detail: string): AppErrorCode {
+  if (status === 401) return AppErrorCode.UNAUTHORIZED;
+  if (status === 403) {
+    const isCsrf =
+      title.toLowerCase().includes('csrf') || detail.toLowerCase().includes('antiforgery');
+    return isCsrf ? AppErrorCode.CSRF_VALIDATION_FAILED : AppErrorCode.FORBIDDEN;
+  }
+  if (status === 422) return AppErrorCode.VALIDATION_ERROR;
+  if (status === 404) return AppErrorCode.NOT_FOUND;
+  if (status === 409) return AppErrorCode.CONFLICT;
+  if (status === 400) return AppErrorCode.BAD_REQUEST;
+  if (status >= 500) return AppErrorCode.INTERNAL_ERROR;
+  if (status === 503) return AppErrorCode.SERVICE_UNAVAILABLE;
+  return AppErrorCode.UNKNOWN_ERROR;
+}
+
+// Parse backend error response
+async function parseErrorResponse(response: Response): Promise<AppError> {
+  const { title, detail, traceId } = await parseErrorData(response);
+  const status = response.status;
+  const code = mapStatusToErrorCode(status, title, detail);
+
+  return {
+    status,
+    code,
+    message: ERROR_MESSAGES[code],
+    traceId,
+    details: { title, detail, traceId },
+  };
+}
+
+// Create network error
+function createNetworkError(error: Error): AppError {
+  const message = error.message.toLowerCase();
+
+  if (message.includes('timeout')) {
+    return {
+      status: 0,
+      code: AppErrorCode.TIMEOUT_ERROR,
+      message: ERROR_MESSAGES[AppErrorCode.TIMEOUT_ERROR],
+    };
+  }
+
+  return {
+    status: 0,
+    code: AppErrorCode.NETWORK_ERROR,
+    message: ERROR_MESSAGES[AppErrorCode.NETWORK_ERROR],
+    details: { originalError: error.message },
+  };
+}
+
+// Custom error class that extends Error but contains AppError information
+export class ApiError extends Error {
+  public readonly status: number;
+  public readonly code: string;
+  public readonly traceId?: string;
+  public readonly details?: unknown;
+
+  constructor(appError: AppError) {
+    super(appError.message);
+    this.name = 'ApiError';
+    this.status = appError.status;
+    this.code = appError.code;
+    this.traceId = appError.traceId;
+    this.details = appError.details;
+  }
 }
 
 export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -108,21 +204,38 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
     }
   }
 
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    credentials: 'include',
-    headers,
-  });
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      credentials: 'include',
+      headers,
+    });
 
-  if (!res.ok) {
-    if (res.status === 403) resetCsrfCache();
-    const text = await res.text();
-    const error = new Error(text || `Request failed: ${res.status}`) as ApiError;
-    error.status = res.status;
-    throw error;
+    if (!res.ok) {
+      if (res.status === 403) resetCsrfCache();
+
+      // Parse error response
+      const appError = await parseErrorResponse(res);
+
+      // Log error
+      logError(appError, { path, method });
+
+      // Throw standardized error
+      throw new ApiError(appError);
+    }
+
+    const ct = res.headers.get('content-type') || '';
+    if (ct.includes('application/json')) return (await res.json()) as T;
+    return undefined as unknown as T;
+  } catch (error) {
+    // Handle network errors or other exceptions
+    if (error instanceof ApiError) {
+      throw error; // Re-throw already processed API error
+    }
+
+    // Handle network error
+    const networkError = createNetworkError(error as Error);
+    logError(networkError, { path, method });
+    throw new ApiError(networkError);
   }
-
-  const ct = res.headers.get('content-type') || '';
-  if (ct.includes('application/json')) return (await res.json()) as T;
-  return undefined as unknown as T;
 }
