@@ -49,7 +49,7 @@ export const AuthResultBackButton = styled(Button)<{
   padding: `${theme.spacing(1.5)} ${theme.spacing(2.5)}`,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
-  lineHeight: theme.typTypography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
+  lineHeight: theme.typography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
   display: 'block',
