@@ -34,8 +34,8 @@ export const ButtonGroupWrapper = styled(Box)(({ theme }) => ({
   justifyContent: 'flex-end',
   marginRight: theme.spacing(2),
   gap: theme.spacing(2),
-
   '& > button': {
-    width: theme.spacing(4),
+    width: theme.spacing(10),
+    textTransform: 'none',
   },
 }));
