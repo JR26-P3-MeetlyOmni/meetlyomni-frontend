@@ -2,10 +2,17 @@
 'use client';
 
 import NextLink from 'next/link';
+import React from 'react';
 
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
+type SigninButtonProps = {
+  href?: string;
+  onClick?: () => void;
+  'aria-label'?: string;
+};
 
 const Root = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -31,15 +38,16 @@ const StyledButton = styled(Button)<{ component?: React.ElementType; href?: stri
   }),
 );
 
-export function SigninButton() {
+export function SigninButton({ href = '/signin', onClick, ...rest }: SigninButtonProps) {
   return (
     <Root>
       <StyledButton
         component={NextLink}
-        href="/signin"
+        href={href}
         variant="contained"
         startIcon={<ArrowBackIosNewRoundedIcon aria-hidden />}
-        aria-label="Sign in"
+        onClick={onClick}
+        aria-label={rest['aria-label'] ?? 'Sign in'}
       >
         Sign In
       </StyledButton>
