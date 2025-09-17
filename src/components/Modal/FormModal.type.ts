@@ -4,4 +4,6 @@ export type FormModalProps = {
   onClose: () => void;
   onSubmit: () => void;
   children?: React.ReactNode;
+  isLoading?: boolean;
+  disabledSubmit?: boolean;
 };

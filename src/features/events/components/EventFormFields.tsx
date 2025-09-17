@@ -55,6 +55,7 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
           onChange={handleDescriptionChange}
           multiline
           variant="outlined"
+          rows={4}
           placeholder="Please enter description"
           inputProps={{ maxLength: 500 }}
         />
