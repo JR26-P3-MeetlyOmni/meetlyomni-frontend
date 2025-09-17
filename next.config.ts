@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your existing Next.js config
+  // Enable standalone output for Docker optimization
+  output: 'standalone',
+  // Your existing Next.js config  
 };
 
 export default nextConfig;

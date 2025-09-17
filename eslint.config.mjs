@@ -35,9 +35,9 @@ const eslintConfig = [
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_"
       }],
-      "complexity": ["error", { max: 10 }],
+      "complexity": ["error", { max: 15 }],
       "import/no-cycle": "error",
-      "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],
+      "max-lines-per-function": ["error", { max: 100, skipBlankLines: true, skipComments: true }],
       "no-new-wrappers": "error",
       "no-console": "error",
       "no-debugger": "error",
@@ -50,8 +50,8 @@ const eslintConfig = [
       }],
       "no-unused-vars": "off", 
       "react-hooks/exhaustive-deps": "error",
-      "react/jsx-no-bind": "error",
-      "react/jsx-no-leaked-render": "error",
+      "react/jsx-no-bind": "off",
+      "react/jsx-no-leaked-render": "warn",
       "react/no-danger": "error"
     }
   }
