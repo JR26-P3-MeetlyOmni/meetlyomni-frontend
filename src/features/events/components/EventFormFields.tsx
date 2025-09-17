@@ -9,7 +9,7 @@ import EventDateField from './EventDateField';
 import { StyledBox } from './EventFormFields.styles';
 import FileUploadButton from './FileUploadButton';
 
-const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChange }) => {
+const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChange, errors }) => {
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleChange('name', e.target.value),
     [handleChange],
@@ -42,10 +42,17 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
           variant="outlined"
           placeholder="Please enter event name"
           inputProps={{ maxLength: 100 }}
+          error={!!errors?.name}
+          helperText={errors?.name}
         />
       </StyledBox>
 
-      <EventDateField value={formState.date} onChange={handleDateChange} />
+      <EventDateField
+        value={formState.date}
+        onChange={handleDateChange}
+        error={!!errors?.date}
+        helperText={errors?.date}
+      />
 
       <StyledBox>
         <label>Description</label>
@@ -58,6 +65,8 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
           rows={4}
           placeholder="Please enter description"
           inputProps={{ maxLength: 500 }}
+          error={!!errors?.description}
+          helperText={errors?.description}
         />
       </StyledBox>
 

@@ -45,6 +45,7 @@ export const useEventForm = (initialState?: Partial<EventFormState>) => {
     const tempErrors: EventFormErrors = {};
     if (!formState.name.trim()) tempErrors.name = 'Event name is required';
     if (!formState.date.trim()) tempErrors.date = 'Event date is required';
+    if (!formState.description.trim()) tempErrors.description = 'Description is required';
     setErrors(tempErrors);
 
     const formIsValid = Object.keys(tempErrors).length === 0;

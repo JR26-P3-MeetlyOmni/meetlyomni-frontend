@@ -14,6 +14,8 @@ import { StyledBox } from './EventFormFields.styles';
 interface EventDateFieldProps {
   value: string;
   onChange: (date: string) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
 const EventDateField: React.FC<EventDateFieldProps> = ({ value, onChange }) => {

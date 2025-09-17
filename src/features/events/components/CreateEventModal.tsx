@@ -8,17 +8,8 @@ import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 
 const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEventCreated }) => {
-  const {
-    formState,
-    handleChange,
-    resetForm,
-    setIsLoading,
-    setError,
-    isValid,
-    errors,
-    isLoading,
-    error,
-  } = useEventForm();
+  const { formState, handleChange, resetForm, setIsLoading, setError, isValid, errors, isLoading } =
+    useEventForm();
 
   const handleSubmit = useCallback(async () => {
     if (!isValid) return;
@@ -60,12 +51,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEv
       isLoading={isLoading}
       disabledSubmit={!isValid}
     >
-      <EventFormFields formState={formState} handleChange={handleChange} />
-
-      {errors.name ? <p style={{ color: 'red', marginTop: 4 }}>{errors.name}</p> : null}
-      {errors.date ? <p style={{ color: 'red', marginTop: 4 }}>{errors.date}</p> : null}
-
-      {error ? <p style={{ color: 'red', marginTop: 4 }}>{error}</p> : null}
+      <EventFormFields formState={formState} handleChange={handleChange} errors={errors} />
     </FormModal>
   );
 };

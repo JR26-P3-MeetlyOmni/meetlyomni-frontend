@@ -8,6 +8,7 @@ export interface EventFormState {
 export interface EventFormFieldsProps {
   formState: EventFormState;
   handleChange: <K extends keyof EventFormState>(field: K, value: EventFormState[K]) => void;
+  errors?: Partial<Record<keyof EventFormState, string>>;
 }
 
 export interface CreateEventResponse {
