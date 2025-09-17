@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loginThunk } from './thunks';
+import { loginThunk, logoutThunk } from './thunks';
 import type { AuthState } from './types';
 
 const initialState: AuthState = {
@@ -13,7 +13,14 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: state => {
+      state.user = null;
+      state.isAuthenticated = false;
+      state.isLoading = false;
+      state.error = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(loginThunk.pending, state => {
@@ -31,8 +38,26 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         state.error = action.payload?.message ?? action.error.message ?? 'Login failed';
+      })
+      .addCase(logoutThunk.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(logoutThunk.fulfilled, state => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(logoutThunk.rejected, (state, action) => {
+        // Even if logout API fails, we still clear the local state
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isLoading = false;
+        state.error = action.payload?.message ?? action.error.message ?? 'Logout failed';
       });
   },
 });
 
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
