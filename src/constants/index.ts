@@ -4,9 +4,6 @@ export * from './AvatarConfig';
 // Animation configuration
 export * from './AnimationConfig';
 
-// Navigation configuration
-export * from './NavigationConfig';
-
 // Data constants
 export * from './FaqData';
 export * from './FeaturesData';

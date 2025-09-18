@@ -1,7 +1,8 @@
 'use client';
 
 import { TopLeftLogo } from '@/components/Logo';
-import { ANIMATION_CONFIG, NAVIGATION_ITEMS, type NavigationItem } from '@/constants';
+import { ANIMATION_CONFIG } from '@/constants';
+import { NAVIGATION_ITEMS, type NavigationItem } from '@/constants/NavigationConfig';
 
 import Link from 'next/link';
 import React, { useCallback } from 'react';
