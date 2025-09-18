@@ -1,12 +1,20 @@
 'use client';
 
 import { selectError, selectIsAuthenticated, selectUser } from '@/features/auth/selectors';
+import CreateEventModal from '@/features/events/components/CreateEventModal';
 import { useAppSelector } from '@/store/hooks';
+
+import { useCallback, useState } from 'react';
 
 export default function DashboardPage() {
   const user = useAppSelector(selectUser);
   const error = useAppSelector(selectError);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+
+  const [creatEventModalOpen, setCreatEventModalOpen] = useState(true);
+  const handleOnClose = useCallback(() => {
+    setCreatEventModalOpen(false);
+  }, []);
 
   return (
     <div>
@@ -17,6 +25,9 @@ export default function DashboardPage() {
       {isAuthenticated && user ? (
         <div>
           <p>Welcome to meetlyomni!</p>
+
+          <CreateEventModal open={creatEventModalOpen} onClose={handleOnClose} />
+
           <p>
             <strong>Email:</strong> {user.email}
           </p>

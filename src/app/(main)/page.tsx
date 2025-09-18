@@ -1,9 +1,3 @@
-'use client';
-
-import CreateEventModal from '@/features/events/components/CreateEventModal';
-
-import { useCallback, useState } from 'react';
-
 import { Box } from '@mui/material';
 
 import HeroSection from '../(main)/components/HeroSection/HeroSection';
@@ -12,16 +6,10 @@ import { FeatureCard } from './components/FeatureCard';
 import { ScenariosSection } from './components/ScenariosSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 
-export default function LocalPage() {
-  const [creatEventModalOpen, setCreatEventModalOpen] = useState(true);
-  const handleOnClose = useCallback(() => {
-    setCreatEventModalOpen(false);
-  }, []);
-
+export default async function localPage() {
   return (
     <Box>
       <HeroSection />
-      <CreateEventModal open={creatEventModalOpen} onClose={handleOnClose} />
       <FeatureCard />
       <ScenariosSection />
       <TestimonialsSection />
