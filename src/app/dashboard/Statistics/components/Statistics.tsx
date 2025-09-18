@@ -4,7 +4,6 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-//Statistics Page is currently empty, ignore any unappropiate code such as sx, style, etc.
 export default function Statistics() {
   return (
     <Box
