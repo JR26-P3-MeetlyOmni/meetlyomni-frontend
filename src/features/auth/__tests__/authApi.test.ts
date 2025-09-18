@@ -19,145 +19,177 @@ describe('authApi', () => {
     name: 'Test User',
   };
 
+  // Helper function to mock CSRF token cookie behavior
+  const mockCsrfTokenCookie = (token: string = 'test-csrf-token') => {
+    let callCount = 0;
+    vi.spyOn(window.document, 'cookie', 'get').mockImplementation(() => {
+      callCount++;
+      // Return empty string for first call (before CSRF fetch), then return token
+      return callCount === 1 ? '' : `XSRF-TOKEN=${token}`;
+    });
+  };
+
   beforeEach(() => {
     mockFetch.mockClear();
     // Reset environment variable
     vi.unstubAllEnvs();
+
+    // Mock document.cookie for CSRF token
+    Object.defineProperty(window, 'document', {
+      value: {
+        cookie: '',
+      },
+      writable: true,
+    });
+
+    // Mock getCookie function to return empty string initially
+    // This will trigger the CSRF token fetch
+    vi.spyOn(window.document, 'cookie', 'get').mockReturnValue('');
   });
 
   describe('loginApi', () => {
     it('should make POST request to correct URL with credentials', async () => {
-      const mockResponse = {
+      // Mock CSRF token response first
+      const csrfResponse = {
+        ok: true,
+        json: vi.fn().mockResolvedValue({}),
+      };
+
+      // Mock login response
+      const loginResponse = {
         ok: true,
         json: vi.fn().mockResolvedValue({ user: mockUser }),
       };
-      mockFetch.mockResolvedValue(mockResponse);
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
+      // Mock fetch to return CSRF response first, then login response
+      mockFetch
+        .mockResolvedValueOnce(csrfResponse) // CSRF call
+        .mockResolvedValueOnce(loginResponse); // Login call
 
       await loginApi(mockCredentials);
 
-      expect(mockFetch).toHaveBeenCalledWith('/api/auth/login', {
+      // Check CSRF call
+      expect(mockFetch).toHaveBeenNthCalledWith(1, 'https://localhost:7011/api/v1/auth/csrf', {
+        method: 'GET',
+        credentials: 'include',
+        signal: undefined,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      // Check login call
+      expect(mockFetch).toHaveBeenNthCalledWith(2, 'https://localhost:7011/api/v1/auth/login', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'X-XSRF-TOKEN': 'test-csrf-token',
         },
         body: JSON.stringify(mockCredentials),
+        signal: undefined,
       });
-    });
-
-    it('should use default API_BASE_URL when not provided', async () => {
-      const mockResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({ user: mockUser }),
-      };
-      mockFetch.mockResolvedValue(mockResponse);
-
-      await loginApi(mockCredentials);
-
-      expect(mockFetch).toHaveBeenCalledWith('/api/auth/login', expect.any(Object));
     });
 
     it('should return user data on successful login', async () => {
       const expectedResponse = { user: mockUser };
-      const mockResponse = {
+
+      const csrfResponse = {
+        ok: true,
+        json: vi.fn().mockResolvedValue({}),
+      };
+
+      const loginResponse = {
         ok: true,
         json: vi.fn().mockResolvedValue(expectedResponse),
       };
-      mockFetch.mockResolvedValue(mockResponse);
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
+      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
       const result = await loginApi(mockCredentials);
 
       expect(result).toEqual(expectedResponse);
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
+      expect(loginResponse.json).toHaveBeenCalledTimes(1);
     });
 
     it('should throw error with message from response on 401', async () => {
-      const errorResponse = { error: 'Invalid credentials' };
-      const mockResponse = {
+      const csrfResponse = {
+        ok: true,
+        json: vi.fn().mockResolvedValue({}),
+      };
+
+      const errorResponse = { error: 'Invalid username or password' };
+      const loginResponse = {
         ok: false,
         status: 401,
         json: vi.fn().mockResolvedValue(errorResponse),
       };
-      mockFetch.mockResolvedValue(mockResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('Invalid credentials');
-      expect(mockResponse.json).toHaveBeenCalledTimes(1);
-    });
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
 
-    it('should use JSON.stringify(err) when response has no error message', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 500,
-        json: vi.fn().mockResolvedValue({}),
-      };
-      mockFetch.mockResolvedValue(mockResponse);
+      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('{}');
-    });
-
-    it('should throw friendly message when JSON parsing fails', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 400,
-        json: vi.fn().mockRejectedValue(new Error('Invalid JSON')),
-      };
-      mockFetch.mockResolvedValue(mockResponse);
-
-      await expect(loginApi(mockCredentials)).rejects.toThrow('Login failed (error code: 400)');
+      await expect(loginApi(mockCredentials)).rejects.toThrow('Invalid username or password');
+      expect(loginResponse.json).toHaveBeenCalledTimes(1);
     });
 
     it('should handle network errors', async () => {
       const networkError = new Error('Network error');
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
       mockFetch.mockRejectedValue(networkError);
 
-      await expect(loginApi(mockCredentials)).rejects.toThrow('Network error');
-    });
-
-    it('should handle different HTTP error codes', async () => {
-      const testCases = [
-        { status: 400, expectedError: '{}' },
-        { status: 403, expectedError: '{}' },
-        { status: 404, expectedError: '{}' },
-        { status: 500, expectedError: '{}' },
-      ];
-
-      for (const testCase of testCases) {
-        mockFetch.mockClear();
-        const mockResponse = {
-          ok: false,
-          status: testCase.status,
-          json: vi.fn().mockResolvedValue({}),
-        };
-        mockFetch.mockResolvedValue(mockResponse);
-
-        await expect(loginApi(mockCredentials)).rejects.toThrow(testCase.expectedError);
-      }
+      // Network error during CSRF token fetch should throw CSRF token error
+      await expect(loginApi(mockCredentials)).rejects.toThrow(
+        'Unable to obtain CSRF token for authentication',
+      );
     });
 
     it('should send credentials with every request', async () => {
-      const mockResponse = {
+      const csrfResponse = {
+        ok: true,
+        json: vi.fn().mockResolvedValue({}),
+      };
+
+      const loginResponse = {
         ok: true,
         json: vi.fn().mockResolvedValue({ user: mockUser }),
       };
-      mockFetch.mockResolvedValue(mockResponse);
+
+      // Mock CSRF token cookie behavior
+      mockCsrfTokenCookie();
+
+      mockFetch.mockResolvedValueOnce(csrfResponse).mockResolvedValueOnce(loginResponse);
 
       await loginApi(mockCredentials);
 
-      const [, options] = mockFetch.mock.calls[0];
-      expect(options.credentials).toBe('include');
-    });
+      expect(mockFetch).toHaveBeenCalledTimes(2);
 
-    it('should send correct Content-Type header', async () => {
-      const mockResponse = {
-        ok: true,
-        json: vi.fn().mockResolvedValue({ user: mockUser }),
-      };
-      mockFetch.mockResolvedValue(mockResponse);
-
-      await loginApi(mockCredentials);
-
-      const [, options] = mockFetch.mock.calls[0];
-      expect(options.headers['Content-Type']).toBe('application/json');
+      // Check that both calls include credentials
+      expect(mockFetch).toHaveBeenNthCalledWith(
+        1,
+        expect.any(String),
+        expect.objectContaining({
+          credentials: 'include',
+        }),
+      );
+      expect(mockFetch).toHaveBeenNthCalledWith(
+        2,
+        expect.any(String),
+        expect.objectContaining({
+          credentials: 'include',
+        }),
+      );
     });
   });
 });

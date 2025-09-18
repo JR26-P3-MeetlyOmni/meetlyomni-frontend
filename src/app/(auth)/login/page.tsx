@@ -1,10 +1,14 @@
-//This LoginForm is used for testing login workflow. should be replace by ticket #36
-import { LoginForm } from './components/LoginForm';
+import React from 'react';
 
-export default function LoginPage() {
+import { ClientSignInForm } from './components/ClientSignInForm';
+import { DecorativeElements } from './components/DecorativeElements';
+import { StyledLoginPage } from './components/StyledLoginPage';
+
+export default function SigninPage() {
   return (
-    <div>
-      <LoginForm />
-    </div>
+    <StyledLoginPage
+      decorativeElements={<DecorativeElements />}
+      signInForm={<ClientSignInForm />}
+    />
   );
 }

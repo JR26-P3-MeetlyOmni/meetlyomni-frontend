@@ -2,7 +2,7 @@ import type { RootState } from '@/store/store';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { loginApi } from './authApi';
+import { loginApi, logoutApi } from './authApi';
 import type { AuthError, LoginCredentials, User } from './types';
 
 export const loginThunk = createAsyncThunk<
@@ -31,6 +31,30 @@ export const loginThunk = createAsyncThunk<
       const { auth } = getState();
       return !auth.isLoading && !auth.isAuthenticated;
     },
+  },
+);
+
+export const logoutThunk = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: AuthError; state: RootState }
+>(
+  'auth/logout',
+  async (_, { signal }) => {
+    try {
+      await logoutApi(signal);
+      // Always resolve successfully, even if server logout fails
+      // The local state will be cleared regardless
+    } catch (error) {
+      // Log the error but don't block the logout flow
+      // eslint-disable-next-line no-console
+      console.warn('Logout API error:', error);
+      // Still resolve successfully to allow local state cleanup
+    }
+  },
+  {
+    // Allow logout even if already logged out or loading
+    condition: () => true,
   },
 );
 
