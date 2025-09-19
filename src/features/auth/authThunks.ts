@@ -1,10 +1,21 @@
 import { ApiError } from '@/api/api';
+import type { RootState } from '@/store/store';
 import { AppErrorCode, ERROR_CONFIG } from '@/types/errors';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getMe, loginApi, logoutApi } from './authApi';
 import type { LoginCredentials, TokenMeta, User } from './authTypes';
+
+// Condition to prevent concurrent login attempts
+export const loginCondition = (
+  _credentials: LoginCredentials,
+  { getState }: { getState: () => RootState },
+) => {
+  const state = getState();
+  // Access isLoading directly to avoid circular dependency
+  return !state.auth.isLoading;
+};
 
 export const fetchMe = createAsyncThunk<User, void, { rejectValue: 'UNAUTHENTICATED' | string }>(
   'auth/fetchMe',
@@ -24,25 +35,32 @@ export const fetchMe = createAsyncThunk<User, void, { rejectValue: 'UNAUTHENTICA
 export const loginThunk = createAsyncThunk<
   { user: User; expiresAt: string },
   LoginCredentials,
-  { rejectValue: string }
->('auth/login', async (credentials, thunkAPI) => {
-  try {
-    const meta: TokenMeta = await loginApi(credentials, thunkAPI.signal);
-    const user = await thunkAPI.dispatch(fetchMe()).unwrap();
-    return { user, expiresAt: meta.expiresAt };
-  } catch (err: unknown) {
-    if (err instanceof ApiError) {
-      // Determine whether logout is needed based on error configuration
-      const config = ERROR_CONFIG[err.code as AppErrorCode];
-      if (config?.shouldLogout) {
-        // Can trigger logout logic here
-        // thunkAPI.dispatch(logoutLocal());
+  { rejectValue: string; state: RootState }
+>(
+  'auth/login',
+  async (credentials, thunkAPI) => {
+    try {
+      const meta: TokenMeta = await loginApi(credentials, thunkAPI.signal);
+      const user = await thunkAPI.dispatch(fetchMe()).unwrap();
+      return { user, expiresAt: meta.expiresAt };
+    } catch (err: unknown) {
+      if (err instanceof ApiError) {
+        // Determine whether logout is needed based on error configuration
+        const config = ERROR_CONFIG[err.code as AppErrorCode];
+        if (config?.shouldLogout) {
+          // Can trigger logout logic here
+          // thunkAPI.dispatch(logoutLocal());
+        }
+        return thunkAPI.rejectWithValue(err.message);
       }
-      return thunkAPI.rejectWithValue(err.message);
+      return thunkAPI.rejectWithValue('Login failed');
     }
-    return thunkAPI.rejectWithValue('Login failed');
-  }
-});
+  },
+  {
+    // Prevent concurrent login attempts
+    condition: loginCondition,
+  },
+);
 
 export const logoutThunk = createAsyncThunk<void, void, { rejectValue: string }>(
   'auth/logout',
