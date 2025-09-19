@@ -15,6 +15,11 @@ export type TokenMeta = {
   expiresAt: string;
 };
 
+export type AuthError = {
+  message: string;
+  code: string;
+};
+
 export type AuthState = {
   user: User | null;
   expiresAt: string | null; // token expiration time

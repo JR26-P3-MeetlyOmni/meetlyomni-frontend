@@ -1,4 +1,4 @@
-import { logout } from '@/features/auth/slice';
+import { logoutLocal } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ const DashboardUserMenu = React.memo(() => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleLogout = useCallback(() => {
-    dispatch(logout());
+    dispatch(logoutLocal());
     router.push('/login');
   }, [dispatch, router]);
 
