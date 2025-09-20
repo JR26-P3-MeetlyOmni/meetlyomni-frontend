@@ -325,14 +325,12 @@ module "svc_frontend" {
   platform_version = "1.4.0"
 
   # Networking
-  subnet_ids        = var.frontend_assign_public_ip ? module.vpc.public_subnet_ids : module.vpc.private_subnet_ids
+  subnet_ids        = module.vpc.public_subnet_ids
   security_group_ids = [module.sg_ecs_frontend.security_group_id] # SG should allow 3000 from ALB SG only
-  assign_public_ip  = var.frontend_assign_public_ip
   enable_execute_command = true
 
   # Task roles (pass your ARNs; or let the module create—see notes)
-  task_role_arn        = var.frontend_task_role_arn
-  task_exec_role_arn   = var.frontend_task_exec_role_arn
+ 
 
   # Task definition (module creates it)
   create_task_definition = true

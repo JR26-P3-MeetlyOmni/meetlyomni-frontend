@@ -145,10 +145,16 @@ variable "acm_certificate_arn" {
 }
 
 #ECS service
-variable "acm_certificate_arn" {
-  description = "ACM certificate ARN (if enable_https = true)"
+variable "frontend_cpu" {
+  description = "ecs service cpu"
   type        = string
-  default     = ""
+  default     = "512"
+}
+
+variable "frontend_memory" {
+  description = "ecs service cpu"
+  type        = string
+  default     = "1024"
 }
 
 
