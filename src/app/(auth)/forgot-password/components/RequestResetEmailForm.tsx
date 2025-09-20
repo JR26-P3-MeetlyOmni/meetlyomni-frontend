@@ -24,7 +24,7 @@ export default function RequestResetEmailForm() {
       return;
     }
 
-    // 需求：无论邮箱是否存在，始终进入成功页（不暴露账号存在性）
+   
     router.push('/forgot-password/sent');
   };
 

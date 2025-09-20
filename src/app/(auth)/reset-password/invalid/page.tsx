@@ -9,7 +9,7 @@ export default function Page() {
       <TopLeftLogo />
       <SentCenter>
         <AuthResultPageComponent
-          iconSrc="/assets/images/confirmationForm/red-error-cross.svg" // ← 红叉
+          iconSrc="/assets/images/confirmationForm/red-error-cross.svg"
           iconAlt="Invalid"
           title="Invalid reset link"
           description="The reset link is invalid or has been tampered with. Please request a new link and try again."

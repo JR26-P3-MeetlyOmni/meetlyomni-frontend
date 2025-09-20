@@ -34,7 +34,7 @@ export default function ResetPasswordForm({ token: _token }: Props) {
 
     setSubmitting(true);
     try {
-      // TODO: 对接后端 /api/auth/password/reset { token, password: pw }，根据返回跳转
+
       await new Promise((r) => setTimeout(r, 300));
       router.push('/reset-password/success');
     } catch {

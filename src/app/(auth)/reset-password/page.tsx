@@ -13,7 +13,7 @@ export default function Page({ searchParams }: Props) {
   const token = Array.isArray(tokenParam) ? tokenParam[0] : tokenParam;
 
   if (!token) {
-    // 缺 token → 视为篡改/无效链接
+    
     redirect('/reset-password/invalid');
   }
 

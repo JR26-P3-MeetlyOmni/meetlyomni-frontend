@@ -12,7 +12,7 @@ const meta: Meta<typeof ResetPasswordForm> = {
   parameters: {
     layout: 'centered',
     nextjs: {
-      appDirectory: true, // 告诉 SB 这是 App Router 组件
+      appDirectory: true,
       navigation: {
         pathname: '/reset-password',
         query: { token: 'storybook-token' },
@@ -24,7 +24,7 @@ const meta: Meta<typeof ResetPasswordForm> = {
     },
   },
   args: {
-    token: 'storybook-token', // 真实页面来自 ?token=...，这里用 args 注入
+    token: 'storybook-token',
   },
   tags: ['autodocs'],
 };

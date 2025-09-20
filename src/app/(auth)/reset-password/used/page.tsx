@@ -10,7 +10,7 @@ export default function Page() {
       <TopLeftLogo />
       <SentCenter>
         <AuthResultPageComponent
-          iconSrc="/assets/images/confirmationForm/red-error-cross.svg" // 红叉（public 下的 SVG）
+          iconSrc="/assets/images/confirmationForm/red-error-cross.svg"
           iconAlt="Already used"
           title="Link already used"
           description="This reset link has already been used or is no longer valid. Please request a new link."

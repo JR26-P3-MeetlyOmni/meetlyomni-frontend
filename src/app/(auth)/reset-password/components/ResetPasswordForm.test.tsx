@@ -14,7 +14,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: pushMock }),
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 (globalThis as any).React = React;
 
 const theme = createTheme();
@@ -28,7 +28,7 @@ describe('ResetPasswordForm', () => {
   it('shows error when password length < 8', () => {
     render(<ResetPasswordForm token="dummy" />, { wrapper: Wrapper });
 
-    // 用 label + selector 精确到 input，避免命中按钮的 aria-label
+
     const newPw = screen.getByLabelText('New Password', { selector: 'input', exact: true });
     const confirmPw = screen.getByLabelText('Confirm Password', { selector: 'input', exact: true });
     const submit = screen.getByRole('button', { name: /set new password/i });
@@ -69,7 +69,7 @@ describe('ResetPasswordForm', () => {
     fireEvent.click(submit);
 
     await act(async () => {
-      vi.advanceTimersByTime(300); // 组件里 setTimeout(300)
+      vi.advanceTimersByTime(300);
     });
 
     expect(pushMock).toHaveBeenCalledWith('/reset-password/success');

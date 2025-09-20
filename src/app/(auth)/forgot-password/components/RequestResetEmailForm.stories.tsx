@@ -16,7 +16,7 @@ const meta: Meta<typeof RequestResetEmailForm> = {
       navigation: {
         pathname: '/forgot-password',
         query: {},
-        push: noop, // 提交后会调用的 push，给个空实现即可
+        push: noop,
         replace: noop,
         prefetch: noopAsync,
         refresh: noop,
