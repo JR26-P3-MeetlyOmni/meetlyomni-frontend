@@ -73,4 +73,13 @@ dev-debug.log
 node_modules/
 # Environment variables
 .env
-CLAUDE.md
+CLAUDE.md# Terraform
+.terraform/
+
+local.auto.tfvars
+
+terraform.tfstate
+terraform.tfstate.*
+
+#jenkinsfile
+Jenkinsfile.*

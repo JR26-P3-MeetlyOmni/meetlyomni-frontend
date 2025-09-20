@@ -1,4 +1,4 @@
-pipeline {
+﻿pipeline {
   agent any
 
   options { timestamps() }
@@ -10,7 +10,7 @@ pipeline {
     NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
     AWS_DEFAULT_REGION = 'ap-southeast-2'
 
-    // 你自己的 ECS 集群与服务名（按实际改）
+    // ecs service
     CLUSTER = 'meetly-frontend'
     SERVICE = 'meetly-frontend-svc'
   }
@@ -90,10 +90,10 @@ pipeline {
 
             IMAGE_URI="${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}"
 
-            # 就地替换占位符
+            
             sed -i "s|__IMAGE__|${IMAGE_URI}|g" taskdefinition.json
 
-            # 注册新的任务定义修订版，并拿到 ARN
+            # register new role
             NEW_TD_ARN=$(
               aws ecs register-task-definition \
                 --cli-input-json file://taskdefinition.json \
@@ -102,13 +102,13 @@ pipeline {
             )
             echo "New task definition: ${NEW_TD_ARN}"
 
-            # 更新服务到新修订版（关键！一定要传 --task-definition）
+            # update ecs service
             aws ecs update-service \
               --cluster "${CLUSTER}" \
               --service "${SERVICE}" \
               --task-definition "${NEW_TD_ARN}"
 
-            # 还原文件，避免把替换后的 JSON 提交回仓库（可选）
+            # replace original json file
             git checkout -- taskdefinition.json || true
           '''
         }
