@@ -109,3 +109,8 @@ export PRIV_SUBNET2=subnet-01bf1586b05bdcf4e
 
 "command": ["sh", "-c", "HOST=0.0.0.0 PORT=3000 node server.js"],
 
+$env:HTTP_PROXY  = "http://127.0.0.1:7890"
+$env:HTTPS_PROXY = "http://127.0.0.1:7890"
+
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
