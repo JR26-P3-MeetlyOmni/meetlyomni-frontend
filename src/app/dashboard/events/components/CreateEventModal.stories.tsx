@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import type { CreateEventResponse } from '../../../constants/Event';
+import type { CreateEventResponse } from '../../../../constants/Event';
 import CreateEventModal from './CreateEventModal';
 
 const meta: Meta<typeof CreateEventModal> = {

@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 
 import { TextField } from '@mui/material';
 
-import { EventFormFieldsProps } from '../../../constants/Event';
+import { EventFormFieldsProps } from '../../../../constants/Event';
 import EventDateField from './EventDateField';
 import { StyledBox } from './EventFormFields.styles';
 import FileUploadButton from './FileUploadButton';

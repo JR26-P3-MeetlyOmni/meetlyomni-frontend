@@ -1,12 +1,13 @@
 'use client';
 
 import { PageTitle } from '@/components/Dashboard';
-import CreateEventModal from '@/features/events/components/CreateEventModal';
 
 import React from 'react';
 import { useCallback, useState } from 'react';
 
 import { Box } from '@mui/material';
+
+import CreateEventModal from './events/components/CreateEventModal';
 
 export default function DashboardPage() {
   const [creatEventModalOpen, setCreatEventModalOpen] = useState(true);

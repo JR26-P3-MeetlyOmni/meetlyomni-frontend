@@ -2,9 +2,9 @@
 
 import React, { useCallback } from 'react';
 
-import FormModal from '../../../components/Modal/FormModal';
-import { CreateEventModalProps, CreateEventResponse } from '../../../constants/Event';
-import { API_BASE_URL } from '../../auth/authApi';
+import FormModal from '../../../../components/Modal/FormModal';
+import { CreateEventModalProps, CreateEventResponse } from '../../../../constants/Event';
+import { API_BASE_URL } from '../../../../features/auth/authApi';
 import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { EventFormState } from '../../../constants/Event';
+import { EventFormState } from '../../../../constants/Event';
 
 type EventFormErrors = {
   name?: string;

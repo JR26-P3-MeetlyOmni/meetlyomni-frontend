@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { CTAButton } from '../../../components/Button/CTAButton';
+import { CTAButton } from '../../../../components/Button/CTAButton';
 
 interface FileUploadButtonProps {
   name: string;
