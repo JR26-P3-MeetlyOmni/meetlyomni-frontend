@@ -10,16 +10,16 @@ import type { TopLeftLogoProps } from './types';
 const Root = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  paddingTop: theme.spacing(10),
-  paddingLeft: theme.spacing(20),
+  paddingTop: theme.spacing(5),
+  paddingLeft: theme.spacing(3),
 }));
 
 const Logo = styled('img')(({ theme }) => ({
-  width: 32,
+  width: 80,
   cursor: 'pointer',
   objectFit: 'contain',
   [theme.breakpoints.up('sm')]: {
-    width: 100,
+    width: 120,
   },
 }));
 
