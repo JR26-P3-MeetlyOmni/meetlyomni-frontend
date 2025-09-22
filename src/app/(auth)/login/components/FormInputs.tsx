@@ -96,7 +96,6 @@ export const EmailInput: React.FC<EmailInputProps> = ({ value, hasError, onChang
     name="email"
     placeholder="Email Address"
     autoComplete="email"
-    autoFocus
   />
 );
 

@@ -48,7 +48,7 @@ export function TopLeftLogo({ onClick }: TopLeftLogoProps) {
     <Root>
       <Logo
         src="/assets/images/navbar/nav_bar_logo.png"
-        alt="Omni Logo"
+        alt="MeetlyOmni Logo"
         role="link"
         tabIndex={0}
         onClick={handleClick}
