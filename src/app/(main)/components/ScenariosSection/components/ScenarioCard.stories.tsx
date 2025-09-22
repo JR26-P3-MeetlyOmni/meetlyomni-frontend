@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { ScenarioCardProps } from '../types';
 import ScenarioCard from './ScenarioCard';

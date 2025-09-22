@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import type { CreateEventResponse } from '../../../../constants/Event';
 import CreateEventModal from './CreateEventModal';
