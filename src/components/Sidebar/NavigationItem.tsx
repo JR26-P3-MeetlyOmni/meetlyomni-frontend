@@ -1,13 +1,12 @@
 'use client';
 
-import { TopLeftLogo } from '@/components/Logo';
 import { ANIMATION_CONFIG } from '@/constants';
-import { NAVIGATION_ITEMS, type NavigationItem } from '@/constants/NavigationConfig';
+import { type NavigationItem } from '@/constants/NavigationConfig';
 
 import Link from 'next/link';
 import React, { useCallback } from 'react';
 
-import { Box, Paper, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 const NavigationItemComponent = React.memo(
   ({ href, icon, label, isActive = false }: NavigationItem) => {
@@ -62,39 +61,4 @@ const NavigationItemComponent = React.memo(
 
 NavigationItemComponent.displayName = 'NavigationItemComponent';
 
-const Sidebar = React.memo(() => {
-  return (
-    <Paper
-      elevation={1}
-      style={{
-        width: 280,
-        display: 'flex',
-        flexDirection: 'column',
-        borderRadius: 0,
-        backgroundColor: 'transparent',
-      }}
-    >
-      {/* Sidebar Header */}
-      <Box borderBottom={1} borderColor="divider" bgcolor="background.paper">
-        <TopLeftLogo />
-      </Box>
-
-      {/* Sidebar Content */}
-      <Box padding={2} flex={1} bgcolor="background.paper">
-        {NAVIGATION_ITEMS.map(item => (
-          <NavigationItemComponent
-            key={item.href}
-            href={item.href}
-            icon={item.icon}
-            label={item.label}
-            isActive={item.isActive}
-          />
-        ))}
-      </Box>
-    </Paper>
-  );
-});
-
-Sidebar.displayName = 'Sidebar';
-
-export default Sidebar;
+export default NavigationItemComponent;
