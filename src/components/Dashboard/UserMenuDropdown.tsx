@@ -9,20 +9,21 @@ interface UserMenuDropdownProps {
   onDashboard?: () => void;
   anchorEl: HTMLElement | null;
   onClose: () => void;
+  isLoggingOut?: boolean;
 }
 
 const UserMenuDropdown = React.memo(
-  ({ onLogout, onDashboard, anchorEl, onClose }: UserMenuDropdownProps) => {
+  ({ onLogout, onDashboard, anchorEl, onClose, isLoggingOut = false }: UserMenuDropdownProps) => {
     const handleDashboardClick = useCallback(() => {
+      onClose();
       if (onDashboard) {
         onDashboard();
       }
-      onClose();
     }, [onDashboard, onClose]);
 
     const handleLogoutClick = useCallback(() => {
-      onLogout();
       onClose();
+      onLogout();
     }, [onLogout, onClose]);
 
     return (
@@ -44,8 +45,8 @@ const UserMenuDropdown = React.memo(
             <ListItemText primary="Dashboard" />
           </MenuItem>
         ) : null}
-        <MenuItem onClick={handleLogoutClick}>
-          <ListItemText primary="Log out" />
+        <MenuItem onClick={handleLogoutClick} disabled={isLoggingOut}>
+          <ListItemText primary={isLoggingOut ? 'Logging out...' : 'Log out'} />
         </MenuItem>
       </Menu>
     );

@@ -5,7 +5,6 @@ import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-// Styled components
 const StyledPageContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
   background: theme.palette.background.default,
@@ -65,20 +64,18 @@ const StyledSignInTitle = styled(Typography)(() => ({
   margin: 0,
 })) as typeof Typography;
 
-function SignInTitle() {
-  return (
-    <StyledTitleContainer>
-      <StyledTitleWrapper>
-        <StyledWelcomeTitle variant="h4" component="h1">
-          Welcome to Omni!
-        </StyledWelcomeTitle>
-        <StyledSignInTitle variant="h5" component="h2">
-          Let&apos;s Sign in Your Profile
-        </StyledSignInTitle>
-      </StyledTitleWrapper>
-    </StyledTitleContainer>
-  );
-}
+const SignInTitle: React.FC = () => (
+  <StyledTitleContainer>
+    <StyledTitleWrapper>
+      <StyledWelcomeTitle variant="h4" component="h1">
+        Welcome to Omni!
+      </StyledWelcomeTitle>
+      <StyledSignInTitle variant="h5" component="h2">
+        Let&apos;s Sign in Your Profile
+      </StyledSignInTitle>
+    </StyledTitleWrapper>
+  </StyledTitleContainer>
+);
 
 interface StyledLoginPageProps {
   decorativeElements: React.ReactNode;
@@ -88,14 +85,12 @@ interface StyledLoginPageProps {
 export const StyledLoginPage: React.FC<StyledLoginPageProps> = ({
   decorativeElements,
   signInForm,
-}) => {
-  return (
-    <StyledPageContainer>
-      {decorativeElements}
-      <StyledContentContainer maxWidth="sm">
-        <SignInTitle />
-        {signInForm}
-      </StyledContentContainer>
-    </StyledPageContainer>
-  );
-};
+}) => (
+  <StyledPageContainer>
+    {decorativeElements}
+    <StyledContentContainer maxWidth="sm">
+      <SignInTitle />
+      {signInForm}
+    </StyledContentContainer>
+  </StyledPageContainer>
+);
