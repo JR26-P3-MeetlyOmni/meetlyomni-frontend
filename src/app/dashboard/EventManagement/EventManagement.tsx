@@ -10,6 +10,9 @@ import { styled } from '@mui/material/styles';
 import backgroundImage from '@assets/images/EventManagement/background.png';
 import balloonImage from '@assets/images/EventManagement/balloon.png';
 
+import { CreateEventResponse } from '../../../constants/Event';
+import CreateEventModal from '../events/components/CreateEventModal';
+
 // Styled components
 const StyledContainer = styled(Box)(({ theme }) => ({
   minHeight: 'calc(100vh - 80px)',
@@ -71,7 +74,7 @@ const StyledCreateButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function EmptyState() {
+function EmptyState({ onCreateClick }: { onCreateClick: () => void }) {
   return (
     <StyledEmptyPaper elevation={0}>
       <Stack spacing={3} alignItems="center">
@@ -89,7 +92,7 @@ function EmptyState() {
           There&apos;s nothing here, let&apos;s create an Event.
         </StyledEmptyText>
 
-        <StyledCreateButton variant="contained" startIcon={<Add />}>
+        <StyledCreateButton variant="contained" startIcon={<Add />} onClick={onCreateClick}>
           Create
         </StyledCreateButton>
       </Stack>
@@ -99,6 +102,11 @@ function EmptyState() {
 
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
+
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+
+  // TODO: currently events are not used，use events state to render event list later
+  const [_events, setEvents] = useState<CreateEventResponse[]>([]);
 
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
@@ -128,8 +136,19 @@ export default function EventManagement() {
 
       {/* Content Area */}
       <Box style={{ flex: 1 }}>
-        <EmptyState />
+        {/* TODO: Replace EmptyState with event list rendering when events API is ready */}
+        <EmptyState onCreateClick={() => setOpenCreateModal(true)} />
       </Box>
+
+      {/* Create Event Modal */}
+      <CreateEventModal
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+        onEventCreated={newEvent => {
+          setEvents(prev => [...prev, newEvent]);
+          setOpenCreateModal(false);
+        }}
+      />
     </StyledContainer>
   );
 }
