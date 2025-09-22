@@ -1,3 +1,5 @@
+'use client';
+
 import { logoutLocal } from '@/features/auth/authSlice';
 import { logoutThunk } from '@/features/auth/authThunks';
 import { useAppDispatch } from '@/store/hooks';
