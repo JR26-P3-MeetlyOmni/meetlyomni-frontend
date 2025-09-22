@@ -60,7 +60,7 @@ vi.mock('@mui/material', () => {
     ),
     useTheme: () => ({
       palette: { mode: 'light' },
-      spacing: (factor = 1) => `${8 * factor}px`, // MUI 默认 spacing
+      spacing: (factor = 1) => `${8 * factor}px`,
       breakpoints: {
         up: (breakpoint: string) => `@media (min-width: ${breakpoint})`,
       },

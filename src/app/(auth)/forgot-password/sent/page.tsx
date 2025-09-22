@@ -1,12 +1,12 @@
 // src/app/(auth)/forgot-password/sent/page.tsx
+import { AuthResultPageComponent } from '@/components/ConfirmationForm';
+import { TopLeftLogo } from '@/components/Logo';
+
 import * as React from 'react';
 
-import { TopLeftLogo } from '@/components/Logo';
-import { AuthResultPageComponent } from '@/components/ConfirmationForm';
 import SentCenter from './components/SentCenter';
 
 export default function Page() {
-  // TopLeftLogo 独立放置，确保位于左上角；内容区单独居中
   return (
     <main>
       <TopLeftLogo />
