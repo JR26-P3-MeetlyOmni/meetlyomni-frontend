@@ -24,55 +24,48 @@ interface StepContentProps {
   onSubmit: () => void;
 }
 
-export default function StepContent({
-  step,
-  companyName,
-  email,
-  password,
-  contactName,
-  phone,
-  onCompanyNameChange,
-  onEmailChange,
-  onPasswordChange,
-  onContactChange,
-  onBack,
-  onNext,
-  onSubmit,
-}: StepContentProps) {
-  if (step === 'company') {
-    return (
-      <CompanyNameStep
-        onCompanyNameChange={onCompanyNameChange}
-        onNext={onNext}
-        companyName={companyName}
-      />
-    );
-  }
+// Table-driven configuration for steps
+// Using unknown to avoid 'any' - type safety is ensured by the stepProps functions
+const stepComponents: Record<Step, React.ComponentType<unknown>> = {
+  company: CompanyNameStep as unknown as React.ComponentType<unknown>,
+  email: EmailStep as unknown as React.ComponentType<unknown>,
+  password: PasswordStep as unknown as React.ComponentType<unknown>,
+  contact: ContactInfoStep as unknown as React.ComponentType<unknown>,
+};
 
-  if (step === 'email') {
-    return (
-      <EmailStep onBack={onBack} onNext={onNext} onEmailChange={onEmailChange} email={email} />
-    );
-  }
+const stepProps = {
+  company: (props: StepContentProps) => ({
+    onCompanyNameChange: props.onCompanyNameChange,
+    onNext: props.onNext,
+    companyName: props.companyName,
+  }),
+  email: (props: StepContentProps) => ({
+    onBack: props.onBack,
+    onNext: props.onNext,
+    onEmailChange: props.onEmailChange,
+    email: props.email,
+  }),
+  password: (props: StepContentProps) => ({
+    onBack: props.onBack,
+    onNext: props.onNext,
+    onPasswordChange: props.onPasswordChange,
+    password: props.password,
+  }),
+  contact: (props: StepContentProps) => ({
+    onBack: props.onBack,
+    onNext: props.onSubmit,
+    onChange: props.onContactChange,
+    contactName: props.contactName,
+    phone: props.phone,
+  }),
+};
 
-  if (step === 'password') {
-    return (
-      <PasswordStep
-        onBack={onBack}
-        onNext={onNext}
-        onPasswordChange={onPasswordChange}
-        password={password}
-      />
-    );
-  }
+export default function StepContent(props: StepContentProps) {
+  const { step } = props;
 
-  return (
-    <ContactInfoStep
-      onBack={onBack}
-      onNext={onSubmit}
-      onChange={onContactChange}
-      contactName={contactName}
-      phone={phone}
-    />
-  );
+  // Get the component and its props from the configuration tables
+  const Component = stepComponents[step] as React.ComponentType<Record<string, unknown>>;
+  const componentProps = stepProps[step](props);
+
+  return <Component {...(componentProps as Record<string, unknown>)} />;
 }

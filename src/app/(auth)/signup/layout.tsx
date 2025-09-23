@@ -1,5 +1,5 @@
-import { SigninButton } from './components/SignupComponents/SigninButton';
-import { TopLeftLogo } from './components/SignupComponents/TopLeftLogo';
+import { TopLeftLogo } from '@/components/Logo';
+import { SigninButton } from '@/components/SigninButton';
 
 export default function SignupLayout({ children }: { children: React.ReactNode }) {
   return (
