@@ -28,9 +28,9 @@ const EventDateField: React.FC<EventDateFieldProps> = ({ value, onChange }) => {
 
   return (
     <StyledBox>
-      <label>Date</label>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+          label="Date"
           value={value ? dayjs(value) : null}
           onChange={handleDateChange}
           slots={{
@@ -41,6 +41,7 @@ const EventDateField: React.FC<EventDateFieldProps> = ({ value, onChange }) => {
               fullWidth: true,
               variant: 'outlined',
               placeholder: 'Select date',
+              required: true,
             },
           }}
         />

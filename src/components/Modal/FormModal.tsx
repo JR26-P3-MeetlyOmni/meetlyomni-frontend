@@ -16,12 +16,15 @@ export const FormModal: React.FC<FormModalProps> = ({
   onClose,
   onSubmit,
   children,
+  isLoading = false,
+  disabledSubmit = false,
 }) => {
   const handleDialogClose = useCallback(
-    (_event: object, _reason?: 'backdropClick' | 'escapeKeyDown') => {
+    (_event: object, reason?: 'backdropClick' | 'escapeKeyDown') => {
+      if (isLoading && (reason === 'backdropClick' || reason === 'escapeKeyDown')) return;
       onClose();
     },
-    [onClose],
+    [onClose, isLoading],
   );
 
   return (
@@ -32,13 +35,13 @@ export const FormModal: React.FC<FormModalProps> = ({
           <CloseIcon />
         </CloseButton>
       </StyledDialogTitle>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent aria-busy={isLoading}>{children}</DialogContent>
       <DialogActions>
         <ButtonGroupWrapper>
-          <CTAButton onClick={onClose} variant="outlined">
+          <CTAButton onClick={onClose} variant="outlined" disabled={isLoading}>
             Cancel
           </CTAButton>
-          <CTAButton onClick={onSubmit} variant="contained">
+          <CTAButton onClick={onSubmit} variant="contained" disabled={disabledSubmit || isLoading}>
             Save
           </CTAButton>
         </ButtonGroupWrapper>

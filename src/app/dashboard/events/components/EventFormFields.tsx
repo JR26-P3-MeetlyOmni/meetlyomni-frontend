@@ -34,16 +34,15 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
   return (
     <StyledBox>
       <StyledBox>
-        <label>Event Name</label>
         <TextField
+          required
+          label="Event Name"
           fullWidth
           value={formState.name}
           onChange={handleNameChange}
           variant="outlined"
           placeholder="Please enter event name"
           inputProps={{ maxLength: 100 }}
-          error={!!errors?.name}
-          helperText={errors?.name}
         />
       </StyledBox>
 
@@ -55,8 +54,9 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
       />
 
       <StyledBox>
-        <label>Description</label>
         <TextField
+          required
+          label="Description"
           fullWidth
           value={formState.description}
           onChange={handleDescriptionChange}
@@ -65,8 +65,6 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
           rows={4}
           placeholder="Please enter description"
           inputProps={{ maxLength: 500 }}
-          error={!!errors?.description}
-          helperText={errors?.description}
         />
       </StyledBox>
 
