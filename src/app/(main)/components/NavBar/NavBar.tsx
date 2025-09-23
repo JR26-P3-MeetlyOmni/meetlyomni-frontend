@@ -1,6 +1,6 @@
 'use client';
 
-import { selectIsAuthenticated } from '@/features/auth/selectors';
+import { selectIsAuthenticated } from '@/features/auth/authSelectors';
 import { useAppSelector } from '@/store/hooks';
 
 import Image from 'next/image';

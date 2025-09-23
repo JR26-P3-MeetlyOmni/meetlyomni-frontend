@@ -3,17 +3,15 @@
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 
-import { Add } from '@mui/icons-material';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import backgroundImage from '@assets/images/EventManagement/background.png';
 import balloonImage from '@assets/images/EventManagement/balloon.png';
 
 import { CreateEventResponse } from '../../../constants/Event';
 import CreateEventModal from '../events/components/CreateEventModal';
+import EmptyState from './EmptyState';
 
-// Styled components
 const StyledContainer = styled(Box)(({ theme }) => ({
   minHeight: 'calc(100vh - 80px)',
   padding: theme.spacing(3),
@@ -52,54 +50,6 @@ const StyledNavButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const StyledEmptyPaper = styled(Paper)(() => ({
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '400px',
-  position: 'relative',
-}));
-
-const StyledEmptyText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.primary,
-}));
-
-const StyledCreateButton = styled(Button)(({ theme }) => ({
-  textTransform: 'none',
-  backgroundColor: theme.palette.grey[900],
-  '&:hover': {
-    backgroundColor: theme.palette.grey[800],
-  },
-}));
-
-function EmptyState({ onCreateClick }: { onCreateClick: () => void }) {
-  return (
-    <StyledEmptyPaper elevation={0}>
-      <Stack spacing={3} alignItems="center">
-        <Image
-          src={backgroundImage}
-          alt="Empty state background"
-          width={300}
-          height={200}
-          style={{
-            objectFit: 'contain',
-          }}
-        />
-
-        <StyledEmptyText variant="h6" align="center">
-          There&apos;s nothing here, let&apos;s create an Event.
-        </StyledEmptyText>
-
-        <StyledCreateButton variant="contained" startIcon={<Add />} onClick={onCreateClick}>
-          Create
-        </StyledCreateButton>
-      </Stack>
-    </StyledEmptyPaper>
-  );
-}
-
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
 
@@ -113,13 +63,11 @@ export default function EventManagement() {
 
   return (
     <StyledContainer>
-      {/* Page Title with Balloon */}
       <StyledTitleBox>
         <StyledTitle variant="h4">Event Management</StyledTitle>
         <Image src={balloonImage} alt="Balloon" width={32} height={32} />
       </StyledTitleBox>
 
-      {/* Navigation Tabs */}
       <StyledNavBox>
         <StyledNavButton
           variant="outlined"
@@ -134,7 +82,6 @@ export default function EventManagement() {
         </StyledNavButton>
       </StyledNavBox>
 
-      {/* Content Area */}
       <Box style={{ flex: 1 }}>
         {/* TODO: Replace EmptyState with event list rendering when events API is ready */}
         <EmptyState onCreateClick={() => setOpenCreateModal(true)} />

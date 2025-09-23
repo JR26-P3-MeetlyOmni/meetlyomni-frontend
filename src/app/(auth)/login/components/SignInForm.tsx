@@ -1,117 +1,14 @@
-import { selectError, selectIsLoading } from '@/features/auth/selectors';
-import { useAppSelector, useFormHandlers } from '@/store/hooks';
+import { selectError, selectIsLoading } from '@/features/auth/authSelectors';
+import { useFormHandlers } from '@/features/auth/hooks/useFormHandlers';
+import { useAppSelector } from '@/store/hooks';
 
 import React from 'react';
 
-import { Box, Button, Link, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-// Styled components
-const StyledErrorText = styled(Typography)(({ theme }) => ({
-  ...theme.typography.caption,
-  color: theme.palette.error.main,
-  marginTop: theme.spacing(0.5),
-  marginBottom: theme.spacing(1),
-  textAlign: 'left',
-}));
-
-const StyledLabel = styled(Typography)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.text.primary,
-  marginBottom: theme.spacing(0.75),
-  textAlign: 'left',
-}));
-
-const StyledTextField = styled(TextField, {
-  shouldForwardProp: prop => prop !== 'hasError',
-})<{ hasError: boolean }>(({ hasError, theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.background.paper,
-    '& fieldset': {
-      borderColor: hasError ? theme.palette.error.main : theme.palette.grey[300],
-    },
-    '&:hover fieldset': {
-      borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: hasError ? theme.palette.error.main : theme.palette.primary.main,
-    },
-  },
-  '& .MuiInputLabel-root': { display: 'none' },
-  '& .MuiInputBase-input': { ...theme.typography.body2 },
-  marginBottom: theme.spacing(1),
-}));
-
-const StyledForgotPasswordBox = styled(Box)(({ theme }) => ({
-  textAlign: 'left',
-  marginBottom: theme.spacing(2),
-}));
-
-const StyledForgotPasswordLink = styled(Link)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.primary.light || theme.palette.primary.main,
-  textDecoration: 'none',
-  '&:hover': { textDecoration: 'underline' },
-}));
-
-const StyledSignUpBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(1),
-  marginBottom: theme.spacing(2),
-}));
-
-const StyledSignUpText = styled(Typography)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.text.secondary,
-  whiteSpace: 'nowrap',
-}));
-
-const StyledSignUpLink = styled(Link)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.primary.light || theme.palette.primary.main,
-  textDecoration: 'none',
-  '&:hover': { textDecoration: 'underline' },
-  whiteSpace: 'nowrap',
-}));
-
-const StyledBackToHomeBox = styled(Box)(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledBackToHomeLink = styled(Link)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.primary.light || theme.palette.primary.main,
-  textDecoration: 'none',
-  '&:hover': { textDecoration: 'underline' },
-  whiteSpace: 'nowrap',
-}));
-
-const StyledSignInButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  height: 38,
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[1],
-  backgroundColor: theme.palette.grey[900],
-  textTransform: 'none',
-  fontFamily: theme.typography.button.fontFamily,
-  fontWeight: theme.typography.button.fontWeight,
-  fontSize: theme.typography.button.fontSize,
-  lineHeight: theme.typography.button.lineHeight,
-  letterSpacing: theme.typography.button.letterSpacing,
-  color: theme.palette.primary.contrastText,
-  '&:hover': { backgroundColor: theme.palette.grey[900] },
-  '&:disabled': {
-    backgroundColor: theme.palette.grey[300],
-    color: theme.palette.text.disabled,
-  },
-}));
+import { ErrorText, SignInButton } from './FormElements';
+import { EmailInput, PasswordInput } from './FormInputs';
+import { BackToHomeLink, ForgotPasswordLink, SignUpLink } from './FormLinks';
 
 const StyledFormBox = styled('form')({
   maxWidth: 412,
@@ -124,99 +21,6 @@ interface SignInFormProps {
   handleInputChange: (field: string, value: string) => void;
   handleInputBlur: (field: string, value: string) => void;
 }
-
-// Error text component
-interface ErrorTextProps {
-  error: string;
-}
-const ErrorText = ({ error }: ErrorTextProps) =>
-  error ? <StyledErrorText>{error}</StyledErrorText> : null;
-
-// EmailInput only receives error boolean
-interface EmailInputProps {
-  value: string;
-  hasError: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-}
-const EmailInput = ({ value, hasError, onChange, onBlur }: EmailInputProps) => (
-  <>
-    <StyledLabel>Email</StyledLabel>
-    <StyledTextField
-      required
-      fullWidth
-      id="email"
-      name="email"
-      autoComplete="email"
-      autoFocus
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={hasError}
-      placeholder="Email Address"
-      hasError={hasError}
-    />
-  </>
-);
-
-// PasswordInput only receives error boolean
-interface PasswordInputProps {
-  value: string;
-  hasError: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-}
-const PasswordInput = ({ value, hasError, onChange, onBlur }: PasswordInputProps) => (
-  <>
-    <StyledLabel>Password</StyledLabel>
-    <StyledTextField
-      required
-      fullWidth
-      name="password"
-      type="password"
-      id="password"
-      autoComplete="current-password"
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={hasError}
-      placeholder="Password"
-      hasError={hasError}
-    />
-  </>
-);
-
-// Forgot password link component
-const ForgotPasswordLink = () => (
-  <StyledForgotPasswordBox>
-    <StyledForgotPasswordLink href="/forgot-password">Forgot Password?</StyledForgotPasswordLink>
-  </StyledForgotPasswordBox>
-);
-
-// Sign up link component
-const SignUpLink = () => (
-  <StyledSignUpBox>
-    <StyledSignUpText>Don&apos;t have an account?</StyledSignUpText>
-    <StyledSignUpLink href="/signup">Sign up</StyledSignUpLink>
-  </StyledSignUpBox>
-);
-
-// Back to home link component
-const BackToHomeLink = () => (
-  <StyledBackToHomeBox>
-    <StyledBackToHomeLink href="/">Back to home</StyledBackToHomeLink>
-  </StyledBackToHomeBox>
-);
-
-// Sign in button component
-interface SignInButtonProps {
-  isLoading: boolean;
-}
-const SignInButton = ({ isLoading }: SignInButtonProps) => (
-  <StyledSignInButton type="submit" variant="contained" disabled={isLoading}>
-    {isLoading ? 'Signing in...' : 'Sign in'}
-  </StyledSignInButton>
-);
 
 export const SignInForm: React.FC<SignInFormProps> = ({
   formData,
@@ -237,26 +41,27 @@ export const SignInForm: React.FC<SignInFormProps> = ({
 
   const emailError = typeof errors.email === 'string' ? errors.email : '';
   const passwordError = typeof errors.password === 'string' ? errors.password : '';
-  const emailHasError = emailError.length > 0;
-  const passwordHasError = passwordError.length > 0;
 
   return (
     <StyledFormBox onSubmit={handleSubmit}>
       <EmailInput
         value={formData.email}
-        hasError={emailHasError}
+        hasError={!!emailError}
         onChange={handleEmailChange}
         onBlur={handleEmailBlur}
       />
       <ErrorText error={emailError} />
+
       <PasswordInput
         value={formData.password}
-        hasError={passwordHasError}
+        hasError={!!passwordError}
         onChange={handlePasswordChange}
         onBlur={handlePasswordBlur}
       />
       <ErrorText error={passwordError} />
+
       {reduxError ? <ErrorText error={reduxError} /> : null}
+
       <ForgotPasswordLink />
       <SignInButton isLoading={isLoading} />
       <SignUpLink />

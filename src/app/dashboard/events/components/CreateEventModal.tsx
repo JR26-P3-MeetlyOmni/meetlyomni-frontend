@@ -2,9 +2,9 @@
 
 import React, { useCallback } from 'react';
 
+import { ApiError, apiFetch } from '../../../../api/api';
 import FormModal from '../../../../components/Modal/FormModal';
 import { CreateEventModalProps, CreateEventResponse } from '../../../../constants/Event';
-import { API_BASE_URL } from '../../../../features/auth/authApi';
 import { useEventForm } from '../hooks/useEventForm';
 import EventFormFields from './EventFormFields';
 
@@ -24,20 +24,20 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ open, onClose, onEv
       formData.append('description', formState.description);
       if (formState.coverImage) formData.append('coverImage', formState.coverImage);
 
-      const response = await fetch(`${API_BASE_URL}/v1/events`, { method: 'POST', body: formData });
+      const data = await apiFetch<CreateEventResponse>('/v1/events', {
+        method: 'POST',
+        body: formData,
+      });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || 'Failed to create event');
-      }
-
-      const data: CreateEventResponse = await response.json();
       if (onEventCreated) onEventCreated(data);
-
       resetForm();
       onClose();
     } catch (err) {
-      setError((err as Error).message || 'Failed to create event');
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError('Failed to create event');
+      }
     } finally {
       setIsLoading(false);
     }

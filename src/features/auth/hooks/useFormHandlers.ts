@@ -1,17 +1,15 @@
-import { loginThunk } from '@/features/auth/thunks';
+import { loginThunk } from '@/features/auth/authThunks';
+import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-
-import type { AppDispatch } from '../store';
 
 export const useFormHandlers = (
   formData: { email: string; password: string },
   handleInputChange: (field: string, value: string) => void,
   handleInputBlur: (field: string, value: string) => void,
 ) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleEmailChange = useCallback(
@@ -42,11 +40,9 @@ export const useFormHandlers = (
 
       try {
         await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
-        // After successful login, redirect to dashboard
         router.push('/dashboard');
       } catch {
         // Error is already handled in Redux and displayed in the UI
-        // No additional handling needed here
       }
     },
     [dispatch, formData.email, formData.password, router],

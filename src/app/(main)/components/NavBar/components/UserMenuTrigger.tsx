@@ -1,5 +1,5 @@
 import { ANIMATION_CONFIG, AVATAR_CONFIG } from '@/constants';
-import { selectUser } from '@/features/auth/selectors';
+import { selectUser } from '@/features/auth/authSelectors';
 import { useAppSelector } from '@/store/hooks';
 
 import React, { useCallback } from 'react';
