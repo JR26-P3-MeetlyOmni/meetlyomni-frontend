@@ -19,6 +19,7 @@ export const StyledCTAButton = styled(Button, {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,
   }),
+  // contained variant
   '&.MuiButton-contained': {
     backgroundColor: theme.palette.text.primary,
     '&:hover': {
@@ -26,7 +27,12 @@ export const StyledCTAButton = styled(Button, {
       transform: 'translateY(-2px)',
       boxShadow: theme.shadows[2],
     },
+    '&.Mui-disabled': {
+      backgroundColor: theme.palette.action.disabledBackground,
+      color: theme.palette.action.disabled,
+    },
   },
+  // outlined variant
   '&.MuiButton-outlined': {
     borderWidth: 2,
     color: theme.palette.text.primary,

@@ -38,6 +38,7 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
           required
           label="Event Name"
           fullWidth
+          margin="normal"
           value={formState.name}
           onChange={handleNameChange}
           variant="outlined"
