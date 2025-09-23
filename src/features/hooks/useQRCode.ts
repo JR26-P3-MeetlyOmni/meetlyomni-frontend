@@ -14,8 +14,12 @@ export const useQRCode = (url: string, size: number) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
+    let isCancelled = false;
+
     const generateQRCode = async () => {
       try {
+        if (isCancelled) return;
+
         setStatus(QRStatus.LOADING);
         setErrorMessage('');
 
@@ -27,15 +31,24 @@ export const useQRCode = (url: string, size: number) => {
           },
         });
 
+        if (isCancelled) return;
+
         setDataUrl(result);
         setStatus(QRStatus.SUCCESS);
       } catch {
+        if (isCancelled) return;
+
         setErrorMessage('Failed to generate QR code');
         setStatus(QRStatus.ERROR);
       }
     };
 
     generateQRCode();
+
+    // Cleanup function to prevent state updates on unmounted components
+    return () => {
+      isCancelled = true;
+    };
   }, [url, size]);
 
   return { dataUrl, status, errorMessage };
