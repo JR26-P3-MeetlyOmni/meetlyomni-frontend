@@ -64,3 +64,13 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Logs
+logs
+*.log
+dev-debug.log
+# Dependency directories
+node_modules/
+# Environment variables
+.env
+CLAUDE.md

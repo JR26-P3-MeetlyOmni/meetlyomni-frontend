@@ -1,0 +1,83 @@
+'use client';
+
+import Image from 'next/image';
+import React, { useCallback, useState } from 'react';
+
+import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import balloonImage from '@assets/images/EventManagement/balloon.png';
+
+import EmptyState from './EmptyState';
+
+const StyledContainer = styled(Box)(({ theme }) => ({
+  minHeight: 'calc(100vh - 80px)',
+  padding: theme.spacing(3),
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+const StyledTitleBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  marginBottom: theme.spacing(3),
+}));
+
+const StyledTitle = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontWeight: 'bold',
+}));
+
+const StyledNavBox = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+}));
+
+const StyledNavButton = styled(Button)(({ theme }) => ({
+  textTransform: 'none',
+  backgroundColor: 'transparent',
+  borderColor: theme.palette.grey[300],
+  color: theme.palette.text.primary,
+  fontWeight: 'normal',
+  marginRight: theme.spacing(1),
+  '&:hover': {
+    backgroundColor: theme.palette.grey[900],
+    color: theme.palette.common.white,
+    borderColor: theme.palette.grey[900],
+  },
+}));
+
+export default function EventManagement() {
+  const [_activeTab, setActiveTab] = useState('interactive');
+
+  const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
+  const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
+
+  return (
+    <StyledContainer>
+      <StyledTitleBox>
+        <StyledTitle variant="h4">Event Management</StyledTitle>
+        <Image src={balloonImage} alt="Balloon" width={32} height={32} />
+      </StyledTitleBox>
+
+      <StyledNavBox>
+        <StyledNavButton
+          variant="outlined"
+          startIcon={<span>💡</span>}
+          onClick={handleInteractiveClick}
+        >
+          Interactive Quiz
+        </StyledNavButton>
+
+        <StyledNavButton variant="outlined" startIcon={<span>🎰</span>} onClick={handleRaffleClick}>
+          Raffle Game
+        </StyledNavButton>
+      </StyledNavBox>
+
+      <Box style={{ flex: 1 }}>
+        <EmptyState />
+      </Box>
+    </StyledContainer>
+  );
+}

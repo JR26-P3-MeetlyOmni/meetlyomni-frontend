@@ -1,0 +1,141 @@
+import { Box, createTheme, styled, ThemeProvider } from '@mui/material';
+
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+import Footer from './Footer';
+
+const meta: Meta<typeof Footer> = {
+  title: 'LandingPage/Footer',
+  component: Footer,
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component: `
+          Footer component for the Meetly Omni landing page. Features:
+          - Company logo and branding
+          - Legal links (Privacy Policy, Terms of Usage)
+          - Social media icons (LinkedIn, Twitter)
+          - QR codes for WeChat and Contact Us
+          - Copyright information
+          - Fully responsive design with mobile-first approach
+        `,
+      },
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {},
+} satisfies Meta<typeof Footer>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The complete Footer component with all elements: logo, legal links, social icons, QR codes, and copyright.',
+      },
+    },
+  },
+};
+
+const StyledScreenSizeLabel = styled(Box)({
+  fontSize: '18px',
+  fontWeight: 'bold',
+  marginBottom: 16,
+  color: '#333',
+  textAlign: 'center',
+});
+
+const StyledScreenContainer = styled(Box, {
+  shouldForwardProp: prop => prop !== 'forceMobileLayout',
+})<{ width: string; forceMobileLayout?: boolean }>(({ width, forceMobileLayout }) => ({
+  width,
+  border: '2px solid #ddd',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  margin: '0 auto',
+  ...(forceMobileLayout && {
+    '& footer': {
+      '& > div': {
+        '& > div:first-of-type': {
+          flexDirection: 'column !important',
+          alignItems: 'center !important',
+          gap: '32px !important',
+        },
+      },
+    },
+  }),
+}));
+
+const desktopTheme = createTheme({
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 768, lg: 1200, xl: 1536 },
+  },
+});
+
+const mobileTheme = createTheme({
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 },
+  },
+});
+
+const StyledAllScreenSizesRoot = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 32,
+  padding: 16,
+});
+
+export const AllScreenSizes: Story = {
+  render: () => (
+    <StyledAllScreenSizesRoot>
+      <Box>
+        <StyledScreenSizeLabel>Desktop (1440px)</StyledScreenSizeLabel>
+        <ThemeProvider theme={desktopTheme}>
+          <StyledScreenContainer width="1440px">
+            <Footer />
+          </StyledScreenContainer>
+        </ThemeProvider>
+      </Box>
+
+      <Box>
+        <StyledScreenSizeLabel>Tablet (768px)</StyledScreenSizeLabel>
+        <ThemeProvider theme={mobileTheme}>
+          <StyledScreenContainer width="768px" forceMobileLayout>
+            <Footer />
+          </StyledScreenContainer>
+        </ThemeProvider>
+      </Box>
+
+      <Box>
+        <StyledScreenSizeLabel>Mobile (375px)</StyledScreenSizeLabel>
+        <ThemeProvider theme={mobileTheme}>
+          <StyledScreenContainer width="375px" forceMobileLayout>
+            <Footer />
+          </StyledScreenContainer>
+        </ThemeProvider>
+      </Box>
+    </StyledAllScreenSizesRoot>
+  ),
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: `
+          **View Footer Effects Across All Screen Sizes**
+
+          This story demonstrates the Footer component's responsive behavior across three different screen sizes:
+
+          - **Desktop (1440px)**: Horizontal layout with logo and links on the left, QR codes on the right
+          - **Tablet (768px)**: Medium screen adaptation with centered vertical layout
+          - **Mobile (375px)**: Vertical stacked layout with all elements center-aligned
+
+          You can see all three size effects simultaneously, making it easy to compare responsive design changes.
+        `,
+      },
+    },
+  },
+};

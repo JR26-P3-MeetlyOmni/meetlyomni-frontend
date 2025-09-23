@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Enable standalone output for Docker optimization
+  output: 'standalone',
+  // Your existing Next.js config
 };
 
 export default nextConfig;
