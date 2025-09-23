@@ -1,6 +1,6 @@
 'use client';
 
-import { logoutThunk } from '@/features/auth/thunks';
+import { logoutThunk } from '@/features/auth/authThunks';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';

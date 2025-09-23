@@ -1,5 +1,5 @@
-import { useFormHandlers } from '@/features/auth/hooks';
-import { selectError, selectIsLoading } from '@/features/auth/selectors';
+import { selectError, selectIsLoading } from '@/features/auth/authSelectors';
+import { useFormHandlers } from '@/features/auth/hooks/useFormHandlers';
 import { useAppSelector } from '@/store/hooks';
 
 import React from 'react';

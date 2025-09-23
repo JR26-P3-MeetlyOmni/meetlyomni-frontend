@@ -1,4 +1,4 @@
-import authReducer from '@/features/auth/slice';
+import authReducer from '@/features/auth/authSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 

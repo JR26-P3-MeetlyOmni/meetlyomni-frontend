@@ -1,4 +1,4 @@
-import { loginThunk } from '@/features/auth/thunks';
+import { loginThunk } from '@/features/auth/authThunks';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
