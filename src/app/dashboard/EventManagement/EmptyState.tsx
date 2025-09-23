@@ -31,7 +31,7 @@ const StyledCreateButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const EmptyState = () => {
+const EmptyState = ({ onCreateClick }: { onCreateClick: () => void }) => {
   return (
     <StyledEmptyPaper elevation={0}>
       <Stack spacing={3} alignItems="center">
@@ -49,7 +49,7 @@ const EmptyState = () => {
           There&apos;s nothing here, let&apos;s create an Event.
         </StyledEmptyText>
 
-        <StyledCreateButton variant="contained" startIcon={<Add />}>
+        <StyledCreateButton variant="contained" startIcon={<Add />} onClick={onCreateClick}>
           Create
         </StyledCreateButton>
       </Stack>

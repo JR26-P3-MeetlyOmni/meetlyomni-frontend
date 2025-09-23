@@ -8,6 +8,8 @@ import { styled } from '@mui/material/styles';
 
 import balloonImage from '@assets/images/EventManagement/balloon.png';
 
+import { CreateEventResponse } from '../../../constants/Event';
+import CreateEventModal from '../events/components/CreateEventModal';
 import EmptyState from './EmptyState';
 
 const StyledContainer = styled(Box)(({ theme }) => ({
@@ -51,6 +53,11 @@ const StyledNavButton = styled(Button)(({ theme }) => ({
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
 
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+
+  // TODO: currently events are not used，use events state to render event list later
+  const [_events, setEvents] = useState<CreateEventResponse[]>([]);
+
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
 
@@ -76,8 +83,19 @@ export default function EventManagement() {
       </StyledNavBox>
 
       <Box style={{ flex: 1 }}>
-        <EmptyState />
+        {/* TODO: Replace EmptyState with event list rendering when events API is ready */}
+        <EmptyState onCreateClick={() => setOpenCreateModal(true)} />
       </Box>
+
+      {/* Create Event Modal */}
+      <CreateEventModal
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+        onEventCreated={newEvent => {
+          setEvents(prev => [...prev, newEvent]);
+          setOpenCreateModal(false);
+        }}
+      />
     </StyledContainer>
   );
 }
