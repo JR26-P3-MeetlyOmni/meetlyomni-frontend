@@ -1,6 +1,6 @@
 import { apiFetch, ensureXsrfCookie } from '../../api/api';
 import type { LoginCredentials, TokenMeta, User } from './authTypes';
-import type { ApiError, SignupRequest, SignupResponse } from './types';
+import type { SignupRequest, SignupResponse } from './types';
 
 export const loginApi = async (
   credentials: LoginCredentials,
@@ -25,7 +25,7 @@ export const logoutApi = async (): Promise<void> => {
 export const signup = async (
   signupData: SignupRequest,
   signal?: AbortSignal,
-): Promise<SignupResponse | ApiError> => {
+): Promise<SignupResponse> => {
   await ensureXsrfCookie();
   return apiFetch<SignupResponse>('/auth/signup', {
     method: 'POST',
