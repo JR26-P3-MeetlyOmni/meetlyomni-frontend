@@ -1,4 +1,4 @@
-pipeline {
+﻿pipeline {
     agent any
 
     environment {
@@ -9,6 +9,9 @@ pipeline {
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
         NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
         NODE_ENV = 'production'
+         // ecs service
+        CLUSTER = 'meetly-dev'
+        SERVICE = 'meetly-frontend-svc'
     }
 
     stages {
@@ -19,6 +22,25 @@ pipeline {
             }
         }
 
+        stage('Calc Dev Version') {
+            agent { label 'deploy-agent' } 
+            steps {
+                script {
+                    def ver = sh(
+                        returnStdout: true,
+                        script: '''
+                            TS=$(date +%Y%m%d%H%M)
+                            SHA=$(git rev-parse --short HEAD || echo unknown)
+                            echo "${TS}-${BUILD_NUMBER}-${SHA}"
+                        '''
+                    ).trim()
+                    env.VERSION = ver
+                    env.ECR_VERSION_URI = "${env.ECR_REGISTRY}/${env.IMAGE_NAME}:${env.VERSION}"
+                    echo "Dev image version: ${env.VERSION}"
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             agent { label 'deploy-agent' } 
             steps {
@@ -26,7 +48,7 @@ pipeline {
                 docker build \
                 --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \
                 --build-arg NODE_ENV=${NODE_ENV} \
-                -t ${IMAGE_NAME}:latest .
+                -t ${IMAGE_NAME}:${env.VERSION} .
                 """
             }
         }
@@ -37,32 +59,44 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     sh '''
                         aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
-                        docker tag ${IMAGE_NAME}:latest ${ECR_URI}
-                        docker push ${ECR_URI}
+                        docker tag ${IMAGE_NAME}:${env.VERSION} ${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}
+                        docker push ${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}
                     '''
                 }
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Deploy to ECS') {
             agent { label 'deploy-agent' }
             steps {
-            sshagent(['ec2-dev-key']) {
-                sh """
-                ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
-                    set -e
-                    aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                    docker pull ${ECR_URI}
-                    docker stop ${IMAGE_NAME} || true
-                    docker rm -f ${IMAGE_NAME} || true
-                    docker run -d -p 3000:3000 --name ${IMAGE_NAME} ${ECR_URI}
-                    echo "Deployment successful!"
-                '
-                """
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
+                    sh '''
+                        set -e
+                        IMAGE_URI="${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}"
+                        sed -i "s|__IMAGE__|${IMAGE_URI}|g" taskdefinition.json
+
+                        # register new role
+                        NEW_TD_ARN=$(
+                        aws ecs register-task-definition \
+                        --cli-input-json file://taskdefinition.json \
+                        --query 'taskDefinition.taskDefinitionArn' \
+                        --output text
+                        )
+                        echo "New task definition: ${NEW_TD_ARN}"
+
+                        # update ecs service
+                        aws ecs update-service \
+                        --cluster "${CLUSTER}" \
+                        --service "${SERVICE}" \
+                        --task-definition "${NEW_TD_ARN}"
+
+                        # replace original json file
+                        git checkout -- taskdefinition.json || true
+                    '''
                 }
             }
         }
-    }
+    } 
 
     post {
         success {
