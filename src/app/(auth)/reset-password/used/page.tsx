@@ -1,8 +1,8 @@
-// src/app/(auth)/reset-password/used/page.tsx
-import * as React from 'react';
-import { TopLeftLogo } from '@/components/Logo';
-import { AuthResultPageComponent } from '@/components/ConfirmationForm';
 import SentCenter from '@/app/(auth)/forgot-password/sent/components/SentCenter';
+import { AuthResultPageComponent } from '@/components/ConfirmationForm';
+import { TopLeftLogo } from '@/components/Logo';
+
+import * as React from 'react';
 
 export default function Page() {
   return (

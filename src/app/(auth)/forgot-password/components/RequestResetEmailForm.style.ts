@@ -1,4 +1,3 @@
-// src/app/(auth)/forgot-password/components/RequestResetEmailForm.style.ts
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 

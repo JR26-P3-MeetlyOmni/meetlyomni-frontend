@@ -1,4 +1,3 @@
-// src/components/ConfirmationForm/types.ts
 export interface AuthResultPageProps {
   iconSrc: string;
   iconAlt: string;

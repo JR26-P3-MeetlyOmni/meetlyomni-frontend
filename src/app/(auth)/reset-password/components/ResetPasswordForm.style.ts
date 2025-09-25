@@ -1,6 +1,5 @@
-// src/app/(auth)/reset-password/components/ResetPasswordForm.style.ts
-import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const Wrapper = styled('section')(({ theme }) => ({
   width: '100%',

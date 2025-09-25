@@ -1,4 +1,3 @@
-// src/app/(auth)/login/components/ForgotPasswordButton.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import ForgotPasswordButton from './ForgotPasswordButton';

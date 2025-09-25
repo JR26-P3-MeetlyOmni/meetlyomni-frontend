@@ -1,5 +1,5 @@
-// src/app/(auth)/forgot-password/page.tsx
 import * as React from 'react';
+
 import RequestResetEmailForm from './components/RequestResetEmailForm';
 
 export default function Page() {

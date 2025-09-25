@@ -1,4 +1,3 @@
-// src/app/(auth)/forgot-password/components/RequestResetEmailForm.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import RequestResetEmailForm from './RequestResetEmailForm';

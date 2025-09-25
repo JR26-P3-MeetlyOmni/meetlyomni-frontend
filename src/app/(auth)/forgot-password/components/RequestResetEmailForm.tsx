@@ -1,8 +1,8 @@
-// src/app/(auth)/forgot-password/components/RequestResetEmailForm.tsx
 'use client';
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+
 import { Button, TextField } from '@mui/material';
 
 import { Actions, Title, Wrapper } from './RequestResetEmailForm.style';
@@ -24,7 +24,6 @@ export default function RequestResetEmailForm() {
       return;
     }
 
-   
     router.push('/forgot-password/sent');
   };
 
@@ -37,7 +36,7 @@ export default function RequestResetEmailForm() {
           type="email"
           label="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           error={!!error}
           helperText={error ?? ' '}
           fullWidth

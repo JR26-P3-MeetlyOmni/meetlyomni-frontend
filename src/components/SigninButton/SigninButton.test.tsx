@@ -1,5 +1,5 @@
-// src/components/SigninButton/SigninButton.test.tsx
 import { describe, expect, it, vi } from 'vitest';
+
 import React from 'react';
 
 import '@testing-library/jest-dom';
@@ -7,9 +7,7 @@ import { act, render, screen } from '@testing-library/react';
 
 import { SigninButton } from './SigninButton';
 
-
 (globalThis as any).React = React;
-
 
 vi.mock('next/link', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +17,6 @@ vi.mock('next/link', () => ({
     </a>
   ),
 }));
-
 
 vi.mock('@mui/icons-material/ArrowBackIosNewRounded', () => ({
   default: () => <span data-testid="arrow-icon">←</span>,

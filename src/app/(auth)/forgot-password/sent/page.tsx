@@ -1,4 +1,3 @@
-// src/app/(auth)/forgot-password/sent/page.tsx
 import { AuthResultPageComponent } from '@/components/ConfirmationForm';
 import { TopLeftLogo } from '@/components/Logo';
 

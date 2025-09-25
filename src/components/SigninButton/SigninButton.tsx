@@ -1,4 +1,3 @@
-// src/components/SigninButton/SigninButton.tsx
 'use client';
 
 import NextLink from 'next/link';
@@ -19,7 +18,6 @@ const Root = styled('div')(({ theme }) => ({
   top: theme.spacing(9),
   right: theme.spacing(20),
 }));
-
 
 const StyledButton = styled(Button)<{ component?: React.ElementType; href?: string }>(
   ({ theme }) => ({

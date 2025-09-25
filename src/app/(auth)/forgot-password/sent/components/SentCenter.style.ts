@@ -1,4 +1,3 @@
-// src/app/(auth)/forgot-password/sent/components/SentCenter.style.ts
 import { styled } from '@mui/material/styles';
 
 export const Root = styled('section')(({ theme: _theme }) => ({

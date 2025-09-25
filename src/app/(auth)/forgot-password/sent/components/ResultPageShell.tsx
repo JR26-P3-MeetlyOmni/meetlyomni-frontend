@@ -1,7 +1,7 @@
-// src/app/(auth)/forgot-password/sent/components/ResultPageShell.tsx
 'use client';
 
 import React from 'react';
+
 import { styled } from '@mui/material/styles';
 
 const Root = styled('main')(({ theme }) => ({

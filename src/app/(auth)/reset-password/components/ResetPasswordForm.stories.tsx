@@ -1,4 +1,3 @@
-// src/app/(auth)/reset-password/components/ResetPasswordForm.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import ResetPasswordForm from './ResetPasswordForm';
