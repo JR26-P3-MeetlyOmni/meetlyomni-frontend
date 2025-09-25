@@ -1,4 +1,3 @@
-// src/components/ConfirmationForm/ConfirmationForm.tsx
 'use client';
 
 import Image from 'next/image';
@@ -49,7 +48,6 @@ export const AuthResultBackButton = styled(Button)<{
   padding: `${theme.spacing(1.5)} ${theme.spacing(2.5)}`,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
-  
   lineHeight: theme.typography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
@@ -70,23 +68,35 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   buttonHref = '/login',
   showButton = true,
 }) => {
+  const asText = (v: unknown) => String(v ?? '');
+
+  const safeTitle = asText(title);
+  const safeDescription = asText(description);
+  const safeAlt = asText(iconAlt);
+  const safeButtonText = asText(buttonText);
+
+  const safeHref =
+    typeof buttonHref === 'string' && buttonHref.startsWith('/') ? buttonHref : '/login';
+
+  const safeIconSrc =
+    typeof iconSrc === 'string'
+      ? iconSrc
+      : '/assets/images/confirmationForm/green-success-check.png';
+
+  const shouldShowButton = !!showButton;
+
   return (
     <>
       <AuthResultIconContainer>
-        <Image src={iconSrc} alt={iconAlt} width={44} height={44} />
+        <Image src={safeIconSrc} alt={safeAlt || 'Status icon'} width={44} height={44} />
       </AuthResultIconContainer>
-      <AuthResultTitleText>{title}</AuthResultTitleText>
-      <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
 
-      {showButton && (
-        <AuthResultBackButton
-          component={Link}
-          href={buttonHref}
-          aria-label={buttonText}
-        >
-          {buttonText}
-        </AuthResultBackButton>
-      )}
+      <AuthResultTitleText>{safeTitle}</AuthResultTitleText>
+      <AuthResultDescriptionText>{safeDescription}</AuthResultDescriptionText>
+
+      {shouldShowButton ? <AuthResultBackButton component={Link} href={safeHref} aria-label={safeButtonText}>
+          {safeButtonText}
+        </AuthResultBackButton> : null}
     </>
   );
 };
