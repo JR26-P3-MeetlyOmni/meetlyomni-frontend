@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 import { ClientSignInForm } from './components/ClientSignInForm';
@@ -10,11 +8,7 @@ export default function Page() {
   return (
     <StyledLoginPage
       decorativeElements={<DecorativeElements />}
-      signInForm={
-        <>
-          <ClientSignInForm />
-        </>
-      }
+      signInForm={<ClientSignInForm />}
     />
   );
 }
