@@ -1,6 +1,7 @@
 {
   "family": "meetly-frontend",
   "executionRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-task-role",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
