@@ -1,4 +1,4 @@
-pipeline {
+﻿pipeline {
     agent any
 
     environment {
@@ -48,7 +48,7 @@ pipeline {
                 docker build \
                 --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \
                 --build-arg NODE_ENV=${NODE_ENV} \
-                -t ${IMAGE_NAME}:${env.VERSION} .
+                -t ${IMAGE_NAME}:${VERSION} .
                 """
             }
         }
@@ -59,8 +59,8 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     sh '''
                         aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
-                        docker tag ${IMAGE_NAME}:${env.VERSION} ${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}
-                        docker push ${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}
+                        docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
+                        docker push ${ECR_VERSION_URI}
                     '''
                 }
             }
@@ -100,10 +100,10 @@ pipeline {
 
     post {
         success {
-            slackSend(channel: '#deployments', message: "✅ FE Deployment completed successfully")
+            slackSend(channel: '#deployments', message: "鉁?FE Deployment completed successfully")
         }
         failure {
-            slackSend(channel: '#deployments', message: "❌ FE Deployment failed")
+            slackSend(channel: '#deployments', message: "鉂?FE Deployment failed")
         }
     }
 }
