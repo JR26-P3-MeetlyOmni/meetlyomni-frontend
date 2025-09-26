@@ -1,6 +1,6 @@
 {
   "family": "meetly-frontend",
-  "executionRoleArn": "arn:aws:iam::351889159066:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-execution-role",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
@@ -24,19 +24,19 @@
         { "name": "NEXTAUTH_URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
         {
           "name": "ALB_URL",
-          "value": "http://meetly-frontend-alb-1721160996.ap-southeast-2.elb.amazonaws.com"
+          "value": "meetlyomni-alb-frontend-2101221063.ap-southeast-2.elb.amazonaws.com"
         }
       ],
       "secrets": [
         {
           "name": "API_BASE_URL",
-          "valueFrom": "arn:aws:ssm:ap-southeast-2:351889159066:parameter/meetly/frontend/api_base_url"
+          "valueFrom": "arn:aws:ssm:ap-southeast-2:351889159066:parameter/meetlyomni/dev/frontend/API_BASE_URL"
         }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/meetly-frontend",
+          "awslogs-group": "/ecs/meetlyomni/dev/frontend",
           "awslogs-region": "ap-southeast-2",
           "awslogs-stream-prefix": "web"
         }

@@ -10,8 +10,8 @@
         NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
         NODE_ENV = 'production'
          // ecs service
-        CLUSTER = 'meetly-dev'
-        SERVICE = 'meetly-frontend-svc'
+        CLUSTER = 'meetlyomni-dev-ecs'
+        SERVICE = 'meetlyomni-dev-frontend-svc'
     }
 
     stages {
