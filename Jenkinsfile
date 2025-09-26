@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials-admin'
+        AWS_REGION = 'ap-southeast-2'
         IMAGE_NAME = 'meetly-omni-frontend-dev'
         EC2_HOST = 'ec2-user@3.25.52.0'
         ECR_REGISTRY = '351889159066.dkr.ecr.ap-southeast-2.amazonaws.com'
@@ -58,7 +59,7 @@ pipeline {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     sh '''
-                        aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
+                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
                         docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
                         docker push ${ECR_VERSION_URI}
                     '''
@@ -78,6 +79,7 @@ pipeline {
                         # register new role
                         NEW_TD_ARN=$(
                         aws ecs register-task-definition \
+                        --region $AWS_REGION \
                         --cli-input-json file://taskdefinition.json \
                         --query 'taskDefinition.taskDefinitionArn' \
                         --output text
@@ -86,6 +88,7 @@ pipeline {
 
                         # update ecs service
                         aws ecs update-service \
+                        --region $AWS_REGION \
                         --cluster "${CLUSTER}" \
                         --service "${SERVICE}" \
                         --task-definition "${NEW_TD_ARN}"
@@ -100,10 +103,10 @@ pipeline {
 
     post {
         success {
-            slackSend(channel: '#deployments', message: "鉁?FE Deployment completed successfully")
+            slackSend(channel: '#deployments', message: "閴?FE Deployment completed successfully")
         }
         failure {
-            slackSend(channel: '#deployments', message: "鉂?FE Deployment failed")
+            slackSend(channel: '#deployments', message: "閴?FE Deployment failed")
         }
     }
 }
