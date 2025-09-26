@@ -103,10 +103,10 @@ pipeline {
 
     post {
         success {
-            slackSend(channel: '#deployments', message: "閴?FE Deployment completed successfully")
+            slackSend(channel: '#deployments', message: "✅FE Deployment completed successfully")
         }
         failure {
-            slackSend(channel: '#deployments', message: "閴?FE Deployment failed")
+            slackSend(channel: '#deployments', message: "❌FE Deployment failed")
         }
     }
 }
