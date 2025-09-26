@@ -1,4 +1,4 @@
-{
+﻿{
   "family": "meetly-frontend",
   "executionRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-execution-role",
   "networkMode": "awsvpc",
@@ -11,7 +11,7 @@
   },
   "containerDefinitions": [
     {
-      "name": "web",
+      "name": "frontend",
       "image": "__IMAGE__",
       "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
       "essential": true,
