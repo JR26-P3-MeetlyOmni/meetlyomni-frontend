@@ -11,7 +11,7 @@ pipeline {
         NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com/api/v1'
         NODE_ENV = 'production'
          // ecs service
-        CLUSTER = 'meetlyomni-dev-ecs'
+        CLUSTER = 'meetlyomni-dev-ecs-frontend'
         SERVICE = 'meetlyomni-dev-frontend-svc'
     }
 
