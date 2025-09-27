@@ -21,11 +21,11 @@
         { "name": "NODE_ENV", "value": "production" },
         { "name": "PORT", "value": "3000" },
         { "name": "HOST", "value": "0.0.0.0" },
-        { "name": "URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
-        { "name": "NEXTAUTH_URL", "value": "https://d1gxwj2tjnrcnt.cloudfront.net" },
+        { "name": "URL", "value": "https://d3e3f16kbvgt30.cloudfront.net" },
+        { "name": "NEXTAUTH_URL", "value": "https://d3e3f16kbvgt30.cloudfront.net" },
         {
           "name": "ALB_URL",
-          "value": "meetlyomni-alb-frontend-2101221063.ap-southeast-2.elb.amazonaws.com"
+          "value": "meetlyomni-alb-frontend-1119243929.ap-southeast-2.elb.amazonaws.com"
         }
       ],
       "secrets": [

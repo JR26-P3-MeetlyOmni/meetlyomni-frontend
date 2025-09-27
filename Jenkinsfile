@@ -8,7 +8,7 @@ pipeline {
         EC2_HOST = 'ec2-user@3.25.52.0'
         ECR_REGISTRY = '351889159066.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
-        NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com'
+        NEXT_PUBLIC_API_BASE_URL = 'https://api-uat.meetlyomni.com/api/v1'
         NODE_ENV = 'production'
          // ecs service
         CLUSTER = 'meetlyomni-dev-ecs'

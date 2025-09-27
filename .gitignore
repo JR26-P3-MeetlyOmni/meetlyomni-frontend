@@ -77,4 +77,4 @@ CLAUDE.md
 .terraform/
 terraform.tfstate
 terraform.tfstate.*
-local.auto.tfvars
+*.tfvars
