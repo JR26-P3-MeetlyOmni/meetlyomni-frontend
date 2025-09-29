@@ -1,12 +1,20 @@
 'use client';
 
-import React from 'react';
+import { type Step } from '@/features/signup/signupSlice';
 
-import { type Step } from '../../hooks/useStepManager';
-import { CompanyNameStep } from '../CompanyNameStep/CompanyNameStep';
-import ContactInfoStep from '../ContactInfoStep/ContactInfoStep';
-import EmailStep from '../EmailStep/EmailStep';
-import { PasswordStep } from '../PasswordStep/PasswordStep';
+import React, { Suspense } from 'react';
+
+// Lazy load step components for better performance
+const CompanyNameStep = React.lazy(() =>
+  import('../CompanyNameStep/CompanyNameStep').then(module => ({
+    default: module.CompanyNameStep,
+  })),
+);
+const ContactInfoStep = React.lazy(() => import('../ContactInfoStep/ContactInfoStep'));
+const EmailStep = React.lazy(() => import('../EmailStep/EmailStep'));
+const PasswordStep = React.lazy(() =>
+  import('../PasswordStep/PasswordStep').then(module => ({ default: module.PasswordStep })),
+);
 
 interface StepContentProps {
   step: Step;
@@ -25,13 +33,12 @@ interface StepContentProps {
 }
 
 // Table-driven configuration for steps
-// Using unknown to avoid 'any' - type safety is ensured by the stepProps functions
-const stepComponents: Record<Step, React.ComponentType<unknown>> = {
-  company: CompanyNameStep as unknown as React.ComponentType<unknown>,
-  email: EmailStep as unknown as React.ComponentType<unknown>,
-  password: PasswordStep as unknown as React.ComponentType<unknown>,
-  contact: ContactInfoStep as unknown as React.ComponentType<unknown>,
-};
+const stepComponents = {
+  company: CompanyNameStep,
+  email: EmailStep,
+  password: PasswordStep,
+  contact: ContactInfoStep,
+} as const;
 
 const stepProps = {
   company: (props: StepContentProps) => ({
@@ -67,5 +74,24 @@ export default function StepContent(props: StepContentProps) {
   const Component = stepComponents[step] as React.ComponentType<Record<string, unknown>>;
   const componentProps = stepProps[step](props);
 
-  return <Component {...(componentProps as Record<string, unknown>)} />;
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '200px',
+            fontSize: '16px',
+            color: '#666',
+          }}
+        >
+          Loading...
+        </div>
+      }
+    >
+      <Component {...(componentProps as Record<string, unknown>)} />
+    </Suspense>
+  );
 }

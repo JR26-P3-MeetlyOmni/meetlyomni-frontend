@@ -1,8 +1,10 @@
 'use client';
 
+import { type Step } from '@/features/signup/signupSlice';
+
 import React from 'react';
 
-import { type Step, useStepManager } from '../hooks/useStepManager';
+import { useReduxSignupForm } from '../hooks/useReduxSignupForm';
 import StepContent from './SignupComponents/StepContent';
 import StepDots from './SignupComponents/StepDots';
 
@@ -17,13 +19,13 @@ export default function SignupForm() {
     phone,
     goBack,
     goNext,
-    handleCompany,
-    handleEmail,
-    handlePassword,
-    handleContact,
+    handleCompanyChange,
+    handleEmailChange,
+    handlePasswordChange,
+    handleContactChange,
     handleSubmit,
     canGoTo,
-  } = useStepManager();
+  } = useReduxSignupForm();
 
   const steps: Step[] = ['company', 'email', 'password', 'contact'];
 
@@ -36,10 +38,10 @@ export default function SignupForm() {
         password={password}
         contactName={contactName}
         phone={phone}
-        onCompanyNameChange={handleCompany}
-        onEmailChange={handleEmail}
-        onPasswordChange={handlePassword}
-        onContactChange={handleContact}
+        onCompanyNameChange={handleCompanyChange}
+        onEmailChange={handleEmailChange}
+        onPasswordChange={handlePasswordChange}
+        onContactChange={handleContactChange}
         onBack={goBack}
         onNext={goNext}
         onSubmit={handleSubmit}

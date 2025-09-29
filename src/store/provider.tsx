@@ -2,11 +2,12 @@
 
 import { setExpiresAt } from '@/features/auth/authSlice';
 import { fetchMe } from '@/features/auth/authThunks';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 
-import { store } from './store';
+import { persistor, store } from './store';
 
 export function ReduxProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -21,5 +22,27 @@ export function ReduxProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <PersistGate
+        loading={
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '100vh',
+              fontSize: '18px',
+              color: '#666',
+            }}
+          >
+            Loading application...
+          </div>
+        }
+        persistor={persistor}
+      >
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 }
