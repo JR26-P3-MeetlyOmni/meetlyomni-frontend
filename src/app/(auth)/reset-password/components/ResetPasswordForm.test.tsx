@@ -5,7 +5,7 @@ import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import ResetPasswordForm from './ResetPasswordForm';
 
@@ -13,7 +13,6 @@ const pushMock = vi.fn();
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: pushMock }),
 }));
-
 
 (globalThis as any).React = React;
 
@@ -27,7 +26,6 @@ describe('ResetPasswordForm', () => {
 
   it('shows error when password length < 8', () => {
     render(<ResetPasswordForm token="dummy" />, { wrapper: Wrapper });
-
 
     const newPw = screen.getByLabelText('New Password', { selector: 'input', exact: true });
     const confirmPw = screen.getByLabelText('Confirm Password', { selector: 'input', exact: true });
@@ -56,8 +54,7 @@ describe('ResetPasswordForm', () => {
     expect(pushMock).not.toHaveBeenCalled();
   });
 
-  it('pushes to /reset-password/success with valid inputs', async () => {
-    vi.useFakeTimers();
+  it('pushes to /reset-password/success with valid inputs', () => {
     render(<ResetPasswordForm token="dummy" />, { wrapper: Wrapper });
 
     const newPw = screen.getByLabelText('New Password', { selector: 'input', exact: true });
@@ -68,11 +65,6 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(confirmPw, { target: { value: 'abcd1234' } });
     fireEvent.click(submit);
 
-    await act(async () => {
-      vi.advanceTimersByTime(300);
-    });
-
     expect(pushMock).toHaveBeenCalledWith('/reset-password/success');
-    vi.useRealTimers();
   });
 });
