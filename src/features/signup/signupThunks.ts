@@ -38,4 +38,10 @@ export const submitSignup = createAsyncThunk(
       return rejectWithValue(errorMessage);
     }
   },
+  {
+    condition: (_, { getState }) => {
+      const { signup } = getState() as RootState;
+      return !signup.isLoading;
+    },
+  },
 );

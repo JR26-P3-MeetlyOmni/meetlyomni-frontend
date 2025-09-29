@@ -1,9 +1,19 @@
 import authReducer from '@/features/auth/authSlice';
 import { signupReducer } from '@/features/signup';
 import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+
+// Create a noop storage for non-browser environments (SSR, tests, etc.)
+const createNoopStorage = () => ({
+  getItem: async () => null,
+  setItem: async (_key: string, value: string) => value,
+  removeItem: async () => {},
+});
+
+// Use web storage in browser, noop storage otherwise
+const storage = typeof window === 'undefined' ? createNoopStorage() : createWebStorage('local');
 
 // Persist configuration for auth
 const authPersistConfig = {
