@@ -1,7 +1,7 @@
 {
-  "family": "meetly-frontend",
-  "executionRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-execution-role",
-  "taskRoleArn": "arn:aws:iam::351889159066:role/meetlyomni-dev-ecs-task-role",
+  "family": "meetlyomni-prod-frontend",
+  "executionRoleArn": "arn:aws:iam::120456573741:role/meetlyomni-prod-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::120456573741:role/meetlyomni-prod-ecs-task-role",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
@@ -21,25 +21,25 @@
         { "name": "NODE_ENV", "value": "production" },
         { "name": "PORT", "value": "3000" },
         { "name": "HOST", "value": "0.0.0.0" },
-        { "name": "URL", "value": "https://d3e3f16kbvgt30.cloudfront.net" },
-        { "name": "NEXTAUTH_URL", "value": "https://d3e3f16kbvgt30.cloudfront.net" },
+        { "name": "URL", "value": "https://d34o5z5pnxvbq0.cloudfront.net" },
+        { "name": "NEXTAUTH_URL", "value": "https://d34o5z5pnxvbq0.cloudfront.net" },
         {
           "name": "ALB_URL",
-          "value": "meetlyomni-alb-frontend-1119243929.ap-southeast-2.elb.amazonaws.com"
+          "value": "meetlyomni-alb-frontend-978827234.ap-southeast-2.elb.amazonaws.com"
         }
       ],
       "secrets": [
         {
           "name": "API_BASE_URL",
-          "valueFrom": "arn:aws:ssm:ap-southeast-2:351889159066:parameter/meetlyomni/dev/frontend/API_BASE_URL"
+          "valueFrom": "arn:aws:ssm:ap-southeast-2:120456573741:parameter/meetlyomni/prod/frontend/API_BASE_URL"
         }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/meetlyomni/dev/frontend",
+          "awslogs-group": "/ecs/meetlyomni/prod/backend",
           "awslogs-region": "ap-southeast-2",
-          "awslogs-stream-prefix": "web"
+          "awslogs-stream-prefix": "ecs"
         }
       }
     }

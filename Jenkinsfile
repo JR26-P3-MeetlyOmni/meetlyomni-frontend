@@ -5,13 +5,13 @@ pipeline {
         AWS_CREDENTIALS_ID = 'aws-credentials-prod'
         AWS_REGION = 'ap-southeast-2'
         IMAGE_NAME = 'meetly-omni-frontend-prod'
-        ECR_REGISTRY = '120456573741.dkr.ecr.ap-southeast-2.amazonaws.com/meetly-omni-frontend-dev'
+        ECR_REGISTRY = '120456573741.dkr.ecr.ap-southeast-2.amazonaws.com/meetly-omni-frontend-prod'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
         NEXT_PUBLIC_API_BASE_URL = 'https://api.meetlyomni.com'
         NODE_ENV = 'production'
          // ecs service
-        CLUSTER = 'meetlyomni-dev-ecs-frontend'
-        SERVICE = 'meetlyomni-dev-frontend-svc'
+        CLUSTER = 'meetlyomni-prod-ecs'
+        SERVICE = 'meetlyomni-prod-frontend-svc'
     }
 
     stages {
@@ -48,7 +48,7 @@ pipeline {
                 docker build \
                 --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \
                 --build-arg NODE_ENV=${NODE_ENV} \
-                -t ${IMAGE_NAME}:${VERSION} .
+                -t ${IMAGE_NAME}:latest .
                 """
             }
         }
@@ -59,8 +59,8 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     sh '''
                         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-                        docker tag ${IMAGE_NAME}:${VERSION} ${ECR_VERSION_URI}
-                        docker push ${ECR_VERSION_URI}
+                        docker tag ${IMAGE_NAME}:latest ${ECR_URI}
+                        docker push ${ECR_URI}
                     '''
                 }
             }
@@ -73,7 +73,7 @@ pipeline {
                     sh '''
                         set -e
                         IMAGE_URI="${ECR_REGISTRY}/${IMAGE_NAME}:${VERSION}"
-                        sed -i "s|__IMAGE__|${IMAGE_URI}|g" taskdefinition.json
+                        sed -i "s|__IMAGE__|${ECR_URI}|g" taskdefinition.json
 
                         # register new role
                         NEW_TD_ARN=$(
