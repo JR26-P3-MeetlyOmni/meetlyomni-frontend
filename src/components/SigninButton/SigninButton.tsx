@@ -36,7 +36,7 @@ const StyledButton = styled(Button)<{ component?: React.ElementType; href?: stri
   }),
 );
 
-export function SigninButton({ href = '/signin', onClick, ...rest }: SigninButtonProps) {
+export function SigninButton({ href = '/login', onClick, ...rest }: SigninButtonProps) {
   return (
     <Root>
       <StyledButton

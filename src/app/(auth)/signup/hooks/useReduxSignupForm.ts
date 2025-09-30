@@ -11,16 +11,25 @@ import {
 import { submitSignup } from '@/features/signup/signupThunks';
 import type { AppDispatch } from '@/store/store';
 
-import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export function useReduxSignupForm() {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   // Direct state access - much simpler than selectors
   const signupState = useSelector((state: { signup: SignupFormState }) => state.signup);
   const canGoToStep = useSelector(selectCanGoToStep);
   const isFormComplete = useSelector(selectIsFormComplete);
+
+  // Handle successful signup redirect
+  useEffect(() => {
+    if (signupState.success && signupState.email) {
+      router.push(`/email-sent?email=${encodeURIComponent(signupState.email)}`);
+    }
+  }, [signupState.success, signupState.email, router]);
 
   // Step navigation
   const setCurrentStep = useCallback(
