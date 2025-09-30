@@ -4,7 +4,7 @@ import { ClientSignInForm } from './components/ClientSignInForm';
 import { DecorativeElements } from './components/DecorativeElements';
 import { StyledLoginPage } from './components/StyledLoginPage';
 
-export default function SigninPage() {
+export default function Page() {
   return (
     <StyledLoginPage
       decorativeElements={<DecorativeElements />}

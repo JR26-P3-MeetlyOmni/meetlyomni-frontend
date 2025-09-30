@@ -5,4 +5,5 @@ export interface AuthResultPageProps {
   description: string;
   buttonText?: string;
   buttonHref?: string;
+  showButton?: boolean; // default: true
 }
