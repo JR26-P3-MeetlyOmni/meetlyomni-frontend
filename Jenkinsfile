@@ -7,7 +7,7 @@ pipeline {
         IMAGE_NAME = 'meetly-omni-frontend-prod'
         ECR_REGISTRY = '120456573741.dkr.ecr.ap-southeast-2.amazonaws.com'
         ECR_URI = "${ECR_REGISTRY}/${IMAGE_NAME}:latest"
-        NEXT_PUBLIC_API_BASE_URL = 'https://api.meetlyomni.com'
+        NEXT_PUBLIC_API_BASE_URL = 'https://api.meetlyomni.com/api/v1'
         NODE_ENV = 'production'
          // ecs service
         CLUSTER = 'meetlyomni-prod-ecs'
