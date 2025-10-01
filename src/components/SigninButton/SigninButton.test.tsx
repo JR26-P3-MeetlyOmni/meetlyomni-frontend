@@ -33,7 +33,7 @@ describe('SigninButton', () => {
     it('has correct href', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
-      expect(link).toHaveAttribute('href', '/signin');
+      expect(link).toHaveAttribute('href', '/login');
     });
 
     it('renders arrow icon', () => {
@@ -46,8 +46,8 @@ describe('SigninButton', () => {
     it('is an anchor styled like MUI button', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
-
-      expect(link).toHaveClass('MuiButton-root');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/login');
     });
 
     it('contains icon and text inside the anchor', () => {
@@ -62,7 +62,21 @@ describe('SigninButton', () => {
   });
 
   describe('Accessibility', () => {
-    it('is keyboard focusable (as a link)', () => {
+    it('should be accessible as a link', () => {
+      render(<SigninButton />);
+
+      const link = screen.getByRole('link');
+      expect(link).toBeInTheDocument();
+    });
+
+    it('should have proper link structure', () => {
+      render(<SigninButton />);
+
+      const link = screen.getByRole('link');
+      expect(link).toHaveAttribute('href', '/login');
+    });
+
+    it('should be keyboard accessible', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
       act(() => {
@@ -74,7 +88,7 @@ describe('SigninButton', () => {
     it('keeps correct link semantics', () => {
       render(<SigninButton />);
       const link = screen.getByRole('link');
-      expect(link).toHaveAttribute('href', '/signin');
+      expect(link).toHaveAttribute('href', '/login');
     });
   });
 

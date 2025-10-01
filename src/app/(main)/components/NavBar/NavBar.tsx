@@ -42,6 +42,10 @@ const NavBar: React.FC = () => {
     router.push('/login');
   }, [router]);
 
+  const handleGetStartedClick = useCallback(() => {
+    router.push('/signup');
+  }, [router]);
+
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>
       <LogoWrapper>
@@ -62,7 +66,9 @@ const NavBar: React.FC = () => {
             <CTAButton variant="outlined" onClick={handleSignInClick}>
               Sign In
             </CTAButton>
-            <CTAButton variant="contained">Get Started</CTAButton>
+            <CTAButton variant="contained" onClick={handleGetStartedClick}>
+              Get Started
+            </CTAButton>
           </>
         ) : (
           <DashboardUserMenu />
