@@ -97,13 +97,15 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
       <AuthResultIconContainer>
         <Image src={safeIconSrc} alt={safeAlt || 'Status icon'} width={44} height={44} />
       </AuthResultIconContainer>
-      <AuthResultTitleText>{title}</AuthResultTitleText>
-      <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
-      <AuthResultButtonContainer>
-        <AuthResultBackButton component={Link} href={buttonHref}>
-          {buttonText}
-        </AuthResultBackButton>
-      </AuthResultButtonContainer>
+      <AuthResultTitleText>{safeTitle}</AuthResultTitleText>
+      <AuthResultDescriptionText>{safeDescription}</AuthResultDescriptionText>
+      {shouldShowButton ? (
+        <AuthResultButtonContainer>
+          <AuthResultBackButton component={Link} href={safeHref}>
+            {safeButtonText}
+          </AuthResultBackButton>
+        </AuthResultButtonContainer>
+      ) : null}
     </>
   );
 };

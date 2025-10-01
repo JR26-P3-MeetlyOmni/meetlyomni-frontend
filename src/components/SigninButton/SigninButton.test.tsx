@@ -62,7 +62,6 @@ describe('SigninButton', () => {
   });
 
   describe('Accessibility', () => {
-    it('is keyboard focusable (as a link)', () => {
     it('should be accessible as a link', () => {
       render(<SigninButton />);
 
