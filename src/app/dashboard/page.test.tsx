@@ -43,35 +43,32 @@ vi.mock('@assets/images/EventManagement/balloon.png', () => ({
   default: '/mocked-balloon.png',
 }));
 
-// Mock Material-UI components to avoid complex rendering issues
-const filterDomProps = (props: any) => {
-  // Filter out non-standard DOM props
-  const {
-    elevation,
-    variant,
-    startIcon,
-    fullWidth,
-    maxWidth,
-    error,
-    spacing,
-    alignItems,
-    justifyContent,
-    flexDirection,
-    ...rest
-  } = props;
-  return rest;
-};
+// Mock Material-UI components using async importOriginal pattern
+vi.mock('@mui/material', async importOriginal => {
+  const actual = (await importOriginal()) as Record<string, any>;
 
-vi.mock('@mui/material', () => {
-  // Mock styled function
-  const styled = (component: any) => (styles: any) => {
-    return ({ children, ...props }: any) => {
-      const Component = component;
-      return <Component {...filterDomProps(props)}>{children}</Component>;
-    };
+  // Filter out non-standard DOM props
+  const filterDomProps = (props: any) => {
+    const {
+      elevation,
+      variant,
+      startIcon,
+      fullWidth,
+      maxWidth,
+      error,
+      spacing,
+      alignItems,
+      justifyContent,
+      flexDirection,
+      open,
+      onClose,
+      ...rest
+    } = props;
+    return rest;
   };
 
   return {
+    ...actual,
     Box: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Button: ({ children, startIcon, ...props }: any) => (
       <button {...filterDomProps(props)}>
@@ -82,12 +79,52 @@ vi.mock('@mui/material', () => {
     Typography: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Paper: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Stack: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-    styled,
+
+    Dialog: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    DialogTitle: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    DialogContent: ({ children, ...props }: any) => (
+      <div {...filterDomProps(props)}>{children}</div>
+    ),
+    DialogActions: ({ children, ...props }: any) => (
+      <div {...filterDomProps(props)}>{children}</div>
+    ),
+
+    AppBar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    Toolbar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    IconButton: ({ children, ...props }: any) => (
+      <button {...filterDomProps(props)}>{children}</button>
+    ),
+    Container: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    Grid: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    Card: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
+    CardContent: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
   };
 });
 
+// Mock styled function separately if needed
+vi.mock('@mui/material/styles', () => ({
+  styled: (component: any) => {
+    return (styles: any) => {
+      return ({ children, ...props }: any) => {
+        const filteredProps = Object.keys(props).reduce((acc, key) => {
+          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') {
+            acc[key] = props[key];
+          }
+          return acc;
+        }, {} as any);
+
+        return React.createElement(component, filteredProps, children);
+      };
+    };
+  },
+  createTheme: vi.fn(),
+  ThemeProvider: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+}));
+
 vi.mock('@mui/icons-material', () => ({
   Add: () => <span>+</span>,
+  Menu: () => <span>☰</span>,
+  AccountCircle: () => <span>👤</span>,
 }));
 
 describe('DashboardPage', () => {

@@ -35,6 +35,13 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   textAlign: 'center',
   maxWidth: theme.breakpoints.values.sm,
+  margin: '0 auto',
+}));
+
+export const AuthResultButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: theme.spacing(2),
 }));
 
 export const AuthResultBackButton = styled(Button)<{
@@ -48,10 +55,9 @@ export const AuthResultBackButton = styled(Button)<{
   padding: `${theme.spacing(1.5)} ${theme.spacing(2.5)}`,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: theme.typography.fontWeightMedium,
-  lineHeight: theme.typography.body2.lineHeight,
+  lineHeight: theme.typography?.body2?.lineHeight ?? theme.typography.body2.lineHeight,
   fontFamily: theme.typography.fontFamily,
   textTransform: 'none',
-  marginTop: theme.spacing(2),
   display: 'block',
   margin: `${theme.spacing(2)} auto 0`,
   '&:hover': {
@@ -67,17 +73,39 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   description,
   buttonText = 'Back to Login',
   buttonHref = '/login',
+  showButton = true,
 }) => {
+  const asText = (v: unknown) => String(v ?? '');
+
+  const safeTitle = asText(title);
+  const safeDescription = asText(description);
+  const safeAlt = asText(iconAlt);
+  const safeButtonText = asText(buttonText);
+
+  const safeHref =
+    typeof buttonHref === 'string' && buttonHref.startsWith('/') ? buttonHref : '/login';
+
+  const safeIconSrc =
+    typeof iconSrc === 'string'
+      ? iconSrc
+      : '/assets/images/confirmationForm/green-success-check.png';
+
+  const shouldShowButton = !!showButton;
+
   return (
     <>
       <AuthResultIconContainer>
-        <Image src={iconSrc} alt={iconAlt} width={44} height={44} />
+        <Image src={safeIconSrc} alt={safeAlt || 'Status icon'} width={44} height={44} />
       </AuthResultIconContainer>
-      <AuthResultTitleText>{title}</AuthResultTitleText>
-      <AuthResultDescriptionText>{description}</AuthResultDescriptionText>
-      <AuthResultBackButton component={Link} href={buttonHref}>
-        {buttonText}
-      </AuthResultBackButton>
+      <AuthResultTitleText>{safeTitle}</AuthResultTitleText>
+      <AuthResultDescriptionText>{safeDescription}</AuthResultDescriptionText>
+      {shouldShowButton ? (
+        <AuthResultButtonContainer>
+          <AuthResultBackButton component={Link} href={safeHref}>
+            {safeButtonText}
+          </AuthResultBackButton>
+        </AuthResultButtonContainer>
+      ) : null}
     </>
   );
 };
