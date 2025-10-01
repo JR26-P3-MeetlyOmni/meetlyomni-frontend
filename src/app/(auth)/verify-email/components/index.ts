@@ -1,0 +1,1 @@
+export { VerificationStatusHandler } from './VerificationStatusHandler';

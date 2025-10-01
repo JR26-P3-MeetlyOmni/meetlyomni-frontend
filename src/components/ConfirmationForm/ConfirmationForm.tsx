@@ -35,6 +35,13 @@ export const AuthResultDescriptionText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   textAlign: 'center',
   maxWidth: theme.breakpoints.values.sm,
+  margin: '0 auto',
+}));
+
+export const AuthResultButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: theme.spacing(2),
 }));
 
 export const AuthResultBackButton = styled(Button)<{
@@ -90,13 +97,15 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
       <AuthResultIconContainer>
         <Image src={safeIconSrc} alt={safeAlt || 'Status icon'} width={44} height={44} />
       </AuthResultIconContainer>
-
       <AuthResultTitleText>{safeTitle}</AuthResultTitleText>
       <AuthResultDescriptionText>{safeDescription}</AuthResultDescriptionText>
-
-      {shouldShowButton ? <AuthResultBackButton component={Link} href={safeHref} aria-label={safeButtonText}>
-          {safeButtonText}
-        </AuthResultBackButton> : null}
+      {shouldShowButton ? (
+        <AuthResultButtonContainer>
+          <AuthResultBackButton component={Link} href={safeHref}>
+            {safeButtonText}
+          </AuthResultBackButton>
+        </AuthResultButtonContainer>
+      ) : null}
     </>
   );
 };
