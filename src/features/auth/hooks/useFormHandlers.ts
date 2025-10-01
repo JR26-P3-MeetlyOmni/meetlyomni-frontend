@@ -2,7 +2,7 @@ import { loginThunk } from '@/features/auth/authThunks';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useFormHandlers = (
   formData: { email: string; password: string },
@@ -11,6 +11,7 @@ export const useFormHandlers = (
 ) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('email', e.target.value),
@@ -38,11 +39,14 @@ export const useFormHandlers = (
       const emailTrim = formData.email.trim();
       const passwordTrim = formData.password.trim();
 
+      setIsSubmitting(true);
       try {
         await dispatch(loginThunk({ email: emailTrim, password: passwordTrim })).unwrap();
         router.push('/dashboard');
       } catch {
         // Error is already handled in Redux and displayed in the UI
+      } finally {
+        setIsSubmitting(false);
       }
     },
     [dispatch, formData.email, formData.password, router],
@@ -54,5 +58,6 @@ export const useFormHandlers = (
     handlePasswordChange,
     handlePasswordBlur,
     handleSubmit,
+    isSubmitting,
   };
 };
