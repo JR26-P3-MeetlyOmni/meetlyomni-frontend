@@ -93,6 +93,7 @@ jobs:
           docker push "${{ env.ECR_URI }}:${{ env.TAG_ENV }}"
 
   deploy_to_ecs:
+    timeout-minutes: 60
     name: Deploy to ECS
     runs-on: ubuntu-latest
     environment: prod
@@ -125,7 +126,7 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          wait-for-service-stability: false
 
       - name: Notify Slack on Success
         if: success()
