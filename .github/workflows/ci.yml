@@ -113,7 +113,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1.8.0
         with:
-          task-definition: .github/workflows/ecs-task-definition.json
+          task-definition: ecs-task-definition.json
           container-name: meetly-omni-frontend
           image: ${{ env.ECR_URI }}:${{ needs.build_and_push.outputs.image_tag }}
 
