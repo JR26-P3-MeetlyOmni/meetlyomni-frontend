@@ -1,10 +1,4 @@
-terraform {
-  backend "s3" {
-    bucket = "myterraform-biaojin"
-    key    = "meetlyomni-frontend/terraform.tfstate"
-    region = "ap-southeast-2"
-  }
-}
+
 
 provider "aws" {
   region = var.region

@@ -76,7 +76,7 @@ node_modules/
 CLAUDE.md# Terraform
 .terraform/
 
-local.auto.tfvars
+*.tfvars
 
 terraform.tfstate
 terraform.tfstate.*
