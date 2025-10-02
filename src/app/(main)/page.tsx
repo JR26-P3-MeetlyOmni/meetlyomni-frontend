@@ -10,7 +10,6 @@ export default async function localPage() {
   return (
     <Box>
       <HeroSection />
-
       <FeatureCard />
       <ScenariosSection />
       <TestimonialsSection />
