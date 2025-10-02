@@ -153,7 +153,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({
         name="email"
         register={register}
         error={errors.email?.message}
-        placeholder="Email Address"
+        placeholder="Email"
         type="email"
         width="83.75"
       />

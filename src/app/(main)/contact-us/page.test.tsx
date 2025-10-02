@@ -63,7 +63,7 @@ describe('ContactUsPage', () => {
       // Check form labels
       expect(screen.getByText('First name')).toBeInTheDocument();
       expect(screen.getByText('Last name')).toBeInTheDocument();
-      expect(screen.getByText('Email Address')).toBeInTheDocument();
+      expect(screen.getByText('Email')).toBeInTheDocument();
       expect(screen.getByText('Your Question')).toBeInTheDocument();
     });
 
@@ -73,7 +73,7 @@ describe('ContactUsPage', () => {
       // Check placeholders
       expect(screen.getByPlaceholderText('First name')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Last name')).toBeInTheDocument();
-      expect(screen.getByPlaceholderText('Email Address')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Enter your text here')).toBeInTheDocument();
 
       // First name and last name inputs
