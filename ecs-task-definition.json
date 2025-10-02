@@ -26,7 +26,7 @@
         "secrets": [
           {
             "name": "NEXTAUTH_SECRET",
-            "valueFrom": "arn:aws:secretsmanager:ap-southeast-2:120456573741:secret:nextauth_secret_XXXX"
+            "valueFrom": "arn:aws:ssm:ap-southeast-2:120456573741:parameter/meetlyomni/prod/frontend/NEXTAUTH_SECRET"
           }
         ],
         "logConfiguration": {
