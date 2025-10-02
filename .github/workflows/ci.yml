@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: ["main"]
   push:
-    branches: ["devops-leonard"]  
+    branches: ["devpos-leonard"]  
   workflow_dispatch:
 
 env:
