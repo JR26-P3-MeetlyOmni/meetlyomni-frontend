@@ -37,7 +37,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/meetlyomni/prod/backend",
+          "awslogs-group": "/ecs/meetlyomni/prod/frontend",
           "awslogs-region": "ap-southeast-2",
           "awslogs-stream-prefix": "ecs"
         }

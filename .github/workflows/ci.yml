@@ -2,9 +2,9 @@ name: CICD-Prod
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: [" "]
   push:
-    branches: ["devops-leonard"]  
+    branches: [" "]  
   workflow_dispatch:
 
 env:
