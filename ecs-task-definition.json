@@ -1,0 +1,40 @@
+{
+  "family": "meetlyomni-prod-frontend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "taskRoleArn": "arn:aws:iam::120456573741:role/meetlyomni-prod-ecs-task-role",
+  "executionRoleArn": "arn:aws:iam::120456573741:role/meetlyomni-prod-ecs-execution-role",
+  "containerDefinitions": [
+    {
+      "name": "frontend",
+      "image": "120456573741.dkr.ecr.ap-southeast-2.amazonaws.com/meetly-omni-frontend-prod:REPLACED_BY_CI",
+      "essential": true,
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "NEXTAUTH_URL", "value": "https://d34o5z5pnxvbq0.cloudfront.net" },
+        { "name": "PORT", "value": "3000" }
+      ],
+      "secrets": [
+        {
+          "name": "NEXTAUTH_SECRET",
+          "valueFrom": "arn:aws:ssm:ap-southeast-2:120456573741:parameter/meetlyomni/prod/frontend/NEXTAUTH_SECRET"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/meetlyomni/prod/frontend",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
