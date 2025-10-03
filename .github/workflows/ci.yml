@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     needs: build_and_push
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops-leonard'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops-leonard' || github.ref == 'refs/heads/main-biaojin'
     permissions:
       id-token: write
       contents: read
