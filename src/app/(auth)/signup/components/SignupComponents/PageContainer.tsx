@@ -16,6 +16,7 @@ type PageContainerProps = {
   onBack?: () => void;
   onNext?: () => void;
   nextDisabled?: boolean;
+  isLoading?: boolean;
 };
 
 const Root = styled('div')(({ theme }) => ({
@@ -70,6 +71,7 @@ export function PageContainer({
   onBack,
   onNext,
   nextDisabled = false,
+  isLoading = false,
 }: PageContainerProps) {
   const handleBack = React.useCallback(() => {
     onBack?.();
@@ -98,7 +100,7 @@ export function PageContainer({
 
             <ActionsRow>
               <BackButton onClick={handleBack} />
-              <NextButton onClick={handleNext} disabled={nextDisabled} />
+              <NextButton onClick={handleNext} disabled={nextDisabled} isLoading={isLoading} />
             </ActionsRow>
           </form>
         </LeftStack>

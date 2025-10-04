@@ -4,4 +4,5 @@ export interface ContactInfoStepProps {
   onChange?: (name: string, phone: string, valid: boolean) => void;
   contactName?: string;
   phone?: string;
+  isLoading?: boolean;
 }

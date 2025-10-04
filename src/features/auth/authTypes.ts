@@ -20,6 +20,26 @@ export type AuthError = {
   code: string;
 };
 
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type ForgotPasswordResponse = {
+  message: string;
+};
+
+export type ResetPasswordRequest = {
+  email: string;
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+export type ResetPasswordResponse = {
+  message: string;
+  reset: boolean;
+};
+
 export type AuthState = {
   user: User | null;
   expiresAt: string | null; // token expiration time
