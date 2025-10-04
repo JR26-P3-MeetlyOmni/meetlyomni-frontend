@@ -4,8 +4,16 @@ import { AppErrorCode, ERROR_CONFIG } from '@/types/errors';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getMe, loginApi, logoutApi } from './authApi';
-import type { LoginCredentials, TokenMeta, User } from './authTypes';
+import { forgotPasswordApi, getMe, loginApi, logoutApi, resetPasswordApi } from './authApi';
+import type {
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
+  LoginCredentials,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  TokenMeta,
+  User,
+} from './authTypes';
 
 // Condition to prevent concurrent login attempts
 export const loginCondition = (
@@ -76,3 +84,33 @@ export const logoutThunk = createAsyncThunk<void, void, { rejectValue: string }>
     }
   },
 );
+
+export const forgotPasswordThunk = createAsyncThunk<
+  ForgotPasswordResponse,
+  ForgotPasswordRequest,
+  { rejectValue: string }
+>('auth/forgotPassword', async (request, thunkAPI) => {
+  try {
+    return await forgotPasswordApi(request, thunkAPI.signal);
+  } catch (err: unknown) {
+    if (err instanceof ApiError) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+    return thunkAPI.rejectWithValue('Failed to send reset email');
+  }
+});
+
+export const resetPasswordThunk = createAsyncThunk<
+  ResetPasswordResponse,
+  ResetPasswordRequest,
+  { rejectValue: string }
+>('auth/resetPassword', async (request, thunkAPI) => {
+  try {
+    return await resetPasswordApi(request, thunkAPI.signal);
+  } catch (err: unknown) {
+    if (err instanceof ApiError) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+    return thunkAPI.rejectWithValue('Failed to reset password');
+  }
+});

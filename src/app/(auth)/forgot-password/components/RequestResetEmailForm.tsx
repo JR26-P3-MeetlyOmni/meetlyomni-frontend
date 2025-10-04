@@ -1,7 +1,11 @@
 'use client';
 
+import { forgotPasswordThunk } from '@/features/auth/authThunks';
+import type { AppDispatch } from '@/store/store';
+
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
 import { Button, TextField } from '@mui/material';
 
@@ -13,10 +17,12 @@ function isValidEmail(v: string) {
 
 export default function RequestResetEmailForm() {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
@@ -24,7 +30,17 @@ export default function RequestResetEmailForm() {
       return;
     }
 
-    router.push('/forgot-password/sent');
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      await dispatch(forgotPasswordThunk({ email })).unwrap();
+      router.push('/forgot-password/sent');
+    } catch (err) {
+      setError(typeof err === 'string' ? err : 'Failed to send reset email');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -45,8 +61,13 @@ export default function RequestResetEmailForm() {
         />
 
         <Actions>
-          <Button type="submit" variant="contained" aria-label="Send reset email">
-            Send Email
+          <Button
+            type="submit"
+            variant="contained"
+            aria-label="Send reset email"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Sending...' : 'Send Email'}
           </Button>
         </Actions>
       </Wrapper>
