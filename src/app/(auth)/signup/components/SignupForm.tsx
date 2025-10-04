@@ -25,6 +25,7 @@ export default function SignupForm() {
     handleContactChange,
     handleSubmit,
     canGoTo,
+    isLoading,
   } = useReduxSignupForm();
 
   const steps: Step[] = ['company', 'email', 'password', 'contact'];
@@ -45,6 +46,7 @@ export default function SignupForm() {
         onBack={goBack}
         onNext={goNext}
         onSubmit={handleSubmit}
+        isLoading={isLoading}
       />
       <StepDots steps={steps} activeStep={step} onStepChange={setStep} canGoToStep={canGoTo} />
     </>
