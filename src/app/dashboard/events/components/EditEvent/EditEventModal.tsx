@@ -2,11 +2,11 @@
 
 import React, { useCallback } from 'react';
 
-import { ApiError, apiFetch } from '../../../../api/api';
-import FormModal from '../../../../components/Modal/FormModal';
-import { EditEventModalProps, Event } from '../../../../constants/Event';
-import { useEventForm } from '../hooks/useEventForm';
-import EventFormFields from './EventFormFields';
+import { ApiError, apiFetch } from '../../../../../api/api';
+import FormModal from '../../../../../components/Modal/FormModal';
+import { EditEventModalProps, Event } from '../../../../../constants/Event';
+import { useEventForm } from '../../hooks/useEventForm';
+import EditEventFormFields from './EditEventFormFields';
 
 const EditEventModal: React.FC<EditEventModalProps> = ({
   open,
@@ -60,7 +60,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
       isLoading={isLoading}
       disabledSubmit={!isValid}
     >
-      <EventFormFields
+      <EditEventFormFields
         formState={formState}
         handleChange={handleChange}
         errors={errors}

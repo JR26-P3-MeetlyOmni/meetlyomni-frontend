@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Event } from '../../../../constants/Event';
+import { Event } from '../../../../../constants/Event';
 import EditEventModal from './EditEventModal';
 
 const meta: Meta<typeof EditEventModal> = {
