@@ -12,11 +12,18 @@ export interface EventFormFieldsProps {
 }
 
 export interface CreateEventResponse {
-  id: string;
-  name: string;
-  date: string;
-  description: string;
+  eventId: string;
+  orgId: string;
+  title: string;
+  description?: string;
   coverImageUrl?: string;
+  location?: string;
+  language?: string;
+  status: number;
+  createdByName?: string;
+  createdByAvatar?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateEventModalProps {

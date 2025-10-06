@@ -1,6 +1,8 @@
+import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
 
 import React from 'react';
+import { Provider } from 'react-redux';
 
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -128,8 +130,12 @@ vi.mock('@mui/icons-material', () => ({
 }));
 
 describe('DashboardPage', () => {
+  const renderWithRedux = (component: React.ReactElement) => {
+    return render(<Provider store={store}>{component}</Provider>);
+  };
+
   it('renders the dashboard page', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     // Check that the component renders without crashing
     const container = document.querySelector('div');
@@ -137,33 +143,33 @@ describe('DashboardPage', () => {
   });
 
   it('displays the event management title', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     expect(screen.getByText('Event Management')).toBeInTheDocument();
   });
 
   it('displays navigation buttons for Interactive Quiz and Raffle Game', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     expect(screen.getByText('Interactive Quiz')).toBeInTheDocument();
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
   });
 
   it('displays empty state message', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     expect(screen.getByText("There's nothing here, let's create an Event.")).toBeInTheDocument();
   });
 
   it('displays create button in empty state', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     const createButton = screen.getByRole('button', { name: /create/i });
     expect(createButton).toBeInTheDocument();
   });
 
   it('displays balloon image', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
@@ -171,7 +177,7 @@ describe('DashboardPage', () => {
   });
 
   it('displays background image in empty state', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     const backgroundImage = screen.getByAltText('Empty state background');
     expect(backgroundImage).toBeInTheDocument();
@@ -179,7 +185,7 @@ describe('DashboardPage', () => {
   });
 
   it('renders navigation buttons with correct icons', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     // Check for emoji icons in buttons
     const interactiveButton = screen.getByText('Interactive Quiz').closest('button');
@@ -190,7 +196,7 @@ describe('DashboardPage', () => {
   });
 
   it('renders create button with add icon', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
 
     const createButton = screen.getByRole('button', { name: /create/i });
     const icon = createButton.querySelector('.button-icon');
