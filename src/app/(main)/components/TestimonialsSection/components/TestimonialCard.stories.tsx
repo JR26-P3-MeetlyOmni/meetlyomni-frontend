@@ -1,3 +1,5 @@
+import { getAssetUrl } from '@/utils/cdn';
+
 import { Meta, StoryObj } from '@storybook/nextjs';
 
 import type { TestimonialCardProps } from '../types';
@@ -20,7 +22,7 @@ const mockTestimonial: TestimonialCardProps['data'] = {
   role: 'Event Manager, Amazon',
   content:
     'Meetly Omni makes our annual corporate meeting more fun than ever! Interactive answers let the audience really participate in the activity atmosphere more active.',
-  avatarUrl: '/assets/images/TestimonialsSection/Alex_W.png',
+  avatarUrl: getAssetUrl('StaticFiles/assets/images/TestimonialsSection/Alex_W.png'),
 };
 
 export const Default: Story = {

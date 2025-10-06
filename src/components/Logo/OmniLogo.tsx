@@ -1,5 +1,7 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -47,7 +49,7 @@ export function TopLeftLogo({ onClick }: TopLeftLogoProps) {
   return (
     <Root>
       <Logo
-        src="/assets/images/navbar/nav_bar_logo.png"
+        src={getAssetUrl('StaticFiles/assets/images/navbar/nav_bar_logo.png')}
         alt="MeetlyOmni Logo"
         role="link"
         tabIndex={0}

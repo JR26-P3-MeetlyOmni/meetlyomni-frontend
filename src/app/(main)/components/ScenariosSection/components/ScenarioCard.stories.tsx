@@ -1,3 +1,5 @@
+import { getAssetUrl } from '@/utils/cdn';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { ScenarioCardProps } from '../types';
@@ -16,7 +18,7 @@ type Story = StoryObj<typeof ScenarioCard>;
 const mockScenario: ScenarioCardProps['scenario'] = {
   id: '1',
   title: 'Annual meeting of the enterprise',
-  image: '/assets/images/scenarios/annual-meeting.png',
+  image: getAssetUrl('StaticFiles/assets/images/scenarios/annual-meeting.png'),
   imageAlt: 'Annual meeting photo',
   descriptions: [
     'Interactive quiz & Lucky draw to enhance team cohesion!',

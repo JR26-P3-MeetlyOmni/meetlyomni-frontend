@@ -26,7 +26,7 @@ describe('TopLeftLogo', () => {
 
       const logo = screen.getByAltText('MeetlyOmni Logo');
       expect(logo).toBeInTheDocument();
-      expect(logo).toHaveAttribute('src', '/assets/images/navbar/nav_bar_logo.png');
+      expect(logo).toHaveAttribute('src', expect.stringContaining('nav_bar_logo.png'));
       expect(logo).toHaveAttribute('alt', 'MeetlyOmni Logo');
     });
 

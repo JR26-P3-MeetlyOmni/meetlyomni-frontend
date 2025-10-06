@@ -16,7 +16,7 @@ describe('AnimatedTestimonialCard', () => {
       name: 'Alex W.',
       role: 'Event Manager, Amazon',
       content: 'This is a great product!',
-      avatarUrl: '/assets/images/TestimonialsSection/Alex_W.png',
+      avatarUrl: expect.stringContaining('Alex_W.png'),
     },
   };
 

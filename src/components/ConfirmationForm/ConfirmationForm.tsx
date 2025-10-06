@@ -1,5 +1,7 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -88,7 +90,7 @@ export const AuthResultPageComponent: React.FC<AuthResultPageProps> = ({
   const safeIconSrc =
     typeof iconSrc === 'string'
       ? iconSrc
-      : '/assets/images/confirmationForm/green-success-check.png';
+      : getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png');
 
   const shouldShowButton = !!showButton;
 

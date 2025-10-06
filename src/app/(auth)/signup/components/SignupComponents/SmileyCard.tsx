@@ -1,5 +1,7 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import React from 'react';
 
 import { styled } from '@mui/material/styles';
@@ -28,7 +30,7 @@ const Card = styled('img')(({ theme }) => ({
 export function SmileyCard() {
   return (
     <Root>
-      <Card src="/assets/images/Signup/smiley-face.png" alt="Smiley" />
+      <Card src={getAssetUrl('StaticFiles/assets/images/Signup/smiley-face.png')} alt="Smiley" />
     </Root>
   );
 }
