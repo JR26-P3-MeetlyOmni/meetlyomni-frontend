@@ -59,6 +59,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
       onSubmit={handleSubmit}
       isLoading={isLoading}
       disabledSubmit={!isValid}
+      submitButtonText="Save Changes"
     >
       <EditEventFormFields
         formState={formState}

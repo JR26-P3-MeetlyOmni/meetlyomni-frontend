@@ -18,6 +18,7 @@ export const FormModal: React.FC<FormModalProps> = ({
   children,
   isLoading = false,
   disabledSubmit = false,
+  submitButtonText = 'Save',
 }) => {
   const handleDialogClose = useCallback(
     (_event: object, reason?: 'backdropClick' | 'escapeKeyDown') => {
@@ -42,7 +43,7 @@ export const FormModal: React.FC<FormModalProps> = ({
             Cancel
           </CTAButton>
           <CTAButton onClick={onSubmit} variant="contained" disabled={disabledSubmit || isLoading}>
-            Save
+            {submitButtonText}
           </CTAButton>
         </ButtonGroupWrapper>
       </DialogActions>

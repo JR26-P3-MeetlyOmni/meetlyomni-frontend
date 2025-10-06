@@ -6,4 +6,5 @@ export type FormModalProps = {
   children?: React.ReactNode;
   isLoading?: boolean;
   disabledSubmit?: boolean;
+  submitButtonText?: string;
 };
