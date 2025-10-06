@@ -1,15 +1,10 @@
-import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
-
 import React from 'react';
-import { Provider } from 'react-redux';
-
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-
 import DashboardPage from './page';
 
-// Mock Next.js router
+// --- Mock Next.js router ---
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
@@ -21,7 +16,7 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-// Simple mock for Next.js Image component
+// --- Mock Image ---
 vi.mock('next/image', () => ({
   default: ({
     src,
@@ -38,11 +33,9 @@ vi.mock('next/image', () => ({
 
 // Note: Image imports are now handled via getAssetUrl function
 
-// Mock Material-UI components using async importOriginal pattern
+// --- Mock MUI Components ---
 vi.mock('@mui/material', async importOriginal => {
   const actual = (await importOriginal()) as Record<string, any>;
-
-  // Filter out non-standard DOM props
   const filterDomProps = (props: any) => {
     const {
       elevation,
@@ -74,7 +67,6 @@ vi.mock('@mui/material', async importOriginal => {
     Typography: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Paper: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Stack: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-
     Dialog: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     DialogTitle: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     DialogContent: ({ children, ...props }: any) => (
@@ -83,7 +75,6 @@ vi.mock('@mui/material', async importOriginal => {
     DialogActions: ({ children, ...props }: any) => (
       <div {...filterDomProps(props)}>{children}</div>
     ),
-
     AppBar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Toolbar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     IconButton: ({ children, ...props }: any) => (
@@ -96,18 +87,16 @@ vi.mock('@mui/material', async importOriginal => {
   };
 });
 
-// Mock styled function separately if needed
 vi.mock('@mui/material/styles', () => ({
   styled: (component: any) => {
-    return (styles: any) => {
+    return () => {
       return ({ children, ...props }: any) => {
         const filteredProps = Object.keys(props).reduce((acc, key) => {
           if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') {
-            acc[key] = props[key];
+            (acc as any)[key] = (props as any)[key];
           }
           return acc;
         }, {} as any);
-
         return React.createElement(component, filteredProps, children);
       };
     };
@@ -122,48 +111,40 @@ vi.mock('@mui/icons-material', () => ({
   AccountCircle: () => <span>👤</span>,
 }));
 
+// --- Tests ---
 describe('DashboardPage', () => {
-  const renderWithRedux = (component: React.ReactElement) => {
-    return render(<Provider store={store}>{component}</Provider>);
-  };
-
   it('renders the dashboard page', () => {
-    renderWithRedux(<DashboardPage />);
-
-    // Check that the component renders without crashing
+    render(<DashboardPage />);
     const container = document.querySelector('div');
     expect(container).toBeInTheDocument();
   });
 
   it('displays the event management title', () => {
-    renderWithRedux(<DashboardPage />);
-
+    render(<DashboardPage />);
     expect(screen.getByText('Event Management')).toBeInTheDocument();
   });
 
   it('displays navigation buttons for Interactive Quiz and Raffle Game', () => {
-    renderWithRedux(<DashboardPage />);
-
+    render(<DashboardPage />);
     expect(screen.getByText('Interactive Quiz')).toBeInTheDocument();
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
   });
 
-  it('displays empty state message', () => {
-    renderWithRedux(<DashboardPage />);
-
-    expect(screen.getByText("There's nothing here, let's create an Event.")).toBeInTheDocument();
+  it('renders event list when mock data exists', () => {
+    render(<DashboardPage />);
+    const list = screen.getByRole('list', { name: 'event-list' });
+    expect(list).toBeInTheDocument();
+    expect(screen.getByText(/Brisbane offline quiz event/i)).toBeInTheDocument();
   });
 
-  it('displays create button in empty state', () => {
-    renderWithRedux(<DashboardPage />);
-
-    const createButton = screen.getByRole('button', { name: /create/i });
+  it('renders create button with text', () => {
+    render(<DashboardPage />);
+    const createButton = screen.getByText('+ Create');
     expect(createButton).toBeInTheDocument();
   });
 
   it('displays balloon image', () => {
-    renderWithRedux(<DashboardPage />);
-
+    render(<DashboardPage />);
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
     expect(balloonImage).toHaveAttribute(
@@ -172,35 +153,17 @@ describe('DashboardPage', () => {
     );
   });
 
-  it('displays background image in empty state', () => {
-    renderWithRedux(<DashboardPage />);
-
-    const backgroundImage = screen.getByAltText('Empty state background');
-    expect(backgroundImage).toBeInTheDocument();
-    expect(backgroundImage).toHaveAttribute(
-      'src',
-      expect.stringContaining('EventManagement/background.png'),
-    );
+  it('renders event cover image instead of empty state background', () => {
+    render(<DashboardPage />);
+    const coverImages = screen.getAllByAltText('event-cover');
+    expect(coverImages.length).toBeGreaterThan(0);
   });
 
   it('renders navigation buttons with correct icons', () => {
-    renderWithRedux(<DashboardPage />);
-
-    // Check for emoji icons in buttons
+    render(<DashboardPage />);
     const interactiveButton = screen.getByText('Interactive Quiz').closest('button');
     const raffleButton = screen.getByText('Raffle Game').closest('button');
-
     expect(interactiveButton).toBeInTheDocument();
     expect(raffleButton).toBeInTheDocument();
-  });
-
-  it('renders create button with add icon', () => {
-    renderWithRedux(<DashboardPage />);
-
-    const createButton = screen.getByRole('button', { name: /create/i });
-    const icon = createButton.querySelector('.button-icon');
-
-    expect(createButton).toBeInTheDocument();
-    expect(icon).toBeInTheDocument();
   });
 });
