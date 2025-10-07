@@ -1,4 +1,3 @@
-// src/app/dashboard/events/components/EventList.styles.ts
 import { styled } from '@mui/material/styles';
 
 export const ListRoot = styled('div')(({ theme }) => ({

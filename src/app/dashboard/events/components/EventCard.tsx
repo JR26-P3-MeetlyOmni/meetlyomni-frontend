@@ -1,4 +1,3 @@
-// src/app/dashboard/events/components/EventCard.tsx
 import React from 'react';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';

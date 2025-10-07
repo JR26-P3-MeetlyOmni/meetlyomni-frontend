@@ -1,4 +1,3 @@
-// src/app/dashboard/events/components/EventCard.styles.ts
 import { Avatar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 

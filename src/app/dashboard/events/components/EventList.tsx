@@ -1,4 +1,3 @@
-// src/app/dashboard/events/components/EventList.tsx
 import React from 'react';
 
 import EmptyState from '../../EventManagement/EmptyState';

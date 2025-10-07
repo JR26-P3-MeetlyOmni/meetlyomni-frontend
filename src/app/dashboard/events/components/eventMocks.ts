@@ -1,4 +1,3 @@
-// src/app/dashboard/events/components/eventMocks.ts
 export type EventItem = {
   id: string;
   title: string;
