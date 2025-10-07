@@ -1,4 +1,5 @@
 import type { ScenarioData } from '@/app/(main)/components/ScenariosSection/types';
+import { getAssetUrl } from '@/utils/cdn';
 
 export const SCENARIO_DATA: readonly ScenarioData[] = [
   {
@@ -8,7 +9,7 @@ export const SCENARIO_DATA: readonly ScenarioData[] = [
       'Interactive quiz & Lucky draw to enhance team cohesion!',
       'Transform annual meetings from passive viewing to full participation with high energy!',
     ],
-    image: '/assets/images/scenarios/annual-meeting.png',
+    image: getAssetUrl('StaticFiles/assets/images/scenarios/annual-meeting.png'),
     imageAlt: 'Annual meeting with large screen displays and audience',
   },
   {
@@ -18,7 +19,7 @@ export const SCENARIO_DATA: readonly ScenarioData[] = [
       'Game quizzes help students absorb knowledge more efficiently and enhance learning outcomes!',
       'Live sweepstakes create memorable experiences that help customers remember your brand!',
     ],
-    image: '/assets/images/scenarios/product-launch.png',
+    image: getAssetUrl('StaticFiles/assets/images/scenarios/product-launch.png'),
     imageAlt: 'Product launch event with purple lighting and audience',
   },
   {
@@ -28,7 +29,7 @@ export const SCENARIO_DATA: readonly ScenarioData[] = [
       'Gamified Q&A allows students to absorb knowledge faster and improve the training effect!',
       'Suitable for corporate training, school classes, etc.!',
     ],
-    image: '/assets/images/scenarios/training-education.png',
+    image: getAssetUrl('StaticFiles/assets/images/scenarios/training-education.png'),
     imageAlt: 'Training session with instructor and students in classroom',
   },
   {
@@ -37,7 +38,7 @@ export const SCENARIO_DATA: readonly ScenarioData[] = [
     descriptions: [
       'Viewers scan the code to enter the interactive Q&A & Sweepstakes to improve live stream retention!',
     ],
-    image: '/assets/images/scenarios/community-activities.png',
+    image: getAssetUrl('StaticFiles/assets/images/scenarios/community-activities.png'),
     imageAlt: 'Community gathering with people socializing',
   },
 ];

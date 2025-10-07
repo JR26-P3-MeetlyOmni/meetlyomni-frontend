@@ -36,14 +36,7 @@ vi.mock('next/image', () => ({
   }) => <img src={src} alt={alt} width={width} height={height} />,
 }));
 
-// Mock the background images to avoid import issues
-vi.mock('@assets/images/EventManagement/background.png', () => ({
-  default: '/mocked-background.png',
-}));
-
-vi.mock('@assets/images/EventManagement/balloon.png', () => ({
-  default: '/mocked-balloon.png',
-}));
+// Note: Image imports are now handled via getAssetUrl function
 
 // Mock Material-UI components using async importOriginal pattern
 vi.mock('@mui/material', async importOriginal => {
@@ -173,7 +166,10 @@ describe('DashboardPage', () => {
 
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
-    expect(balloonImage).toHaveAttribute('src', '/mocked-balloon.png');
+    expect(balloonImage).toHaveAttribute(
+      'src',
+      expect.stringContaining('EventManagement/balloon.png'),
+    );
   });
 
   it('displays background image in empty state', () => {
@@ -181,7 +177,10 @@ describe('DashboardPage', () => {
 
     const backgroundImage = screen.getByAltText('Empty state background');
     expect(backgroundImage).toBeInTheDocument();
-    expect(backgroundImage).toHaveAttribute('src', '/mocked-background.png');
+    expect(backgroundImage).toHaveAttribute(
+      'src',
+      expect.stringContaining('EventManagement/background.png'),
+    );
   });
 
   it('renders navigation buttons with correct icons', () => {

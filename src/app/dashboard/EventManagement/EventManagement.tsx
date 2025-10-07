@@ -1,12 +1,12 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-import balloonImage from '@assets/images/EventManagement/balloon.png';
 
 import { CreateEventResponse } from '../../../constants/Event';
 import CreateEventModal from '../events/components/CreateEventModal';
@@ -65,7 +65,12 @@ export default function EventManagement() {
     <StyledContainer>
       <StyledTitleBox>
         <StyledTitle variant="h4">Event Management</StyledTitle>
-        <Image src={balloonImage} alt="Balloon" width={32} height={32} />
+        <Image
+          src={getAssetUrl('StaticFiles/assets/images/EventManagement/balloon.png')}
+          alt="Balloon"
+          width={32}
+          height={32}
+        />
       </StyledTitleBox>
 
       <StyledNavBox>

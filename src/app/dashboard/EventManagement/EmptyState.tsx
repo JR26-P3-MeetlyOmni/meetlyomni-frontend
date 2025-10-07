@@ -1,13 +1,13 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import Image from 'next/image';
 import React from 'react';
 
 import { Add } from '@mui/icons-material';
 import { Button, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-import backgroundImage from '@assets/images/EventManagement/background.png';
 
 const StyledEmptyPaper = styled(Paper)(() => ({
   flex: 1,
@@ -36,7 +36,7 @@ const EmptyState = ({ onCreateClick }: { onCreateClick: () => void }) => {
     <StyledEmptyPaper elevation={0}>
       <Stack spacing={3} alignItems="center">
         <Image
-          src={backgroundImage}
+          src={getAssetUrl('StaticFiles/assets/images/EventManagement/background.png')}
           alt="Empty state background"
           width={300}
           height={200}

@@ -1,4 +1,5 @@
 import type { AuthResultPageProps } from '@/components/ConfirmationForm/types';
+import { getAssetUrl } from '@/utils/cdn';
 
 import type { VerificationStatus } from '../types';
 
@@ -6,7 +7,7 @@ export const getVerificationStatusConfig = (
   email?: string,
 ): Record<VerificationStatus, AuthResultPageProps> => ({
   success: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
     iconAlt: 'Email verification successful',
     title: 'Email Verification Successful!',
     description: email
@@ -16,7 +17,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   failed: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
     iconAlt: 'Email verification failed',
     title: 'Email Verification Failed',
     description: email
@@ -26,7 +27,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/signup',
   },
   already_confirmed: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
     iconAlt: 'Email already confirmed',
     title: 'Email Already Confirmed',
     description: email
@@ -36,7 +37,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   not_found: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
     iconAlt: 'User not found',
     title: 'User Not Found',
     description: 'User account not found. Please check if the link is correct, or register again.',
@@ -44,7 +45,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/signup',
   },
   verifying: {
-    iconSrc: '/assets/images/confirmationForm/invalid-name.png',
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
     iconAlt: 'Email verification in progress',
     title: 'Verifying Email...',
     description: email
