@@ -5,6 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { getAssetUrl } from '../../utils/cdn';
 import { TopLeftLogo } from './OmniLogo';
 
 // Mock Next.js navigation
@@ -26,7 +27,10 @@ describe('TopLeftLogo', () => {
 
       const logo = screen.getByAltText('MeetlyOmni Logo');
       expect(logo).toBeInTheDocument();
-      expect(logo).toHaveAttribute('src', expect.stringContaining('nav_bar_logo.png'));
+      expect(logo).toHaveAttribute(
+        'src',
+        getAssetUrl('StaticFiles/assets/images/navbar/nav_bar_logo.png'),
+      );
       expect(logo).toHaveAttribute('alt', 'MeetlyOmni Logo');
     });
 

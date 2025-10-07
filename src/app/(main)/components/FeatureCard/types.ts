@@ -1,7 +1,5 @@
-import { StaticImageData } from 'next/image';
-
 export interface FeatureCardItem {
-  imageUrl: StaticImageData;
+  imageUrl: string;
   title: string;
   description: string;
 }

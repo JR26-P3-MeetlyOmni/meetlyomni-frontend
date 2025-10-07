@@ -1,6 +1,7 @@
 'use client';
 
 import { URL_CONFIG } from '@/constants/FooterExternalLinks';
+import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
 
@@ -8,8 +9,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-
-import footerLogo from '@assets/images/footer/footer_logo.png';
 
 import ContactLink from './components/ContactLink';
 import LegalLinks from './components/LegalLinks';
@@ -76,7 +75,12 @@ const Footer = () => {
         <FooterContent>
           <FooterLeft>
             <FooterLogoContainer>
-              <Image src={footerLogo} alt="Omni Logo" width={126} height={36} />
+              <Image
+                src={getAssetUrl('StaticFiles/assets/images/footer/footer_logo.png')}
+                alt="Omni Logo"
+                width={126}
+                height={36}
+              />
             </FooterLogoContainer>
             <LegalLinks />
             <SocialIcons />
