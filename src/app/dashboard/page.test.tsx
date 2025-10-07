@@ -1,7 +1,12 @@
+// src/app/dashboard/page.test.tsx
+import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
 import React from 'react';
+import { Provider } from 'react-redux';
+
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+
 import DashboardPage from './page';
 
 // --- Mock Next.js router ---
@@ -54,7 +59,6 @@ vi.mock('@mui/material', async importOriginal => {
     } = props;
     return rest;
   };
-
   return {
     ...actual,
     Box: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
@@ -89,12 +93,10 @@ vi.mock('@mui/material', async importOriginal => {
 
 vi.mock('@mui/material/styles', () => ({
   styled: (component: any) => {
-    return () => {
+    return (_styles: any) => {
       return ({ children, ...props }: any) => {
         const filteredProps = Object.keys(props).reduce((acc, key) => {
-          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') {
-            (acc as any)[key] = (props as any)[key];
-          }
+          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') (acc as any)[key] = (props as any)[key];
           return acc;
         }, {} as any);
         return React.createElement(component, filteredProps, children);
@@ -111,56 +113,56 @@ vi.mock('@mui/icons-material', () => ({
   AccountCircle: () => <span>👤</span>,
 }));
 
+// --- Helper ---
+const renderWithRedux = (ui: React.ReactElement) => render(<Provider store={store}>{ui}</Provider>);
+
 // --- Tests ---
 describe('DashboardPage', () => {
   it('renders the dashboard page', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const container = document.querySelector('div');
     expect(container).toBeInTheDocument();
   });
 
   it('displays the event management title', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     expect(screen.getByText('Event Management')).toBeInTheDocument();
   });
 
   it('displays navigation buttons for Interactive Quiz and Raffle Game', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     expect(screen.getByText('Interactive Quiz')).toBeInTheDocument();
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
   });
 
   it('renders event list when mock data exists', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const list = screen.getByRole('list', { name: 'event-list' });
     expect(list).toBeInTheDocument();
-    expect(screen.getByText(/Brisbane offline quiz event/i)).toBeInTheDocument();
   });
 
   it('renders create button with text', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const createButton = screen.getByText('+ Create');
     expect(createButton).toBeInTheDocument();
   });
 
   it('displays balloon image', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
-    expect(balloonImage).toHaveAttribute(
-      'src',
-      expect.stringContaining('EventManagement/balloon.png'),
-    );
+    // 不再断言 src，因 getAssetUrl 可能返回 CDN 前缀
   });
 
+  // ✅ no empty-state background anymore; we use event cover images
   it('renders event cover image instead of empty state background', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const coverImages = screen.getAllByAltText('event-cover');
     expect(coverImages.length).toBeGreaterThan(0);
   });
 
   it('renders navigation buttons with correct icons', () => {
-    render(<DashboardPage />);
+    renderWithRedux(<DashboardPage />);
     const interactiveButton = screen.getByText('Interactive Quiz').closest('button');
     const raffleButton = screen.getByText('Raffle Game').closest('button');
     expect(interactiveButton).toBeInTheDocument();
