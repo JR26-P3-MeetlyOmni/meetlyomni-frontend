@@ -1,11 +1,18 @@
 import React from 'react';
 
 import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { Event } from '../../../../constants/Event';
 import EventCard from './EventCard';
+
+const GridContainer = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+  gap: theme.spacing(3),
+}));
 
 const meta: Meta<typeof EventCard> = {
   title: 'Features/Events/EventCard',
@@ -77,17 +84,11 @@ export const MultipleCards: Story = {
     ];
 
     return (
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: 3,
-        }}
-      >
+      <GridContainer>
         {events.map(event => (
           <EventCard key={event.id} event={event} onEdit={() => {}} />
         ))}
-      </Box>
+      </GridContainer>
     );
   },
 };

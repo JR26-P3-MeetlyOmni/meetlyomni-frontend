@@ -2,11 +2,11 @@
 
 import React, { useCallback } from 'react';
 
-import { Box, TextField, Typography } from '@mui/material';
+import { TextField } from '@mui/material';
 
 import { EventFormFieldsProps } from '../../../../../constants/Event';
 import EventDateField from '../EventDateField';
-import { StyledBox } from '../EventFormFields.styles';
+import { CoverImage, ImageContainer, ImageLabel, StyledBox } from '../EventFormFields.styles';
 import FileReUploadButton from './FileReUploadButton';
 
 const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
@@ -76,31 +76,17 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
 
       <StyledBox>
         {existingImageUrl && !formState.coverImage ? (
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1 }}>
-              Current Cover Image:
-            </Typography>
-            <Box
-              component="img"
-              src={existingImageUrl}
-              alt="Current event cover"
-              sx={{
-                width: '100%',
-                maxWidth: '300px',
-                height: 'auto',
-                borderRadius: 1,
-                border: '1px solid',
-                borderColor: 'grey.300',
-              }}
-            />
-          </Box>
+          <ImageContainer>
+            <ImageLabel variant="body2">Current Cover Image:</ImageLabel>
+            <CoverImage src={existingImageUrl} alt="Current event cover" />
+          </ImageContainer>
         ) : null}
         {formState.coverImage ? (
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1 }}>
+          <ImageContainer>
+            <ImageLabel variant="body2">
               New Cover Image Selected: {formState.coverImage.name}
-            </Typography>
-          </Box>
+            </ImageLabel>
+          </ImageContainer>
         ) : null}
         <FileReUploadButton name="coverImage" handleChange={handleFileChange} />
       </StyledBox>

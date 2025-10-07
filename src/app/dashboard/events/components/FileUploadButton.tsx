@@ -2,7 +2,14 @@
 
 import React from 'react';
 
+import { styled } from '@mui/material/styles';
+
 import { CTAButton } from '../../../../components/Button/CTAButton';
+
+const StyledUploadButton = styled(CTAButton)({
+  width: '100%',
+  maxWidth: '540px',
+});
 
 interface FileUploadButtonProps {
   name: string;
@@ -18,15 +25,10 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   fullWidth = true,
 }) => {
   return (
-    <CTAButton
-      variant="contained"
-      component="label"
-      fullWidth={fullWidth}
-      sx={{ width: '100%', maxWidth: '540px' }}
-    >
+    <StyledUploadButton variant="contained" component="label" fullWidth={fullWidth}>
       Upload Image
       <input type="file" name={name} onChange={handleChange} accept={accept} hidden />
-    </CTAButton>
+    </StyledUploadButton>
   );
 };
 

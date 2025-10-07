@@ -36,6 +36,14 @@ const StyledCardContent = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+const PlaceholderBox = styled(Box)(({ theme }) => ({
+  height: 200,
+  backgroundColor: theme.palette.grey[200],
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
 interface EventCardProps {
   event: Event;
   onEdit: (event: Event) => void;
@@ -55,19 +63,11 @@ const EventCard: React.FC<EventCardProps> = ({ event, onEdit }) => {
       {event.coverImageUrl ? (
         <StyledCardMedia image={event.coverImageUrl} title={event.name} />
       ) : (
-        <Box
-          sx={{
-            height: 200,
-            backgroundColor: 'grey.200',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <PlaceholderBox>
           <Typography variant="body2" color="text.secondary">
             No Image
           </Typography>
-        </Box>
+        </PlaceholderBox>
       )}
 
       <StyledCardContent>

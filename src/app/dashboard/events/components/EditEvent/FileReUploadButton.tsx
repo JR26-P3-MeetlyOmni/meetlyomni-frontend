@@ -2,7 +2,14 @@
 
 import React from 'react';
 
+import { styled } from '@mui/material/styles';
+
 import { CTAButton } from '../../../../../components/Button/CTAButton';
+
+const StyledReUploadButton = styled(CTAButton)({
+  width: '100%',
+  maxWidth: '540px',
+});
 
 interface FileReUploadButtonProps {
   name: string;
@@ -18,15 +25,10 @@ const FileReUploadButton: React.FC<FileReUploadButtonProps> = ({
   fullWidth = true,
 }) => {
   return (
-    <CTAButton
-      variant="contained"
-      component="label"
-      fullWidth={fullWidth}
-      sx={{ width: '100%', maxWidth: '540px' }}
-    >
+    <StyledReUploadButton variant="contained" component="label" fullWidth={fullWidth}>
       Reupload Image
       <input type="file" name={name} onChange={handleChange} accept={accept} hidden />
-    </CTAButton>
+    </StyledReUploadButton>
   );
 };
 
