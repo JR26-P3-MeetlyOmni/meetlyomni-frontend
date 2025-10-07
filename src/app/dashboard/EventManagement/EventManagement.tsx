@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getAssetUrl } from '@/utils/cdn';
@@ -36,6 +37,30 @@ type PartialEventLike = {
   createdByAvatar?: string;
 };
 
+
+const EVENT_STATUS = {
+  DRAFT: 0,
+} as const;
+
+
+function normalizeEventPayload(payload: CreateEventResponse | PartialEventLike) {
+  const anyEvent = payload as PartialEventLike;
+
+  const title = anyEvent.title ?? anyEvent.eventTitle ?? anyEvent.name ?? 'Untitled event';
+  const description =
+    anyEvent.description ??
+    anyEvent.eventDescription ??
+    'Lots of fun games and prizes waiting for you';
+  const coverImageUrl = anyEvent.coverImageUrl ?? anyEvent.coverUrl ?? anyEvent.imageUrl;
+
+  const isDraft =
+    anyEvent.isDraft === true ||
+    anyEvent.status === 'draft' ||
+    anyEvent.status === EVENT_STATUS.DRAFT;
+
+  return { title, description, coverImageUrl, isDraft };
+}
+
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -44,23 +69,15 @@ export default function EventManagement() {
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
 
-
   const handleEventCreated = (payload: CreateEventResponse | PartialEventLike) => {
-    const anyEvent = payload as PartialEventLike;
+    const normalized = normalizeEventPayload(payload);
+    const apiResp = payload as CreateEventResponse;
 
     const mock = buildMockEvent({
-      title: anyEvent?.title ?? anyEvent?.eventTitle ?? anyEvent?.name ?? 'Untitled event',
-      description:
-        anyEvent?.description ??
-        anyEvent?.eventDescription ??
-        'Lots of fun games and prizes waiting for you',
-      coverImageUrl: anyEvent?.coverImageUrl ?? anyEvent?.coverUrl ?? anyEvent?.imageUrl,
-      isDraft:
-        anyEvent?.isDraft === true ||
-        anyEvent?.status === 'draft' ||
-        anyEvent?.status === 1,
-      creatorName: anyEvent?.createdByName ?? 'Alex Li',
-      creatorAvatarUrl: anyEvent?.createdByAvatar ?? '/assets/images/navbar/user_avatar.png',
+      ...normalized,
+    
+      creatorName: apiResp.createdByName ?? 'Alex Li',
+      creatorAvatarUrl: apiResp.createdByAvatar ?? '/assets/images/navbar/user_avatar.png',
     });
 
     setEvents(prev => [mock, ...prev]);
