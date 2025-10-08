@@ -1,17 +1,18 @@
 // src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
 
-import { getAssetUrl } from '@/utils/cdn';
 import type { CreateEventResponse } from '@/constants/Event';
+import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
+
 import { Button } from '@mui/material';
 
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
-import { normalizeEventPayload } from '../events/components/eventUtils';
+import { convertEventItemToEvent, normalizeEventPayload } from '../events/components/eventUtils';
 import {
   Content,
   Spacer,
@@ -21,6 +22,22 @@ import {
   StyledTitle,
   StyledTitleBox,
 } from './EventManagement.styles';
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
@@ -61,17 +78,16 @@ export default function EventManagement() {
         >
           Interactive Quiz
         </StyledNavButton>
-        <StyledNavButton
-          variant="outlined"
-          startIcon={<span>🎰</span>}
-          onClick={handleRaffleClick}
-        >
+        <StyledNavButton variant="outlined" startIcon={<span>🎰</span>} onClick={handleRaffleClick}>
           Raffle Game
         </StyledNavButton>
       </StyledNavBox>
 
       <Content>
-        <EventList events={events} onCreateClick={() => setOpenCreateModal(true)} />
+        <EventList
+          events={events.map(convertEventItemToEvent)}
+          onCreateClick={() => setOpenCreateModal(true)}
+        />
       </Content>
 
       <CreateEventModal

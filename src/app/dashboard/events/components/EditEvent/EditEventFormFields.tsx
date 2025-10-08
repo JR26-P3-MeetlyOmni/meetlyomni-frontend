@@ -4,12 +4,12 @@ import React, { useCallback } from 'react';
 
 import { TextField } from '@mui/material';
 
-import { EventFormFieldsProps } from '../../../../constants/Event';
-import EventDateField from './EventDateField';
-import { CoverImage, ImageContainer, ImageLabel, StyledBox } from './EventFormFields.styles';
-import FileUploadButton from './FileUploadButton';
+import { EventFormFieldsProps } from '../../../../../constants/Event';
+import EventDateField from '../EventDateField';
+import { CoverImage, ImageContainer, ImageLabel, StyledBox } from '../EventFormFields.styles';
+import FileReUploadButton from './FileReUploadButton';
 
-const EventFormFields: React.FC<EventFormFieldsProps> = ({
+const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
   formState,
   handleChange,
   errors,
@@ -88,10 +88,10 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({
             </ImageLabel>
           </ImageContainer>
         ) : null}
-        <FileUploadButton name="coverImage" handleChange={handleFileChange} />
+        <FileReUploadButton name="coverImage" handleChange={handleFileChange} />
       </StyledBox>
     </StyledBox>
   );
 };
 
-export default EventFormFields;
+export default EditEventFormFields;

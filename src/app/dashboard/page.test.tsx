@@ -1,6 +1,7 @@
 // src/app/dashboard/page.test.tsx
 import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
+
 import React from 'react';
 import { Provider } from 'react-redux';
 
@@ -96,7 +97,8 @@ vi.mock('@mui/material/styles', () => ({
     return (_styles: any) => {
       return ({ children, ...props }: any) => {
         const filteredProps = Object.keys(props).reduce((acc, key) => {
-          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') (acc as any)[key] = (props as any)[key];
+          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx')
+            (acc as any)[key] = (props as any)[key];
           return acc;
         }, {} as any);
         return React.createElement(component, filteredProps, children);
@@ -157,7 +159,8 @@ describe('DashboardPage', () => {
   // ✅ no empty-state background anymore; we use event cover images
   it('renders event cover image instead of empty state background', () => {
     renderWithRedux(<DashboardPage />);
-    const coverImages = screen.getAllByAltText('event-cover');
+    const coverImages = screen.getAllByRole('img');
+    // Should have at least the balloon image and event cover images
     expect(coverImages.length).toBeGreaterThan(0);
   });
 

@@ -4,32 +4,32 @@ import React from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import { CTAButton } from '../../../../components/Button/CTAButton';
+import { CTAButton } from '../../../../../components/Button/CTAButton';
 
-const StyledUploadButton = styled(CTAButton)({
+const StyledReUploadButton = styled(CTAButton)({
   width: '100%',
   maxWidth: '540px',
 });
 
-interface FileUploadButtonProps {
+interface FileReUploadButtonProps {
   name: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   accept?: string;
   fullWidth?: boolean;
 }
 
-const FileUploadButton: React.FC<FileUploadButtonProps> = ({
+const FileReUploadButton: React.FC<FileReUploadButtonProps> = ({
   name,
   handleChange,
   accept = 'image/*',
   fullWidth = true,
 }) => {
   return (
-    <StyledUploadButton variant="contained" component="label" fullWidth={fullWidth}>
-      Upload Image
+    <StyledReUploadButton variant="contained" component="label" fullWidth={fullWidth}>
+      Reupload Image
       <input type="file" name={name} onChange={handleChange} accept={accept} hidden />
-    </StyledUploadButton>
+    </StyledReUploadButton>
   );
 };
 
-export default FileUploadButton;
+export default FileReUploadButton;

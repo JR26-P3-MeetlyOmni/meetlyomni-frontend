@@ -35,9 +35,9 @@
     "qrcode": "^1.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.64.0",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0",
-    "react-hook-form": "^7.62.0"
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
