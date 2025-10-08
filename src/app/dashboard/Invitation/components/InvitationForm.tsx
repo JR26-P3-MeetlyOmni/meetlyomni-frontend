@@ -6,7 +6,7 @@ import type { AppDispatch, RootState } from '@/store/store';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import { Alert, Button, TextField, Typography } from '@mui/material';
 
 function isValidEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -64,7 +64,7 @@ export default function InvitationForm() {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, mx: 'auto', p: 3 }}>
+    <>
       <Typography variant="h4" component="h1" gutterBottom>
         Send Invitation
       </Typography>
@@ -122,6 +122,6 @@ export default function InvitationForm() {
           {isLoading ? 'Sending Invitation...' : 'Send Invitation'}
         </Button>
       </form>
-    </Box>
+    </>
   );
 }
