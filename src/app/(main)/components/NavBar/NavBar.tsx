@@ -51,8 +51,10 @@ const NavBar: React.FC = () => {
         <Image
           src={getAssetUrl('StaticFiles/assets/images/navbar/nav_bar_logo.png')}
           alt="Omni Logo"
-          width={0}
-          height={0}
+          width={128}
+          height={36}
+          priority
+          quality={100}
         />
       </LogoWrapper>
 

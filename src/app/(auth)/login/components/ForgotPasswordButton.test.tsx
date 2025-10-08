@@ -9,7 +9,6 @@ import { render, screen } from '@testing-library/react';
 
 import ForgotPasswordButton from './ForgotPasswordButton';
 
-
 (globalThis as any).React = React;
 
 const theme = createTheme();
@@ -20,7 +19,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => (
 describe('ForgotPasswordButton', () => {
   it('renders a link/button with correct accessible name', () => {
     render(<ForgotPasswordButton />, { wrapper: Wrapper });
-
 
     const link = screen.getByRole('link', { name: /forgot password/i });
     expect(link).toBeInTheDocument();
