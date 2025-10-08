@@ -1,7 +1,8 @@
 'use client';
 
 import { TopLeftLogo } from '@/components/Logo';
-import { NAVIGATION_ITEMS } from '@/constants/NavigationConfig';
+import { getNavigationItems } from '@/constants/NavigationConfig';
+import { useAppSelector } from '@/store/hooks';
 
 import React from 'react';
 
@@ -10,6 +11,9 @@ import { Box, Paper } from '@mui/material';
 import NavigationItemComponent from './NavigationItem';
 
 const Sidebar = React.memo(() => {
+  const user = useAppSelector(state => state.auth.user);
+  const navigationItems = getNavigationItems(user);
+
   return (
     <Paper
       elevation={1}
@@ -28,7 +32,7 @@ const Sidebar = React.memo(() => {
 
       {/* Sidebar Content */}
       <Box padding={2} flex={1} bgcolor="background.paper">
-        {NAVIGATION_ITEMS.map(item => (
+        {navigationItems.map(item => (
           <NavigationItemComponent
             key={item.href}
             href={item.href}

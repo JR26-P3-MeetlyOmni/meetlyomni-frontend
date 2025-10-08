@@ -1,4 +1,5 @@
 import authReducer from '@/features/auth/authSlice';
+import { invitationReducer } from '@/features/invitation';
 import { signupReducer } from '@/features/signup';
 import { persistReducer, persistStore } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
@@ -26,6 +27,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   signup: signupReducer,
+  invitation: invitationReducer,
 });
 
 export const store = configureStore({
