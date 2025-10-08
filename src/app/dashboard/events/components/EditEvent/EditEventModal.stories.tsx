@@ -27,6 +27,9 @@ const mockEvent: Event = {
   description:
     'Join us for the biggest tech conference of the year featuring keynote speakers from leading companies.',
   coverImageUrl: 'https://via.placeholder.com/640x480.png?text=Tech+Conference',
+  status: 1,
+  createdAt: '2025-10-01T10:00:00Z',
+  updatedAt: '2025-10-01T10:00:00Z',
 };
 
 export const Default: Story = {

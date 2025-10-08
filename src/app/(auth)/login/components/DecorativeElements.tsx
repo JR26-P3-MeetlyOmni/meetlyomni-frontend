@@ -1,5 +1,7 @@
 'use client';
 
+import { getAssetUrl } from '@/utils/cdn';
+
 import Image from 'next/image';
 import React from 'react';
 
@@ -199,7 +201,7 @@ const DecorativeElementsContent = () => (
   <>
     <LogoElement>
       <StyledImage
-        src="/assets/images/WelcomeToSignin/logo.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/logo.png')}
         alt="Omni Logo"
         width={105}
         height={30}
@@ -208,7 +210,7 @@ const DecorativeElementsContent = () => (
 
     <MagnifyingGlassElement>
       <MagnifyingGlassImage
-        src="/assets/images/WelcomeToSignin/glass.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/glass.png')}
         alt="Magnifying glass"
         width={84}
         height={84}
@@ -217,7 +219,7 @@ const DecorativeElementsContent = () => (
 
     <RachelElement>
       <StyledImage
-        src="/assets/images/WelcomeToSignin/rachel.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/rachel.png')}
         alt="Rachel"
         width={209.3}
         height={97.2}
@@ -226,7 +228,7 @@ const DecorativeElementsContent = () => (
 
     <MarkElement>
       <StyledImage
-        src="/assets/images/WelcomeToSignin/mark.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/mark.png')}
         alt="Mark"
         width={209.3}
         height={97.2}
@@ -235,7 +237,7 @@ const DecorativeElementsContent = () => (
 
     <LookingForElement>
       <LookingForImage
-        src="/assets/images/WelcomeToSignin/lookingFor.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/lookingFor.png')}
         alt="Looking For"
         width={179}
         height={42}
@@ -244,7 +246,7 @@ const DecorativeElementsContent = () => (
 
     <FormElement>
       <FormImage
-        src="/assets/images/WelcomeToSignin/form.png"
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/form.png')}
         alt="Form"
         width={460}
         height={337}
@@ -252,7 +254,12 @@ const DecorativeElementsContent = () => (
     </FormElement>
 
     <StarElement>
-      <StarImage src="/assets/images/WelcomeToSignin/star.png" alt="Star" width={72} height={72} />
+      <StarImage
+        src={getAssetUrl('StaticFiles/assets/images/WelcomeToSignin/star.png')}
+        alt="Star"
+        width={72}
+        height={72}
+      />
     </StarElement>
   </>
 );

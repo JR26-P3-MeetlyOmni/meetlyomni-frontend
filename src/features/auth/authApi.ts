@@ -1,5 +1,13 @@
 import { apiFetch, ensureXsrfCookie } from '../../api/api';
-import type { LoginCredentials, TokenMeta, User } from './authTypes';
+import type {
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
+  LoginCredentials,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  TokenMeta,
+  User,
+} from './authTypes';
 import type { SignupRequest, SignupResponse } from './types';
 
 export const loginApi = async (
@@ -30,6 +38,30 @@ export const signup = async (
   return apiFetch<SignupResponse>('/auth/signup', {
     method: 'POST',
     body: JSON.stringify(signupData),
+    signal,
+  });
+};
+
+export const forgotPasswordApi = async (
+  request: ForgotPasswordRequest,
+  signal?: AbortSignal,
+): Promise<ForgotPasswordResponse> => {
+  await ensureXsrfCookie();
+  return apiFetch<ForgotPasswordResponse>('/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify(request),
+    signal,
+  });
+};
+
+export const resetPasswordApi = async (
+  request: ResetPasswordRequest,
+  signal?: AbortSignal,
+): Promise<ResetPasswordResponse> => {
+  await ensureXsrfCookie();
+  return apiFetch<ResetPasswordResponse>('/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(request),
     signal,
   });
 };

@@ -1,6 +1,7 @@
 import SentCenter from '@/app/(auth)/forgot-password/sent/components/SentCenter';
 import { AuthResultPageComponent } from '@/components/ConfirmationForm';
 import { TopLeftLogo } from '@/components/Logo';
+import { getAssetUrl } from '@/utils/cdn';
 
 import * as React from 'react';
 
@@ -10,7 +11,7 @@ export default function Page() {
       <TopLeftLogo />
       <SentCenter>
         <AuthResultPageComponent
-          iconSrc="/assets/images/confirmationForm/red-error-cross.svg"
+          iconSrc={getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg')}
           iconAlt="Expired"
           title="Reset link expired"
           description="This reset link has expired. Please request a new link to continue."

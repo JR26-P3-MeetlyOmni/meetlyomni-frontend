@@ -37,6 +37,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     handlePasswordChange,
     handlePasswordBlur,
     handleSubmit,
+    isSubmitting,
   } = useFormHandlers(formData, handleInputChange, handleInputBlur);
 
   const emailError = typeof errors.email === 'string' ? errors.email : '';
@@ -63,7 +64,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
       {reduxError ? <ErrorText error={reduxError} /> : null}
 
       <ForgotPasswordLink />
-      <SignInButton isLoading={isLoading} />
+      <SignInButton isLoading={isLoading || isSubmitting} />
       <SignUpLink />
       <BackToHomeLink />
     </StyledFormBox>

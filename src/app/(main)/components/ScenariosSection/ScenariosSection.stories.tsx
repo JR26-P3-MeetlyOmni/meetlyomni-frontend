@@ -1,3 +1,5 @@
+import { getAssetUrl } from '@/utils/cdn';
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import ScenariosSection from './ScenarioSection';
@@ -71,14 +73,14 @@ export const CustomScenarios: Story = {
           'Interactive workshops for skill development',
           'Hands-on learning experiences',
         ],
-        image: '/assets/images/scenarios/annual-meeting.png',
+        image: getAssetUrl('StaticFiles/assets/images/scenarios/annual-meeting.png'),
         imageAlt: 'Workshop event with participants',
       },
       {
         id: 'custom-2',
         title: 'Virtual Meetings',
         descriptions: ['Remote collaboration made easy'],
-        image: '/assets/images/scenarios/product-launch.png',
+        image: getAssetUrl('StaticFiles/assets/images/scenarios/product-launch.png'),
         imageAlt: 'Virtual meeting setup',
       },
     ],

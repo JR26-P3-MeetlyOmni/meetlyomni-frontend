@@ -10,6 +10,7 @@ interface NextButtonProps {
   disabled?: boolean;
   children?: React.ReactNode;
   className?: string;
+  isLoading?: boolean;
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -48,21 +49,24 @@ export function NextButton({
   disabled = false,
   children = 'Next',
   className,
+  isLoading = false,
 }: NextButtonProps) {
   const handleClick = React.useCallback(() => {
-    onClick?.();
-  }, [onClick]);
+    if (!isLoading) onClick?.();
+  }, [onClick, isLoading]);
+
+  const displayText = isLoading ? 'Submitting...' : children;
 
   return (
     <StyledButton
       variant="contained"
       type="button"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       className={className}
-      aria-label={typeof children === 'string' ? children : 'Next'}
+      aria-label={typeof displayText === 'string' ? displayText : 'Next'}
     >
-      {children}
+      {displayText}
     </StyledButton>
   );
 }

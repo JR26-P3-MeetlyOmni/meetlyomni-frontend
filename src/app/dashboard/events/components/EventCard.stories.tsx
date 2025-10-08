@@ -34,6 +34,9 @@ const mockEvent: Event = {
   description:
     'Join us for the biggest tech conference of the year featuring keynote speakers from leading companies.',
   coverImageUrl: 'https://via.placeholder.com/640x480.png?text=Tech+Conference',
+  status: 1,
+  createdAt: '2025-10-01T10:00:00Z',
+  updatedAt: '2025-10-01T10:00:00Z',
 };
 
 export const Default: Story = {
@@ -74,12 +77,18 @@ export const MultipleCards: Story = {
         date: '2025-11-20',
         description: 'Launching our newest product line with exclusive previews.',
         coverImageUrl: 'https://via.placeholder.com/640x480.png?text=Product+Launch',
+        status: 1,
+        createdAt: '2025-10-02T10:00:00Z',
+        updatedAt: '2025-10-02T10:00:00Z',
       },
       {
         id: '3',
         name: 'Team Building Workshop',
         date: '2025-10-05',
         description: 'A fun day of team activities and collaboration exercises.',
+        status: 1,
+        createdAt: '2025-10-03T10:00:00Z',
+        updatedAt: '2025-10-03T10:00:00Z',
       },
     ];
 

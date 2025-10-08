@@ -1,71 +1,73 @@
+// src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
+
+import type { CreateEventResponse } from '@/constants/Event';
+import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button } from '@mui/material';
 
-import balloonImage from '@assets/images/EventManagement/balloon.png';
-
-import { CreateEventResponse } from '../../../constants/Event';
 import CreateEventModal from '../events/components/CreateEventModal';
-import EmptyState from './EmptyState';
+import EventList from '../events/components/EventList';
+import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
+import { convertEventItemToEvent, normalizeEventPayload } from '../events/components/eventUtils';
+import {
+  Content,
+  Spacer,
+  StyledContainer,
+  StyledNavBox,
+  StyledNavButton,
+  StyledTitle,
+  StyledTitleBox,
+} from './EventManagement.styles';
 
-const StyledContainer = styled(Box)(({ theme }) => ({
-  minHeight: 'calc(100vh - 80px)',
-  padding: theme.spacing(3),
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-}));
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
-const StyledTitleBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1),
-  marginBottom: theme.spacing(3),
-}));
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
-const StyledTitle = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontWeight: 'bold',
-}));
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
-const StyledNavBox = styled(Box)(({ theme }) => ({
-  marginBottom: theme.spacing(3),
-}));
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
-const StyledNavButton = styled(Button)(({ theme }) => ({
-  textTransform: 'none',
-  backgroundColor: 'transparent',
-  borderColor: theme.palette.grey[300],
-  color: theme.palette.text.primary,
-  fontWeight: 'normal',
-  marginRight: theme.spacing(1),
-  '&:hover': {
-    backgroundColor: theme.palette.grey[900],
-    color: theme.palette.common.white,
-    borderColor: theme.palette.grey[900],
-  },
-}));
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
+
+// src/app/dashboard/EventManagement/EventManagement.tsx
 
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
-
   const [openCreateModal, setOpenCreateModal] = useState(false);
-
-  // TODO: currently events are not used，use events state to render event list later
-  const [_events, setEvents] = useState<CreateEventResponse[]>([]);
+  const [events, setEvents] = useState<EventItem[]>(initialMockEvents);
 
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
+
+  const handleEventCreated = (payload: CreateEventResponse) => {
+    const normalized = normalizeEventPayload(payload);
+    const mock = buildMockEvent(normalized);
+    setEvents(prev => [mock, ...prev]);
+    setOpenCreateModal(false);
+  };
 
   return (
     <StyledContainer>
       <StyledTitleBox>
         <StyledTitle variant="h4">Event Management</StyledTitle>
-        <Image src={balloonImage} alt="Balloon" width={32} height={32} />
+        <Image
+          src={getAssetUrl('StaticFiles/assets/images/EventManagement/balloon.png')}
+          alt="Balloon"
+          width={32}
+          height={32}
+        />
+        <Spacer />
+        <Button variant="contained" onClick={() => setOpenCreateModal(true)} disableElevation>
+          + Create
+        </Button>
       </StyledTitleBox>
 
       <StyledNavBox>
@@ -76,25 +78,22 @@ export default function EventManagement() {
         >
           Interactive Quiz
         </StyledNavButton>
-
         <StyledNavButton variant="outlined" startIcon={<span>🎰</span>} onClick={handleRaffleClick}>
           Raffle Game
         </StyledNavButton>
       </StyledNavBox>
 
-      <Box style={{ flex: 1 }}>
-        {/* TODO: Replace EmptyState with event list rendering when events API is ready */}
-        <EmptyState onCreateClick={() => setOpenCreateModal(true)} />
-      </Box>
+      <Content>
+        <EventList
+          events={events.map(convertEventItemToEvent)}
+          onCreateClick={() => setOpenCreateModal(true)}
+        />
+      </Content>
 
-      {/* Create Event Modal */}
       <CreateEventModal
         open={openCreateModal}
         onClose={() => setOpenCreateModal(false)}
-        onEventCreated={newEvent => {
-          setEvents(prev => [...prev, newEvent]);
-          setOpenCreateModal(false);
-        }}
+        onEventCreated={handleEventCreated}
       />
     </StyledContainer>
   );

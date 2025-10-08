@@ -18,6 +18,13 @@ export interface Event {
   date: string;
   description: string;
   coverImageUrl?: string;
+  location?: string;
+  language?: string;
+  status: number;
+  createdByName?: string;
+  createdByAvatar?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type CreateEventResponse = Event;

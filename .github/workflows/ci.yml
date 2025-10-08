@@ -1,31 +1,161 @@
-name: PR Build & Test
+name: CICD-Prod
 
 on:
   pull_request:
-    branches:
-      - dev
+    branches: 
+      - main
+  push:
+    branches: 
+      - main
+      - devops-leonard
+      - main-biaojin
+      - feat/*
+      - feature/*
+      - hotfix/*
+      - fix/*
+      - devops*
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-southeast-2
+  DOCKERFILE: ./Dockerfile
+  ECR_URI: 120456573741.dkr.ecr.ap-southeast-2.amazonaws.com/meetly-omni-frontend-prod
+  TAG_ENV: prod
+  CONTEXT: .
+  SLACK_CHANNEL: C09CW7ZQZD3
+  ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
+  ECS_SERVICE: ${{ vars.ECS_SERVICE }}
 
 jobs:
-  build-and-test:
+  ci:
+    name: CI (lint/test/build)
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
-      - name: Run tests
-        run: npm run test
-
-      - name: Run lint
+      - name: Lint
         run: npm run lint
 
-      - name: Build project
+      - name: Test
+        run: npm test
+        env:
+          CI: true
+
+      - name: Build
         run: npm run build
+
+  build_and_push:
+    name: Build & Push to ECR
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: ci
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') ||
+      (github.event_name == 'push' && (
+        github.ref == 'refs/heads/devops-leonard' ||
+        github.ref == 'refs/heads/main-biaojin'
+      ))
+    permissions:
+      id-token: write
+      contents: read
+    outputs:
+      image_tag: ${{ steps.meta.outputs.image_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Compute image tag
+        id: meta
+        run: |
+          TAG_SHA="${GITHUB_SHA::7}"
+          echo "image_tag=${TAG_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Build Docker image
+        run: |
+          TAG_SHA="${GITHUB_SHA::7}"
+          docker build \
+            -f "${{ env.DOCKERFILE }}" \
+            --build-arg NEXT_PUBLIC_API_BASE_URL="${{ vars.NEXT_PUBLIC_API_BASE_URL }}" \
+            --build-arg NODE_ENV=production \
+            -t "${{ env.ECR_URI }}:${TAG_SHA}" \
+            -t "${{ env.ECR_URI }}:${{ env.TAG_ENV }}" \
+            "${{ env.CONTEXT }}"
+
+      - name: Push Docker images to ECR
+        run: |
+          docker push "${{ env.ECR_URI }}:${{ steps.meta.outputs.image_tag }}"
+          docker push "${{ env.ECR_URI }}:${{ env.TAG_ENV }}"
+
+  deploy_to_ecs:
+    timeout-minutes: 60
+    name: Deploy to ECS
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: build_and_push
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Render task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1.8.0
+        with:
+          task-definition: ecs-task-definition.json
+          container-name: frontend
+          image: ${{ env.ECR_URI }}:${{ needs.build_and_push.outputs.image_tag }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.4
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: false
+
+      - name: Notify Slack on Success
+        if: success()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL }}
+          slack-message: ":white_check_mark: Prod FE Deployment completed successfully"
+        env:
+          SLACK_BOT_TOKEN: ${{ vars.SLACK_BOT_TOKEN }}
+
+      - name: Notify Slack on Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL }}
+          slack-message: ":x: Prod FE Deployment failed"
+        env:
+          SLACK_BOT_TOKEN: ${{ vars.SLACK_BOT_TOKEN }}

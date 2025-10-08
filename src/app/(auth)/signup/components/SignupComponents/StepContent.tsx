@@ -30,6 +30,7 @@ interface StepContentProps {
   onBack: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  isLoading?: boolean;
 }
 
 // Table-driven configuration for steps
@@ -64,6 +65,7 @@ const stepProps = {
     onChange: props.onContactChange,
     contactName: props.contactName,
     phone: props.phone,
+    isLoading: props.isLoading,
   }),
 };
 

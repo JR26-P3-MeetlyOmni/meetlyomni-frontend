@@ -1,25 +1,31 @@
 'use client';
 
+import { resetPasswordThunk } from '@/features/auth/authThunks';
+import type { AppDispatch } from '@/store/store';
+
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
 import { Button, TextField } from '@mui/material';
 
 import { Actions, Title, Wrapper } from './ResetPasswordForm.style';
 
-type Props = { token: string };
+type Props = { token: string; email: string };
 
 function validatePassword(pw: string) {
   return pw.length >= 8;
 }
 
-export default function ResetPasswordForm({ token: _token }: Props) {
+export default function ResetPasswordForm({ token, email }: Props) {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const [pw, setPw] = React.useState('');
   const [cpw, setCpw] = React.useState('');
   const [pwErr, setPwErr] = React.useState<string | null>(null);
   const [cpwErr, setCpwErr] = React.useState<string | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,10 +39,20 @@ export default function ResetPasswordForm({ token: _token }: Props) {
     if (!isPasswordValid || !isConfirmMatch) return;
 
     setSubmitting(true);
+    setError(null);
+
     try {
+      await dispatch(
+        resetPasswordThunk({
+          email,
+          token,
+          newPassword: pw,
+          confirmPassword: cpw,
+        }),
+      ).unwrap();
       router.push('/reset-password/success');
-    } catch {
-      router.push('/reset-password/invalid');
+    } catch (err) {
+      setError(typeof err === 'string' ? err : 'Failed to reset password');
     } finally {
       setSubmitting(false);
     }
@@ -46,6 +62,9 @@ export default function ResetPasswordForm({ token: _token }: Props) {
     <form onSubmit={onSubmit} noValidate>
       <Wrapper>
         <Title>Set new password</Title>
+        {error ? (
+          <div style={{ color: 'red', marginBottom: '16px', textAlign: 'center' }}>{error}</div>
+        ) : null}
         <TextField
           type="password"
           label="New Password"
