@@ -47,17 +47,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 
 ## Getting Started
 
-First, install the dependencies:
-
-#### Environment Variables
-
-**Frontend Environment Variables** (`meetlyomni-frontend/.env.local`):
-
-```bash
-# Segment Analytics Configuration
-NEXT_PUBLIC_SEGMENT_WRITE_KEY=z14F7j3hKtn2uMhvX56mzlEy6v2vwAxz
-```
-
 ```bash
 npm install
 ```
