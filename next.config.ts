@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = (() => {
   // Get cdn hostname from environment variable
-  const cdnHostname = process.env.NEXT_PUBLIC_CDN_HOSTNAME;
+  const cdnHostname = process.env.NEXT_PUBLIC_CDN_HOSTNAME || 'd34o5z5pnxvbq0.cloudfront.net';
   if (!cdnHostname) {
     throw new Error('NEXT_PUBLIC_CDN_HOSTNAME environment variable is required');
   }
