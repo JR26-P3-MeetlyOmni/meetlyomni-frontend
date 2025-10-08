@@ -6,6 +6,8 @@ const nextConfig = (() => {
     throw new Error('NEXT_PUBLIC_CDN_HOSTNAME environment variable is required');
   }
 
+  const isDev = process.env.NODE_ENV === 'development';
+
   return {
     // Enable standalone output for Docker optimization
     output: 'standalone',
@@ -19,6 +21,7 @@ const nextConfig = (() => {
           pathname: '/**', // can be more specific if needed
         },
       ],
+      unoptimized: isDev,
     },
   };
 })();
