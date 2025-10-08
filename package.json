@@ -27,6 +27,7 @@
     "@mui/x-date-pickers": "^8.12.0",
     "@mui/x-date-pickers-pro": "^8.11.2",
     "@reduxjs/toolkit": "^2.8.2",
+    "@segment/analytics-next": "^1.81.1",
     "@types/qrcode": "^1.5.5",
     "dayjs": "^1.11.18",
     "framer-motion": "^12.23.12",
@@ -35,7 +36,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "react-hook-form": "^7.62.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
