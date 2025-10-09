@@ -3,7 +3,18 @@ import { Event } from '@/constants/Event';
 import React from 'react';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Button, Chip, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 
 import EditEventModal from './EditEvent/EditEventModal';
 import {
@@ -25,9 +36,9 @@ import { AVATAR_PLACEHOLDER, COVER_PLACEHOLDER } from './eventMocks';
 type Props = {
   event: EventItem;
   onEventUpdated?: (event: Event) => void;
+  onDelete?: (id: string) => void;
 };
 
-// Convert EventItem to Event type
 const convertEventItemToEvent = (eventItem: EventItem): Event => {
   return {
     id: eventItem.id,
@@ -43,9 +54,10 @@ const convertEventItemToEvent = (eventItem: EventItem): Event => {
   };
 };
 
-export const EventCard: React.FC<Props> = ({ event, onEventUpdated }) => {
+export const EventCard: React.FC<Props> = ({ event, onEventUpdated, onDelete }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const open = Boolean(anchorEl);
 
   const onMenuOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
@@ -61,6 +73,17 @@ export const EventCard: React.FC<Props> = ({ event, onEventUpdated }) => {
 
   const handleEventUpdated = (updatedEvent: Event) => {
     onEventUpdated?.(updatedEvent);
+  };
+
+  const onDeleteClick = () => {
+    setDeleteOpen(true);
+    onMenuClose();
+  };
+
+  const onConfirmDelete = async () => {
+    // TODO: integrate deleteEvent API
+    onDelete?.(event.id);
+    setDeleteOpen(false);
   };
 
   const coverSrc = event.coverImageUrl || COVER_PLACEHOLDER;
@@ -97,16 +120,30 @@ export const EventCard: React.FC<Props> = ({ event, onEventUpdated }) => {
           <Menu anchorEl={anchorEl} open={open} onClose={onMenuClose}>
             <MenuItem onClick={onMenuClose}>Rename</MenuItem>
             <MenuItem onClick={onMenuClose}>Share</MenuItem>
-            <MenuItem onClick={onMenuClose}>Delete</MenuItem>
+            <MenuItem onClick={onDeleteClick}>Delete</MenuItem>
           </Menu>
         </Actions>
       </Right>
+
       <EditEventModal
         open={editModalOpen}
         event={convertEventItemToEvent(event)}
         onClose={onEditModalClose}
         onEventUpdated={handleEventUpdated}
       />
+
+      <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
+        <DialogTitle>Delete event?</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2">This action cannot be undone.</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="error" onClick={onConfirmDelete}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </CardRoot>
   );
 };
