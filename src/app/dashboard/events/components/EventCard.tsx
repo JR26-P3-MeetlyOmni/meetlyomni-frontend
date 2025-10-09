@@ -1,8 +1,11 @@
+import { Event } from '@/constants/Event';
+
 import React from 'react';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Chip, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
+import EditEventModal from './EditEvent/EditEventModal';
 import {
   Actions,
   CardRoot,
@@ -21,14 +24,44 @@ import { AVATAR_PLACEHOLDER, COVER_PLACEHOLDER } from './eventMocks';
 
 type Props = {
   event: EventItem;
+  onEventUpdated?: (event: Event) => void;
 };
 
-export const EventCard: React.FC<Props> = ({ event }) => {
+// Convert EventItem to Event type
+const convertEventItemToEvent = (eventItem: EventItem): Event => {
+  return {
+    id: eventItem.id,
+    name: eventItem.title,
+    date: eventItem.createdAt,
+    description: eventItem.description || '',
+    coverImageUrl: eventItem.coverImageUrl,
+    status: eventItem.isDraft ? 0 : 1,
+    createdByName: eventItem.creator.name,
+    createdByAvatar: eventItem.creator.avatarUrl,
+    createdAt: eventItem.createdAt,
+    updatedAt: eventItem.createdAt,
+  };
+};
+
+export const EventCard: React.FC<Props> = ({ event, onEventUpdated }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
   const open = Boolean(anchorEl);
 
   const onMenuOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const onMenuClose = () => setAnchorEl(null);
+
+  const onEditClick = () => {
+    setEditModalOpen(true);
+  };
+
+  const onEditModalClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleEventUpdated = (updatedEvent: Event) => {
+    onEventUpdated?.(updatedEvent);
+  };
 
   const coverSrc = event.coverImageUrl || COVER_PLACEHOLDER;
   const avatarSrc = event.creator.avatarUrl || AVATAR_PLACEHOLDER;
@@ -55,7 +88,7 @@ export const EventCard: React.FC<Props> = ({ event }) => {
           <Button variant="contained" size="small" disableElevation>
             Host live game
           </Button>
-          <Button variant="outlined" size="small">
+          <Button variant="outlined" size="small" onClick={onEditClick}>
             Edit
           </Button>
           <IconButton aria-label="more actions" onClick={onMenuOpen}>
@@ -68,6 +101,12 @@ export const EventCard: React.FC<Props> = ({ event }) => {
           </Menu>
         </Actions>
       </Right>
+      <EditEventModal
+        open={editModalOpen}
+        event={convertEventItemToEvent(event)}
+        onClose={onEditModalClose}
+        onEventUpdated={handleEventUpdated}
+      />
     </CardRoot>
   );
 };

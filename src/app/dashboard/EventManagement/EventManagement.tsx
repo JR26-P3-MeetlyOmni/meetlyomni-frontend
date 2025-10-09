@@ -1,7 +1,7 @@
 // src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
 
-import type { CreateEventResponse } from '@/constants/Event';
+import type { CreateEventResponse, Event } from '@/constants/Event';
 import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
@@ -25,6 +25,7 @@ import {
 
 // src/app/dashboard/EventManagement/EventManagement.tsx
 
+// src/app/dashboard/EventManagement/EventManagement.tsx
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -38,6 +39,22 @@ export default function EventManagement() {
     const mock = buildMockEvent(normalized);
     setEvents(prev => [mock, ...prev]);
     setOpenCreateModal(false);
+  };
+
+  const handleEventUpdated = (updatedEvent: Event) => {
+    setEvents(prev =>
+      prev.map(event =>
+        event.id === updatedEvent.id
+          ? {
+              ...event,
+              title: updatedEvent.name,
+              description: updatedEvent.description,
+              coverImageUrl: updatedEvent.coverImageUrl,
+              isDraft: updatedEvent.status === 0,
+            }
+          : event,
+      ),
+    );
   };
 
   return (
@@ -70,7 +87,11 @@ export default function EventManagement() {
       </StyledNavBox>
 
       <Content>
-        <EventList events={events} onCreateClick={() => setOpenCreateModal(true)} />
+        <EventList
+          events={events}
+          onCreateClick={() => setOpenCreateModal(true)}
+          onEventUpdated={handleEventUpdated}
+        />
       </Content>
 
       <CreateEventModal
