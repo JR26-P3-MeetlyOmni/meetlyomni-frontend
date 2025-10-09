@@ -1,10 +1,13 @@
 import AdminOnlyWrapper from './components/AdminOnlyWrapper';
 import InvitationForm from './components/InvitationForm';
+import InvitationPageLayout from './components/InvitationPageLayout';
 
 export default function InvitationPage() {
   return (
-    <AdminOnlyWrapper>
-      <InvitationForm />
-    </AdminOnlyWrapper>
+    <InvitationPageLayout>
+      <AdminOnlyWrapper>
+        <InvitationForm />
+      </AdminOnlyWrapper>
+    </InvitationPageLayout>
   );
 }

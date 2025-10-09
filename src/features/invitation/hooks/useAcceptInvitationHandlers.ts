@@ -1,3 +1,4 @@
+import { fetchMe } from '@/features/auth/authThunks';
 import { useAppDispatch } from '@/store/hooks';
 
 import { useRouter } from 'next/navigation';
@@ -50,7 +51,8 @@ export const useAcceptInvitationHandlers = (
           }),
         ).unwrap();
 
-        // After successful invitation acceptance, redirect to dashboard
+        await dispatch(fetchMe()).unwrap();
+
         router.push('/dashboard');
       } catch {
         // Error is already handled in Redux and displayed in the UI
