@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
-import { convertEventItemToEvent, normalizeEventPayload } from '../events/components/eventUtils';
+import { normalizeEventPayload } from '../events/components/eventUtils';
 import {
   Content,
   Spacer,
@@ -22,20 +22,6 @@ import {
   StyledTitle,
   StyledTitleBox,
 } from './EventManagement.styles';
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
 
 // src/app/dashboard/EventManagement/EventManagement.tsx
 
@@ -84,10 +70,7 @@ export default function EventManagement() {
       </StyledNavBox>
 
       <Content>
-        <EventList
-          events={events.map(convertEventItemToEvent)}
-          onCreateClick={() => setOpenCreateModal(true)}
-        />
+        <EventList events={events} onCreateClick={() => setOpenCreateModal(true)} />
       </Content>
 
       <CreateEventModal

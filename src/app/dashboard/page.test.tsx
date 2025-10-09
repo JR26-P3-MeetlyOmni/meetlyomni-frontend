@@ -159,8 +159,7 @@ describe('DashboardPage', () => {
   // ✅ no empty-state background anymore; we use event cover images
   it('renders event cover image instead of empty state background', () => {
     renderWithRedux(<DashboardPage />);
-    const coverImages = screen.getAllByRole('img');
-    // Should have at least the balloon image and event cover images
+    const coverImages = screen.getAllByAltText('event-cover');
     expect(coverImages.length).toBeGreaterThan(0);
   });
 

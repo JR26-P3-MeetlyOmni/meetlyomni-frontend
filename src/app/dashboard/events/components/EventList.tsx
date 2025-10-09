@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Event } from '../../../../constants/Event';
 import EmptyState from '../../EventManagement/EmptyState';
 import EventCard from './EventCard';
 import { EmptyWrap, ListRoot } from './EventList.styles';
+import type { EventItem } from './eventMocks';
 
 type Props = {
-  events: Event[];
+  events: EventItem[];
   onCreateClick: () => void;
 };
 
@@ -22,7 +22,7 @@ export const EventList: React.FC<Props> = ({ events, onCreateClick }) => {
   return (
     <ListRoot role="list" aria-label="event-list">
       {events.map(e => (
-        <EventCard key={e.id} event={e} onEdit={() => {}} />
+        <EventCard key={e.id} event={e} />
       ))}
     </ListRoot>
   );
