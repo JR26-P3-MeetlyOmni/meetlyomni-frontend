@@ -1,4 +1,3 @@
-// src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
 
 import type { CreateEventResponse, Event } from '@/constants/Event';
@@ -23,9 +22,6 @@ import {
   StyledTitleBox,
 } from './EventManagement.styles';
 
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
   const [openCreateModal, setOpenCreateModal] = useState(false);
