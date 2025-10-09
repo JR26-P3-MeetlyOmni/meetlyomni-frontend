@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import EventList from './EventList';
 import { initialMockEvents } from './eventMocks';
-import { convertEventItemToEvent } from './eventUtils';
 
 const meta: Meta<typeof EventList> = {
   title: 'Dashboard/Events/EventList',
@@ -18,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const WithEvents: Story = {
   args: {
-    events: initialMockEvents.map(convertEventItemToEvent),
+    events: initialMockEvents,
     onCreateClick: () => alert('Create clicked'),
   },
 };

@@ -1,7 +1,6 @@
-// src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
 
-import type { CreateEventResponse } from '@/constants/Event';
+import type { CreateEventResponse, Event } from '@/constants/Event';
 import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
@@ -12,7 +11,7 @@ import { Button } from '@mui/material';
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
-import { convertEventItemToEvent, normalizeEventPayload } from '../events/components/eventUtils';
+import { normalizeEventPayload } from '../events/components/eventUtils';
 import {
   Content,
   Spacer,
@@ -22,22 +21,6 @@ import {
   StyledTitle,
   StyledTitleBox,
 } from './EventManagement.styles';
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
 
 export default function EventManagement() {
   const [_activeTab, setActiveTab] = useState('interactive');
@@ -52,6 +35,22 @@ export default function EventManagement() {
     const mock = buildMockEvent(normalized);
     setEvents(prev => [mock, ...prev]);
     setOpenCreateModal(false);
+  };
+
+  const handleEventUpdated = (updatedEvent: Event) => {
+    setEvents(prev =>
+      prev.map(event =>
+        event.id === updatedEvent.id
+          ? {
+              ...event,
+              title: updatedEvent.name,
+              description: updatedEvent.description,
+              coverImageUrl: updatedEvent.coverImageUrl,
+              isDraft: updatedEvent.status === 0,
+            }
+          : event,
+      ),
+    );
   };
 
   return (
@@ -85,8 +84,9 @@ export default function EventManagement() {
 
       <Content>
         <EventList
-          events={events.map(convertEventItemToEvent)}
+          events={events}
           onCreateClick={() => setOpenCreateModal(true)}
+          onEventUpdated={handleEventUpdated}
         />
       </Content>
 

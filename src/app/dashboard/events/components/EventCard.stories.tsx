@@ -5,8 +5,8 @@ import { styled } from '@mui/material/styles';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Event } from '../../../../constants/Event';
 import EventCard from './EventCard';
+import type { EventItem } from './eventMocks';
 
 const GridContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
@@ -27,22 +27,21 @@ export default meta;
 
 type Story = StoryObj<typeof EventCard>;
 
-const mockEvent: Event = {
+const mockEvent: EventItem = {
   id: '1',
-  name: 'Annual Tech Conference 2025',
-  date: '2025-12-15',
+  title: 'Annual Tech Conference 2025',
   description:
     'Join us for the biggest tech conference of the year featuring keynote speakers from leading companies.',
   coverImageUrl: 'https://via.placeholder.com/640x480.png?text=Tech+Conference',
-  status: 1,
+  creator: { name: 'Alex Li', avatarUrl: '/assets/images/navbar/user_avatar.png' },
+  playCount: 5,
+  isDraft: false,
   createdAt: '2025-10-01T10:00:00Z',
-  updatedAt: '2025-10-01T10:00:00Z',
 };
 
 export const Default: Story = {
   args: {
     event: mockEvent,
-    onEdit: () => {},
   },
 };
 
@@ -52,7 +51,6 @@ export const WithoutCoverImage: Story = {
       ...mockEvent,
       coverImageUrl: undefined,
     },
-    onEdit: () => {},
   },
 };
 
@@ -63,39 +61,38 @@ export const LongDescription: Story = {
       description:
         'This is a much longer description to demonstrate how the card handles text overflow. Join us for the biggest tech conference of the year featuring keynote speakers from leading companies, interactive workshops, networking sessions, and much more. This event will cover topics including AI, machine learning, cloud computing, and the future of technology.',
     },
-    onEdit: () => {},
   },
 };
 
 export const MultipleCards: Story = {
   render: () => {
-    const events: Event[] = [
+    const events: EventItem[] = [
       mockEvent,
       {
         id: '2',
-        name: 'Product Launch Event',
-        date: '2025-11-20',
+        title: 'Product Launch Event',
         description: 'Launching our newest product line with exclusive previews.',
         coverImageUrl: 'https://via.placeholder.com/640x480.png?text=Product+Launch',
-        status: 1,
+        creator: { name: 'Sarah Johnson' },
+        playCount: 3,
+        isDraft: false,
         createdAt: '2025-10-02T10:00:00Z',
-        updatedAt: '2025-10-02T10:00:00Z',
       },
       {
         id: '3',
-        name: 'Team Building Workshop',
-        date: '2025-10-05',
+        title: 'Team Building Workshop',
         description: 'A fun day of team activities and collaboration exercises.',
-        status: 1,
+        creator: { name: 'Mike Chen' },
+        playCount: 1,
+        isDraft: true,
         createdAt: '2025-10-03T10:00:00Z',
-        updatedAt: '2025-10-03T10:00:00Z',
       },
     ];
 
     return (
       <GridContainer>
         {events.map(event => (
-          <EventCard key={event.id} event={event} onEdit={() => {}} />
+          <EventCard key={event.id} event={event} />
         ))}
       </GridContainer>
     );

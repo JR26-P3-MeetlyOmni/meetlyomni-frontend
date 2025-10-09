@@ -7,7 +7,7 @@ export const getVerificationStatusConfig = (
   email?: string,
 ): Record<VerificationStatus, AuthResultPageProps> => ({
   success: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
     iconAlt: 'Email verification successful',
     title: 'Email Verification Successful!',
     description: email
@@ -17,7 +17,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   failed: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'Email verification failed',
     title: 'Email Verification Failed',
     description: email
@@ -27,7 +27,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/signup',
   },
   already_confirmed: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
     iconAlt: 'Email already confirmed',
     title: 'Email Already Confirmed',
     description: email
@@ -37,7 +37,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   not_found: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'User not found',
     title: 'User Not Found',
     description: 'User account not found. Please check if the link is correct, or register again.',
@@ -45,7 +45,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/signup',
   },
   verifying: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/invalid-name.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
     iconAlt: 'Email verification in progress',
     title: 'Verifying Email...',
     description: email

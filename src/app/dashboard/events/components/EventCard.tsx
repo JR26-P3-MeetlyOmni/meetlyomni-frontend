@@ -1,87 +1,113 @@
-'use client';
+import { Event } from '@/constants/Event';
 
 import React from 'react';
 
-import EditIcon from '@mui/icons-material/Edit';
-import { Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Button, Chip, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
-import { Event } from '../../../../constants/Event';
+import EditEventModal from './EditEvent/EditEventModal';
+import {
+  Actions,
+  CardRoot,
+  Cover,
+  CreatorAvatar,
+  CreatorRow,
+  Desc,
+  Middle,
+  PlayCountText,
+  Right,
+  Title,
+  TitleRow,
+} from './EventCard.styles';
+import type { EventItem } from './eventMocks';
+import { AVATAR_PLACEHOLDER, COVER_PLACEHOLDER } from './eventMocks';
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.spacing(1),
-  transition: 'box-shadow 0.3s',
-  '&:hover': {
-    boxShadow: theme.shadows[4],
-  },
-}));
+type Props = {
+  event: EventItem;
+  onEventUpdated?: (event: Event) => void;
+};
 
-const StyledCardMedia = styled(CardMedia)({
-  height: 200,
-  objectFit: 'cover',
-});
+// Convert EventItem to Event type
+const convertEventItemToEvent = (eventItem: EventItem): Event => {
+  return {
+    id: eventItem.id,
+    name: eventItem.title,
+    date: eventItem.createdAt,
+    description: eventItem.description || '',
+    coverImageUrl: eventItem.coverImageUrl,
+    status: eventItem.isDraft ? 0 : 1,
+    createdByName: eventItem.creator.name,
+    createdByAvatar: eventItem.creator.avatarUrl,
+    createdAt: eventItem.createdAt,
+    updatedAt: eventItem.createdAt,
+  };
+};
 
-const EditButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(1),
-  right: theme.spacing(1),
-  backgroundColor: theme.palette.background.paper,
-  '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-  },
-}));
+export const EventCard: React.FC<Props> = ({ event, onEventUpdated }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const open = Boolean(anchorEl);
 
-const StyledCardContent = styled(CardContent)(({ theme }) => ({
-  padding: theme.spacing(2),
-}));
+  const onMenuOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const onMenuClose = () => setAnchorEl(null);
 
-const PlaceholderBox = styled(Box)(({ theme }) => ({
-  height: 200,
-  backgroundColor: theme.palette.grey[200],
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-interface EventCardProps {
-  event: Event;
-  onEdit: (event: Event) => void;
-}
-
-const EventCard: React.FC<EventCardProps> = ({ event, onEdit }) => {
-  const handleEditClick = () => {
-    onEdit(event);
+  const onEditClick = () => {
+    setEditModalOpen(true);
   };
 
+  const onEditModalClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleEventUpdated = (updatedEvent: Event) => {
+    onEventUpdated?.(updatedEvent);
+  };
+
+  const coverSrc = event.coverImageUrl || COVER_PLACEHOLDER;
+  const avatarSrc = event.creator.avatarUrl || AVATAR_PLACEHOLDER;
+
   return (
-    <StyledCard>
-      <EditButton onClick={handleEditClick} aria-label="edit event" size="small">
-        <EditIcon />
-      </EditButton>
-
-      {event.coverImageUrl ? (
-        <StyledCardMedia image={event.coverImageUrl} title={event.name} />
-      ) : (
-        <PlaceholderBox>
-          <Typography variant="body2" color="text.secondary">
-            No Image
-          </Typography>
-        </PlaceholderBox>
-      )}
-
-      <StyledCardContent>
-        <Typography variant="h6" component="h3" gutterBottom>
-          {event.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          {new Date(event.date).toLocaleDateString()}
-        </Typography>
-        <Typography variant="body2" color="text.primary">
-          {event.description}
-        </Typography>
-      </StyledCardContent>
-    </StyledCard>
+    <CardRoot role="listitem" aria-label={event.title}>
+      <Cover src={coverSrc} alt="event-cover" />
+      <Middle>
+        <TitleRow>
+          <Title variant="h6">{event.title}</Title>
+          {event.isDraft ? <Chip size="small" label="Draft" color="default" /> : null}
+        </TitleRow>
+        <Desc variant="body2">{event.description}</Desc>
+        <CreatorRow>
+          <CreatorAvatar src={avatarSrc} alt={event.creator.name || 'creator'} />
+          <Typography variant="body2">{event.creator.name}</Typography>
+        </CreatorRow>
+      </Middle>
+      <Right>
+        <PlayCountText variant="body2">
+          Play {event.playCount} {event.playCount === 1 ? 'time' : 'times'}
+        </PlayCountText>
+        <Actions>
+          <Button variant="contained" size="small" disableElevation>
+            Host live game
+          </Button>
+          <Button variant="outlined" size="small" onClick={onEditClick}>
+            Edit
+          </Button>
+          <IconButton aria-label="more actions" onClick={onMenuOpen}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu anchorEl={anchorEl} open={open} onClose={onMenuClose}>
+            <MenuItem onClick={onMenuClose}>Rename</MenuItem>
+            <MenuItem onClick={onMenuClose}>Share</MenuItem>
+            <MenuItem onClick={onMenuClose}>Delete</MenuItem>
+          </Menu>
+        </Actions>
+      </Right>
+      <EditEventModal
+        open={editModalOpen}
+        event={convertEventItemToEvent(event)}
+        onClose={onEditModalClose}
+        onEventUpdated={handleEventUpdated}
+      />
+    </CardRoot>
   );
 };
 
