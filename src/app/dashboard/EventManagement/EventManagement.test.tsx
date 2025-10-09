@@ -14,6 +14,10 @@ vi.mock('next/image', () => ({
   default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
 }));
 
+vi.mock('@mui/icons-material/Edit', () => ({
+  default: () => <span>✏️</span>,
+}));
+
 vi.mock('@mui/material', async importOriginal => {
   const actual = (await importOriginal()) as Record<string, any>;
   return {

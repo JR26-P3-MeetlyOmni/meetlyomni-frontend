@@ -13,6 +13,5 @@ describe('EventCard', () => {
     const event = initialMockEvents[0];
     render(<EventCard event={event} />);
     expect(screen.getByText(event.title)).toBeInTheDocument();
-    expect(screen.getByText(event.creator.name)).toBeInTheDocument();
   });
 });

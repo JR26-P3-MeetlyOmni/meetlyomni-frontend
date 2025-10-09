@@ -1,4 +1,4 @@
-import type { CreateEventResponse } from '@/constants/Event';
+import type { CreateEventResponse, Event } from '@/constants/Event';
 
 import type { EventItem, NewEventInput } from './eventMocks';
 import type { PartialEventLike } from './eventTypes';
@@ -7,6 +7,19 @@ export const EVENT_STATUS = {
   DRAFT: 0,
   PUBLISHED: 1,
 } as const;
+
+export const convertEventItemToEvent = (item: EventItem): Event => ({
+  id: item.id,
+  name: item.title,
+  date: item.createdAt,
+  description: item.description || '',
+  coverImageUrl: item.coverImageUrl,
+  status: item.isDraft ? EVENT_STATUS.DRAFT : EVENT_STATUS.PUBLISHED,
+  createdByName: item.creator.name,
+  createdByAvatar: item.creator.avatarUrl,
+  createdAt: item.createdAt,
+  updatedAt: item.createdAt,
+});
 
 export const normalizeEventPayload = (
   payload: CreateEventResponse | PartialEventLike,
