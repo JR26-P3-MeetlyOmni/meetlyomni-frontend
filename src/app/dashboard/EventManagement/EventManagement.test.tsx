@@ -53,25 +53,25 @@ describe('EventManagement', () => {
   it('deletes an event from the list (UI only)', () => {
     renderWithRedux(<EventManagement />);
 
-    // 找到第一个卡片右上角的菜单按钮
+    //
     const moreButtons = screen.getAllByLabelText('more actions');
     expect(moreButtons.length).toBeGreaterThan(0);
 
     fireEvent.click(moreButtons[0]);
 
-    // 点击 Delete 菜单项
+    //  Delete
     const deleteItem = screen.getByText('Delete');
     fireEvent.click(deleteItem);
 
-    // 弹出确认框
+    //
     const dialog = screen.getByRole('dialog', { name: /Delete event/i });
     expect(dialog).toBeInTheDocument();
 
-    // 点击 Delete 按钮确认
+    //  Delete
     const confirmButton = within(dialog).getByRole('button', { name: /Delete/i });
     fireEvent.click(confirmButton);
 
-    // 删除后应该显示空状态
+    //
     expect(screen.getByTestId('empty-state')).toBeInTheDocument();
   });
 });
