@@ -17,7 +17,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   failed: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'Email verification failed',
     title: 'Email Verification Failed',
     description: email
@@ -37,7 +37,7 @@ export const getVerificationStatusConfig = (
     buttonHref: '/login',
   },
   not_found: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'User not found',
     title: 'User Not Found',
     description: 'User account not found. Please check if the link is correct, or register again.',

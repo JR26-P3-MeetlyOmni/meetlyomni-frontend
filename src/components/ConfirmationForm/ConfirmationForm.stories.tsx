@@ -62,7 +62,7 @@ export const SuccessPage: Story = {
 
 export const ErrorPage: Story = {
   args: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'Error',
     title: 'Verification Failed',
     description:
@@ -85,7 +85,7 @@ export const DefaultLogin: Story = {
 
 export const CustomAction: Story = {
   args: {
-    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png'),
+    iconSrc: getAssetUrl('StaticFiles/assets/images/confirmationForm/red-error-cross.svg'),
     iconAlt: 'Warning',
     title: 'Account Locked',
     description:
