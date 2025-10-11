@@ -7,9 +7,6 @@ import type {
 
 import { apiFetch } from './api';
 
-/**
- * Get paginated list of events for an organization
- */
 export async function getEventList(params: GetEventListParams): Promise<GetEventListResponse> {
   const { orgId, pageNumber = 1, pageSize = 20 } = params;
 
@@ -26,9 +23,6 @@ export async function getEventList(params: GetEventListParams): Promise<GetEvent
   return response;
 }
 
-/**
- * Get event details by ID
- */
 export async function getEventById(eventId: string): Promise<EventListItem> {
   const response = await apiFetch<EventListItem>(`/v1/events/${eventId}`, {
     method: 'GET',
@@ -37,9 +31,6 @@ export async function getEventById(eventId: string): Promise<EventListItem> {
   return response;
 }
 
-/**
- * Update an existing event
- */
 export async function updateEvent(
   eventId: string,
   data: Partial<Omit<EventListItem, 'eventId' | 'orgId' | 'createdAt' | 'updatedAt'>>,
@@ -52,18 +43,12 @@ export async function updateEvent(
   return response;
 }
 
-/**
- * Delete an event
- */
 export async function deleteEvent(eventId: string): Promise<void> {
   await apiFetch(`/v1/events/${eventId}`, {
     method: 'DELETE',
   });
 }
 
-/**
- * Create a new event
- */
 export async function createEvent(data: {
   orgId: string;
   title: string;

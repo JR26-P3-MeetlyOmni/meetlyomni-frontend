@@ -1,17 +1,23 @@
 'use client';
 
+import { getEventList } from '@/api/eventApi';
 import type { CreateEventResponse, Event } from '@/constants/Event';
+import { selectUser } from '@/features/auth/authSelectors';
 import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { CTAButton } from '../../../components/Button/CTAButton';
 import { ButtonGroupWrapper } from '../../../components/Modal/FormModal.styles';
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
-import { normalizeEventPayload } from '../events/components/eventUtils';
+import {
+  convertBackendEventToFrontend,
+  normalizeEventPayload,
+} from '../events/components/eventUtils';
 import {
   Content,
   Spacer,
@@ -34,6 +40,36 @@ export default function EventManagement() {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [interactiveEvents, setInteractiveEvents] = useState<EventItem[]>(initialMockEvents);
   const [raffleEvents] = useState<EventItem[]>([]);
+  const [events, setEvents] = useState<EventItem[]>(initialMockEvents);
+  const [_loading, setLoading] = useState(false);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      if (!user?.organizationId) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await getEventList({
+          orgId: user.organizationId,
+          pageNumber: 1,
+          pageSize: 20,
+        });
+
+        const frontendEvents = response.events.map(convertBackendEventToFrontend);
+        setEvents(frontendEvents);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to load events:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, [user?.organizationId]);
 
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
