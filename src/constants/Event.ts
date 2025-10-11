@@ -27,7 +27,20 @@ export interface Event {
   updatedAt: string;
 }
 
-export type CreateEventResponse = Event;
+export interface CreateEventResponse {
+  eventId: string;
+  orgId: string;
+  title: string;
+  description?: string;
+  coverImageUrl?: string;
+  location?: string;
+  language?: string;
+  status: EventStatus;
+  startTime?: string;
+  endTime?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface CreateEventModalProps {
   open: boolean;
@@ -74,4 +87,30 @@ export interface GetEventListParams {
   orgId: string;
   pageNumber?: number;
   pageSize?: number;
+}
+
+export interface UpdateEventRequest {
+  title?: string;
+  description?: string;
+  coverImageUrl?: string;
+  location?: string;
+  language?: string;
+  status?: EventStatus;
+  startTime?: string;
+  endTime?: string;
+}
+
+export interface UpdateEventResponse {
+  eventId: string;
+  orgId: string;
+  title: string;
+  description?: string;
+  coverImageUrl?: string;
+  location?: string;
+  language?: string;
+  status: EventStatus;
+  startTime?: string;
+  endTime?: string;
+  createdAt: string;
+  updatedAt: string;
 }

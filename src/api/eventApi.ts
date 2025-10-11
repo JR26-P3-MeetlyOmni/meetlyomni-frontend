@@ -3,6 +3,8 @@ import type {
   EventListItem,
   GetEventListParams,
   GetEventListResponse,
+  UpdateEventRequest,
+  UpdateEventResponse,
 } from '@/constants/Event';
 
 import { apiFetch } from './api';
@@ -33,9 +35,9 @@ export async function getEventById(eventId: string): Promise<EventListItem> {
 
 export async function updateEvent(
   eventId: string,
-  data: Partial<Omit<EventListItem, 'eventId' | 'orgId' | 'createdAt' | 'updatedAt'>>,
-): Promise<EventListItem> {
-  const response = await apiFetch<EventListItem>(`/events/${eventId}`, {
+  data: UpdateEventRequest,
+): Promise<UpdateEventResponse> {
+  const response = await apiFetch<UpdateEventResponse>(`/events/${eventId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });

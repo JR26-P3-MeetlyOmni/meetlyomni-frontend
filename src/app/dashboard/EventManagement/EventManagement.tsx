@@ -30,6 +30,23 @@ type ActiveTab = 'interactive' | 'raffle';
 // TODO: integrate backend when available
 async function _deleteEvent(_id: string): Promise<void> {
   // no-op for UI-only ticket
+/**
+ * Convert CreateEventResponse to EventItem format
+ */
+function convertCreatedEventToItem(payload: CreateEventResponse, userName?: string): EventItem {
+  return {
+    id: payload.eventId,
+    title: payload.title,
+    description: payload.description,
+    coverImageUrl: payload.coverImageUrl,
+    creator: {
+      name: userName || 'Event Creator',
+      avatarUrl: '/assets/images/navbar/user_avatar.png',
+    },
+    playCount: 0,
+    isDraft: payload.status === 0,
+    createdAt: payload.createdAt,
+  };
 }
 
 export default function EventManagement() {
