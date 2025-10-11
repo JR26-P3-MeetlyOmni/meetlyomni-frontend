@@ -11,9 +11,10 @@ type Props = {
   events: EventItem[];
   onCreateClick: () => void;
   onEventUpdated?: (event: Event) => void;
+  onDelete?: (id: string) => void;
 };
 
-export const EventList: React.FC<Props> = ({ events, onCreateClick, onEventUpdated }) => {
+export const EventList: React.FC<Props> = ({ events, onCreateClick, onEventUpdated, onDelete }) => {
   if (!events || events.length === 0) {
     return (
       <EmptyWrap data-testid="empty-state">
@@ -25,7 +26,7 @@ export const EventList: React.FC<Props> = ({ events, onCreateClick, onEventUpdat
   return (
     <ListRoot role="list" aria-label="event-list">
       {events.map(e => (
-        <EventCard key={e.id} event={e} onEventUpdated={onEventUpdated} />
+        <EventCard key={e.id} event={e} onEventUpdated={onEventUpdated} onDelete={onDelete} />
       ))}
     </ListRoot>
   );

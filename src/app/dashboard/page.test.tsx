@@ -153,7 +153,7 @@ describe('DashboardPage', () => {
     renderWithRedux(<DashboardPage />);
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
-    // 不再断言 src，因 getAssetUrl 可能返回 CDN 前缀
+    //  src， getAssetUrl  CDN
   });
 
   // ✅ no empty-state background anymore; we use event cover images

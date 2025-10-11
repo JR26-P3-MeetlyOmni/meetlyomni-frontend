@@ -22,10 +22,18 @@ import {
   StyledTitleBox,
 } from './EventManagement.styles';
 
+type ActiveTab = 'interactive' | 'raffle';
+
+// TODO: integrate backend when available
+async function _deleteEvent(_id: string): Promise<void> {
+  // no-op for UI-only ticket
+}
+
 export default function EventManagement() {
-  const [_activeTab, setActiveTab] = useState('interactive');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('interactive');
   const [openCreateModal, setOpenCreateModal] = useState(false);
-  const [events, setEvents] = useState<EventItem[]>(initialMockEvents);
+  const [interactiveEvents, setInteractiveEvents] = useState<EventItem[]>(initialMockEvents);
+  const [raffleEvents] = useState<EventItem[]>([]);
 
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
@@ -33,12 +41,12 @@ export default function EventManagement() {
   const handleEventCreated = (payload: CreateEventResponse) => {
     const normalized = normalizeEventPayload(payload);
     const mock = buildMockEvent(normalized);
-    setEvents(prev => [mock, ...prev]);
+    setInteractiveEvents(prev => [mock, ...prev]);
     setOpenCreateModal(false);
   };
 
   const handleEventUpdated = (updatedEvent: Event) => {
-    setEvents(prev =>
+    setInteractiveEvents(prev =>
       prev.map(event =>
         event.id === updatedEvent.id
           ? {
@@ -52,6 +60,13 @@ export default function EventManagement() {
       ),
     );
   };
+
+  const handleDelete = async (id: string) => {
+    // await deleteEvent(id); // TODO: integrate when backend is ready
+    setInteractiveEvents(prev => prev.filter(e => e.id !== id));
+  };
+
+  const currentEvents = activeTab === 'interactive' ? interactiveEvents : raffleEvents;
 
   return (
     <StyledContainer>
@@ -71,22 +86,27 @@ export default function EventManagement() {
 
       <StyledNavBox>
         <StyledNavButton
-          variant="outlined"
+          variant={activeTab === 'interactive' ? 'contained' : 'outlined'}
           startIcon={<span>💡</span>}
           onClick={handleInteractiveClick}
         >
           Interactive Quiz
         </StyledNavButton>
-        <StyledNavButton variant="outlined" startIcon={<span>🎰</span>} onClick={handleRaffleClick}>
+        <StyledNavButton
+          variant={activeTab === 'raffle' ? 'contained' : 'outlined'}
+          startIcon={<span>🎰</span>}
+          onClick={handleRaffleClick}
+        >
           Raffle Game
         </StyledNavButton>
       </StyledNavBox>
 
       <Content>
         <EventList
-          events={events}
+          events={currentEvents}
           onCreateClick={() => setOpenCreateModal(true)}
           onEventUpdated={handleEventUpdated}
+          onDelete={handleDelete}
         />
       </Content>
 
