@@ -13,11 +13,8 @@ import { CTAButton } from '../../../components/Button/CTAButton';
 import { ButtonGroupWrapper } from '../../../components/Modal/FormModal.styles';
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
-import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
-import {
-  convertBackendEventToFrontend,
-  normalizeEventPayload,
-} from '../events/components/eventUtils';
+import { type EventItem } from '../events/components/eventMocks';
+import { convertBackendEventToFrontend } from '../events/components/eventUtils';
 import {
   Content,
   Spacer,
@@ -40,7 +37,7 @@ export default function EventManagement() {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [interactiveEvents, setInteractiveEvents] = useState<EventItem[]>(initialMockEvents);
   const [raffleEvents] = useState<EventItem[]>([]);
-  const [events, setEvents] = useState<EventItem[]>(initialMockEvents);
+  const [events, setEvents] = useState<EventItem[]>([]);
   const [_loading, setLoading] = useState(false);
   const user = useSelector(selectUser);
 
@@ -78,6 +75,20 @@ export default function EventManagement() {
     const normalized = normalizeEventPayload(payload);
     const mock = buildMockEvent(normalized);
     setInteractiveEvents(prev => [mock, ...prev]);
+    const newEvent: EventItem = {
+      id: payload.eventId,
+      title: payload.title,
+      description: payload.description,
+      coverImageUrl: payload.coverImageUrl,
+      creator: {
+        name: payload.createdByName || 'Event Creator',
+        avatarUrl: payload.createdByAvatar,
+      },
+      playCount: 0,
+      isDraft: payload.status === 0,
+      createdAt: payload.createdAt,
+    };
+    setEvents(prev => [newEvent, ...prev]);
     setOpenCreateModal(false);
   };
 
