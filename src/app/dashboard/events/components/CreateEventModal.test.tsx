@@ -28,8 +28,8 @@ vi.mock('../../hooks/useEventForm', () => ({
   }),
 }));
 
-// Mock the apiFetch function
-vi.mock('@/lib/api', () => ({
+// Mock the api functions
+vi.mock('../../../../api/api', () => ({
   apiFetch: vi.fn().mockResolvedValue({
     eventId: 'test-event-id',
     title: 'Test Event',
@@ -38,6 +38,13 @@ vi.mock('@/lib/api', () => ({
     createdAt: '2025-01-01T00:00:00Z',
     updatedAt: '2025-01-01T00:00:00Z',
   }),
+  ensureXsrfCookie: vi.fn().mockResolvedValue(undefined),
+  ApiError: class ApiError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = 'ApiError';
+    }
+  },
 }));
 
 // Mock Material-UI components
@@ -85,6 +92,18 @@ vi.mock('@mui/material', () => ({
     />
   ),
   Box: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Snackbar: ({ children, open, onClose, ...props }: any) =>
+    open ? (
+      <div data-testid="snackbar" {...props}>
+        {children}
+      </div>
+    ) : null,
+  Alert: ({ children, onClose, severity, ...props }: any) => (
+    <div data-testid="alert" data-severity={severity} {...props}>
+      {children}
+      {onClose && <button onClick={onClose}>Close</button>}
+    </div>
+  ),
 }));
 
 // Mock EventFormFields component

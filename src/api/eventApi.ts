@@ -16,7 +16,7 @@ export async function getEventList(params: GetEventListParams): Promise<GetEvent
     pageSize: pageSize.toString(),
   });
 
-  const response = await apiFetch<GetEventListResponse>(`/v1/events?${queryParams.toString()}`, {
+  const response = await apiFetch<GetEventListResponse>(`/events?${queryParams.toString()}`, {
     method: 'GET',
   });
 
@@ -24,7 +24,7 @@ export async function getEventList(params: GetEventListParams): Promise<GetEvent
 }
 
 export async function getEventById(eventId: string): Promise<EventListItem> {
-  const response = await apiFetch<EventListItem>(`/v1/events/${eventId}`, {
+  const response = await apiFetch<EventListItem>(`/events/${eventId}`, {
     method: 'GET',
   });
 
@@ -35,7 +35,7 @@ export async function updateEvent(
   eventId: string,
   data: Partial<Omit<EventListItem, 'eventId' | 'orgId' | 'createdAt' | 'updatedAt'>>,
 ): Promise<EventListItem> {
-  const response = await apiFetch<EventListItem>(`/v1/events/${eventId}`, {
+  const response = await apiFetch<EventListItem>(`/events/${eventId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -44,7 +44,7 @@ export async function updateEvent(
 }
 
 export async function deleteEvent(eventId: string): Promise<void> {
-  await apiFetch(`/v1/events/${eventId}`, {
+  await apiFetch(`/events/${eventId}`, {
     method: 'DELETE',
   });
 }
@@ -57,7 +57,7 @@ export async function createEvent(data: {
   language?: string;
   status?: number;
 }): Promise<CreateEventResponse> {
-  const response = await apiFetch<CreateEventResponse>('/v1/events', {
+  const response = await apiFetch<CreateEventResponse>('/events', {
     method: 'POST',
     body: JSON.stringify(data),
   });
