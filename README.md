@@ -47,8 +47,6 @@ The following rules are automatically enforced based on JR P3 Onboarding require
 
 ## Getting Started
 
-First, install the dependencies:
-
 ```bash
 npm install
 ```

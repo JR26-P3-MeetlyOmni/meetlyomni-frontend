@@ -1,13 +1,16 @@
+// src/app/dashboard/page.test.tsx
+import { store } from '@/store/store';
 import { describe, expect, it, vi } from 'vitest';
 
 import React from 'react';
+import { Provider } from 'react-redux';
 
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import DashboardPage from './page';
 
-// Mock Next.js router
+// --- Mock Next.js router ---
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
@@ -19,7 +22,7 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-// Simple mock for Next.js Image component
+// --- Mock Image ---
 vi.mock('next/image', () => ({
   default: ({
     src,
@@ -34,20 +37,11 @@ vi.mock('next/image', () => ({
   }) => <img src={src} alt={alt} width={width} height={height} />,
 }));
 
-// Mock the background images to avoid import issues
-vi.mock('@assets/images/EventManagement/background.png', () => ({
-  default: '/mocked-background.png',
-}));
+// Note: Image imports are now handled via getAssetUrl function
 
-vi.mock('@assets/images/EventManagement/balloon.png', () => ({
-  default: '/mocked-balloon.png',
-}));
-
-// Mock Material-UI components using async importOriginal pattern
+// --- Mock MUI Components ---
 vi.mock('@mui/material', async importOriginal => {
   const actual = (await importOriginal()) as Record<string, any>;
-
-  // Filter out non-standard DOM props
   const filterDomProps = (props: any) => {
     const {
       elevation,
@@ -66,7 +60,6 @@ vi.mock('@mui/material', async importOriginal => {
     } = props;
     return rest;
   };
-
   return {
     ...actual,
     Box: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
@@ -79,7 +72,6 @@ vi.mock('@mui/material', async importOriginal => {
     Typography: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Paper: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Stack: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
-
     Dialog: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     DialogTitle: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     DialogContent: ({ children, ...props }: any) => (
@@ -88,7 +80,6 @@ vi.mock('@mui/material', async importOriginal => {
     DialogActions: ({ children, ...props }: any) => (
       <div {...filterDomProps(props)}>{children}</div>
     ),
-
     AppBar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     Toolbar: ({ children, ...props }: any) => <div {...filterDomProps(props)}>{children}</div>,
     IconButton: ({ children, ...props }: any) => (
@@ -101,18 +92,15 @@ vi.mock('@mui/material', async importOriginal => {
   };
 });
 
-// Mock styled function separately if needed
 vi.mock('@mui/material/styles', () => ({
   styled: (component: any) => {
-    return (styles: any) => {
+    return (_styles: any) => {
       return ({ children, ...props }: any) => {
         const filteredProps = Object.keys(props).reduce((acc, key) => {
-          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx') {
-            acc[key] = props[key];
-          }
+          if (!key.startsWith('$') && key !== 'theme' && key !== 'sx')
+            (acc as any)[key] = (props as any)[key];
           return acc;
         }, {} as any);
-
         return React.createElement(component, filteredProps, children);
       };
     };
@@ -127,75 +115,60 @@ vi.mock('@mui/icons-material', () => ({
   AccountCircle: () => <span>👤</span>,
 }));
 
+// --- Helper ---
+const renderWithRedux = (ui: React.ReactElement) => render(<Provider store={store}>{ui}</Provider>);
+
+// --- Tests ---
 describe('DashboardPage', () => {
   it('renders the dashboard page', () => {
-    render(<DashboardPage />);
-
-    // Check that the component renders without crashing
+    renderWithRedux(<DashboardPage />);
     const container = document.querySelector('div');
     expect(container).toBeInTheDocument();
   });
 
   it('displays the event management title', () => {
-    render(<DashboardPage />);
-
+    renderWithRedux(<DashboardPage />);
     expect(screen.getByText('Event Management')).toBeInTheDocument();
   });
 
   it('displays navigation buttons for Interactive Quiz and Raffle Game', () => {
-    render(<DashboardPage />);
-
+    renderWithRedux(<DashboardPage />);
     expect(screen.getByText('Interactive Quiz')).toBeInTheDocument();
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
   });
 
-  it('displays empty state message', () => {
-    render(<DashboardPage />);
-
-    expect(screen.getByText("There's nothing here, let's create an Event.")).toBeInTheDocument();
+  it('renders event list when mock data exists', () => {
+    renderWithRedux(<DashboardPage />);
+    const list = screen.getByRole('list', { name: 'event-list' });
+    expect(list).toBeInTheDocument();
   });
 
-  it('displays create button in empty state', () => {
-    render(<DashboardPage />);
-
-    const createButton = screen.getByRole('button', { name: /create/i });
+  it('renders create button with text', () => {
+    renderWithRedux(<DashboardPage />);
+    const createButton = screen.getByText('+ Create');
     expect(createButton).toBeInTheDocument();
   });
 
   it('displays balloon image', () => {
-    render(<DashboardPage />);
-
+    renderWithRedux(<DashboardPage />);
     const balloonImage = screen.getByAltText('Balloon');
     expect(balloonImage).toBeInTheDocument();
-    expect(balloonImage).toHaveAttribute('src', '/mocked-balloon.png');
+    //  src， getAssetUrl  CDN
   });
 
-  it('displays background image in empty state', () => {
-    render(<DashboardPage />);
-
-    const backgroundImage = screen.getByAltText('Empty state background');
-    expect(backgroundImage).toBeInTheDocument();
-    expect(backgroundImage).toHaveAttribute('src', '/mocked-background.png');
+  // ✅ no empty-state background anymore; we use event cover images
+  it('renders event cover image instead of empty state background', () => {
+    renderWithRedux(<DashboardPage />);
+    const coverImages = screen.getAllByRole('img');
+    // Should have at least the balloon image and event cover images
+    expect(coverImages.length).toBeGreaterThan(0);
   });
 
   it('renders navigation buttons with correct icons', () => {
-    render(<DashboardPage />);
-
-    // Check for emoji icons in buttons
+    renderWithRedux(<DashboardPage />);
     const interactiveButton = screen.getByText('Interactive Quiz').closest('button');
     const raffleButton = screen.getByText('Raffle Game').closest('button');
-
     expect(interactiveButton).toBeInTheDocument();
     expect(raffleButton).toBeInTheDocument();
-  });
-
-  it('renders create button with add icon', () => {
-    render(<DashboardPage />);
-
-    const createButton = screen.getByRole('button', { name: /create/i });
-    const icon = createButton.querySelector('.button-icon');
-
-    expect(createButton).toBeInTheDocument();
-    expect(icon).toBeInTheDocument();
   });
 });

@@ -2,13 +2,12 @@
 
 import { selectIsAuthenticated } from '@/features/auth/authSelectors';
 import { useAppSelector } from '@/store/hooks';
+import { getAssetUrl } from '@/utils/cdn';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-
-import Logo from '@assets/images/navbar/nav_bar_logo.png';
 
 import DashboardUserMenu from './components/DashboardUserMenu';
 import {
@@ -49,7 +48,14 @@ const NavBar: React.FC = () => {
   return (
     <StickyNavbarWrapper className={scrolled ? 'scrolled' : ''}>
       <LogoWrapper>
-        <Image src={Logo} alt="Omni Logo" width={0} height={0} />
+        <Image
+          src={getAssetUrl('StaticFiles/assets/images/navbar/nav_bar_logo.png')}
+          alt="Omni Logo"
+          width={128}
+          height={36}
+          priority
+          quality={100}
+        />
       </LogoWrapper>
 
       <NavLinksWrapper>

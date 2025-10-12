@@ -35,7 +35,10 @@ export const ButtonGroupWrapper = styled(Box)(({ theme }) => ({
   marginRight: theme.spacing(2),
   gap: theme.spacing(2),
   '& > button': {
-    width: theme.spacing(10),
+    minWidth: theme.spacing(10),
     textTransform: 'none',
+    whiteSpace: 'nowrap',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
 }));

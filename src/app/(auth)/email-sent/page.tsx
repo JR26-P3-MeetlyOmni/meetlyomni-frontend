@@ -1,4 +1,5 @@
 import { AuthResultPageComponent } from '@/components/ConfirmationForm/ConfirmationForm';
+import { getAssetUrl } from '@/utils/cdn';
 
 import React from 'react';
 
@@ -13,7 +14,7 @@ export default function EmailSentPage({ searchParams }: EmailSentPageProps) {
 
   return (
     <AuthResultPageComponent
-      iconSrc="/assets/images/confirmationForm/invalid-name.png"
+      iconSrc={getAssetUrl('StaticFiles/assets/images/confirmationForm/green-success-check.png')}
       iconAlt="Email sent successfully"
       title="Email sent successfully"
       description={`The system has sent a verification email to ${email}. You need to click the link in the email to complete the account activation.`}

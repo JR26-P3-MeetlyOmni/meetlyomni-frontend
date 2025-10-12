@@ -6,10 +6,15 @@ import { TextField } from '@mui/material';
 
 import { EventFormFieldsProps } from '../../../../constants/Event';
 import EventDateField from './EventDateField';
-import { StyledBox } from './EventFormFields.styles';
+import { CoverImage, ImageContainer, ImageLabel, StyledBox } from './EventFormFields.styles';
 import FileUploadButton from './FileUploadButton';
 
-const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChange, errors }) => {
+const EventFormFields: React.FC<EventFormFieldsProps> = ({
+  formState,
+  handleChange,
+  errors,
+  existingImageUrl,
+}) => {
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => handleChange('name', e.target.value),
     [handleChange],
@@ -69,7 +74,22 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({ formState, handleChan
         />
       </StyledBox>
 
-      <FileUploadButton name="coverImage" handleChange={handleFileChange} />
+      <StyledBox>
+        {existingImageUrl && !formState.coverImage ? (
+          <ImageContainer>
+            <ImageLabel variant="body2">Current Cover Image:</ImageLabel>
+            <CoverImage src={existingImageUrl} alt="Current event cover" />
+          </ImageContainer>
+        ) : null}
+        {formState.coverImage ? (
+          <ImageContainer>
+            <ImageLabel variant="body2">
+              New Cover Image Selected: {formState.coverImage.name}
+            </ImageLabel>
+          </ImageContainer>
+        ) : null}
+        <FileUploadButton name="coverImage" handleChange={handleFileChange} />
+      </StyledBox>
     </StyledBox>
   );
 };

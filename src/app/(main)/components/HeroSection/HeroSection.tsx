@@ -1,11 +1,9 @@
 'use client';
 
 import { HeroSectionData } from '@/constants/HeroSectionData';
+import { getAssetUrl } from '@/utils/cdn';
 
 import React from 'react';
-
-import heroSectionLeftPic from '@assets/images/HeroSection/hero_section_left.png';
-import heroSectionRitePic from '@assets/images/HeroSection/hero_section_right.png';
 
 import {
   ContentWrapper,
@@ -23,7 +21,11 @@ const HeroSection: React.FC = () => {
   return (
     <HeroSectionWrapper>
       <LeftPicture>
-        <StyledImage src={heroSectionLeftPic} alt="Hero section left decoration" fill />
+        <StyledImage
+          src={getAssetUrl('StaticFiles/assets/images/HeroSection/hero_section_left.png')}
+          alt="Hero section left decoration"
+          fill
+        />
       </LeftPicture>
       <ContentWrapper>
         <HeroTitle>{HeroSectionData.title}</HeroTitle>
@@ -37,7 +39,11 @@ const HeroSection: React.FC = () => {
         </HeroCTAWrapper>
       </ContentWrapper>
       <RightPicture>
-        <StyledImage src={heroSectionRitePic} alt="Hero section right decoration" fill />
+        <StyledImage
+          src={getAssetUrl('StaticFiles/assets/images/HeroSection/hero_section_right.png')}
+          alt="Hero section right decoration"
+          fill
+        />
       </RightPicture>
     </HeroSectionWrapper>
   );

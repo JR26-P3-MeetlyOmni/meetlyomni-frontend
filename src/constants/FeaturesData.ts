@@ -1,32 +1,24 @@
 import type { FeatureCardItem } from '@/app/(main)/components/FeatureCard/types';
-
-import AiMatchmaking from '@assets/images/FeatureImages/ai_matchmaking.webp';
-import CrossPlatform from '@assets/images/FeatureImages/cross_platform.webp';
-import CustomizableRules from '@assets/images/FeatureImages/customizable_rules.webp';
-import DataAnalysis from '@assets/images/FeatureImages/data_analysis.webp';
-import DataVisualization from '@assets/images/FeatureImages/data_visualization.webp';
-import GameInteraction from '@assets/images/FeatureImages/game_interaction.webp';
-import NoDownload from '@assets/images/FeatureImages/no_download.webp';
-import TeamManager from '@assets/images/FeatureImages/team_manager.webp';
+import { getAssetUrl } from '@/utils/cdn';
 
 export const ProjectFeaturesData: readonly FeatureCardItem[] = [
   {
-    imageUrl: TeamManager,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/team_manager.png'),
     title: 'Activities & Team management',
     description: 'Easily create & organize events',
   },
   {
-    imageUrl: AiMatchmaking,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/ai_matchmaking.png'),
     title: 'Intelligent match',
     description: 'The AI recommends the best team/opponent',
   },
   {
-    imageUrl: GameInteraction,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/game_interaction.png'),
     title: 'Game interaction',
     description: 'A variety of games, Q&A and sweepstakes',
   },
   {
-    imageUrl: DataAnalysis,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/data_analysis.png'),
     title: 'Data analysis',
     description: 'Real-time data statistics activities, participants',
   },
@@ -34,22 +26,22 @@ export const ProjectFeaturesData: readonly FeatureCardItem[] = [
 
 export const ProductFeaturesData: readonly FeatureCardItem[] = [
   {
-    imageUrl: DataVisualization,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/data_visualization.png'),
     title: 'Dynamic data visualization',
     description: 'View activity data and interactions in real time',
   },
   {
-    imageUrl: CrossPlatform,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/cross_platform.png'),
     title: 'Cross platform support',
     description: 'Support computers, mobile phones and tablets',
   },
   {
-    imageUrl: CustomizableRules,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/customizable_rules.png'),
     title: 'High extensibility',
     description: 'Activities and rules can be customized',
   },
   {
-    imageUrl: NoDownload,
+    imageUrl: getAssetUrl('StaticFiles/assets/images/FeatureImages/no_download.png'),
     title: 'No download required',
     description: 'Scan the code to join the interaction anytime and anywhere',
   },

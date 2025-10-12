@@ -5,6 +5,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
+import { getAssetUrl } from '../../../../../utils/cdn';
 import type { TestimonialCardProps } from '../types';
 import TestimonialCard from './TestimonialCard';
 
@@ -16,7 +17,7 @@ describe('AnimatedTestimonialCard', () => {
       name: 'Alex W.',
       role: 'Event Manager, Amazon',
       content: 'This is a great product!',
-      avatarUrl: '/assets/images/TestimonialsSection/Alex_W.png',
+      avatarUrl: getAssetUrl('StaticFiles/assets/images/TestimonialsSection/Alex_W.png'),
     },
   };
 
