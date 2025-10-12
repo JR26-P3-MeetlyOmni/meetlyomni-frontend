@@ -23,7 +23,23 @@ export const loginApi = async (
 };
 
 export const getMe = async (signal?: AbortSignal): Promise<User> => {
-  return apiFetch<User>('/auth/me', { method: 'GET', signal });
+  interface BackendUserResponse {
+    id: string;
+    email: string;
+    userName: string;
+    role: string;
+    orgId: string;
+  }
+
+  const backendUser = await apiFetch<BackendUserResponse>('/auth/me', { method: 'GET', signal });
+
+  return {
+    id: backendUser.id,
+    email: backendUser.email,
+    name: backendUser.userName,
+    role: backendUser.role,
+    organizationId: backendUser.orgId,
+  };
 };
 
 export const logoutApi = async (): Promise<void> => {

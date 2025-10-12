@@ -137,10 +137,10 @@ describe('DashboardPage', () => {
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
   });
 
-  it('renders event list when mock data exists', () => {
+  it('renders empty state when no events loaded', () => {
     renderWithRedux(<DashboardPage />);
-    const list = screen.getByRole('list', { name: 'event-list' });
-    expect(list).toBeInTheDocument();
+    const emptyState = screen.getByTestId('empty-state');
+    expect(emptyState).toBeInTheDocument();
   });
 
   it('renders create button with text', () => {
@@ -156,8 +156,7 @@ describe('DashboardPage', () => {
     //  src， getAssetUrl  CDN
   });
 
-  // ✅ no empty-state background anymore; we use event cover images
-  it('renders event cover image instead of empty state background', () => {
+  it('renders empty state background when no events', () => {
     renderWithRedux(<DashboardPage />);
     const coverImages = screen.getAllByRole('img');
     // Should have at least the balloon image and event cover images

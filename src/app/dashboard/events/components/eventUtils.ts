@@ -1,6 +1,6 @@
 import type { CreateEventResponse, Event } from '@/constants/Event';
 
-import type { EventItem, NewEventInput } from './eventMocks';
+import { AVATAR_PLACEHOLDER, type EventItem, type NewEventInput } from './eventMocks';
 import type { PartialEventLike } from './eventTypes';
 
 export const EVENT_STATUS = {
@@ -56,4 +56,20 @@ export const normalizeEventForStory = (e: Partial<EventItem>, fallbackId: string
   },
   playCount: e.playCount ?? 0,
   createdAt: e.createdAt || new Date().toISOString(),
+});
+
+export const convertBackendEventToFrontend = (
+  backendEvent: import('@/constants/Event').EventListItem,
+): EventItem => ({
+  id: backendEvent.eventId,
+  title: backendEvent.title,
+  description: backendEvent.description,
+  coverImageUrl: backendEvent.coverImageUrl,
+  creator: {
+    name: 'Event Creator',
+    avatarUrl: AVATAR_PLACEHOLDER,
+  },
+  playCount: 0,
+  isDraft: backendEvent.status === EVENT_STATUS.DRAFT,
+  createdAt: backendEvent.createdAt,
 });
