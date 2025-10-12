@@ -5,7 +5,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 
 import EventManagement from './EventManagement';
 
@@ -26,7 +26,7 @@ vi.mock('@mui/material', async importOriginal => {
   };
 });
 
-// Helper: wrap with Redux Provider
+// ✅ Helper: wrap with Redux Provider
 const renderWithRedux = (ui: React.ReactElement) => render(<Provider store={store}>{ui}</Provider>);
 
 // --- Tests ---
@@ -41,5 +41,37 @@ describe('EventManagement', () => {
     renderWithRedux(<EventManagement />);
     expect(screen.getByText('Interactive Quiz')).toBeInTheDocument();
     expect(screen.getByText('Raffle Game')).toBeInTheDocument();
+  });
+
+  it('switches tab to Raffle Game and shows empty state', () => {
+    renderWithRedux(<EventManagement />);
+    const raffleTab = screen.getByRole('button', { name: /Raffle Game/i });
+    fireEvent.click(raffleTab);
+    expect(screen.getByTestId('empty-state')).toBeInTheDocument();
+  });
+
+  it('deletes an event from the list (UI only)', () => {
+    renderWithRedux(<EventManagement />);
+
+    //
+    const moreButtons = screen.getAllByLabelText('more actions');
+    expect(moreButtons.length).toBeGreaterThan(0);
+
+    fireEvent.click(moreButtons[0]);
+
+    //  Delete
+    const deleteItem = screen.getByText('Delete');
+    fireEvent.click(deleteItem);
+
+    //
+    const dialog = screen.getByRole('dialog', { name: /Delete event/i });
+    expect(dialog).toBeInTheDocument();
+
+    //  Delete
+    const confirmButton = within(dialog).getByRole('button', { name: /Delete/i });
+    fireEvent.click(confirmButton);
+
+    //
+    expect(screen.getByTestId('empty-state')).toBeInTheDocument();
   });
 });
