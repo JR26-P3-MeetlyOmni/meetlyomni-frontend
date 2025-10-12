@@ -2,10 +2,10 @@ name: CICD-Prod
 
 on:
   pull_request:
-    branches:
+    branches: 
       - main
   push:
-    branches:
+    branches: 
       - main
       - devops-leonard
       - main-biaojin
@@ -37,9 +37,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
 
       - name: Install
         run: npm ci
@@ -150,7 +150,7 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: ${{ env.SLACK_CHANNEL }}
-          slack-message: ':white_check_mark: Prod FE Deployment completed successfully'
+          slack-message: ":white_check_mark: Prod FE Deployment completed successfully"
         env:
           SLACK_BOT_TOKEN: ${{ vars.SLACK_BOT_TOKEN }}
 
@@ -159,6 +159,6 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: ${{ env.SLACK_CHANNEL }}
-          slack-message: ':x: Prod FE Deployment failed'
+          slack-message: ":x: Prod FE Deployment failed"
         env:
           SLACK_BOT_TOKEN: ${{ vars.SLACK_BOT_TOKEN }}
