@@ -99,6 +99,8 @@ jobs:
             --build-arg NEXT_PUBLIC_API_BASE_URL="${{ vars.NEXT_PUBLIC_API_BASE_URL }}" \
             --build-arg NODE_ENV=production \
             --build-arg NEXT_PUBLIC_SEGMENT_WRITE_KEY="${{ vars.NEXT_PUBLIC_SEGMENT_WRITE_KEY }}" \
+            --build-arg NEXT_PUBLIC_CDN_HOSTNAME="${{ vars.NEXT_PUBLIC_CDN_HOSTNAME }}" \
+            --build-arg NEXT_PUBLIC_CDN_URL="${{ vars.NEXT_PUBLIC_CDN_URL }}" \
             -t "${{ env.ECR_URI }}:${TAG_SHA}" \
             -t "${{ env.ECR_URI }}:${{ env.TAG_ENV }}" \
             "${{ env.CONTEXT }}"
