@@ -1,3 +1,4 @@
+// src/app/dashboard/EventManagement/EventManagement.tsx
 'use client';
 
 import { getEventList } from '@/api/eventApi';
@@ -11,6 +12,8 @@ import { useSelector } from 'react-redux';
 
 import { CTAButton } from '../../../components/Button/CTAButton';
 import { ButtonGroupWrapper } from '../../../components/Modal/FormModal.styles';
+import { Box, Button, Pagination } from '@mui/material';
+
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { type EventItem } from '../events/components/eventMocks';
@@ -31,9 +34,25 @@ type ActiveTab = 'interactive' | 'raffle';
 async function _deleteEvent(_id: string): Promise<void> {
   // no-op for UI-only ticket
 /**
- * Convert CreateEventResponse to EventItem format
+ * Calculate page size based on screen width
+ * Since EventList uses vertical layout (1 card per row), page size = number of cards per page
  */
-function convertCreatedEventToItem(payload: CreateEventResponse, userName?: string): EventItem {
+function getPageSizeByScreenWidth(): number {
+  if (typeof window === 'undefined') return 5; // SSR fallback
+
+  const width = window.innerWidth;
+  if (width >= 2560) return 8; // Ultra-wide / 4K
+  if (width >= 1920) return 5; // Full HD 1920x1080 (vertical list, 5 cards)
+  if (width >= 1440) return 5; // Medium-large screen
+  if (width >= 1024) return 4; // Standard desktop
+  if (width >= 768) return 3; // Tablet
+  return 2; // Mobile
+}
+
+/**
+ * Convert CreateEventResponse to EventItem
+ */
+function convertToEventItem(payload: CreateEventResponse, userName?: string): EventItem {
   return {
     id: payload.eventId,
     title: payload.title,
@@ -54,26 +73,62 @@ export default function EventManagement() {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [interactiveEvents, setInteractiveEvents] = useState<EventItem[]>(initialMockEvents);
   const [raffleEvents] = useState<EventItem[]>([]);
+/**
+ * Custom hook for responsive page size
+ */
+function useResponsivePageSize() {
+  const [pageSize, setPageSize] = useState(getPageSizeByScreenWidth());
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newPageSize = getPageSizeByScreenWidth();
+      if (newPageSize !== pageSize) {
+        setPageSize(newPageSize);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [pageSize]);
+
+  return pageSize;
+}
+
+/**
+ * Update event in the list
+ */
+function updateEventInList(events: EventItem[], updatedEvent: Event): EventItem[] {
+  return events.map(event =>
+    event.id === updatedEvent.id
+      ? {
+          ...event,
+          title: updatedEvent.name,
+          description: updatedEvent.description,
+          coverImageUrl: updatedEvent.coverImageUrl,
+          isDraft: updatedEvent.status === 0,
+        }
+      : event,
+  );
+}
+
+/**
+ * Custom hook to load and manage events
+ */
+function useEventManagement(orgId: string | undefined, currentPage: number, pageSize: number) {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [_loading, setLoading] = useState(false);
-  const user = useSelector(selectUser);
 
   useEffect(() => {
     const loadEvents = async () => {
-      if (!user?.organizationId) {
-        return;
-      }
+      if (!orgId) return;
 
       try {
         setLoading(true);
-        const response = await getEventList({
-          orgId: user.organizationId,
-          pageNumber: 1,
-          pageSize: 20,
-        });
-
+        const response = await getEventList({ orgId, pageNumber: currentPage, pageSize });
         const frontendEvents = response.events.map(convertBackendEventToFrontend);
         setEvents(frontendEvents);
+        setTotalPages(response.totalPages);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to load events:', error);
@@ -83,7 +138,31 @@ export default function EventManagement() {
     };
 
     loadEvents();
-  }, [user?.organizationId]);
+  }, [orgId, currentPage, pageSize]);
+
+  return { events, setEvents, totalPages };
+}
+
+export default function EventManagement() {
+  const [_activeTab, setActiveTab] = useState('interactive');
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = useResponsivePageSize();
+  const user = useSelector(selectUser);
+  const { events, setEvents, totalPages } = useEventManagement(
+    user?.organizationId,
+    currentPage,
+    pageSize,
+  );
+
+  // Reset to first page when page size changes
+  const prevPageSize = React.useRef(pageSize);
+  useEffect(() => {
+    if (prevPageSize.current !== pageSize) {
+      setCurrentPage(1);
+      prevPageSize.current = pageSize;
+    }
+  }, [pageSize]);
 
   const handleInteractiveClick = useCallback(() => setActiveTab('interactive'), []);
   const handleRaffleClick = useCallback(() => setActiveTab('raffle'), []);
@@ -123,6 +202,12 @@ export default function EventManagement() {
           : event,
       ),
     );
+    setEvents(prev => updateEventInList(prev, updatedEvent));
+  };
+
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id: string) => {
@@ -174,6 +259,20 @@ export default function EventManagement() {
           onEventUpdated={handleEventUpdated}
           onDelete={handleDelete}
         />
+
+        {totalPages > 1 && (
+          <Box display="flex" justifyContent="center" mt={4} mb={2}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              color="primary"
+              size="large"
+              showFirstButton
+              showLastButton
+            />
+          </Box>
+        )}
       </Content>
 
       <CreateEventModal
