@@ -6,8 +6,8 @@ import { getAssetUrl } from '@/utils/cdn';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 
-import { Button } from '@mui/material';
-
+import { CTAButton } from '../../../components/Button/CTAButton';
+import { ButtonGroupWrapper } from '../../../components/Modal/FormModal.styles';
 import CreateEventModal from '../events/components/CreateEventModal';
 import EventList from '../events/components/EventList';
 import { buildMockEvent, type EventItem, initialMockEvents } from '../events/components/eventMocks';
@@ -79,9 +79,11 @@ export default function EventManagement() {
           height={32}
         />
         <Spacer />
-        <Button variant="contained" onClick={() => setOpenCreateModal(true)} disableElevation>
-          + Create
-        </Button>
+        <ButtonGroupWrapper>
+          <CTAButton variant="contained" onClick={() => setOpenCreateModal(true)} disableElevation>
+            + Create
+          </CTAButton>
+        </ButtonGroupWrapper>
       </StyledTitleBox>
 
       <StyledNavBox>

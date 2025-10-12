@@ -16,6 +16,8 @@ import {
   Typography,
 } from '@mui/material';
 
+import { CTAButton } from '../../../../components/Button/CTAButton';
+import { ButtonGroupWrapper } from '../../../../components/Modal/FormModal.styles';
 import EditEventModal from './EditEvent/EditEventModal';
 import {
   Actions,
@@ -108,12 +110,14 @@ export const EventCard: React.FC<Props> = ({ event, onEventUpdated, onDelete }) 
           Play {event.playCount} {event.playCount === 1 ? 'time' : 'times'}
         </PlayCountText>
         <Actions>
-          <Button variant="contained" size="small" disableElevation>
-            Host live game
-          </Button>
-          <Button variant="outlined" size="small" onClick={onEditClick}>
-            Edit
-          </Button>
+          <ButtonGroupWrapper>
+            <CTAButton variant="contained" size="small" sx={{ width: '140px' }} disableElevation>
+              Host live game
+            </CTAButton>
+            <CTAButton variant="outlined" size="small" sx={{ width: '25px' }} onClick={onEditClick}>
+              Edit
+            </CTAButton>
+          </ButtonGroupWrapper>
           <IconButton aria-label="more actions" onClick={onMenuOpen}>
             <MoreVertIcon />
           </IconButton>
