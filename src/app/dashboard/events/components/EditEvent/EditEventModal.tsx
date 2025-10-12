@@ -58,6 +58,9 @@ async function submitEventUpdate(
   formState: { name: string; description: string; coverImage: File | null },
   organizationId: string,
 ): Promise<Event> {
+  // Ensure fresh CSRF token before any API calls
+  await ensureXsrfCookie();
+
   // Upload new image if selected
   const coverImageUrl = await uploadCoverImageIfNeeded(formState.coverImage, organizationId);
 
@@ -68,9 +71,6 @@ async function submitEventUpdate(
     // Include coverImageUrl only if a new image was uploaded
     ...(coverImageUrl ? { coverImageUrl } : {}),
   };
-
-  // Ensure fresh CSRF token before updating event
-  await ensureXsrfCookie();
 
   const response = await updateEvent(event.id, payload);
 
