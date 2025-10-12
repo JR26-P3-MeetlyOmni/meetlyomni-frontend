@@ -23,8 +23,25 @@ vi.mock('@mui/material', async importOriginal => {
   return {
     ...actual,
     Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+    Pagination: ({ count, page, onChange }: any) => (
+      <div data-testid="pagination">
+        Page {page} of {count}
+      </div>
+    ),
+    Box: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   };
 });
+
+// Mock the API calls
+vi.mock('@/api/eventApi', () => ({
+  getEventList: vi.fn().mockResolvedValue({
+    events: [],
+    totalCount: 0,
+    pageNumber: 1,
+    pageSize: 5,
+    totalPages: 0,
+  }),
+}));
 
 // ✅ Helper: wrap with Redux Provider
 const renderWithRedux = (ui: React.ReactElement) => render(<Provider store={store}>{ui}</Provider>);

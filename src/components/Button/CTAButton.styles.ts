@@ -13,7 +13,7 @@ export const StyledCTAButton = styled(Button, {
   height: height ?? theme.spacing(4.75),
   padding: theme.spacing(1.25),
   marginTop: theme.spacing(-3),
-  borderRadius: theme.spacing(1),
+  borderRadius: theme.spacing(0.5),
   letterSpacing: 0.5,
   transition: theme.transitions.create(['transform', 'box-shadow'], {
     duration: theme.transitions.duration.standard,
