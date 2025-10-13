@@ -1,4 +1,4 @@
-import { apiFetch } from './api';
+import { apiFetch, ensureXsrfCookie } from './api';
 
 export interface MediaUploadResponse {
   url: string;
@@ -18,6 +18,7 @@ export async function uploadMedia(
   orgId: string,
   folder?: string,
 ): Promise<MediaUploadResponse> {
+  await ensureXsrfCookie();
   const formData = new FormData();
   formData.append('File', file);
   formData.append('OrgId', orgId);
