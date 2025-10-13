@@ -5,6 +5,7 @@ import { ensureXsrfCookie } from '@/api/api';
 import { deleteEvent } from '@/api/eventApi';
 import { CTAButton } from '@/components/Button/CTAButton';
 import { ButtonGroupWrapper } from '@/components/Modal/FormModal.styles';
+
 import type { CreateEventResponse, Event } from '@/constants/Event';
 import { selectUser } from '@/features/auth/authSelectors';
 import { getAssetUrl } from '@/utils/cdn';
@@ -31,8 +32,6 @@ import {
   StyledTitleBox,
 } from './EventManagement.styles';
 import EventTabs, { type ActiveTab } from './EventTabs';
-
-// src/app/dashboard/EventManagement/EventManagement.tsx
 
 // src/app/dashboard/EventManagement/EventManagement.tsx
 
