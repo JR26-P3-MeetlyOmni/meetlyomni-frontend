@@ -40,6 +40,8 @@ export interface CreateEventResponse {
   endTime?: string;
   createdAt: string;
   updatedAt: string;
+  createdByName?: string;
+  createdByAvatar?: string;
 }
 
 export interface CreateEventModalProps {

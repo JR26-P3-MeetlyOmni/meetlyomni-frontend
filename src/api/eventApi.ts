@@ -7,7 +7,7 @@ import type {
   UpdateEventResponse,
 } from '@/constants/Event';
 
-import { apiFetch } from './api';
+import { apiFetch, ensureXsrfCookie } from './api';
 
 export async function getEventList(params: GetEventListParams): Promise<GetEventListResponse> {
   const { orgId, pageNumber = 1, pageSize = 20 } = params;
@@ -37,6 +37,7 @@ export async function updateEvent(
   eventId: string,
   data: UpdateEventRequest,
 ): Promise<UpdateEventResponse> {
+  await ensureXsrfCookie();
   const response = await apiFetch<UpdateEventResponse>(`/events/${eventId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
@@ -46,6 +47,7 @@ export async function updateEvent(
 }
 
 export async function deleteEvent(eventId: string): Promise<void> {
+  await ensureXsrfCookie();
   await apiFetch(`/events/${eventId}`, {
     method: 'DELETE',
   });
@@ -59,6 +61,7 @@ export async function createEvent(data: {
   language?: string;
   status?: number;
 }): Promise<CreateEventResponse> {
+  await ensureXsrfCookie();
   const response = await apiFetch<CreateEventResponse>('/events', {
     method: 'POST',
     body: JSON.stringify(data),

@@ -3,6 +3,9 @@
 
 import { ensureXsrfCookie } from '@/api/api';
 import { deleteEvent } from '@/api/eventApi';
+import { CTAButton } from '@/components/Button/CTAButton';
+import { ButtonGroupWrapper } from '@/components/Modal/FormModal.styles';
+
 import type { CreateEventResponse, Event } from '@/constants/Event';
 import { selectUser } from '@/features/auth/authSelectors';
 import { getAssetUrl } from '@/utils/cdn';
@@ -11,8 +14,6 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { CTAButton } from '@/components/Button/CTAButton';
-import { ButtonGroupWrapper } from '@/components/Modal/FormModal.styles';
 import { Box, Pagination } from '@mui/material';
 
 import CreateEventModal from '../events/components/CreateEventModal';
@@ -88,7 +89,11 @@ export default function EventManagement() {
           />
           <Spacer />
           <ButtonGroupWrapper>
-            <CTAButton variant="contained" onClick={() => setOpenCreateModal(true)} disableElevation>
+            <CTAButton
+              variant="contained"
+              onClick={() => setOpenCreateModal(true)}
+              disableElevation
+            >
               + Create
             </CTAButton>
           </ButtonGroupWrapper>
