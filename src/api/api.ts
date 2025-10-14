@@ -38,11 +38,17 @@ async function ensureXsrfToken(): Promise<string> {
   }
 
   // if not read -> trigger /csrf to set cookie, then read again
-  await ensureXsrfCookie();
-  token = readXsrfFromCookie();
-  if (!token) throw new Error('Failed to get XSRF-TOKEN cookie');
-  csrfTokenCache = token;
-  return token;
+  try {
+    await ensureXsrfCookie();
+    token = readXsrfFromCookie();
+    if (!token) throw new Error('Failed to get XSRF-TOKEN cookie');
+    csrfTokenCache = token;
+    return token;
+  } catch (error) {
+    // 如果 CSRF 端点不可用（后端禁用了 CSRF），返回空字符串
+    console.warn('CSRF endpoint not available, skipping CSRF token:', error);
+    return '';
+  }
 }
 
 // --- helpers to keep apiFetch simple ---
@@ -200,7 +206,9 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
 
     if (isStateChanging(method)) {
       const xsrf = await ensureXsrfToken();
-      headers['X-XSRF-TOKEN'] = xsrf;
+      if (xsrf) {
+        headers['X-XSRF-TOKEN'] = xsrf;
+      }
     }
   }
 
