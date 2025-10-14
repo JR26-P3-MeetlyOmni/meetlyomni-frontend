@@ -44,9 +44,7 @@ async function ensureXsrfToken(): Promise<string> {
     if (!token) throw new Error('Failed to get XSRF-TOKEN cookie');
     csrfTokenCache = token;
     return token;
-  } catch (error) {
-    // 如果 CSRF 端点不可用（后端禁用了 CSRF），返回空字符串
-    console.warn('CSRF endpoint not available, skipping CSRF token:', error);
+  } catch {
     return '';
   }
 }
